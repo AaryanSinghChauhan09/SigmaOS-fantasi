@@ -108,8 +108,11 @@ ApplicationWindow {
     function startFrom(url) {
         if (generator.busy)
             return
+        // With four already, another is refused rather than replacing them.
+        if (changing && models.canEdit && !canAddPicture)
+            return
         composing = true
-        if (changing && canAddPicture)
+        if (changing && models.canEdit)
             baseImages = baseImages.indexOf(url) < 0 ? baseImages.concat([url]) : baseImages
         else
             baseImages = [url]
