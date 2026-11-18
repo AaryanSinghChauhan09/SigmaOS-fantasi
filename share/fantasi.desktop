@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Fantasi
+Comment=One line on what it does
+Exec=fantasi %f
+Icon=fantasi
+Terminal=false
+Categories=Utility;
+StartupWMClass=fantasi
