@@ -1063,6 +1063,8 @@ private slots:
         // One button steps through the shapes; Ctrl+3 goes straight to portrait.
         auto *shape = item(window->contentItem(), "size");
         QVERIFY(shape);
+        // Nothing changes while something is made: wait for the one sent above.
+        QTRY_VERIFY(!backend.generator()->busy());
         QTest::keyClick(window, Qt::Key_3, Qt::ControlModifier);
         QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Portrait"));
         QMetaObject::invokeMethod(shape, "clicked");

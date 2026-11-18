@@ -199,9 +199,9 @@ ApplicationWindow {
     Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }
     Shortcut { sequence: "Escape"; enabled: !generator.busy && win.composing; onActivated: win.backToImage() }
     Shortcut { sequence: "Ctrl+N"; enabled: !generator.busy; onActivated: win.newImage() }
-    Shortcut { sequence: "Ctrl+1"; onActivated: win.sizeChoice = 0 }
-    Shortcut { sequence: "Ctrl+2"; onActivated: win.sizeChoice = 1 }
-    Shortcut { sequence: "Ctrl+3"; onActivated: win.sizeChoice = 2 }
+    Shortcut { sequence: "Ctrl+1"; enabled: !generator.busy; onActivated: win.sizeChoice = 0 }
+    Shortcut { sequence: "Ctrl+2"; enabled: !generator.busy; onActivated: win.sizeChoice = 1 }
+    Shortcut { sequence: "Ctrl+3"; enabled: !generator.busy; onActivated: win.sizeChoice = 2 }
     Shortcut { sequence: "Ctrl+B"; onActivated: layout.historyShown = !layout.historyShown }
     // Whether the history sidebar is shown, kept between runs.
     Settings {
@@ -308,6 +308,36 @@ ApplicationWindow {
                                                    ? previous.implicitWidth / previous.implicitHeight
                                                    : win.outputSize.width / win.outputSize.height
 
+                    // While something is made, a band of light sweeps the whole
+                    // stage, the frame included.
+                    Item {
+                        objectName: "making"
+                        anchors.fill: parent
+                        z: 1
+                        clip: true
+                        visible: generator.busy
+                        Rectangle {
+                            width: stage.width * 0.35
+                            height: stage.height * 2
+                            y: -stage.height / 2
+                            rotation: 18
+                            gradient: Gradient {
+                                orientation: Gradient.Horizontal
+                                GradientStop { position: 0.0; color: "transparent" }
+                                GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, theme.light ? 0.22 : 0.08) }
+                                GradientStop { position: 1.0; color: "transparent" }
+                            }
+                            NumberAnimation on x {
+                                running: generator.busy
+                                loops: Animation.Infinite
+                                from: -stage.width * 0.5
+                                to: stage.width * 1.1
+                                duration: 2600
+                                easing.type: Easing.InOutSine
+                            }
+                        }
+                    }
+
                     Item {
                         id: frame
                         anchors.centerIn: parent
@@ -377,72 +407,13 @@ ApplicationWindow {
                             when: player.status === Loader.Ready
                         }
 
-                        // While it's being made, its edge says how far along it is:
-                        // a faint track, an accent line growing clockwise from
-                        // the top with each step, and a bright spark circling
-                        // all the while, so it's plainly at work even before the
-                        // first step.
-                        Shape {
-                            id: edge
-                            objectName: "working"
-                            anchors.fill: parent
-                            anchors.margins: -5
-                            visible: generator.busy
-                            preferredRendererType: Shape.CurveRenderer
-                            readonly property real perimeter: 2 * (width + height)
-                            readonly property real line: 2
-                            readonly property real spark: 3
-                            readonly property var outline: [Qt.point(width / 2, 0), Qt.point(width, 0), Qt.point(width, height),
-                                                            Qt.point(0, height), Qt.point(0, 0), Qt.point(width / 2, 0)]
-                            property real shown: win.progress
-                            Behavior on shown { NumberAnimation { duration: 500; easing.type: Easing.OutCubic } }
-                            property real travel: 0
-                            NumberAnimation on travel {
-                                running: generator.busy
-                                loops: Animation.Infinite
-                                from: 0
-                                to: 1
-                                duration: 2400
-                            }
-
-                            ShapePath {
-                                strokeColor: Qt.rgba(theme.accent.r, theme.accent.g, theme.accent.b, 0.22)
-                                strokeWidth: edge.line
-                                fillColor: "transparent"
-                                joinStyle: ShapePath.MiterJoin
-                                PathPolyline { path: edge.outline }
-                            }
-                            ShapePath {
-                                strokeColor: theme.accent
-                                strokeWidth: edge.line
-                                fillColor: "transparent"
-                                joinStyle: ShapePath.MiterJoin
-                                capStyle: ShapePath.FlatCap
-                                strokeStyle: ShapePath.DashLine
-                                // A dash as long as the share done, then a gap
-                                // as long as the whole: in units of the width.
-                                dashPattern: [Math.max(0.01, edge.perimeter * edge.shown / edge.line), edge.perimeter / edge.line]
-                                PathPolyline { path: edge.outline }
-                            }
-                            ShapePath {
-                                strokeColor: Qt.lighter(theme.accent, 1.35)
-                                strokeWidth: edge.spark
-                                fillColor: "transparent"
-                                capStyle: ShapePath.RoundCap
-                                strokeStyle: ShapePath.DashLine
-                                dashPattern: [edge.perimeter * 0.06 / edge.spark, edge.perimeter * 0.94 / edge.spark]
-                                dashOffset: edge.perimeter * (1 - edge.travel) / edge.spark
-                                PathPolyline { path: edge.outline }
-                            }
-                        }
-                        // A band of light across it while it's made, and a softer,
-                        // slower one while the empty frame waits for a prompt.
+                        // A soft band of light while the empty frame waits for a prompt.
                         Item {
                             id: shimmer
                             anchors.fill: parent
                             clip: true
                             readonly property bool waiting: !generator.busy && generator.image === ""
-                            visible: generator.busy || waiting
+                            visible: waiting
                             Rectangle {
                                 width: frame.width * 0.45
                                 height: frame.height * 2
@@ -519,13 +490,68 @@ ApplicationWindow {
                 // One pill: the picture to start from, the prompt, the shape,
                 // the model, and the round button that sends it.
                 Rectangle {
+                    id: promptBar
                     Layout.fillWidth: true
                     Layout.preferredHeight: (win.choosing ? nextBar.implicitHeight : bar.implicitHeight) + 10
                     // What's next has no box: just its icons, centred.
                     color: win.choosing ? "transparent" : win.panel
                     // Rounded as the theme rounds windows, sharp where it doesn't.
                     radius: Math.min(height / 2, theme.radius)
-                    border.color: win.choosing ? "transparent" : prompt.activeFocus ? theme.accent : win.line
+                    // While something is made, the edge below takes the border's place.
+                    border.color: win.choosing || generator.busy ? "transparent" : prompt.activeFocus ? theme.accent : win.line
+
+                    // While it's being made, the bar's edge says how far along it
+                    // is: a faint track, an accent line growing clockwise with each
+                    // step, and a bright spark circling all the while.
+                    Shape {
+                        id: edge
+                        objectName: "working"
+                        anchors.fill: parent
+                        z: 1
+                        visible: generator.busy
+                        preferredRendererType: Shape.CurveRenderer
+                        readonly property real line: 2
+                        readonly property real spark: 3
+                        readonly property real corner: Math.max(0, promptBar.radius - line / 2)
+                        readonly property real perimeter: 2 * (width + height - 2 * line) - (8 - 2 * Math.PI) * corner
+                        property real shown: win.progress
+                        Behavior on shown { NumberAnimation { duration: 500; easing.type: Easing.OutCubic } }
+                        property real travel: 0
+                        NumberAnimation on travel {
+                            running: generator.busy
+                            loops: Animation.Infinite
+                            from: 0
+                            to: 1
+                            duration: 2400
+                        }
+                        ShapePath {
+                            strokeColor: Qt.rgba(theme.accent.r, theme.accent.g, theme.accent.b, 0.22)
+                            strokeWidth: edge.line
+                            fillColor: "transparent"
+                            PathRectangle { x: edge.line / 2; y: edge.line / 2; width: edge.width - edge.line; height: edge.height - edge.line; radius: edge.corner }
+                        }
+                        ShapePath {
+                            strokeColor: theme.accent
+                            strokeWidth: edge.line
+                            fillColor: "transparent"
+                            capStyle: ShapePath.FlatCap
+                            strokeStyle: ShapePath.DashLine
+                            // A dash as long as the share done, then a gap as long
+                            // as the whole: in units of the line's width.
+                            dashPattern: [Math.max(0.01, edge.perimeter * edge.shown / edge.line), edge.perimeter / edge.line]
+                            PathRectangle { x: edge.line / 2; y: edge.line / 2; width: edge.width - edge.line; height: edge.height - edge.line; radius: edge.corner }
+                        }
+                        ShapePath {
+                            strokeColor: Qt.lighter(theme.accent, 1.35)
+                            strokeWidth: edge.spark
+                            fillColor: "transparent"
+                            capStyle: ShapePath.RoundCap
+                            strokeStyle: ShapePath.DashLine
+                            dashPattern: [edge.perimeter * 0.06 / edge.spark, edge.perimeter * 0.94 / edge.spark]
+                            dashOffset: edge.perimeter * (1 - edge.travel) / edge.spark
+                            PathRectangle { x: edge.line / 2; y: edge.line / 2; width: edge.width - edge.line; height: edge.height - edge.line; radius: edge.corner }
+                        }
+                    }
 
                     // What's next, once an image is done: change it, start a new
                     // one, or use it.
@@ -605,6 +631,7 @@ ApplicationWindow {
                                 // The × sits on the thumbnail's corner, as on an attachment.
                                 ToolButton {
                                     id: letGo
+                                    visible: !generator.busy
                                     width: 16
                                     height: 16
                                     padding: 0
@@ -638,6 +665,9 @@ ApplicationWindow {
                         // onto the window does too.
                         ToolButton {
                             objectName: "startFrom"
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy
+                            opacity: generator.busy ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             visible: win.canAddPicture
                             Layout.preferredWidth: 32
@@ -686,6 +716,8 @@ ApplicationWindow {
                             TextArea {
                                 id: prompt
                                 objectName: "prompt"
+                                readOnly: generator.busy
+                                opacity: generator.busy ? 0.5 : 1
                                 focus: true
                                 wrapMode: TextEdit.Wrap
                                 background: null
@@ -724,6 +756,9 @@ ApplicationWindow {
                         // A clip's length, 2, 5 or 10 seconds, while a video model is in use.
                         ToolButton {
                             objectName: "clipLength"
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy
+                            opacity: generator.busy ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             Layout.preferredWidth: 32
                             Layout.preferredHeight: 32
@@ -751,6 +786,9 @@ ApplicationWindow {
                         ToolButton {
                             id: shape
                             objectName: "size"
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy
+                            opacity: generator.busy ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             visible: !win.changing
                             Layout.preferredWidth: 32
@@ -797,6 +835,9 @@ ApplicationWindow {
                         ToolButton {
                             id: modelButton
                             objectName: "model"
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy
+                            opacity: generator.busy ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             Layout.preferredWidth: 32
                             Layout.preferredHeight: 32
