@@ -23,7 +23,8 @@ void print(FILE *stream, const QString &text) {
 
 const char *usage = "Usage:\n"
                     "  fantasi                      Open the window\n"
-                    "  fantasi open [prompt]        Open the window with a prompt\n"
+                    "  fantasi open [prompt] [--model <id>]\n"
+                    "                               Open the window with a prompt, and a model\n"
                     "  fantasi generate <prompt>    Make an image, print where it's saved\n"
                     "      --from <image> --width <px> --height <px> --steps <n> --seed <n> --json\n"
                     "  fantasi skill [install]      Print the agent skill, or install it\n";
