@@ -64,5 +64,6 @@
   "Stop %1 and start %2": "Peata %1 ja käivita %2",
   "What should change?": "Mida peaks muutma?",
   "Change": "Muuda",
-  "Change it: say what should change": "Muuda pilti: kirjelda, mida muuta"
+  "Change it: say what should change": "Muuda pilti: kirjelda, mida muuta",
+  "Click to use %1": "Klõpsa, et kasutada mudelit %1"
 }

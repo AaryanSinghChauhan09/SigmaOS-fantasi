@@ -64,5 +64,6 @@
   "Stop %1 and start %2": "Zaustavi %1 i pokreni %2",
   "What should change?": "Što treba promijeniti?",
   "Change": "Promijeni",
-  "Change it: say what should change": "Promijeni sliku: opiši što treba promijeniti"
+  "Change it: say what should change": "Promijeni sliku: opiši što treba promijeniti",
+  "Click to use %1": "Klikni za korištenje modela %1"
 }

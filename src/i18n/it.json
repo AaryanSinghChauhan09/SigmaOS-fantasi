@@ -64,5 +64,6 @@
   "Stop %1 and start %2": "Arresta %1 e avvia %2",
   "What should change?": "Cosa va cambiato?",
   "Change": "Modifica",
-  "Change it: say what should change": "Modifica l'immagine: descrivi cosa va cambiato"
+  "Change it: say what should change": "Modifica l'immagine: descrivi cosa va cambiato",
+  "Click to use %1": "Fai clic per usare %1"
 }

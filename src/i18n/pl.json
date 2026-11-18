@@ -64,5 +64,6 @@
   "Stop %1 and start %2": "Zatrzymaj %1 i uruchom %2",
   "What should change?": "Co zmienić?",
   "Change": "Zmień",
-  "Change it: say what should change": "Zmień obraz: opisz, co ma się zmienić"
+  "Change it: say what should change": "Zmień obraz: opisz, co ma się zmienić",
+  "Click to use %1": "Kliknij, aby użyć modelu %1"
 }

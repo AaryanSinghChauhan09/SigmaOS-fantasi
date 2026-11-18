@@ -64,5 +64,6 @@
   "Stop %1 and start %2": "%1 を停止して %2 を起動",
   "What should change?": "何を変更しますか？",
   "Change": "変更",
-  "Change it: say what should change": "画像を変更: 変更内容を入力"
+  "Change it: say what should change": "画像を変更: 変更内容を入力",
+  "Click to use %1": "クリックして %1 を使用"
 }

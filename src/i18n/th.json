@@ -64,5 +64,6 @@
   "Stop %1 and start %2": "หยุด %1 แล้วเริ่ม %2",
   "What should change?": "ต้องการแก้ไขอะไร",
   "Change": "แก้ไข",
-  "Change it: say what should change": "แก้ไขภาพ: บอกว่าต้องการแก้ไขอะไร"
+  "Change it: say what should change": "แก้ไขภาพ: บอกว่าต้องการแก้ไขอะไร",
+  "Click to use %1": "คลิกเพื่อใช้ %1"
 }
