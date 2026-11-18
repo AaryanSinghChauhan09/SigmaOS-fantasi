@@ -670,6 +670,8 @@ private slots:
     void songsGoByTheirChorus() {
         QCOMPARE(Generator::songTitle("[verse]\nBy the sea\n[Chorus - loud]\nTake me home,\nagain", "x"), QString("Take me home"));
         QCOMPARE(Generator::songTitle("[Intro]\n\n[verse 1]\nTyping at midnight!", "x"), QString("Typing at midnight"));
+        // A pre-chorus leads up to the chorus, and isn't it.
+        QCOMPARE(Generator::songTitle("[Verse]\nOne\n[Pre-Chorus]\nAlmost there\n[Chorus]\nHere we are", "x"), QString("Here we are"));
         // Without words, what was asked for, up to its first comma.
         QCOMPARE(Generator::songTitle("[Instrumental]", "calm ambient piano, slow"), QString("calm ambient piano"));
         QCOMPARE(Generator::songTitle("", QString(80, 'a')).size(), 48);
@@ -713,10 +715,22 @@ private slots:
         Models models(state, state + "/key", "/bin/true");
         QVERIFY(models.music());
         QVERIFY(models.choices().first().toMap().value("music").toBool());
-        Generator generator(&models, dir.path() + "/out");
+        Generator generator(&models, dir.path() + "/out", dir.path() + "/music");
         QSignalSpy saved(&generator, &Generator::saved);
+        // With nowhere to put its poster, the song isn't saved yet: the
+        // history couldn't list it. It can be tried again.
+        QDir().mkpath(dir.path() + "/out");
+        QFile::setPermissions(dir.path() + "/out", QFile::ReadOwner | QFile::ExeOwner);
         generator.makeSong("a folk song about a dog", "", 30, "pt-BR");
+        QTRY_VERIFY(!generator.busy());
+        QCOMPARE(saved.count(), 0);
+        QVERIFY(generator.unsaved());
+        QVERIFY(!generator.error().isEmpty());
+        QFile::setPermissions(dir.path() + "/out", QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+        generator.retrySave();
         QTRY_COMPARE(saved.count(), 1);
+        QVERIFY(!generator.unsaved());
+        QCOMPARE(generator.error(), QString());
         // Written first, in the language's plain code, then rendered as written.
         const auto request = [&](const QString &what) {
             const auto found = std::find_if(music.requests.begin(), music.requests.end(), [&](const auto &r) { return r.first == what; });
@@ -726,15 +740,20 @@ private slots:
         QCOMPARE(request("POST /lm").value("duration").toInt(), 30);
         QCOMPARE(request("POST /lm").value("vocal_language").toString(), QString("pt"));
         QCOMPARE(request("POST /synth").value("audio_codes").toString(), QString("1,2,3"));
-        // The MP3, whole, with a poster beside it that the history lists as
-        // the song, by its chorus.
+        // The MP3, whole, with the music, and a poster among the images that
+        // the history lists as the song, by its chorus.
         const QString path = saved.first().first().toString();
-        QVERIFY(path.endsWith(".mp3"));
+        QVERIFY(path.startsWith(dir.path() + "/music/") && path.endsWith(".mp3"));
         QFile file(path);
         QVERIFY(file.open(QIODevice::ReadOnly));
         QCOMPARE(file.readAll(), song);
-        const History::Entry entry = History::readEntry(path.chopped(4) + ".png");
+        const History::Entry entry = History::readEntry(dir.path() + "/out/" + QFileInfo(path).completeBaseName() + ".png", dir.path() + "/music");
         QCOMPARE(entry.audio, path);
+        // The window finds a song's title and shape by its file.
+        History history(dir.path() + "/out", dir.path() + "/music");
+        QTRY_COMPARE(history.count(), 1);
+        QCOMPARE(history.song(QUrl::fromLocalFile(path).toString()).value("title").toString(), QString("My dog swims"));
+        QCOMPARE(history.song("file:///elsewhere.mp3").value("title").toString(), QString());
         QCOMPARE(entry.title, QString("My dog swims"));
         QCOMPARE(entry.wave.size(), int(Generator::waveBars));
         QCOMPARE(entry.prompt, QString("a folk song about a dog"));
@@ -757,7 +776,7 @@ private slots:
             {"kind", "music"}, {"name", "ACE-Step"}, {"unit", "active"}, {"endpoint", "http://127.0.0.1:9/v1"}}}}}}).toJson());
         write(state + "/list.json", "[]");
         write(state + "/key", "secret\n");
-        Backend backend({state, state + "/key", "/bin/true", dir.path() + "/out", "/bin/true"});
+        Backend backend({state, state + "/key", "/bin/true", dir.path() + "/out", "/bin/true", {}});
 
         QQmlApplicationEngine engine;
         QStringList warnings;
@@ -872,7 +891,7 @@ private slots:
         QTemporaryDir dir;
         QVERIFY(write(dir.filePath("made.png"), png()));
         auto *picker = new FakePicker;
-        Backend backend({dir.path() + "/state", {}, "/bin/true", dir.path() + "/out", "/bin/true"}, picker);
+        Backend backend({dir.path() + "/state", {}, "/bin/true", dir.path() + "/out", "/bin/true", {}}, picker);
         picker->setParent(&backend);
 
         picker->answer = QUrl::fromLocalFile(dir.filePath("copy.png"));
@@ -911,7 +930,7 @@ private slots:
     void aPictureChosenInTheDialogReachesTheWindow() {
         QTemporaryDir dir;
         auto *picker = new FakePicker;
-        Backend backend({dir.path() + "/state", {}, "/bin/true", dir.path() + "/out", "/bin/true"}, picker);
+        Backend backend({dir.path() + "/state", {}, "/bin/true", dir.path() + "/out", "/bin/true", {}}, picker);
         picker->setParent(&backend);
         picker->answer = QUrl::fromLocalFile(dir.filePath("mine.jpg"));
         QSignalSpy chosen(&backend, &Backend::pictureChosen);
@@ -1124,7 +1143,7 @@ private slots:
         // One image made before, to pick from the history.
         QDir().mkpath(dir.path() + "/out");
         write(dir.path() + "/out/20260101-120000-a-lake.png", png(64));
-        Backend backend({dir.path() + "/state", dir.path() + "/state/key", "/bin/true", dir.path() + "/out", "/bin/true"});
+        Backend backend({dir.path() + "/state", dir.path() + "/state/key", "/bin/true", dir.path() + "/out", "/bin/true", {}});
 
         QQmlApplicationEngine engine;
         QStringList warnings;

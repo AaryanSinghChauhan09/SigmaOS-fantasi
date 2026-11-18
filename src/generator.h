@@ -34,7 +34,10 @@ class Generator : public QObject {
     Q_PROPERTY(int defaultSteps READ defaultSteps NOTIFY defaultsChanged)
 
 public:
-    explicit Generator(Models *models, const QString &folder = {}, QObject *parent = nullptr);
+    // Images and clips are kept in `folder`, songs in `musicFolder` with
+    // their posters in `folder`; empty ones are Generated in the user's
+    // Pictures and Music.
+    explicit Generator(Models *models, const QString &folder = {}, const QString &musicFolder = {}, QObject *parent = nullptr);
     ~Generator() override;
 
     bool busy() const { return !m_job.isEmpty() || m_submitting; }
@@ -44,9 +47,10 @@ public:
     QStringList previews() const { return m_previews; }
     QString image() const { return m_image; }
     QString error() const { return m_error; }
-    bool unsaved() const { return !m_pending.isEmpty(); }
+    bool unsaved() const { return !m_pending.isEmpty() || !m_unposted.isEmpty(); }
     int defaultSteps() const;
     QString folder() const { return m_folder; }
+    QString musicFolder() const { return m_musicFolder; }
 
     // A seed below zero asks the server for a random one; steps of zero take
     // the model's own default. With base images the new one is a change of
@@ -100,7 +104,7 @@ public:
     static constexpr int waveBars = 96;
 
     Q_INVOKABLE void cancel();
-    // Writes a finished image the folder refused last time.
+    // Writes a finished image the folder refused last time, or a song's poster.
     Q_INVOKABLE void retrySave();
     // Shows an image from the history in the center.
     Q_INVOKABLE void show(const QString &url);
@@ -128,8 +132,11 @@ private:
     void submit(const QString &path, const QJsonObject &body);
     // Writes the poster a clip or a song shows by in the history, holding
     // its prompt, and a song's title.
-    void writePoster(const QString &media, const QImage &frame, const QString &prompt, const QString &title = {},
+    bool writePoster(const QString &media, const QImage &frame, const QString &prompt, const QString &title = {},
                      const QByteArray &wave = {});
+    // Reads the saved song's shape without holding up the window, writes its
+    // poster, and only then says the song is saved and the job done.
+    void posterSong();
     // The job in hand on its server: itself, or its `cancel` or `result`.
     QString jobPath(const QString &action = {}) const;
     void followSong(const QString &status);
@@ -142,6 +149,7 @@ private:
 
     Models *m_models;
     QString m_folder;
+    QString m_musicFolder;
     QNetworkAccessManager m_network;
     QTimer m_poll;
     QJsonObject m_defaults;
@@ -161,6 +169,8 @@ private:
     bool m_song = false;
     bool m_rendering = false;
     QString m_lyrics;
+    // A song that's saved but has no poster yet, so the history can't list it.
+    QString m_unposted;
     bool m_cancelling = false;
     QString m_stage;
     int m_step = 0;

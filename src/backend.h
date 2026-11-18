@@ -32,6 +32,7 @@ public:
         QString engineCommand;
         QString folder;
         QString hyprctl;
+        QString music;
     };
 
     // The picker asks where Save as writes; without one, the desktop portal's.

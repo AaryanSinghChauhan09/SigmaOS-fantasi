@@ -4,7 +4,7 @@ Make images on your own machine with Omarchy's local image models.
 
 ![Fantasi showing a lighthouse with a red cabin beside it, the actions under it and earlier images in the history](docs/screenshot.png)
 
-Describe an image and watch it sharpen. Then change it by saying what should change, start from a picture of your own, or combine up to four. Pick a video model with the model button and the same prompt makes a short clip with sound, or animates the picture you change. Pick a music model and it makes a song: describe it, write the lyrics or leave them to the model, and play it back over its own waveform. Everything is kept in `~/Pictures/Generated` with its prompt.
+Describe an image and watch it sharpen. Then change it by saying what should change, start from a picture of your own, or combine up to four. Pick a video model with the model button and the same prompt makes a short clip with sound, or animates the picture you change. Pick a music model and it makes a song: describe it, write the lyrics or leave them to the model, and play it back over its own waveform. Images and clips are kept in `~/Pictures/Generated` with their prompts, songs in `~/Music/Generated`.
 
 Fantasi uses the image model [omarchy-local-ai](https://github.com/omacom/omarchy-local-ai) runs, and offers to start or set one up when none is running.
 

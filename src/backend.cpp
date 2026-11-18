@@ -19,7 +19,7 @@
 
 Backend::Backend(const Places &places, FilePicker *picker, QObject *parent)
     : QObject(parent), m_models(places.engineState, places.engineKey, places.engineCommand),
-      m_generator(&m_models, places.folder), m_history(m_generator.folder()),
+      m_generator(&m_models, places.folder, places.music), m_history(m_generator.folder(), m_generator.musicFolder()),
       m_picker(picker ? picker : new PortalFilePicker(this)) {
     connect(&m_generator, &Generator::finished, this, [this] {
         if (m_waitingOpen.isEmpty())

@@ -68,6 +68,9 @@ ApplicationWindow {
     readonly property bool showingClip: shownFile.endsWith(".webm")
     readonly property bool showingSong: shownFile.endsWith(".mp3")
     readonly property string shownImage: showingClip || showingSong ? shownFile.replace(/\.[a-z0-9]+$/, ".png") : generator.image
+    // The title and shape of the song in the frame, by the file it is,
+    // looked up again whenever the history has listed its files anew.
+    readonly property var shownSong: { history.count; return history.song(showingSong ? shownFile : "") }
     // What only an image takes: being changed.
     readonly property bool showingImage: shownFile !== "" && !showingClip && !showingSong
     // The player loads with the first clip shown, and stays; a song's too.
@@ -368,8 +371,8 @@ ApplicationWindow {
                             source: "qrc:/SongPlayer.qml"
                             onLoaded: {
                                 item.source = Qt.binding(() => win.showingSong ? win.shownFile : "")
-                                item.wave = Qt.binding(() => historyList.currentItem ? historyList.currentItem.wave : [])
-                                item.title = Qt.binding(() => historyList.currentItem ? historyList.currentItem.title : "")
+                                item.wave = Qt.binding(() => win.shownSong.wave)
+                                item.title = Qt.binding(() => win.shownSong.title)
                                 item.played = Qt.binding(() => theme.accent)
                                 item.unplayed = Qt.binding(() => win.muted)
                             }

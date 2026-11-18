@@ -30,7 +30,8 @@ public:
     };
     enum Role { UrlRole = Qt::UserRole + 1, PathRole, PromptRole, SeedRole, SizeRole, VideoRole, AudioRole, TitleRole, WaveRole };
 
-    explicit History(const QString &folder, QObject *parent = nullptr);
+    // Songs are in `musicFolder`, their posters among the images in `folder`.
+    explicit History(const QString &folder, const QString &musicFolder = {}, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = {}) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -39,8 +40,8 @@ public:
 
     // The settings stable-diffusion.cpp writes into a PNG's `parameters`:
     // the prompt, then a line of `Key: value` pairs.
-    static Entry readEntry(const QString &path);
-    static QList<Entry> scan(const QString &folder);
+    static Entry readEntry(const QString &path, const QString &musicFolder = {});
+    static QList<Entry> scan(const QString &folder, const QString &musicFolder = {});
 
     // What the entry shows: its image, or a poster's clip or song.
     Q_INVOKABLE QString urlAt(int row) const {
@@ -49,6 +50,8 @@ public:
                 return media;
         return data(index(row), UrlRole).toString();
     }
+    // The title and shape of the song at `url`, empty until it's listed.
+    Q_INVOKABLE QVariantMap song(const QString &url) const;
     Q_INVOKABLE QString promptAt(int row) const { return data(index(row), PromptRole).toString(); }
     // Moves the image to the trash, from where it can come back.
     Q_INVOKABLE bool remove(int row);
@@ -61,6 +64,7 @@ private:
     void watch();
 
     QString m_folder;
+    QString m_musicFolder;
     QList<Entry> m_entries;
     QFileSystemWatcher m_watcher;
     QTimer m_debounce;
