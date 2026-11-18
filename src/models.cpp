@@ -107,10 +107,12 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
             return bRemote;
         return a.value("name").toString() < b.value("name").toString();
     });
+    // Only what's set up is a choice: a model still downloading isn't one yet.
     for (const QJsonObject &row : images)
-        found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())},
-                                     {"running", row.value("unit").toString() == "active"},
-                                     {"video", row.value("kind").toString() == "video"}};
+        if (row.value("unit").toString() != "installing")
+            found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())},
+                                         {"running", row.value("unit").toString() == "active"},
+                                         {"video", row.value("kind").toString() == "video"}};
     for (const QJsonObject &row : images)
         if (row.value("unit").toString() == "active" && row.value("edit").toBool() && found.editEndpoint.isEmpty()) {
             found.editEndpoint = row.value("endpoint").toString();
@@ -131,6 +133,22 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
             found.edits = row.value("edit").toBool();
             found.video = row.value("kind").toString() == "video";
             found.state = QString(unit) == "active" ? "ready" : QString(unit) == "activating" ? "starting" : "installing";
+            // What a setup screen shows: the download's progress, then the
+            // start, timed against how long the catalog measured one to take.
+            found.startedMs = row.value("since_ms").toInteger();
+            found.loadSeconds = row.value("expected_load_seconds").toDouble();
+            if (found.state == "installing") {
+                const QJsonObject install = row.value("install").toObject();
+                found.doneBytes = install.value("done_bytes").toInteger();
+                found.totalBytes = install.value("total_bytes").toInteger();
+                found.rateBytes = install.value("rate_bytes_s").toInteger();
+                const QString error = row.value("error").toString();
+                found.setupPhase = !error.isEmpty() ? "failed" : install.value("phase").toString("waiting");
+                found.reason = error;
+            } else if (found.state == "starting") {
+                found.setupPhase = "starting";
+                found.firstStart = row.value("observed").isNull() || row.value("observed").isUndefined();
+            }
             return found;
         }
     }
@@ -224,7 +242,9 @@ void Models::start() {
 }
 
 void Models::install() {
-    if (m_found.state == "installable")
+    // A setup that failed is tried again the same way: the engine replaces
+    // the failed record rather than inheriting its error.
+    if (m_found.state == "installable" || (m_found.state == "installing" && m_found.setupPhase == "failed"))
         run({{"use", m_found.id, "--detach"}});
 }
 
@@ -317,10 +337,26 @@ void Models::reload() {
     if (found.state == "ready" && found.id != preferred)
         settings.setValue("model", found.id);
 
+    // With no image model set up, the first one's setup carries on through
+    // its first start, which status.json shows like any other model's, until
+    // it's ready or set up and stopped.
+    // Opened during that first start, it's the same setup: the model has
+    // never started before, and it's the only one there is.
+    bool settingUp = m_settingUp;
+    if (found.state == "installable" || (found.state == "installing" && found.choices.isEmpty())
+        || (found.state == "starting" && found.firstStart && found.choices.size() == 1))
+        settingUp = true;
+    else if (found.state != "starting")
+        settingUp = false;
+
     if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
         || found.reason != m_found.reason || found.blockers != m_found.blockers
-        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor || found.video != m_found.video) {
+        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor || found.video != m_found.video
+        || found.setupPhase != m_found.setupPhase || found.doneBytes != m_found.doneBytes || found.totalBytes != m_found.totalBytes
+        || found.rateBytes != m_found.rateBytes || found.startedMs != m_found.startedMs || found.loadSeconds != m_found.loadSeconds
+        || found.firstStart != m_found.firstStart || settingUp != m_settingUp) {
         m_found = found;
+        m_settingUp = settingUp;
         emit changed();
     }
 }

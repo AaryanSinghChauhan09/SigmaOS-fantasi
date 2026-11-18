@@ -75,12 +75,13 @@ ApplicationWindow {
         case "installing": return qsTr("Setting up %1…").arg(models.modelName)
         case "installed": return qsTr("%1 is set up but not running").arg(models.modelName)
         case "blocked": return qsTr("%1 needs the memory %2 is using").arg(models.modelName).arg(models.blockers.join(", "))
-        case "installable": return qsTr("No image model is set up. %1 runs on this machine.").arg(models.modelName)
-        case "none": return qsTr("No image model runs on this machine yet.") + (models.reason ? " " + models.reason : "")
-        case "noEngine": return qsTr("Fantasi makes images with Omarchy's local models, which aren't installed.")
         default: return ""
         }
     }
+    // Which screen shows: setting up the first image model, sorry there's
+    // none for this machine, or the studio once one is set up.
+    readonly property string page: models.settingUp ? "setup"
+                                 : models.state === "none" || models.state === "noEngine" ? "sorry" : "studio"
     // What was last sent, to tell it from what is typed while it's made.
     property string sentPrompt
     property var sentPictures: []
@@ -180,11 +181,11 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+Enter"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+R"; enabled: models.state === "ready" && !generator.busy; onActivated: win.canGenerate ? win.generate() : win.repeat() }
     Shortcut { sequence: "Ctrl+E"; enabled: win.shownFile !== "" && !win.showingClip && !generator.busy; onActivated: win.changeImage() }
-    Shortcut { sequence: "Ctrl+O"; enabled: !generator.busy; onActivated: backend.openPicture() }
+    Shortcut { sequence: "Ctrl+O"; enabled: win.page === "studio" && !generator.busy; onActivated: backend.openPicture() }
     // Esc stops an image being made, or else goes back to the image shown.
     Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }
     Shortcut { sequence: "Escape"; enabled: !generator.busy && win.composing; onActivated: win.backToImage() }
-    Shortcut { sequence: "Ctrl+N"; enabled: !generator.busy; onActivated: win.newImage() }
+    Shortcut { sequence: "Ctrl+N"; enabled: win.page === "studio" && !generator.busy; onActivated: win.newImage() }
     Shortcut { sequence: "Ctrl+1"; onActivated: win.sizeChoice = 0 }
     Shortcut { sequence: "Ctrl+2"; onActivated: win.sizeChoice = 1 }
     Shortcut { sequence: "Ctrl+3"; onActivated: win.sizeChoice = 2 }
@@ -245,17 +246,38 @@ ApplicationWindow {
     DropArea {
         anchors.fill: parent
         keys: ["text/uri-list"]
-        onEntered: drag => drag.accept(!generator.busy && drag.hasUrls && drag.urls.length === 1 && backend.isPicture(drag.urls[0]))
+        onEntered: drag => drag.accept(win.page === "studio" && !generator.busy && drag.hasUrls && drag.urls.length === 1 && backend.isPicture(drag.urls[0]))
         onDropped: drop => {
-            if (!generator.busy && drop.hasUrls && backend.isPicture(drop.urls[0])) {
+            if (win.page === "studio" && !generator.busy && drop.hasUrls && backend.isPicture(drop.urls[0])) {
                 win.startFrom(drop.urls[0].toString())
                 drop.accept()
             }
         }
     }
 
+    Setup {
+        anchors.fill: parent
+        visible: win.page === "setup"
+        models: win.models
+        muted: win.muted
+        LayoutMirroring.enabled: win.rightToLeft
+        LayoutMirroring.childrenInherit: true
+    }
+
+    NoModel {
+        anchors.fill: parent
+        visible: win.page === "sorry"
+        models: win.models
+        muted: win.muted
+        LayoutMirroring.enabled: win.rightToLeft
+        LayoutMirroring.childrenInherit: true
+    }
+
+    // The studio: the image, its prompt, and the history beside it.
     Item {
         anchors.fill: parent
+        visible: win.page === "studio"
+        enabled: visible
         LayoutMirroring.enabled: win.rightToLeft
         LayoutMirroring.childrenInherit: true
 
@@ -780,7 +802,7 @@ ApplicationWindow {
                             Layout.alignment: Qt.AlignVCenter
                             Layout.preferredWidth: round ? 34 : implicitWidth
                             Layout.preferredHeight: 34
-                            visible: ["ready", "installed", "blocked", "installable", "starting", "installing"].indexOf(models.state) >= 0
+                            visible: ["ready", "installed", "blocked", "starting", "installing"].indexOf(models.state) >= 0
                             focusPolicy: Qt.NoFocus
                             topInset: 0
                             bottomInset: 0
@@ -795,13 +817,12 @@ ApplicationWindow {
                             ToolTip.text: text + (generator.busy ? "  Esc" : "  Enter")
                             ToolTip.delay: 400
                             enabled: models.state === "ready" ? (generator.busy || prompt.text.trim() !== "")
-                                   : ["installed", "blocked", "installable"].indexOf(models.state) >= 0 && !models.working
+                                   : ["installed", "blocked"].indexOf(models.state) >= 0 && !models.working
                             text: {
                                 switch (models.state) {
                                 case "ready": return generator.busy ? qsTr("Cancel") : win.changing ? qsTr("Change") : qsTr("Generate")
                                 case "installed": return qsTr("Start %1").arg(models.modelName)
                                 case "blocked": return qsTr("Stop %1 and start %2").arg(models.blockers.join(", ")).arg(models.modelName)
-                                case "installable": return qsTr("Install %1").arg(models.modelName)
                                 case "starting": return qsTr("Starting…")
                                 default: return qsTr("Setting up…")
                                 }
@@ -811,7 +832,6 @@ ApplicationWindow {
                                 case "ready": generator.busy ? generator.cancel() : win.generate(); break
                                 case "installed": models.start(); break
                                 case "blocked": models.switchTo(); break
-                                case "installable": models.install(); break
                                 }
                             }
                             contentItem: Item {

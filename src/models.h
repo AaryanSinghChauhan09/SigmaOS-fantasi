@@ -27,8 +27,20 @@ class Models : public QObject {
     Q_PROPERTY(QStringList blockers READ blockers NOTIFY changed)
     Q_PROPERTY(bool working READ working NOTIFY changed)
     // Every image model that's set up, as {id, name}, in the order to step
-    // through them; the one in use among them.
+    // through them; the one in use among them. A model still being set up
+    // isn't one yet.
     Q_PROPERTY(QVariantList choices READ choices NOTIFY changed)
+    // Setting up this machine's first image model: from when none is set up,
+    // through its download and first start, until it's ready.
+    Q_PROPERTY(bool settingUp READ settingUp NOTIFY changed)
+    // The setup's progress: waiting, downloading, starting or failed, what it
+    // has fetched of how much and how fast, and how long the start takes.
+    Q_PROPERTY(QString setupPhase READ setupPhase NOTIFY changed)
+    Q_PROPERTY(qint64 doneBytes READ doneBytes NOTIFY changed)
+    Q_PROPERTY(qint64 totalBytes READ totalBytes NOTIFY changed)
+    Q_PROPERTY(qint64 rateBytes READ rateBytes NOTIFY changed)
+    Q_PROPERTY(qint64 startedMs READ startedMs NOTIFY changed)
+    Q_PROPERTY(double loadSeconds READ loadSeconds NOTIFY changed)
     Q_PROPERTY(QString vendor READ vendor NOTIFY changed)
     Q_PROPERTY(bool canEdit READ canEdit NOTIFY changed)
     // The model in use makes clips with their sound rather than images.
@@ -52,6 +64,17 @@ public:
         QString editId;
         // Who makes the model, as Omarchy names vendors: bfl, alibaba, qwen.
         QString vendor;
+        // A setup in progress, from the engine's installing row; a model
+        // starting reports since when and how long a start takes.
+        QString setupPhase;
+        qint64 doneBytes = 0;
+        qint64 totalBytes = 0;
+        qint64 rateBytes = 0;
+        qint64 startedMs = 0;
+        double loadSeconds = 0;
+        // Starting for the first time ever: the engine records how a start went
+        // (`observed`) only once one has succeeded.
+        bool firstStart = false;
         // The model in use makes clips rather than images.
         bool video = false;
     };
@@ -80,6 +103,13 @@ public:
     QString videoOrigin() const;
     QByteArray videoKey() const { return key(); }
     QString vendor() const { return m_found.vendor; }
+    bool settingUp() const { return m_settingUp; }
+    QString setupPhase() const { return m_found.setupPhase; }
+    qint64 doneBytes() const { return m_found.doneBytes; }
+    qint64 totalBytes() const { return m_found.totalBytes; }
+    qint64 rateBytes() const { return m_found.rateBytes; }
+    qint64 startedMs() const { return m_found.startedMs; }
+    double loadSeconds() const { return m_found.loadSeconds; }
 
     // The vendor's mark as the agents panel draws it, from Omarchy's own
     // set: its dark version on a light theme where there is one, the local
@@ -125,4 +155,5 @@ private:
     QList<QStringList> m_queue;
     // The model chosen, kept as the one to use once it has started.
     QString m_chosen;
+    bool m_settingUp = false;
 };
