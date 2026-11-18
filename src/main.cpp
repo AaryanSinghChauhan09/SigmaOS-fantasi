@@ -2,7 +2,9 @@
 
 #include <QGuiApplication>
 #include <QIcon>
+#include <QJsonObject>
 #include <QKeySequence>
+#include <QProcess>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickStyle>
@@ -12,6 +14,7 @@
 #include <QUrl>
 
 #include "backend.h"
+#include "instance.h"
 #include "cli.h"
 #include "theme.h"
 #include "translator.h"
@@ -31,7 +34,7 @@ int main(int argc, char *argv[]) {
     app.setApplicationName("fantasi");
     // Settings (the model used last) live in ~/.config/fantasi/.
     app.setOrganizationName("fantasi");
-    app.setApplicationVersion("0.1.1");
+    app.setApplicationVersion("0.1.2");
     if (command)
         return runCli(app.arguments());
 
@@ -52,15 +55,31 @@ int main(int argc, char *argv[]) {
     // `--model <id>` with that model, as the agents panel opens it: the
     // model to prefer is set before the models are first read.
     QStringList words = app.arguments().value(1) == "open" ? app.arguments().mid(2) : QStringList();
-    const qsizetype model = words.indexOf("--model");
-    if (model >= 0 && model + 1 < words.size()) {
-        QSettings().setValue("model", words.at(model + 1));
+    QString modelId;
+    if (const qsizetype model = words.indexOf("--model"); model >= 0 && model + 1 < words.size()) {
+        modelId = words.at(model + 1);
         words.remove(model, 2);
     }
+    const QString initialPrompt = words.join(' ');
 
+    // With a window already open, it takes the model and the prompt and comes
+    // to the front, rather than a second one opening. A window drawn offscreen
+    // (to be looked at, or tested) stays apart from the user's.
+    const bool offscreen = app.platformName() == "offscreen";
+    Instance instance;
+    if (!offscreen && instance.handOver({{"model", modelId}, {"prompt", initialPrompt}})) {
+        QProcess::startDetached("omarchy-launch-or-focus", {"^fantasi$", "true"});
+        return 0;
+    }
+
+    if (!modelId.isEmpty())
+        QSettings().setValue("model", modelId);
     Theme theme;
     Backend backend;
-    backend.setInitialPrompt(words.join(' '));
+    backend.setInitialPrompt(initialPrompt);
+    QObject::connect(&instance, &Instance::requested, &backend, [&backend](const QJsonObject &request) {
+        backend.open(request.value("model").toString(), request.value("prompt").toString());
+    });
 
     QQmlApplicationEngine engine;
     QObject::connect(&translator, &Translator::changed, &engine, &QQmlEngine::retranslate);

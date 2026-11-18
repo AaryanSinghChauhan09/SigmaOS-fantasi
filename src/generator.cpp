@@ -198,8 +198,10 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
         sample.insert("sample_steps", steps);
     body.insert("sample_params", sample);
     // Only now, with the pictures read, does the job go to the edit model.
-    m_jobOrigin = jobOrigin;
-    m_jobKey = jobOrigin.isEmpty() ? QByteArray() : m_models->editKey();
+    // The job stays with the server it's sent to, though the model in use may
+    // change while it runs.
+    m_jobOrigin = jobOrigin.isEmpty() ? m_origin : jobOrigin;
+    m_jobKey = jobOrigin.isEmpty() ? m_key : m_models->editKey();
     body.insert("prompt", prompt.trimmed());
     body.insert("width", width);
     body.insert("height", height);
