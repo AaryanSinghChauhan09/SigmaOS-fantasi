@@ -451,6 +451,20 @@ ApplicationWindow {
                             onStatusChanged: if (awaitingFirst && arrival === 0 && status !== Image.Loading) fadeIn()
                             NumberAnimation { id: arrive; target: shown; property: "arrival"; from: 0; to: 1; duration: 900; easing.type: Easing.InOutSine }
                         }
+                        // A thin edge round the picture, in the inactive window
+                        // border's colour, hugging what's drawn.
+                        Rectangle {
+                            objectName: "imageEdge"
+                            visible: shown.status === Image.Ready && shown.opacity > 0
+                            opacity: shown.opacity
+                            width: shown.paintedWidth + 2
+                            height: shown.paintedHeight + 2
+                            anchors.centerIn: parent
+                            color: "transparent"
+                            border.color: theme.inactiveBorder
+                            border.width: 1
+                            z: 2
+                        }
                         Loader {
                             id: player
                             objectName: "player"
@@ -1162,13 +1176,14 @@ ApplicationWindow {
                                 layer.enabled: true
                                 Rectangle { anchors.fill: parent; radius: theme.radius; color: "black" }
                             }
+                            // A thin edge in the inactive window border's colour, or
+                            // the accent for the one shown.
                             Rectangle {
                                 anchors.fill: parent
                                 color: "transparent"
                                 radius: theme.radius
-                                border.color: theme.accent
-                                border.width: 2
-                                visible: entry.ListView.isCurrentItem
+                                border.color: entry.ListView.isCurrentItem ? theme.accent : theme.inactiveBorder
+                                border.width: entry.ListView.isCurrentItem ? 2 : 1
                             }
                             // A clip: a play mark on its poster.
                         Rectangle {
