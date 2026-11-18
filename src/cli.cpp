@@ -128,15 +128,6 @@ int runCli(const QStringList &arguments) {
     // The running model of the kind asked for: a video model for --video, an
     // image model otherwise, whichever is the one chosen in the window.
     const bool video = parser.isSet("video");
-    if (models->video() != video) {
-        for (const QVariant &choice : models->choices()) {
-            const QVariantMap row = choice.toMap();
-            if (row.value("video").toBool() == video && row.value("running").toBool()) {
-                models->choose(row.value("id").toString());
-                break;
-            }
-        }
-    }
 
     int code = 1;
     QString path;
@@ -173,6 +164,22 @@ int runCli(const QStringList &arguments) {
         QStringList from;
         for (const QString &path : parser.values("from"))
             from << QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath()).toString();
+        // The running model of the kind asked for, whichever the window chose.
+        if (models->video() != video) {
+            for (const QVariant &choice : models->choices()) {
+                const QVariantMap row = choice.toMap();
+                if (row.value("video").toBool() == video && row.value("running").toBool()) {
+                    models->choose(row.value("id").toString());
+                    break;
+                }
+            }
+        }
+        // None of that kind running: say so rather than send it to the wrong one.
+        if (models->video() != video) {
+            print(stderr, "Error: " + (video ? QString("no video model is running") : QString("no image model is running")));
+            QCoreApplication::exit(1);
+            return;
+        }
         if (video)
             generator->makeVideo(prompt, parser.value("width").toInt(), parser.value("height").toInt(), from.value(0));
         else

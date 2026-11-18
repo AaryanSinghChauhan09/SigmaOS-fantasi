@@ -15,7 +15,7 @@ Fantasi uses the image model [omarchy-local-ai](https://github.com/omacom/omarch
 | Enter | Make the image |
 | Esc | Stop, or go back |
 | Ctrl+E | Change it |
-| Ctrl+N | New image |
+| Ctrl+N | New generation |
 | Ctrl+O | Add a picture |
 | Ctrl+1, 2, 3 | Screen, square or portrait |
 | Ctrl+B | Show or hide the history |

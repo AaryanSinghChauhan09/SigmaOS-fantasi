@@ -54,6 +54,8 @@ ApplicationWindow {
     // The model in use makes clips: from the prompt alone, or animating the
     // picture being changed.
     readonly property bool videoMode: models.video
+    // A clip starts from one picture: switching to a video model keeps the first.
+    onVideoModeChanged: if (videoMode && baseImages.length > 1) baseImages = [baseImages[0]]
     // A clip in the frame: its poster stands in for it as an image.
     readonly property bool showingClip: shownFile.endsWith(".webm")
     readonly property string shownImage: showingClip ? shownFile.slice(0, -5) + ".png" : generator.image
@@ -497,7 +499,7 @@ ApplicationWindow {
                         Repeater {
                             model: [
                                 { name: "changeIt", icon: "change", label: win.videoMode ? qsTr("Animate it") : qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage(), shown: !win.showingClip },
-                                { name: "newImage", icon: "new", label: qsTr("New image"), key: "Ctrl+N", run: () => win.newImage() },
+                                { name: "newImage", icon: "new", label: qsTr("New generation"), key: "Ctrl+N", run: () => win.newImage() },
                                 { name: "copy", icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
                                 { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
                             ]
@@ -995,7 +997,7 @@ ApplicationWindow {
                     { keys: "Esc", action: qsTr("Stop making it, or go back to a new image") },
                     { keys: "Ctrl+R", action: qsTr("Make another like it") },
                     { keys: "Ctrl+E", action: qsTr("Change it: say what should change") },
-                    { keys: "Ctrl+N", action: qsTr("Start a new image") },
+                    { keys: "Ctrl+N", action: qsTr("Start a new generation") },
                     { keys: "Ctrl+O", action: qsTr("Start from a picture of your own") },
                     { keys: "Ctrl+1 2 3", action: qsTr("Screen, square or portrait") },
                     { keys: "Ctrl+B", action: qsTr("Show or hide the history") },
