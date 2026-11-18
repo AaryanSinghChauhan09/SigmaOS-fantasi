@@ -30,9 +30,9 @@ ApplicationWindow {
     readonly property color line: theme.colors.selection
     readonly property color panel: theme.light ? Qt.darker(theme.background, 1.04) : Qt.darker(theme.background, 1.3)
 
-    // 0 Square, 1 Screen, 2 Portrait; a new image starts in the screen's shape.
-    property int sizeChoice: 1
-    readonly property size outputSize: sizeChoice === 1 ? backend.screenSize
+    // 0 Screen, 1 Square, 2 Portrait; a new image starts in the screen's shape.
+    property int sizeChoice: 0
+    readonly property size outputSize: sizeChoice === 0 ? backend.screenSize
                                      : sizeChoice === 2 ? Qt.size(832, 1216) : Qt.size(1024, 1024)
     // The file in the center, when it is one rather than a preview.
     readonly property string shownFile: generator.image.startsWith("file:") ? generator.image : ""
@@ -472,14 +472,15 @@ ApplicationWindow {
                         // thumbnail, with a × to go back to a new image.
                         Item {
                             objectName: "base"
-                            Layout.preferredWidth: 48
-                            Layout.preferredHeight: 48
+                            // The row's own height, so changing doesn't make the bar taller.
+                            Layout.preferredWidth: 34
+                            Layout.preferredHeight: 34
                             Layout.alignment: Qt.AlignVCenter
                             visible: win.changing
                             Image {
                                 anchors.fill: parent
                                 source: win.baseImage
-                                sourceSize: Qt.size(96, 96)
+                                sourceSize: Qt.size(68, 68)
                                 fillMode: Image.PreserveAspectCrop
                                 asynchronous: true
                             }
@@ -489,13 +490,13 @@ ApplicationWindow {
                             // The × sits on the thumbnail's corner, as on an attachment.
                             ToolButton {
                                 id: letGo
-                                width: 22
-                                height: 22
+                                width: 16
+                                height: 16
                                 padding: 0
                                 anchors.top: parent.top
                                 anchors.right: parent.right
-                                anchors.topMargin: -7
-                                anchors.rightMargin: -7
+                                anchors.topMargin: -5
+                                anchors.rightMargin: -5
                                 focusPolicy: Qt.NoFocus
                                 Accessible.name: qsTr("Make a new image instead")
                                 ToolTip.visible: hovered
@@ -510,7 +511,7 @@ ApplicationWindow {
                                 contentItem: Label {
                                     text: "×"
                                     color: theme.foreground
-                                    font.pixelSize: 15
+                                    font.pixelSize: 12
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
                                 }
@@ -619,8 +620,8 @@ ApplicationWindow {
                             background: Item {}
                             focusPolicy: Qt.NoFocus
                             readonly property var shapes: [
-                                { name: qsTr("Square"), w: 15, h: 15 },
                                 { name: qsTr("Screen"), w: 20, h: 12 },
+                                { name: qsTr("Square"), w: 15, h: 15 },
                                 { name: qsTr("Portrait"), w: 12, h: 20 }
                             ]
                             readonly property var current: shapes[win.sizeChoice]
@@ -923,7 +924,7 @@ ApplicationWindow {
                     { keys: "Ctrl+E", action: qsTr("Change it: say what should change") },
                     { keys: "Ctrl+N", action: qsTr("Start a new image") },
                     { keys: "Ctrl+O", action: qsTr("Start from a picture of your own") },
-                    { keys: "Ctrl+1 2 3", action: qsTr("Square, screen or portrait") },
+                    { keys: "Ctrl+1 2 3", action: qsTr("Screen, square or portrait") },
                     { keys: "Ctrl+B", action: qsTr("Set it as the background") },
                     { keys: "Ctrl+Shift+C", action: qsTr("Copy it") },
                     { keys: "Ctrl+S", action: qsTr("Save a copy somewhere else") },

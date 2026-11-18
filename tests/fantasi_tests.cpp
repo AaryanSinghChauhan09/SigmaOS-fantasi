@@ -836,7 +836,7 @@ private slots:
         QTest::keyClick(window, Qt::Key_3, Qt::ControlModifier);
         QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Portrait"));
         QMetaObject::invokeMethod(shape, "clicked");
-        QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Square"));
+        QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Screen"));
 
         auto *help = window->findChild<QObject *>("help");
         QTest::keyClick(window, Qt::Key_F1);

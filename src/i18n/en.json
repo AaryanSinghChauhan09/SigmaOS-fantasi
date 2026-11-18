@@ -25,7 +25,6 @@
   "History": "History",
   "Your images appear here": "Your images appear here",
   "Make the image": "Make the image",
-  "Square, screen or portrait": "Square, screen or portrait",
   "Set it as the background": "Set it as the background",
   "Copy it": "Copy it",
   "Move through the history": "Move through the history",
@@ -67,5 +66,6 @@
   "Click to use %1": "Click to use %1",
   "Change it": "Change it",
   "New image": "New image",
-  "Start a new image": "Start a new image"
+  "Start a new image": "Start a new image",
+  "Screen, square or portrait": "Screen, square or portrait"
 }
