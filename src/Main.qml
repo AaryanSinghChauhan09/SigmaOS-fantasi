@@ -114,13 +114,14 @@ ApplicationWindow {
         function onPictureChosen(url) { win.startFrom(url) }
     }
 
-    // A picture dropped anywhere on the window becomes the base.
+    // A picture dropped anywhere on the window becomes the base, but not
+    // while an image is being made, so a drop then is refused, not lost.
     DropArea {
         anchors.fill: parent
         keys: ["text/uri-list"]
-        onEntered: drag => drag.accept(drag.hasUrls && drag.urls.length === 1 && backend.isPicture(drag.urls[0]))
+        onEntered: drag => drag.accept(!generator.busy && drag.hasUrls && drag.urls.length === 1 && backend.isPicture(drag.urls[0]))
         onDropped: drop => {
-            if (drop.hasUrls && backend.isPicture(drop.urls[0])) {
+            if (!generator.busy && drop.hasUrls && backend.isPicture(drop.urls[0])) {
                 win.startFrom(drop.urls[0].toString())
                 drop.accept()
             }

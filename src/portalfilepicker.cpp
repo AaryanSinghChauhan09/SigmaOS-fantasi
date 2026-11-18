@@ -10,6 +10,7 @@
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
 #include <QFileInfo>
+#include <QImageReader>
 #include <QRandomGenerator>
 #include <QStandardPaths>
 
@@ -69,10 +70,12 @@ void registerPortalFilterTypes() {
 
 PortalFileFilter pngFilter(const QString &name) { return {name, {{0, QStringLiteral("*.png")}}}; }
 
+// Every picture Qt can read, which a drop and --from accept too.
 PortalFileFilter pictureFilter(const QString &name) {
-    return {name,
-            {{1, QStringLiteral("image/png")}, {1, QStringLiteral("image/jpeg")}, {1, QStringLiteral("image/webp")},
-             {0, QStringLiteral("*.png")}, {0, QStringLiteral("*.jpg")}, {0, QStringLiteral("*.jpeg")}, {0, QStringLiteral("*.webp")}}};
+    PortalFilterRules rules;
+    for (const QByteArray &type : QImageReader::supportedMimeTypes())
+        rules.append({1, QString::fromLatin1(type)});
+    return {name, rules};
 }
 
 QString portalToken() { return QStringLiteral("fantasi_%1").arg(QRandomGenerator::global()->generate()); }
