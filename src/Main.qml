@@ -40,6 +40,8 @@ ApplicationWindow {
     // finishes becomes the base for the next, until it's let go.
     property string baseImage: ""
     readonly property bool changing: baseImage !== ""
+    // What was last sent, to tell it from what is typed while it's made.
+    property string sentPrompt
     // How far along the image is being made, 0 to 1: the steps, then whole
     // once they're done and it's finishing.
     readonly property real progress: !generator.busy ? 0
@@ -49,8 +51,10 @@ ApplicationWindow {
     // The model's own steps and a new seed every time: what matters is said
     // in the prompt. While changing, the prompt says what to change.
     function generate() {
-        if (canGenerate)
-            generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImage, models.edits)
+        if (!canGenerate)
+            return
+        sentPrompt = prompt.text
+        generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImage, models.edits)
     }
     // Makes the shown image the one to change, with an empty prompt for
     // what should change.
@@ -117,7 +121,9 @@ ApplicationWindow {
             historyList.currentIndex = 0
             if (win.changing) {
                 win.baseImage = generator.image
-                prompt.text = ""
+                // Unless the next instruction is already being typed.
+                if (prompt.text === win.sentPrompt)
+                    prompt.text = ""
             }
         }
     }
