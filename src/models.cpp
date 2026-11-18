@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QJsonDocument>
 #include <QSettings>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QUrl>
 #include <algorithm>
@@ -184,6 +185,17 @@ QString Models::origin() const { return originOf(m_found.endpoint); }
 QString Models::editOrigin() const { return originOf(m_found.editEndpoint); }
 QString Models::upscaleOrigin() const { return originOf(m_found.upscaleEndpoint); }
 
+QString Models::logo(const QString &vendor, bool light) {
+    const QString omarchy = qEnvironmentVariable("OMARCHY_PATH");
+    if (omarchy.isEmpty())
+        return {};
+    const QString assets = omarchy + "/shell/plugins/agents/assets/";
+    static const QRegularExpression slug("^[a-z0-9-]+$");
+    const QString id = slug.match(vendor).hasMatch() && QFileInfo::exists(assets + vendor + ".svg") ? vendor : "local";
+    const QString path = light && QFileInfo::exists(assets + id + "-light.svg") ? assets + id + "-light.svg" : assets + id + ".svg";
+    return QFileInfo::exists(path) ? QUrl::fromLocalFile(path).toString() : QString();
+}
+
 QByteArray Models::key() const {
     QFile file(m_keyPath);
     return file.open(QIODevice::ReadOnly) ? file.readAll().trimmed() : QByteArray();
@@ -254,15 +266,20 @@ void Models::reload() {
 
     QSettings settings;
     const QString preferred = settings.value("model").toString();
-    const Discovery found = discover(readJson(m_directory + "/status.json").object(),
-                                     readJson(m_directory + "/list.json").array(), !m_command.isEmpty(), preferred);
+    const QJsonObject status = readJson(m_directory + "/status.json").object();
+    const QJsonArray list = readJson(m_directory + "/list.json").array();
+    Discovery found = discover(status, list, !m_command.isEmpty(), preferred);
+    found.vendor = status.value("models").toObject().value(found.id).toObject().value("vendor").toString();
+    for (const QJsonValue &row : list)
+        if (found.vendor.isEmpty() && row.toObject().value("id").toString() == found.id)
+            found.vendor = row.toObject().value("vendor").toString();
     if (found.state == "ready" && found.id != preferred)
         settings.setValue("model", found.id);
 
     if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
         || found.reason != m_found.reason || found.blockers != m_found.blockers
         || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint
-        || found.upscaleEndpoint != m_found.upscaleEndpoint) {
+        || found.upscaleEndpoint != m_found.upscaleEndpoint || found.vendor != m_found.vendor) {
         m_found = found;
         emit changed();
     }

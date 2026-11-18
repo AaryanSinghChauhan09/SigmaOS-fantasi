@@ -280,6 +280,22 @@ private slots:
         QCOMPARE(found.choices.first().toMap().value("id").toString(), QString("a"));
     }
 
+    void logoIsTheVendorsMarkFromOmarchy() {
+        QTemporaryDir dir;
+        const QString assets = dir.path() + "/shell/plugins/agents/assets/";
+        QDir().mkpath(assets);
+        for (const char *name : {"bfl.svg", "bfl-light.svg", "alibaba.svg", "local.svg"})
+            write(assets + name, "<svg/>");
+        qputenv("OMARCHY_PATH", dir.path().toUtf8());
+        QCOMPARE(Models::logo("bfl", true), QUrl::fromLocalFile(assets + "bfl-light.svg").toString());
+        // No dark version: the mark itself; no mark: the local model's.
+        QCOMPARE(Models::logo("alibaba", true), QUrl::fromLocalFile(assets + "alibaba.svg").toString());
+        QCOMPARE(Models::logo("stability", false), QUrl::fromLocalFile(assets + "local.svg").toString());
+        QCOMPARE(Models::logo("../bfl", false), QUrl::fromLocalFile(assets + "local.svg").toString());
+        qunsetenv("OMARCHY_PATH");
+        QCOMPARE(Models::logo("bfl", false), QString());
+    }
+
     void discoveryFindsAnEditModelForChanges() {
         // Z-Image is the one in use, but a change goes to Klein, which edits.
         const auto found = Models::discover(json(q("{'models': { 'z': {'kind': 'image', 'name': 'Z', 'unit': 'active', 'endpoint': 'http://127.0.0.1:1/v1'}, 'k': {'kind': 'image', 'name': 'K', 'unit': 'active', 'edit': true, 'endpoint': 'http://127.0.0.1:2/v1'}}}")), {}, true, "z");

@@ -628,11 +628,23 @@ ApplicationWindow {
                             leftInset: 0
                             rightInset: 0
                             focusPolicy: Qt.NoFocus
+                            // The maker's mark, as the agents panel draws it. It pulses while a
+                            // model starts, and the tooltip says what the model is doing.
+                            readonly property string logo: models.logo(models.vendor, theme.light)
+                            readonly property bool waiting: models.state === "starting" || models.state === "installing" || models.working
+                            SequentialAnimation on opacity {
+                                running: modelButton.waiting
+                                loops: Animation.Infinite
+                                onRunningChanged: if (!running) modelButton.opacity = 1
+                                NumberAnimation { from: 1; to: 0.35; duration: 700; easing.type: Easing.InOutSine }
+                                NumberAnimation { from: 0.35; to: 1; duration: 700; easing.type: Easing.InOutSine }
+                            }
+                            // A mark in its own colours; without one, a chip in the quiet colour.
                             display: AbstractButton.IconOnly
-                            icon.source: "qrc:/icons/model.svg"
-                            icon.width: 20
-                            icon.height: 20
-                            icon.color: hovered && canStep ? theme.accent : win.muted
+                            icon.source: logo !== "" ? logo : "qrc:/icons/model.svg"
+                            icon.color: logo !== "" ? "transparent" : (hovered && canStep ? theme.accent : win.muted)
+                            icon.width: 18
+                            icon.height: 18
                             readonly property int current: models.choices.findIndex(c => c.id === models.modelId)
                             readonly property bool canStep: models.choices.length > 1 && !models.working && !generator.busy
                             readonly property var next: models.choices.length > 1 ? models.choices[(current + 1) % models.choices.length] : null
@@ -641,23 +653,6 @@ ApplicationWindow {
                             ToolTip.text: win.modelStatus + (canStep ? "\n" + qsTr("Click to use %1").arg(next.name) : "")
                             ToolTip.delay: 300
                             onClicked: if (canStep) models.choose(next.id)
-                            Rectangle {
-                                width: 7
-                                height: 7
-                                radius: 3.5
-                                x: parent.width - width - 6
-                                y: 6
-                                visible: models.state !== "noEngine"
-                                color: win.problem ? theme.colors.red
-                                     : models.state === "ready" ? theme.accent : win.muted
-                                SequentialAnimation on opacity {
-                                    running: models.state === "starting" || models.state === "installing" || models.working
-                                    loops: Animation.Infinite
-                                    onRunningChanged: if (!running) parent.opacity = 1
-                                    NumberAnimation { from: 1; to: 0.3; duration: 700; easing.type: Easing.InOutSine }
-                                    NumberAnimation { from: 0.3; to: 1; duration: 700; easing.type: Easing.InOutSine }
-                                }
-                            }
                         }
 
                         // Ready, a round arrow to send (a square to stop while

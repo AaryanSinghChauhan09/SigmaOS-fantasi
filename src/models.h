@@ -31,6 +31,7 @@ class Models : public QObject {
     Q_PROPERTY(QVariantList choices READ choices NOTIFY changed)
     // Whether a running model can make a picture four times larger.
     Q_PROPERTY(bool upscales READ upscales NOTIFY changed)
+    Q_PROPERTY(QString vendor READ vendor NOTIFY changed)
     Q_PROPERTY(QString error READ error NOTIFY changed)
 
 public:
@@ -49,6 +50,8 @@ public:
         QString editEndpoint;
         // A running model whose server upscales a picture.
         QString upscaleEndpoint;
+        // Who makes the model, as Omarchy names vendors: bfl, alibaba, qwen.
+        QString vendor;
     };
 
     // The engine's state folder, its key file, and the command that drives
@@ -69,6 +72,12 @@ public:
     QStringList blockers() const { return m_found.blockers; }
     QVariantList choices() const { return m_found.choices; }
     bool upscales() const { return !m_found.upscaleEndpoint.isEmpty(); }
+    QString vendor() const { return m_found.vendor; }
+
+    // The vendor's mark as the agents panel draws it, from Omarchy's own
+    // set: its dark version on a light theme where there is one, the local
+    // model's for a vendor without a mark, and empty without Omarchy.
+    Q_INVOKABLE static QString logo(const QString &vendor, bool light);
     bool working() const { return m_process.state() != QProcess::NotRunning || !m_queue.isEmpty(); }
     QString error() const { return m_error; }
 
