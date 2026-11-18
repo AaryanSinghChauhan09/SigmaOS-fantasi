@@ -64,5 +64,8 @@
   "What should change?": "Que faut-il modifier ?",
   "Change": "Modifier",
   "Change it: say what should change": "Modifier l'image : décrire ce qu'il faut modifier",
-  "Click to use %1": "Cliquer pour utiliser %1"
+  "Click to use %1": "Cliquer pour utiliser %1",
+  "Change it": "Modifier l'image",
+  "New image": "Nouvelle image",
+  "Start a new image": "Commencer une nouvelle image"
 }

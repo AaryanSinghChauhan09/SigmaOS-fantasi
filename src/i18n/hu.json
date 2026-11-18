@@ -64,5 +64,8 @@
   "What should change?": "Min változtassunk?",
   "Change": "Módosítás",
   "Change it: say what should change": "Kép módosítása: írd le, min kell változtatni",
-  "Click to use %1": "Kattintson a(z) %1 használatához"
+  "Click to use %1": "Kattintson a(z) %1 használatához",
+  "Change it": "Kép módosítása",
+  "New image": "Új kép",
+  "Start a new image": "Új kép indítása"
 }

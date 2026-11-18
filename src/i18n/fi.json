@@ -64,5 +64,8 @@
   "What should change?": "Mitä pitäisi muuttaa?",
   "Change": "Muuta",
   "Change it: say what should change": "Muuta kuvaa: kerro, mitä pitäisi muuttaa",
-  "Click to use %1": "Napsauta käyttääksesi mallia %1"
+  "Click to use %1": "Napsauta käyttääksesi mallia %1",
+  "Change it": "Muuta kuvaa",
+  "New image": "Uusi kuva",
+  "Start a new image": "Aloita uusi kuva"
 }
