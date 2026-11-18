@@ -64,5 +64,10 @@
   "Start a new image": "Anza picha mpya",
   "Screen, square or portrait": "Skrini, mraba au wima",
   "%1 on %2": "%1 kwenye %2",
-  "Show or hide the history": "Onyesha au ficha historia"
+  "Show or hide the history": "Onyesha au ficha historia",
+  "Add a picture to combine…": "Ongeza picha ya kuunganisha…",
+  "Combining this picture": "Inaunganisha picha hii",
+  "How should they come together?": "Zinapaswa kuungana vipi?",
+  "Let this picture go": "Iachilie picha hii",
+  "Only a model that edits can combine pictures": "Ni modeli inayohariri tu inayoweza kuunganisha picha"
 }

@@ -64,5 +64,10 @@
   "Start a new image": "Magsimula ng bagong larawan",
   "Screen, square or portrait": "Screen, parisukat o patayo",
   "%1 on %2": "%1 sa %2",
-  "Show or hide the history": "Ipakita o itago ang kasaysayan"
+  "Show or hide the history": "Ipakita o itago ang kasaysayan",
+  "Add a picture to combine…": "Magdagdag ng larawang pagsasamahin…",
+  "Combining this picture": "Isinasama ang larawang ito",
+  "How should they come together?": "Paano sila dapat magsama?",
+  "Let this picture go": "Bitawan ang larawang ito",
+  "Only a model that edits can combine pictures": "Modelong nag-e-edit lang ang makakapagsama ng mga larawan"
 }

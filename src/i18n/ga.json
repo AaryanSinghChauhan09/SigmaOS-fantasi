@@ -64,5 +64,10 @@
   "Start a new image": "Tosaigh íomhá nua",
   "Screen, square or portrait": "Scáileán, cearnóg nó portráid",
   "%1 on %2": "%1 ar %2",
-  "Show or hide the history": "Taispeáin nó folaigh an stair"
+  "Show or hide the history": "Taispeáin nó folaigh an stair",
+  "Add a picture to combine…": "Cuir pictiúr leis le cumasc…",
+  "Combining this picture": "Ag cumasc an phictiúir seo",
+  "How should they come together?": "Conas ar cheart dóibh teacht le chéile?",
+  "Let this picture go": "Lig don phictiúr seo imeacht",
+  "Only a model that edits can combine pictures": "Ní féidir ach le samhail a chuireann in eagar pictiúir a chumasc"
 }

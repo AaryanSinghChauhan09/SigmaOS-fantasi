@@ -64,5 +64,10 @@
   "Start a new image": "開始新圖片",
   "Screen, square or portrait": "螢幕、正方形或直式",
   "%1 on %2": "%2 上的 %1",
-  "Show or hide the history": "顯示或隱藏歷史紀錄"
+  "Show or hide the history": "顯示或隱藏歷史紀錄",
+  "Add a picture to combine…": "加入要合成的圖片…",
+  "Combining this picture": "正在合成這張圖片",
+  "How should they come together?": "要怎樣把它們合在一起？",
+  "Let this picture go": "移除這張圖片",
+  "Only a model that edits can combine pictures": "只有能編輯的模型才能合成圖片"
 }

@@ -64,5 +64,10 @@
   "Start a new image": "بدء صورة جديدة",
   "Screen, square or portrait": "شاشة أو مربع أو عمودي",
   "%1 on %2": "%1 على %2",
-  "Show or hide the history": "إظهار السجل أو إخفاؤه"
+  "Show or hide the history": "إظهار السجل أو إخفاؤه",
+  "Add a picture to combine…": "إضافة صورة للدمج…",
+  "Combining this picture": "جارٍ دمج هذه الصورة",
+  "How should they come together?": "كيف يجب أن تجتمع؟",
+  "Let this picture go": "التخلّي عن هذه الصورة",
+  "Only a model that edits can combine pictures": "لا يمكن دمج الصور إلا بنموذج يعدّل"
 }

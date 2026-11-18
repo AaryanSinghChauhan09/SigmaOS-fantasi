@@ -64,5 +64,10 @@
   "Start a new image": "Începe o imagine nouă",
   "Screen, square or portrait": "Ecran, pătrat sau portret",
   "%1 on %2": "%1 pe %2",
-  "Show or hide the history": "Arată sau ascunde istoricul"
+  "Show or hide the history": "Arată sau ascunde istoricul",
+  "Add a picture to combine…": "Adaugă o imagine de combinat…",
+  "Combining this picture": "Se combină această imagine",
+  "How should they come together?": "Cum ar trebui să se îmbine?",
+  "Let this picture go": "Renunță la această imagine",
+  "Only a model that edits can combine pictures": "Doar un model care editează poate combina imagini"
 }

@@ -64,5 +64,10 @@
   "Start a new image": "Alusta uut pilti",
   "Screen, square or portrait": "Ekraan, ruut või püstpaigutus",
   "%1 on %2": "%1 masinas %2",
-  "Show or hide the history": "Näita või peida ajalugu"
+  "Show or hide the history": "Näita või peida ajalugu",
+  "Add a picture to combine…": "Lisa pilt kombineerimiseks…",
+  "Combining this picture": "Selle pildi kombineerimine",
+  "How should they come together?": "Kuidas need peaksid kokku tulema?",
+  "Let this picture go": "Lase sellest pildist lahti",
+  "Only a model that edits can combine pictures": "Pilte saab kombineerida ainult muutmist toetav mudel"
 }

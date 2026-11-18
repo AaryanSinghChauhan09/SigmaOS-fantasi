@@ -64,5 +64,10 @@
   "Start a new image": "התחלת תמונה חדשה",
   "Screen, square or portrait": "מסך, ריבוע או לאורך",
   "%1 on %2": "%1 ב־%2",
-  "Show or hide the history": "הצגה או הסתרה של ההיסטוריה"
+  "Show or hide the history": "הצגה או הסתרה של ההיסטוריה",
+  "Add a picture to combine…": "הוספת תמונה לשילוב…",
+  "Combining this picture": "משלבים את התמונה הזו",
+  "How should they come together?": "איך הן צריכות להתחבר?",
+  "Let this picture go": "לשחרר את התמונה הזו",
+  "Only a model that edits can combine pictures": "רק מודל שעורך יכול לשלב תמונות"
 }

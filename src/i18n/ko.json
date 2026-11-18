@@ -64,5 +64,10 @@
   "Start a new image": "새 이미지 시작",
   "Screen, square or portrait": "화면, 정사각형 또는 세로",
   "%1 on %2": "%2의 %1",
-  "Show or hide the history": "기록 표시 / 숨기기"
+  "Show or hide the history": "기록 표시 / 숨기기",
+  "Add a picture to combine…": "합칠 이미지 추가…",
+  "Combining this picture": "이 이미지를 합치는 중",
+  "How should they come together?": "어떻게 합칠까요?",
+  "Let this picture go": "이 이미지 놓아주기",
+  "Only a model that edits can combine pictures": "이미지를 합치려면 편집하는 모델이 필요해요"
 }

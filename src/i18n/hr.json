@@ -64,5 +64,10 @@
   "Start a new image": "Započni novu sliku",
   "Screen, square or portrait": "Zaslon, kvadrat ili uspravno",
   "%1 on %2": "%1 na %2",
-  "Show or hide the history": "Prikaži ili sakrij povijest"
+  "Show or hide the history": "Prikaži ili sakrij povijest",
+  "Add a picture to combine…": "Dodaj sliku za spajanje…",
+  "Combining this picture": "Spajanje ove slike",
+  "How should they come together?": "Kako bi se trebale spojiti?",
+  "Let this picture go": "Pusti ovu sliku",
+  "Only a model that edits can combine pictures": "Samo model koji uređuje može spajati slike"
 }

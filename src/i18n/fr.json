@@ -64,5 +64,10 @@
   "Start a new image": "Commencer une nouvelle image",
   "Screen, square or portrait": "Écran, carré ou portrait",
   "%1 on %2": "%1 sur %2",
-  "Show or hide the history": "Afficher ou masquer l'historique"
+  "Show or hide the history": "Afficher ou masquer l'historique",
+  "Add a picture to combine…": "Ajouter une image à combiner…",
+  "Combining this picture": "Combinaison de cette image",
+  "How should they come together?": "Comment doivent-elles s'assembler ?",
+  "Let this picture go": "Laisser partir cette image",
+  "Only a model that edits can combine pictures": "Seul un modèle qui retouche peut combiner des images"
 }

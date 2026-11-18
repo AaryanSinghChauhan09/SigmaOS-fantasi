@@ -64,5 +64,10 @@
   "Start a new image": "Почати нове зображення",
   "Screen, square or portrait": "Екран, квадрат або портрет",
   "%1 on %2": "%1 на %2",
-  "Show or hide the history": "Показати або сховати історію"
+  "Show or hide the history": "Показати або сховати історію",
+  "Add a picture to combine…": "Додати зображення для поєднання…",
+  "Combining this picture": "Поєднання цього зображення",
+  "How should they come together?": "Як їх поєднати?",
+  "Let this picture go": "Відпустити це зображення",
+  "Only a model that edits can combine pictures": "Поєднувати зображення може лише модель, яка редагує"
 }

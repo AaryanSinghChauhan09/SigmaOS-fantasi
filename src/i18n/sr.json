@@ -64,5 +64,10 @@
   "Start a new image": "Започни нову слику",
   "Screen, square or portrait": "Екран, квадрат или усправно",
   "%1 on %2": "%1 на %2",
-  "Show or hide the history": "Прикажи или сакриј историју"
+  "Show or hide the history": "Прикажи или сакриј историју",
+  "Add a picture to combine…": "Додај слику за спајање…",
+  "Combining this picture": "Спајање ове слике",
+  "How should they come together?": "Како треба да се споје?",
+  "Let this picture go": "Пусти ову слику",
+  "Only a model that edits can combine pictures": "Само модел који уређује може да спаја слике"
 }

@@ -64,5 +64,10 @@
   "Start a new image": "Yeni görsel başlat",
   "Screen, square or portrait": "Ekran, kare veya dikey",
   "%1 on %2": "%2 üzerinde %1",
-  "Show or hide the history": "Geçmişi göster veya gizle"
+  "Show or hide the history": "Geçmişi göster veya gizle",
+  "Add a picture to combine…": "Birleştirmek için görsel ekle…",
+  "Combining this picture": "Bu görsel birleştiriliyor",
+  "How should they come together?": "Nasıl bir araya gelsinler?",
+  "Let this picture go": "Bu görseli bırak",
+  "Only a model that edits can combine pictures": "Görselleri yalnızca düzenleyen bir model birleştirebilir"
 }

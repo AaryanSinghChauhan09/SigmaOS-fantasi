@@ -64,5 +64,10 @@
   "Start a new image": "新しい画像を始める",
   "Screen, square or portrait": "画面、正方形、縦長",
   "%1 on %2": "%2 の %1",
-  "Show or hide the history": "履歴の表示 / 非表示"
+  "Show or hide the history": "履歴の表示 / 非表示",
+  "Add a picture to combine…": "組み合わせる画像を追加…",
+  "Combining this picture": "この画像を組み合わせ中",
+  "How should they come together?": "どう組み合わせますか？",
+  "Let this picture go": "この画像を外す",
+  "Only a model that edits can combine pictures": "画像を組み合わせられるのは編集できるモデルだけです"
 }

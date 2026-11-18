@@ -64,5 +64,10 @@
   "Start a new image": "Nieuwe afbeelding beginnen",
   "Screen, square or portrait": "Scherm, vierkant of staand",
   "%1 on %2": "%1 op %2",
-  "Show or hide the history": "Geschiedenis tonen of verbergen"
+  "Show or hide the history": "Geschiedenis tonen of verbergen",
+  "Add a picture to combine…": "Een afbeelding toevoegen om te combineren…",
+  "Combining this picture": "Deze afbeelding wordt gecombineerd",
+  "How should they come together?": "Hoe moeten ze samenkomen?",
+  "Let this picture go": "Deze afbeelding loslaten",
+  "Only a model that edits can combine pictures": "Alleen een model dat bewerkt kan afbeeldingen combineren"
 }

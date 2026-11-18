@@ -64,5 +64,10 @@
   "Start a new image": "Έναρξη νέας εικόνας",
   "Screen, square or portrait": "Οθόνη, τετράγωνο ή πορτρέτο",
   "%1 on %2": "%1 στο %2",
-  "Show or hide the history": "Εμφάνιση ή απόκρυψη του ιστορικού"
+  "Show or hide the history": "Εμφάνιση ή απόκρυψη του ιστορικού",
+  "Add a picture to combine…": "Προσθήκη εικόνας για συνδυασμό…",
+  "Combining this picture": "Συνδυάζετε αυτή την εικόνα",
+  "How should they come together?": "Πώς πρέπει να ενωθούν;",
+  "Let this picture go": "Αφήστε αυτή την εικόνα",
+  "Only a model that edits can combine pictures": "Μόνο ένα μοντέλο που επεξεργάζεται μπορεί να συνδυάσει εικόνες"
 }

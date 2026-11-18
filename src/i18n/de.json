@@ -64,5 +64,10 @@
   "Start a new image": "Neues Bild beginnen",
   "Screen, square or portrait": "Bildschirm, Quadrat oder Hochformat",
   "%1 on %2": "%1 auf %2",
-  "Show or hide the history": "Verlauf ein- oder ausblenden"
+  "Show or hide the history": "Verlauf ein- oder ausblenden",
+  "Add a picture to combine…": "Ein Bild zum Kombinieren hinzufügen…",
+  "Combining this picture": "Dieses Bild wird kombiniert",
+  "How should they come together?": "Wie sollen sie zusammenkommen?",
+  "Let this picture go": "Dieses Bild loslassen",
+  "Only a model that edits can combine pictures": "Nur ein Modell, das bearbeitet, kann Bilder kombinieren"
 }

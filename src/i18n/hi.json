@@ -64,5 +64,10 @@
   "Start a new image": "नई तस्वीर शुरू करें",
   "Screen, square or portrait": "स्क्रीन, वर्गाकार या पोर्ट्रेट",
   "%1 on %2": "%2 पर %1",
-  "Show or hide the history": "इतिहास दिखाएँ या छिपाएँ"
+  "Show or hide the history": "इतिहास दिखाएँ या छिपाएँ",
+  "Add a picture to combine…": "जोड़ने के लिए कोई तस्वीर लगाएँ…",
+  "Combining this picture": "इस तस्वीर को मिलाया जा रहा है",
+  "How should they come together?": "इन्हें कैसे एक साथ आना चाहिए?",
+  "Let this picture go": "इस तस्वीर को जाने दें",
+  "Only a model that edits can combine pictures": "सिर्फ़ संपादन करने वाला मॉडल ही तस्वीरें मिला सकता है"
 }

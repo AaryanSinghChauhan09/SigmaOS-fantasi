@@ -64,5 +64,10 @@
   "Start a new image": "Yangi rasm boshlash",
   "Screen, square or portrait": "Ekran, kvadrat yoki portret",
   "%1 on %2": "%2 dagi %1",
-  "Show or hide the history": "Tarixni koʻrsatish yoki yashirish"
+  "Show or hide the history": "Tarixni koʻrsatish yoki yashirish",
+  "Add a picture to combine…": "Birlashtirish uchun rasm qoʻshish…",
+  "Combining this picture": "Bu rasm birlashtirilmoqda",
+  "How should they come together?": "Ular qanday birlashsin?",
+  "Let this picture go": "Bu rasmni qoʻyib yuborish",
+  "Only a model that edits can combine pictures": "Rasmlarni faqat tahrirlaydigan model birlashtira oladi"
 }

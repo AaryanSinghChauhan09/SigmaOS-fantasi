@@ -64,5 +64,10 @@
   "Start a new image": "شروع تصویر جدید",
   "Screen, square or portrait": "صفحه‌نمایش، مربع یا عمودی",
   "%1 on %2": "%1 روی %2",
-  "Show or hide the history": "نمایش یا پنهان کردن تاریخچه"
+  "Show or hide the history": "نمایش یا پنهان کردن تاریخچه",
+  "Add a picture to combine…": "افزودن تصویر برای ترکیب…",
+  "Combining this picture": "در حال ترکیب این تصویر",
+  "How should they come together?": "چطور باید با هم ترکیب شوند؟",
+  "Let this picture go": "رها کردن این تصویر",
+  "Only a model that edits can combine pictures": "فقط مدلی که ویرایش می‌کند می‌تواند تصاویر را ترکیب کند"
 }

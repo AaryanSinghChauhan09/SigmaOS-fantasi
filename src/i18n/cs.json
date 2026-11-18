@@ -64,5 +64,10 @@
   "Start a new image": "Začít nový obrázek",
   "Screen, square or portrait": "Obrazovka, čtverec nebo na výšku",
   "%1 on %2": "%1 na %2",
-  "Show or hide the history": "Zobrazit nebo skrýt historii"
+  "Show or hide the history": "Zobrazit nebo skrýt historii",
+  "Add a picture to combine…": "Přidat obrázek ke spojení…",
+  "Combining this picture": "Spojování tohoto obrázku",
+  "How should they come together?": "Jak se mají spojit?",
+  "Let this picture go": "Pustit tento obrázek",
+  "Only a model that edits can combine pictures": "Obrázky umí spojit jen model, který upravuje"
 }

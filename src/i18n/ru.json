@@ -64,5 +64,10 @@
   "Start a new image": "Начать новое изображение",
   "Screen, square or portrait": "Экран, квадрат или портрет",
   "%1 on %2": "%1 на %2",
-  "Show or hide the history": "Показать или скрыть историю"
+  "Show or hide the history": "Показать или скрыть историю",
+  "Add a picture to combine…": "Добавить изображение для объединения…",
+  "Combining this picture": "Объединение этого изображения",
+  "How should they come together?": "Как их соединить?",
+  "Let this picture go": "Отпустить это изображение",
+  "Only a model that edits can combine pictures": "Объединять изображения может только модель, которая редактирует"
 }

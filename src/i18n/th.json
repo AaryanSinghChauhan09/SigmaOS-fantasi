@@ -64,5 +64,10 @@
   "Start a new image": "เริ่มภาพใหม่",
   "Screen, square or portrait": "หน้าจอ สี่เหลี่ยมจัตุรัส หรือแนวตั้ง",
   "%1 on %2": "%1 บน %2",
-  "Show or hide the history": "แสดงหรือซ่อนประวัติ"
+  "Show or hide the history": "แสดงหรือซ่อนประวัติ",
+  "Add a picture to combine…": "เพิ่มรูปภาพเพื่อรวม…",
+  "Combining this picture": "กำลังรวมภาพนี้",
+  "How should they come together?": "ต้องการให้รวมกันอย่างไร",
+  "Let this picture go": "ปล่อยภาพนี้ไป",
+  "Only a model that edits can combine pictures": "มีเพียงโมเดลที่แก้ไขภาพได้เท่านั้นที่รวมรูปภาพได้"
 }

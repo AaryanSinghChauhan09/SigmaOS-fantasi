@@ -64,5 +64,10 @@
   "Start a new image": "Začni novo sliko",
   "Screen, square or portrait": "Zaslon, kvadrat ali pokončno",
   "%1 on %2": "%1 na %2",
-  "Show or hide the history": "Pokaži ali skrij zgodovino"
+  "Show or hide the history": "Pokaži ali skrij zgodovino",
+  "Add a picture to combine…": "Dodaj sliko za združevanje…",
+  "Combining this picture": "Združevanje te slike",
+  "How should they come together?": "Kako naj se združijo?",
+  "Let this picture go": "Izpusti to sliko",
+  "Only a model that edits can combine pictures": "Slike lahko združuje samo model, ki ureja"
 }

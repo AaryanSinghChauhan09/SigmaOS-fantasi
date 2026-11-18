@@ -64,5 +64,10 @@
   "Start a new image": "Sākt jaunu attēlu",
   "Screen, square or portrait": "Ekrāns, kvadrāts vai portrets",
   "%1 on %2": "%1 datorā %2",
-  "Show or hide the history": "Rādīt vai paslēpt vēsturi"
+  "Show or hide the history": "Rādīt vai paslēpt vēsturi",
+  "Add a picture to combine…": "Pievienot attēlu apvienošanai…",
+  "Combining this picture": "Apvieno šo attēlu",
+  "How should they come together?": "Kā tiem jāsavienojas?",
+  "Let this picture go": "Atlaist šo attēlu",
+  "Only a model that edits can combine pictures": "Attēlus var apvienot tikai modelis, kas rediģē"
 }

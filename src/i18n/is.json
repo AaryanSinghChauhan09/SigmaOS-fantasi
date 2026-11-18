@@ -64,5 +64,10 @@
   "Start a new image": "Byrja á nýrri mynd",
   "Screen, square or portrait": "Skjár, ferningur eða lóðrétt",
   "%1 on %2": "%1 á %2",
-  "Show or hide the history": "Sýna eða fela söguna"
+  "Show or hide the history": "Sýna eða fela söguna",
+  "Add a picture to combine…": "Bæta við mynd til að sameina…",
+  "Combining this picture": "Sameina þessa mynd",
+  "How should they come together?": "Hvernig eiga þær að koma saman?",
+  "Let this picture go": "Sleppa þessari mynd",
+  "Only a model that edits can combine pictures": "Aðeins líkan sem breytir getur sameinað myndir"
 }

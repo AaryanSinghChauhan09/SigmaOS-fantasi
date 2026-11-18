@@ -64,5 +64,10 @@
   "Start a new image": "Aloita uusi kuva",
   "Screen, square or portrait": "Näyttö, neliö tai pysty",
   "%1 on %2": "%1 koneella %2",
-  "Show or hide the history": "Näytä tai piilota historia"
+  "Show or hide the history": "Näytä tai piilota historia",
+  "Add a picture to combine…": "Lisää yhdistettävä kuva…",
+  "Combining this picture": "Yhdistetään tätä kuvaa",
+  "How should they come together?": "Miten niiden pitäisi yhdistyä?",
+  "Let this picture go": "Päästä tästä kuvasta irti",
+  "Only a model that edits can combine pictures": "Vain muokkaava malli voi yhdistää kuvia"
 }

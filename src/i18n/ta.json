@@ -64,5 +64,10 @@
   "Start a new image": "புதிய படத்தைத் தொடங்கு",
   "Screen, square or portrait": "திரை, சதுரம் அல்லது நீளவாக்கு",
   "%1 on %2": "%2 இல் %1",
-  "Show or hide the history": "வரலாற்றைக் காட்டு அல்லது மறை"
+  "Show or hide the history": "வரலாற்றைக் காட்டு அல்லது மறை",
+  "Add a picture to combine…": "இணைக்க ஒரு படத்தைச் சேர்…",
+  "Combining this picture": "இந்தப் படம் இணைக்கப்படுகிறது",
+  "How should they come together?": "அவை எப்படி ஒன்றிணைய வேண்டும்?",
+  "Let this picture go": "இந்தப் படத்தை விடு",
+  "Only a model that edits can combine pictures": "திருத்தும் மாடல் மட்டுமே படங்களை இணைக்க முடியும்"
 }

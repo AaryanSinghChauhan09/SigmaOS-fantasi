@@ -64,5 +64,10 @@
   "Start a new image": "Pradėti naują vaizdą",
   "Screen, square or portrait": "Ekranas, kvadratas arba portretas",
   "%1 on %2": "%1 kompiuteryje %2",
-  "Show or hide the history": "Rodyti arba slėpti istoriją"
+  "Show or hide the history": "Rodyti arba slėpti istoriją",
+  "Add a picture to combine…": "Pridėti paveikslėlį sujungimui…",
+  "Combining this picture": "Sujungiamas šis vaizdas",
+  "How should they come together?": "Kaip juos sujungti?",
+  "Let this picture go": "Paleisti šį vaizdą",
+  "Only a model that edits can combine pictures": "Paveikslėlius gali sujungti tik redaguojantis modelis"
 }

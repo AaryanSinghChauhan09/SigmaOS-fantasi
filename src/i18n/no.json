@@ -64,5 +64,10 @@
   "Start a new image": "Start et nytt bilde",
   "Screen, square or portrait": "Skjerm, kvadrat eller portrett",
   "%1 on %2": "%1 på %2",
-  "Show or hide the history": "Vis eller skjul historikken"
+  "Show or hide the history": "Vis eller skjul historikken",
+  "Add a picture to combine…": "Legg til et bilde å kombinere…",
+  "Combining this picture": "Kombinerer dette bildet",
+  "How should they come together?": "Hvordan skal de smelte sammen?",
+  "Let this picture go": "Gi slipp på dette bildet",
+  "Only a model that edits can combine pictures": "Bare en modell som redigerer kan kombinere bilder"
 }

@@ -64,5 +64,10 @@
   "Start a new image": "Bắt đầu ảnh mới",
   "Screen, square or portrait": "Màn hình, vuông hoặc dọc",
   "%1 on %2": "%1 trên %2",
-  "Show or hide the history": "Hiện hoặc ẩn lịch sử"
+  "Show or hide the history": "Hiện hoặc ẩn lịch sử",
+  "Add a picture to combine…": "Thêm một ảnh để kết hợp…",
+  "Combining this picture": "Đang kết hợp ảnh này",
+  "How should they come together?": "Chúng nên kết hợp thế nào?",
+  "Let this picture go": "Bỏ ảnh này",
+  "Only a model that edits can combine pictures": "Chỉ mô hình có thể sửa ảnh mới kết hợp được ảnh"
 }

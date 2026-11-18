@@ -64,5 +64,10 @@
   "Start a new image": "Comença una imatge nova",
   "Screen, square or portrait": "Pantalla, quadrat o vertical",
   "%1 on %2": "%1 a %2",
-  "Show or hide the history": "Mostra o amaga l'historial"
+  "Show or hide the history": "Mostra o amaga l'historial",
+  "Add a picture to combine…": "Afegeix una imatge per combinar…",
+  "Combining this picture": "S'està combinant aquesta imatge",
+  "How should they come together?": "Com s'han d'ajuntar?",
+  "Let this picture go": "Deixa anar aquesta imatge",
+  "Only a model that edits can combine pictures": "Només un model que edita pot combinar imatges"
 }
