@@ -69,5 +69,14 @@
   "Combining this picture": "Combining this picture",
   "How should they come together?": "How should they come together?",
   "Let this picture go": "Let this picture go",
-  "Only a model that edits can combine pictures": "Only a model that edits can combine pictures"
+  "Only a model that edits can combine pictures": "Only a model that edits can combine pictures",
+  "Animate it": "Animate it",
+  "Animate it: say how it should move": "Animate it: say how it should move",
+  "How should it move?": "How should it move?",
+  "Describe a clip": "Describe a clip",
+  "Make a clip": "Make a clip",
+  "Make an image instead": "Make an image instead",
+  "%1 makes the clip": "%1 makes the clip",
+  "No video model is running": "No video model is running",
+  "WebM video": "WebM video"
 }

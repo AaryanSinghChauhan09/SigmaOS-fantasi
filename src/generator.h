@@ -2,6 +2,7 @@
 
 #include <QByteArray>
 #include <QEventLoopLocker>
+#include <QImage>
 #include <QJsonObject>
 #include <QNetworkAccessManager>
 #include <QObject>
@@ -73,6 +74,16 @@ public:
     };
     static Base prepareBase(const QString &path);
 
+    // Makes a short clip with its sound on the running video model, from the
+    // prompt alone or with `firstFrameUrl` as its first frame, about the
+    // size the model is fastest at in the shape of `width` by `height`.
+    Q_INVOKABLE void makeVideo(const QString &prompt, int width, int height, const QString &firstFrameUrl = {});
+    // A clip's frames: 2.3 seconds at 24 a second.
+    static constexpr int videoFrames = 56;
+    static constexpr int videoFps = 24;
+    // About 0.4 megapixels in the shape of `width` by `height`, in steps of 32.
+    static QSize fitVideo(int width, int height);
+
     Q_INVOKABLE void cancel();
     // Writes a finished image the folder refused last time.
     Q_INVOKABLE void retrySave();
@@ -87,6 +98,8 @@ signals:
     void changed();
     void defaultsChanged();
     void saved(const QString &path);
+    // A clip's poster is written beside it, a moment after the clip.
+    void posterSaved(const QString &clip);
     // A job has ended: made and saved, cancelled, or failed with `error`.
     void finished(const QString &error);
 
@@ -94,6 +107,10 @@ private:
     // To the selected model's server; a job's own requests go where the job runs.
     QNetworkReply *send(const QString &method, const QString &path, const QJsonObject &body = {});
     QNetworkReply *sendJob(const QString &method, const QString &path, const QJsonObject &body = {});
+    // Hands the job to its server and follows it from there.
+    void submit(const QString &path, const QJsonObject &body);
+    // Writes the poster a clip shows by in the history, holding its prompt.
+    void writePoster(const QString &clip, const QImage &frame, const QString &prompt);
     QNetworkReply *request(const QString &origin, const QByteArray &key, const QString &method, const QString &path, const QJsonObject &body);
     void fetchDefaults();
     void poll();
@@ -115,6 +132,9 @@ private:
 
     QString m_job;
     bool m_submitting = false;
+    // The job in hand makes a clip, and the picture it starts from, if any.
+    bool m_video = false;
+    QImage m_firstFrame;
     bool m_cancelling = false;
     QString m_stage;
     int m_step = 0;

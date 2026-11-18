@@ -31,6 +31,10 @@ class Models : public QObject {
     Q_PROPERTY(QVariantList choices READ choices NOTIFY changed)
     Q_PROPERTY(QString vendor READ vendor NOTIFY changed)
     Q_PROPERTY(bool canEdit READ canEdit NOTIFY changed)
+    // Whether a video model is running, and which, for its mark and tooltip.
+    Q_PROPERTY(bool makesVideo READ makesVideo NOTIFY changed)
+    Q_PROPERTY(QString videoName READ videoName NOTIFY changed)
+    Q_PROPERTY(QString videoVendor READ videoVendor NOTIFY changed)
     Q_PROPERTY(QString error READ error NOTIFY changed)
 
 public:
@@ -50,6 +54,11 @@ public:
         QString editId;
         // Who makes the model, as Omarchy names vendors: bfl, alibaba, qwen.
         QString vendor;
+        // A running video model, which makes clips beside the image model.
+        QString videoEndpoint;
+        QString videoId;
+        QString videoName;
+        QString videoVendor;
     };
 
     // The engine's state folder, its key file, and the command that drives
@@ -71,6 +80,12 @@ public:
     QVariantList choices() const { return m_found.choices; }
     // Whether a running model edits by instruction, which can take several pictures.
     bool canEdit() const { return !m_found.editEndpoint.isEmpty(); }
+    bool makesVideo() const { return !m_found.videoEndpoint.isEmpty(); }
+    QString videoName() const { return m_found.videoName; }
+    QString videoVendor() const { return m_found.videoVendor; }
+    // The running video model's server, and its key.
+    QString videoOrigin() const;
+    QByteArray videoKey() const { return keyFor(m_found.videoId); }
     QString vendor() const { return m_found.vendor; }
 
     // The vendor's mark as the agents panel draws it, from Omarchy's own

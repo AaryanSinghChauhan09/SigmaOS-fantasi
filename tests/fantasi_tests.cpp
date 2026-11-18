@@ -25,6 +25,7 @@
 #include <QtTest>
 
 #include "backend.h"
+#include "history.h"
 #include "instance.h"
 #include "theme.h"
 #include "translator.h"
@@ -600,6 +601,58 @@ private slots:
         QTRY_VERIFY(!generator.busy());
         QVERIFY(std::none_of(editor.requests.begin(), editor.requests.end(), [](const auto &r) { return r.first.contains("capabilities"); }));
         QCOMPARE(std::count_if(editor.requests.begin(), editor.requests.end(), [](const auto &r) { return r.first == "POST /sdcpp/v1/img_gen"; }), 1);
+    }
+
+    void generatorAnimatesAPictureIntoAClipWithItsPoster() {
+        QCOMPARE(Generator::fitVideo(1920, 1080), QSize(864, 480));
+        QCOMPARE(Generator::fitVideo(1024, 1024), QSize(640, 640));
+        QTemporaryDir dir;
+        FakeServer images, video;
+        images.answer = [](const QString &, const QString &) -> QPair<int, QByteArray> { return {200, "{}"}; };
+        const QByteArray clip("a webm clip");
+        video.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (path == "/sdcpp/v1/capabilities")
+                return {200, q("{'loras': [{'path': 'turbo.safetensors'}]}")};
+            if (method == "POST" && path == "/sdcpp/v1/vid_gen")
+                return {202, q("{'id': 'clip1'}")};
+            if (path == "/sdcpp/v1/jobs/clip1")
+                return {200, QJsonDocument(QJsonObject{{"status", "completed"}, {"result", QJsonObject{{"b64_json", QString::fromLatin1(clip.toBase64())}}}}).toJson()};
+            return {404, "{}"};
+        };
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{
+            {"klein", QJsonObject{{"kind", "image"}, {"name", "Klein"}, {"unit", "active"}, {"endpoint", images.origin() + "/v1"}}},
+            {"h3", QJsonObject{{"kind", "video"}, {"name", "MiniMax H3"}, {"vendor", "minimax"}, {"unit", "active"}, {"endpoint", video.origin() + "/v1"}}}}}}).toJson());
+        write(state + "/list.json", "[]");
+        write(state + "/key", "secret\n");
+        QImage picture(1024, 1024, QImage::Format_RGB32);
+        picture.fill(Qt::darkRed);
+        QVERIFY(picture.save(dir.filePath("cabin.png")));
+
+        Models models(state, state + "/key", "/bin/true");
+        QVERIFY(models.makesVideo());
+        QCOMPARE(models.videoName(), QString("MiniMax H3"));
+        Generator generator(&models, dir.path() + "/out");
+        QSignalSpy saved(&generator, &Generator::saved);
+        generator.makeVideo("snow falls", 1344, 768, QUrl::fromLocalFile(dir.filePath("cabin.png")).toString());
+        QTRY_COMPARE(saved.count(), 1);
+        // On the video model's server, with its LoRA, the picture as the first frame.
+        const auto submit = std::find_if(video.requests.begin(), video.requests.end(), [](const auto &r) { return r.first == "POST /sdcpp/v1/vid_gen"; });
+        QVERIFY(submit != video.requests.end());
+        QCOMPARE(submit->second.value("lora").toArray().first().toObject().value("path").toString(), QString("turbo.safetensors"));
+        QVERIFY(!submit->second.value("init_image").toString().isEmpty());
+        QCOMPARE(submit->second.value("width").toInt(), 640);
+        QVERIFY(images.requests.isEmpty() || std::none_of(images.requests.begin(), images.requests.end(), [](const auto &r) { return r.first.contains("vid_gen"); }));
+        // The clip, with a poster beside it that the history lists as the clip.
+        const QString path = saved.first().first().toString();
+        QVERIFY(path.endsWith(".webm"));
+        QFile file(path);
+        QVERIFY(file.open(QIODevice::ReadOnly));
+        QCOMPARE(file.readAll(), clip);
+        const History::Entry entry = History::readEntry(path.chopped(5) + ".png");
+        QCOMPARE(entry.video, path);
+        QCOMPARE(entry.prompt, QString("snow falls"));
     }
 
     void generatorCancelsAndSavesNothing() {

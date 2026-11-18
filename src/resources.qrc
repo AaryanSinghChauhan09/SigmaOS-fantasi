@@ -1,12 +1,14 @@
 <RCC>
     <qresource prefix="/">
         <file alias="Main.qml">Main.qml</file>
+        <file alias="VideoPlayer.qml">VideoPlayer.qml</file>
         <file alias="skill.md">skill.md</file>
         <file alias="icons/change.svg">icons/change.svg</file>
         <file alias="icons/copy.svg">icons/copy.svg</file>
         <file alias="icons/save.svg">icons/save.svg</file>
         <file alias="icons/model.svg">icons/model.svg</file>
         <file alias="icons/new.svg">icons/new.svg</file>
+        <file alias="icons/animate.svg">icons/animate.svg</file>
         <file alias="fantasi.svg">../share/fantasi.svg</file>
         <file alias="i18n/en.json">i18n/en.json</file>
         <file alias="i18n/ar.json">i18n/ar.json</file>

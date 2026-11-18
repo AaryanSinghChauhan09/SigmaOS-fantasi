@@ -23,3 +23,4 @@ fantasi generate "flat app icon of a paper boat on a teal circle" --width 1024 -
 When it says no image model is running, tell the user and show the command it suggests (`omarchy agent local start …` or `omarchy agent local use …`). Don't start or install one yourself: it can stop a text model the user is relying on.
 
 The images belong to the user. Mention the path of every image you make.
+- With a video model running, `fantasi generate --video "<what happens>"` makes a 2.3-second clip with sound, as a WebM beside a poster PNG; add `--from <picture>` to start the clip from that picture. A clip takes about three minutes.

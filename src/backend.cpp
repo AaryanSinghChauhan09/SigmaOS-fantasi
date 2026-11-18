@@ -89,7 +89,14 @@ void Backend::copy(const QString &url) {
     if (!file.open(QIODevice::ReadOnly))
         return;
     auto *data = new QMimeData;
-    data->setData("image/png", file.readAll());
+    // A clip goes on as a file, which chats and file managers take; an image
+    // as its picture.
+    if (file.fileName().endsWith(".webm")) {
+        data->setUrls({QUrl::fromLocalFile(file.fileName())});
+        data->setData("video/webm", file.readAll());
+    } else {
+        data->setData("image/png", file.readAll());
+    }
     QGuiApplication::clipboard()->setMimeData(data);
 }
 

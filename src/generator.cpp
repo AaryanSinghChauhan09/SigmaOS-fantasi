@@ -1,4 +1,7 @@
 #include "generator.h"
+#include <memory>
+#include <QSaveFile>
+#include <QProcess>
 
 #include "models.h"
 
@@ -227,7 +230,12 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
     m_locker = std::make_unique<QEventLoopLocker>();
     emit changed();
 
-    QNetworkReply *reply = sendJob("POST", "/sdcpp/v1/img_gen", body);
+    m_video = false;
+    submit("/sdcpp/v1/img_gen", body);
+}
+
+void Generator::submit(const QString &path, const QJsonObject &body) {
+    QNetworkReply *reply = sendJob("POST", path, body);
     connect(reply, &QNetworkReply::finished, this, [this, reply] {
         reply->deleteLater();
         const QJsonObject answer = parse(reply);
@@ -243,6 +251,88 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
             sendJob("POST", "/sdcpp/v1/jobs/" + m_job + "/cancel")->deleteLater();
         emit changed();
         m_poll.start();
+    });
+}
+
+QSize Generator::fitVideo(int width, int height) {
+    if (width <= 0 || height <= 0)
+        return {864, 480};
+    const double scale = std::sqrt(864.0 * 480.0 / (double(width) * height));
+    auto step = [](double v) { return std::max(256, int(std::lround(v / 32.0)) * 32); };
+    return {step(width * scale), step(height * scale)};
+}
+
+void Generator::makeVideo(const QString &prompt, int width, int height, const QString &firstFrameUrl) {
+    if (busy() || prompt.trimmed().isEmpty())
+        return;
+    const QString origin = m_models->videoOrigin();
+    if (origin.isEmpty()) {
+        m_error = tr("No video model is running");
+        emit changed();
+        return;
+    }
+    QJsonObject body;
+    QSize size = fitVideo(width, height);
+    m_firstFrame = {};
+    if (!firstFrameUrl.isEmpty()) {
+        const QString path = QUrl(firstFrameUrl).isLocalFile() ? QUrl(firstFrameUrl).toLocalFile() : firstFrameUrl;
+        QImage picture(path);
+        if (picture.isNull()) {
+            m_error = tr("Couldn't read the image to start from");
+            emit changed();
+            return;
+        }
+        size = fitVideo(picture.width(), picture.height());
+        // Filled to the clip's size and cut from the middle.
+        const QImage scaled = picture.scaled(size, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        picture = scaled.copy((scaled.width() - size.width()) / 2, (scaled.height() - size.height()) / 2, size.width(), size.height());
+        QByteArray png;
+        QBuffer buffer(&png);
+        buffer.open(QIODevice::WriteOnly);
+        picture.save(&buffer, "PNG");
+        body.insert("init_image", QString::fromLatin1(png.toBase64()));
+        m_firstFrame = picture;
+    }
+    body.insert("prompt", prompt.trimmed());
+    body.insert("width", size.width());
+    body.insert("height", size.height());
+    body.insert("video_frames", videoFrames);
+    body.insert("fps", videoFps);
+    body.insert("seed", -1);
+    body.insert("output_format", "webm");
+    body.insert("vae_tiling_params", QJsonObject{{"enabled", true}});
+
+    m_jobOrigin = origin;
+    m_jobKey = m_models->videoKey();
+    m_video = true;
+    m_prompt = prompt.trimmed();
+    m_pending.clear();
+    m_error.clear();
+    m_submitting = true;
+    m_cancelling = false;
+    m_stage = "queued";
+    m_step = 0;
+    m_totalSteps = 0;
+    m_previews.clear();
+    m_image.clear();
+    m_locker = std::make_unique<QEventLoopLocker>();
+    emit changed();
+
+    // The LoRAs the server lists are the ones the model is meant to run with,
+    // like MiniMax H3's few-step one.
+    QNetworkReply *reply = sendJob("GET", "/sdcpp/v1/capabilities");
+    connect(reply, &QNetworkReply::finished, this, [this, reply, body]() mutable {
+        reply->deleteLater();
+        QJsonArray loras;
+        for (const QJsonValue &lora : parse(reply).value("loras").toArray())
+            loras << QJsonObject{{"path", lora.toObject().value("path").toString()}, {"multiplier", 1.0}};
+        body.insert("lora", loras);
+        m_submitting = false;
+        if (m_cancelling) {
+            finish();
+            return;
+        }
+        submit("/sdcpp/v1/vid_gen", body);
     });
 }
 
@@ -294,8 +384,9 @@ void Generator::follow(const QJsonObject &job) {
     }
 
     if (status == "completed") {
-        const QJsonArray images = job.value("result").toObject().value("images").toArray();
-        m_pending = QByteArray::fromBase64(images.first().toObject().value("b64_json").toString().toLatin1());
+        const QJsonObject result = job.value("result").toObject();
+        const QJsonArray images = result.value("images").toArray();
+        m_pending = QByteArray::fromBase64((m_video ? result.value("b64_json") : images.first().toObject().value("b64_json")).toString().toLatin1());
         if (m_pending.isEmpty()) {
             finish(tr("The image model finished without an image"));
             return;
@@ -346,7 +437,8 @@ bool Generator::save() {
     // Written beside its final name, then renamed into place: the history
     // never sees half a file, and a rename never replaces another image the
     // app or the command line saved in the same second.
-    QTemporaryFile temporary(m_folder + "/.fantasi-XXXXXX.png");
+    const QString extension = m_video ? ".webm" : ".png";
+    QTemporaryFile temporary(m_folder + "/.fantasi-XXXXXX" + extension);
     if (!temporary.open() || temporary.write(m_pending) != m_pending.size() || !temporary.flush()) {
         m_error = tr("Couldn't save the image in %1").arg(m_folder);
         return false;
@@ -355,17 +447,48 @@ bool Generator::save() {
     temporary.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadGroup | QFile::ReadOther);
     const QString base = m_folder + "/" + fileName(m_prompt, QDateTime::currentDateTime());
     for (int n = 1; n < 1000; ++n) {
-        const QString path = base + (n == 1 ? QString() : "-" + QString::number(n)) + ".png";
-        if (!QFileInfo::exists(path) && temporary.rename(path)) {
+        const QString stem = base + (n == 1 ? QString() : "-" + QString::number(n));
+        const QString path = stem + extension;
+        // A clip's poster takes the name beside it, so both must be free.
+        if (!QFileInfo::exists(path) && !(m_video && QFileInfo::exists(stem + ".png")) && temporary.rename(path)) {
             temporary.setAutoRemove(false);
             m_pending.clear();
             m_image = QUrl::fromLocalFile(path).toString();
+            if (m_video) {
+                if (!m_firstFrame.isNull()) {
+                    writePoster(path, m_firstFrame, m_prompt);
+                } else {
+                    // A clip from a prompt alone shows by its first frame,
+                    // which ffmpeg takes out without holding up the window.
+                    auto *frame = new QProcess(this);
+                    auto locker = std::make_shared<QEventLoopLocker>();
+                    connect(frame, &QProcess::finished, this, [this, frame, path, locker, prompt = m_prompt] {
+                        frame->deleteLater();
+                        writePoster(path, QImage::fromData(frame->readAllStandardOutput(), "PNG"), prompt);
+                    });
+                    frame->start("ffmpeg", {"-loglevel", "error", "-i", path, "-frames:v", "1", "-f", "image2pipe", "-vcodec", "png", "-"});
+                }
+            }
             emit saved(path);
             return true;
         }
     }
     m_error = tr("Couldn't save the image in %1").arg(m_folder);
     return false;
+}
+
+void Generator::writePoster(const QString &clip, const QImage &frame, const QString &prompt) {
+    QImage poster = frame.isNull() ? QImage(864, 480, QImage::Format_RGB32) : frame;
+    if (frame.isNull())
+        poster.fill(Qt::black);
+    // The history reads a prompt from here, and finds the clip it stands for.
+    poster.setText("parameters", prompt);
+    poster.setText("fantasi-video", QFileInfo(clip).fileName());
+    QSaveFile file(clip.chopped(5) + ".png");
+    file.setDirectWriteFallback(false);
+    if (file.open(QIODevice::WriteOnly) && poster.save(&file, "PNG"))
+        file.commit();
+    emit posterSaved(clip);
 }
 
 void Generator::retrySave() {

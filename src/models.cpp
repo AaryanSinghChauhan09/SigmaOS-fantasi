@@ -94,7 +94,15 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
         row.insert("id", it.key());
         if (isImage(row))
             images << row;
-        else if (row.value("unit").toString() == "active") {
+        else if (row.value("kind").toString() == "video") {
+            // A running video model makes clips beside the image model in use.
+            if (row.value("unit").toString() == "active" && found.videoEndpoint.isEmpty()) {
+                found.videoEndpoint = row.value("endpoint").toString();
+                found.videoId = it.key();
+                found.videoName = row.value("name").toString(it.key());
+                found.videoVendor = row.value("vendor").toString();
+            }
+        } else if (row.value("unit").toString() == "active") {
             runningText << row.value("name").toString(it.key());
             runningTextIds << it.key();
         }
@@ -192,6 +200,7 @@ static QString originOf(const QString &endpoint) {
 
 QString Models::origin() const { return originOf(m_found.endpoint); }
 QString Models::editOrigin() const { return originOf(m_found.editEndpoint); }
+QString Models::videoOrigin() const { return originOf(m_found.videoEndpoint); }
 
 QString Models::logo(const QString &vendor, bool light) {
     const QString omarchy = qEnvironmentVariable("OMARCHY_PATH");
@@ -295,7 +304,8 @@ void Models::reload() {
     const QJsonObject network = readJson(m_directory + "/network.json").object().value("models").toObject();
     for (auto it = network.begin(); it != network.end(); ++it) {
         QJsonObject row = it.value().toObject();
-        if (row.value("kind").toString() != "image" || !row.value("paired").toBool() || !row.value("offline").toString().isEmpty()
+        const QString kind = row.value("kind").toString();
+        if ((kind != "image" && kind != "video") || !row.value("paired").toBool() || !row.value("offline").toString().isEmpty()
             || row.value("unit").toString() != "active")
             continue;
         row.insert("name", tr("%1 on %2").arg(row.value("name").toString(it.key()), row.value("host").toString()));
@@ -313,7 +323,8 @@ void Models::reload() {
 
     if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
         || found.reason != m_found.reason || found.blockers != m_found.blockers
-        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor) {
+        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor
+        || found.videoEndpoint != m_found.videoEndpoint || found.videoName != m_found.videoName) {
         m_found = found;
         emit changed();
     }
