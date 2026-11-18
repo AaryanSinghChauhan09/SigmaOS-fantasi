@@ -69,5 +69,14 @@
   "Combining this picture": "Спајање ове слике",
   "How should they come together?": "Како треба да се споје?",
   "Let this picture go": "Пусти ову слику",
-  "Only a model that edits can combine pictures": "Само модел који уређује може да спаја слике"
+  "Only a model that edits can combine pictures": "Само модел који уређује може да спаја слике",
+  "Animate it": "Анимирај слику",
+  "Animate it: say how it should move": "Анимирај слику: опиши како треба да се креће",
+  "How should it move?": "Како треба да се креће?",
+  "Describe a clip": "Опишите клип",
+  "Make a clip": "Направи клип",
+  "Make an image instead": "Радије направи слику",
+  "%1 makes the clip": "%1 прави клип",
+  "No video model is running": "Ниједан модел за видео није покренут",
+  "WebM video": "WebM видео"
 }

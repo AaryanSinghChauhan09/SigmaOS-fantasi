@@ -69,5 +69,14 @@
   "Combining this picture": "இந்தப் படம் இணைக்கப்படுகிறது",
   "How should they come together?": "அவை எப்படி ஒன்றிணைய வேண்டும்?",
   "Let this picture go": "இந்தப் படத்தை விடு",
-  "Only a model that edits can combine pictures": "திருத்தும் மாடல் மட்டுமே படங்களை இணைக்க முடியும்"
+  "Only a model that edits can combine pictures": "திருத்தும் மாடல் மட்டுமே படங்களை இணைக்க முடியும்",
+  "Animate it": "படத்தை அசைவூட்டு",
+  "Animate it: say how it should move": "படத்தை அசைவூட்டு: அது எப்படி அசைய வேண்டும் என்று சொல்",
+  "How should it move?": "இது எப்படி அசைய வேண்டும்?",
+  "Describe a clip": "ஒரு கிளிப்பை விவரிக்கவும்",
+  "Make a clip": "கிளிப் உருவாக்கு",
+  "Make an image instead": "பதிலாகப் படம் உருவாக்கு",
+  "%1 makes the clip": "%1 கிளிப்பை உருவாக்குகிறது",
+  "No video model is running": "எந்த வீடியோ மாதிரியும் இயங்கவில்லை",
+  "WebM video": "WebM வீடியோ"
 }

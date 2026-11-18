@@ -69,5 +69,14 @@
   "Combining this picture": "正在合成這張圖片",
   "How should they come together?": "要怎樣把它們合在一起？",
   "Let this picture go": "移除這張圖片",
-  "Only a model that edits can combine pictures": "只有能編輯的模型才能合成圖片"
+  "Only a model that edits can combine pictures": "只有能編輯的模型才能合成圖片",
+  "Animate it": "讓圖片動起來",
+  "Animate it: say how it should move": "讓圖片動起來：描述它該如何移動",
+  "How should it move?": "它該如何移動？",
+  "Describe a clip": "描述一段短片",
+  "Make a clip": "產生短片",
+  "Make an image instead": "改為產生圖片",
+  "%1 makes the clip": "由 %1 產生短片",
+  "No video model is running": "沒有正在執行的影片模型",
+  "WebM video": "WebM 影片"
 }

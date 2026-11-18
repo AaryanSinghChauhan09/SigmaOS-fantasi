@@ -69,5 +69,14 @@
   "Combining this picture": "Menggabungkan gambar ini",
   "How should they come together?": "Bagaimana mereka sebaiknya menyatu?",
   "Let this picture go": "Lepaskan gambar ini",
-  "Only a model that edits can combine pictures": "Hanya model yang bisa mengedit yang dapat menggabungkan gambar"
+  "Only a model that edits can combine pictures": "Hanya model yang bisa mengedit yang dapat menggabungkan gambar",
+  "Animate it": "Animasikan gambar",
+  "Animate it: say how it should move": "Animasikan gambar: tulis bagaimana gambar harus bergerak",
+  "How should it move?": "Bagaimana gambar harus bergerak?",
+  "Describe a clip": "Deskripsikan klip",
+  "Make a clip": "Buat klip",
+  "Make an image instead": "Buat gambar saja",
+  "%1 makes the clip": "%1 membuat klipnya",
+  "No video model is running": "Tidak ada model video yang berjalan",
+  "WebM video": "Video WebM"
 }

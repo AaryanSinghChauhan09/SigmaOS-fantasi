@@ -69,5 +69,14 @@
   "Combining this picture": "এই ছবিটি মেলানো হচ্ছে",
   "How should they come together?": "এগুলো কীভাবে একসাথে মিলবে?",
   "Let this picture go": "এই ছবিটি বাদ দিন",
-  "Only a model that edits can combine pictures": "শুধু সম্পাদনা করতে পারে এমন মডেলই ছবি মেলাতে পারে"
+  "Only a model that edits can combine pictures": "শুধু সম্পাদনা করতে পারে এমন মডেলই ছবি মেলাতে পারে",
+  "Animate it": "ছবিটি চলমান করুন",
+  "Animate it: say how it should move": "ছবিটি চলমান করুন: কীভাবে নড়বে তা লিখুন",
+  "How should it move?": "এটি কীভাবে নড়বে?",
+  "Describe a clip": "একটি ক্লিপের বর্ণনা দিন",
+  "Make a clip": "একটি ক্লিপ বানান",
+  "Make an image instead": "বরং একটি ছবি বানান",
+  "%1 makes the clip": "%1 ক্লিপটি তৈরি করে",
+  "No video model is running": "কোনো ভিডিও মডেল চলছে না",
+  "WebM video": "WebM ভিডিও"
 }

@@ -69,5 +69,14 @@
   "Combining this picture": "Se combină această imagine",
   "How should they come together?": "Cum ar trebui să se îmbine?",
   "Let this picture go": "Renunță la această imagine",
-  "Only a model that edits can combine pictures": "Doar un model care editează poate combina imagini"
+  "Only a model that edits can combine pictures": "Doar un model care editează poate combina imagini",
+  "Animate it": "Animează imaginea",
+  "Animate it: say how it should move": "Animează imaginea: descrie cum ar trebui să se miște",
+  "How should it move?": "Cum ar trebui să se miște?",
+  "Describe a clip": "Descrie un clip",
+  "Make a clip": "Creează un clip",
+  "Make an image instead": "Creează mai bine o imagine",
+  "%1 makes the clip": "%1 creează clipul",
+  "No video model is running": "Niciun model video nu rulează",
+  "WebM video": "Videoclip WebM"
 }

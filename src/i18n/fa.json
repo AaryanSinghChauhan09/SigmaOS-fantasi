@@ -69,5 +69,14 @@
   "Combining this picture": "در حال ترکیب این تصویر",
   "How should they come together?": "چطور باید با هم ترکیب شوند؟",
   "Let this picture go": "رها کردن این تصویر",
-  "Only a model that edits can combine pictures": "فقط مدلی که ویرایش می‌کند می‌تواند تصاویر را ترکیب کند"
+  "Only a model that edits can combine pictures": "فقط مدلی که ویرایش می‌کند می‌تواند تصاویر را ترکیب کند",
+  "Animate it": "متحرک کردن تصویر",
+  "Animate it: say how it should move": "متحرک کردن تصویر: بنویسید چگونه باید حرکت کند",
+  "How should it move?": "چگونه باید حرکت کند؟",
+  "Describe a clip": "یک کلیپ را توصیف کنید",
+  "Make a clip": "ساختن کلیپ",
+  "Make an image instead": "به جای آن تصویر بسازید",
+  "%1 makes the clip": "مدل %1 کلیپ را می‌سازد",
+  "No video model is running": "هیچ مدل ویدیویی در حال اجرا نیست",
+  "WebM video": "ویدیوی WebM"
 }

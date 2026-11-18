@@ -69,5 +69,14 @@
   "Combining this picture": "Apvieno šo attēlu",
   "How should they come together?": "Kā tiem jāsavienojas?",
   "Let this picture go": "Atlaist šo attēlu",
-  "Only a model that edits can combine pictures": "Attēlus var apvienot tikai modelis, kas rediģē"
+  "Only a model that edits can combine pictures": "Attēlus var apvienot tikai modelis, kas rediģē",
+  "Animate it": "Animēt attēlu",
+  "Animate it: say how it should move": "Animēt attēlu: aprakstīt, kā tam jākustas",
+  "How should it move?": "Kā tam jākustas?",
+  "Describe a clip": "Aprakstiet klipu",
+  "Make a clip": "Veidot klipu",
+  "Make an image instead": "Tā vietā veidot attēlu",
+  "%1 makes the clip": "%1 veido klipu",
+  "No video model is running": "Nedarbojas neviens video modelis",
+  "WebM video": "WebM video"
 }

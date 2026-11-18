@@ -69,5 +69,14 @@
   "Combining this picture": "Yhdistetään tätä kuvaa",
   "How should they come together?": "Miten niiden pitäisi yhdistyä?",
   "Let this picture go": "Päästä tästä kuvasta irti",
-  "Only a model that edits can combine pictures": "Vain muokkaava malli voi yhdistää kuvia"
+  "Only a model that edits can combine pictures": "Vain muokkaava malli voi yhdistää kuvia",
+  "Animate it": "Animoi kuva",
+  "Animate it: say how it should move": "Animoi kuva: kerro, miten sen pitäisi liikkua",
+  "How should it move?": "Miten sen pitäisi liikkua?",
+  "Describe a clip": "Kuvaile leike",
+  "Make a clip": "Tee leike",
+  "Make an image instead": "Tee sen sijaan kuva",
+  "%1 makes the clip": "%1 tekee leikkeen",
+  "No video model is running": "Videomalli ei ole käynnissä",
+  "WebM video": "WebM-video"
 }

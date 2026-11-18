@@ -69,5 +69,14 @@
   "Combining this picture": "Spojování tohoto obrázku",
   "How should they come together?": "Jak se mají spojit?",
   "Let this picture go": "Pustit tento obrázek",
-  "Only a model that edits can combine pictures": "Obrázky umí spojit jen model, který upravuje"
+  "Only a model that edits can combine pictures": "Obrázky umí spojit jen model, který upravuje",
+  "Animate it": "Rozpohybovat obrázek",
+  "Animate it: say how it should move": "Rozpohybovat obrázek: popsat, jak se má hýbat",
+  "How should it move?": "Jak se má hýbat?",
+  "Describe a clip": "Popište klip",
+  "Make a clip": "Vytvořit klip",
+  "Make an image instead": "Raději vytvořit obrázek",
+  "%1 makes the clip": "Klip vytvoří %1",
+  "No video model is running": "Neběží žádný model pro video",
+  "WebM video": "Video WebM"
 }

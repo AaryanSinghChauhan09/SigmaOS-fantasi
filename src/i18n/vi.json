@@ -69,5 +69,14 @@
   "Combining this picture": "Đang kết hợp ảnh này",
   "How should they come together?": "Chúng nên kết hợp thế nào?",
   "Let this picture go": "Bỏ ảnh này",
-  "Only a model that edits can combine pictures": "Chỉ mô hình có thể sửa ảnh mới kết hợp được ảnh"
+  "Only a model that edits can combine pictures": "Chỉ mô hình có thể sửa ảnh mới kết hợp được ảnh",
+  "Animate it": "Tạo chuyển động",
+  "Animate it: say how it should move": "Tạo chuyển động: mô tả cách ảnh chuyển động",
+  "How should it move?": "Ảnh nên chuyển động thế nào?",
+  "Describe a clip": "Mô tả một đoạn clip",
+  "Make a clip": "Tạo clip",
+  "Make an image instead": "Tạo ảnh thay vào đó",
+  "%1 makes the clip": "%1 tạo clip",
+  "No video model is running": "Không có mô hình tạo video nào đang chạy",
+  "WebM video": "Video WebM"
 }

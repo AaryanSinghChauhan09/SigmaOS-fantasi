@@ -69,5 +69,14 @@
   "Combining this picture": "Združevanje te slike",
   "How should they come together?": "Kako naj se združijo?",
   "Let this picture go": "Izpusti to sliko",
-  "Only a model that edits can combine pictures": "Slike lahko združuje samo model, ki ureja"
+  "Only a model that edits can combine pictures": "Slike lahko združuje samo model, ki ureja",
+  "Animate it": "Animiraj sliko",
+  "Animate it: say how it should move": "Animiraj sliko: opiši, kako naj se premika",
+  "How should it move?": "Kako naj se premika?",
+  "Describe a clip": "Opišite posnetek",
+  "Make a clip": "Ustvari posnetek",
+  "Make an image instead": "Raje ustvari sliko",
+  "%1 makes the clip": "Posnetek ustvari %1",
+  "No video model is running": "Noben model za video ne teče",
+  "WebM video": "Video WebM"
 }

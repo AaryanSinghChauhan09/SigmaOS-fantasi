@@ -69,5 +69,14 @@
   "Combining this picture": "S'està combinant aquesta imatge",
   "How should they come together?": "Com s'han d'ajuntar?",
   "Let this picture go": "Deixa anar aquesta imatge",
-  "Only a model that edits can combine pictures": "Només un model que edita pot combinar imatges"
+  "Only a model that edits can combine pictures": "Només un model que edita pot combinar imatges",
+  "Animate it": "Anima-la",
+  "Animate it: say how it should move": "Anima-la: descriu com s'ha de moure",
+  "How should it move?": "Com s'ha de moure?",
+  "Describe a clip": "Descriu un clip",
+  "Make a clip": "Fes un clip",
+  "Make an image instead": "Fes una imatge",
+  "%1 makes the clip": "%1 fa el clip",
+  "No video model is running": "No s'està executant cap model de vídeo",
+  "WebM video": "Vídeo WebM"
 }

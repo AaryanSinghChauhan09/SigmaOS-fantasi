@@ -69,5 +69,14 @@
   "Combining this picture": "Sameina þessa mynd",
   "How should they come together?": "Hvernig eiga þær að koma saman?",
   "Let this picture go": "Sleppa þessari mynd",
-  "Only a model that edits can combine pictures": "Aðeins líkan sem breytir getur sameinað myndir"
+  "Only a model that edits can combine pictures": "Aðeins líkan sem breytir getur sameinað myndir",
+  "Animate it": "Hreyfa mynd",
+  "Animate it: say how it should move": "Hreyfa mynd: segðu hvernig hún á að hreyfast",
+  "How should it move?": "Hvernig á hún að hreyfast?",
+  "Describe a clip": "Lýstu myndskeiði",
+  "Make a clip": "Búa til myndskeið",
+  "Make an image instead": "Búa frekar til mynd",
+  "%1 makes the clip": "%1 býr til myndskeiðið",
+  "No video model is running": "Ekkert myndbandslíkan er í gangi",
+  "WebM video": "WebM-myndband"
 }

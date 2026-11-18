@@ -69,5 +69,14 @@
   "Combining this picture": "Комбиниране на това изображение",
   "How should they come together?": "Как да се съчетаят?",
   "Let this picture go": "Пусни това изображение",
-  "Only a model that edits can combine pictures": "Само модел, който редактира, може да комбинира изображения"
+  "Only a model that edits can combine pictures": "Само модел, който редактира, може да комбинира изображения",
+  "Animate it": "Анимирай го",
+  "Animate it: say how it should move": "Анимирай го: опиши как да се движи",
+  "How should it move?": "Как да се движи?",
+  "Describe a clip": "Опишете клип",
+  "Make a clip": "Създай клип",
+  "Make an image instead": "Създай изображение вместо това",
+  "%1 makes the clip": "%1 създава клипа",
+  "No video model is running": "Не работи модел за видео",
+  "WebM video": "WebM видео"
 }

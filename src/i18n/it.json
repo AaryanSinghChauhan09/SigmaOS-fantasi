@@ -69,5 +69,14 @@
   "Combining this picture": "Combinazione di questa immagine",
   "How should they come together?": "Come dovrebbero unirsi?",
   "Let this picture go": "Lascia andare questa immagine",
-  "Only a model that edits can combine pictures": "Solo un modello che modifica può combinare immagini"
+  "Only a model that edits can combine pictures": "Solo un modello che modifica può combinare immagini",
+  "Animate it": "Anima l'immagine",
+  "Animate it: say how it should move": "Anima l'immagine: descrivi come deve muoversi",
+  "How should it move?": "Come deve muoversi?",
+  "Describe a clip": "Descrivi una clip",
+  "Make a clip": "Crea una clip",
+  "Make an image instead": "Crea invece un'immagine",
+  "%1 makes the clip": "%1 crea la clip",
+  "No video model is running": "Nessun modello video in esecuzione",
+  "WebM video": "Video WebM"
 }

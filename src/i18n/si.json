@@ -69,5 +69,14 @@
   "Combining this picture": "මෙම රූපය ඒකාබද්ධ කරමින්",
   "How should they come together?": "ඒවා එකට එක් විය යුත්තේ කෙසේද?",
   "Let this picture go": "මෙම රූපය අත්හරින්න",
-  "Only a model that edits can combine pictures": "රූප ඒකාබද්ධ කළ හැක්කේ සංස්කරණය කරන ආකෘතියකට පමණි"
+  "Only a model that edits can combine pictures": "රූප ඒකාබද්ධ කළ හැක්කේ සංස්කරණය කරන ආකෘතියකට පමණි",
+  "Animate it": "රූපය චලනය කරන්න",
+  "Animate it: say how it should move": "රූපය චලනය කරන්න: එය චලනය විය යුතු ආකාරය කියන්න",
+  "How should it move?": "එය චලනය විය යුත්තේ කෙසේද?",
+  "Describe a clip": "ක්ලිපයක් විස්තර කරන්න",
+  "Make a clip": "ක්ලිපයක් සාදන්න",
+  "Make an image instead": "ඒ වෙනුවට රූපයක් සාදන්න",
+  "%1 makes the clip": "%1 ක්ලිපය සාදයි",
+  "No video model is running": "කිසිදු වීඩියෝ මාදිලියක් ධාවනය නොවේ",
+  "WebM video": "WebM වීඩියෝව"
 }
