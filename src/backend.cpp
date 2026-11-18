@@ -70,6 +70,9 @@ Backend::Backend(const Places &places, FilePicker *picker, QObject *parent)
 }
 
 void Backend::open(const QString &model, const QString &prompt) {
+    // A plain `fantasi` only brings the window to the front.
+    if (model.isEmpty() && prompt.isEmpty())
+        return;
     // Not in the middle of an image: it is seen to once that one is done.
     if (m_generator.busy()) {
         m_waitingOpen = {{"model", model}, {"prompt", prompt}};
