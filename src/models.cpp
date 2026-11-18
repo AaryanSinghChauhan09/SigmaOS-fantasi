@@ -108,9 +108,6 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
     for (const QJsonObject &row : images)
         if (row.value("unit").toString() == "active" && row.value("edit").toBool() && found.editEndpoint.isEmpty())
             found.editEndpoint = row.value("endpoint").toString();
-    for (const QJsonObject &row : images)
-        if (row.value("unit").toString() == "active" && row.value("upscale").toBool() && found.upscaleEndpoint.isEmpty())
-            found.upscaleEndpoint = row.value("endpoint").toString();
     std::stable_sort(images.begin(), images.end(), [&](const QJsonObject &a, const QJsonObject &b) {
         return a.value("id").toString() == preferred && b.value("id").toString() != preferred;
     });
@@ -184,7 +181,6 @@ static QString originOf(const QString &endpoint) {
 
 QString Models::origin() const { return originOf(m_found.endpoint); }
 QString Models::editOrigin() const { return originOf(m_found.editEndpoint); }
-QString Models::upscaleOrigin() const { return originOf(m_found.upscaleEndpoint); }
 
 QString Models::logo(const QString &vendor, bool light) {
     const QString omarchy = qEnvironmentVariable("OMARCHY_PATH");
@@ -288,8 +284,7 @@ void Models::reload() {
 
     if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
         || found.reason != m_found.reason || found.blockers != m_found.blockers
-        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint
-        || found.upscaleEndpoint != m_found.upscaleEndpoint || found.vendor != m_found.vendor) {
+        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor) {
         m_found = found;
         emit changed();
     }

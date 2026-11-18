@@ -65,9 +65,5 @@
   "What should change?": "Kaj naj se spremeni?",
   "Change": "Spremeni",
   "Change it: say what should change": "Spremeni sliko: opiši, kaj naj se spremeni",
-  "Click to use %1": "Klikni za uporabo modela %1",
-  "Upscale four times": "Povečaj štirikrat",
-  "No running model can upscale": "Ne teče noben model, ki bi znal povečevati",
-  "Couldn't read the image to upscale": "Slike za povečanje ni bilo mogoče prebrati",
-  "This image is already as large as it can be made": "Ta slika je že tako velika, kot je le mogoče"
+  "Click to use %1": "Klikni za uporabo modela %1"
 }

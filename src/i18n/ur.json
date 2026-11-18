@@ -65,9 +65,5 @@
   "What should change?": "کیا تبدیل کرنا ہے؟",
   "Change": "تبدیل کریں",
   "Change it: say what should change": "تصویر تبدیل کریں: بتائیں کہ کیا تبدیل کرنا ہے",
-  "Click to use %1": "%1 استعمال کرنے کے لیے کلک کریں",
-  "Upscale four times": "چار گنا بڑا کریں",
-  "No running model can upscale": "بڑا کر سکنے والا کوئی ماڈل نہیں چل رہا",
-  "Couldn't read the image to upscale": "بڑی کرنے والی تصویر نہیں پڑھی جا سکی",
-  "This image is already as large as it can be made": "یہ تصویر پہلے ہی جتنی بڑی ہو سکتی ہے اتنی بڑی ہے"
+  "Click to use %1": "%1 استعمال کرنے کے لیے کلک کریں"
 }

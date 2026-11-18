@@ -65,9 +65,5 @@
   "What should change?": "எதை மாற்ற வேண்டும்?",
   "Change": "மாற்று",
   "Change it: say what should change": "படத்தை மாற்று: எதை மாற்ற வேண்டும் என்று சொல்",
-  "Click to use %1": "%1 ஐப் பயன்படுத்த கிளிக் செய்",
-  "Upscale four times": "நான்கு மடங்கு பெரிதாக்கு",
-  "No running model can upscale": "பெரிதாக்கக்கூடிய எந்த மாதிரியும் இயங்கவில்லை",
-  "Couldn't read the image to upscale": "பெரிதாக்க வேண்டிய படத்தைப் படிக்க முடியவில்லை",
-  "This image is already as large as it can be made": "இந்தப் படம் ஏற்கனவே முடிந்த அளவு பெரியது"
+  "Click to use %1": "%1 ஐப் பயன்படுத்த கிளிக் செய்"
 }

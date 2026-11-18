@@ -65,9 +65,5 @@
   "What should change?": "Τι πρέπει να αλλάξει;",
   "Change": "Αλλαγή",
   "Change it: say what should change": "Αλλαγή εικόνας: περιγραφή του τι πρέπει να αλλάξει",
-  "Click to use %1": "Κάντε κλικ για χρήση του %1",
-  "Upscale four times": "Τετραπλάσια μεγέθυνση",
-  "No running model can upscale": "Δεν εκτελείται κανένα μοντέλο που να μπορεί να μεγεθύνει",
-  "Couldn't read the image to upscale": "Δεν ήταν δυνατή η ανάγνωση της εικόνας για μεγέθυνση",
-  "This image is already as large as it can be made": "Αυτή η εικόνα είναι ήδη όσο μεγάλη γίνεται"
+  "Click to use %1": "Κάντε κλικ για χρήση του %1"
 }

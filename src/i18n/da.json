@@ -65,9 +65,5 @@
   "What should change?": "Hvad skal ændres?",
   "Change": "Ændr",
   "Change it: say what should change": "Ændr det: sig, hvad der skal ændres",
-  "Click to use %1": "Klik for at bruge %1",
-  "Upscale four times": "Opskalér fire gange",
-  "No running model can upscale": "Ingen kørende model kan opskalere",
-  "Couldn't read the image to upscale": "Kunne ikke læse billedet, der skal opskaleres",
-  "This image is already as large as it can be made": "Dette billede er allerede så stort, som det kan blive"
+  "Click to use %1": "Klik for at bruge %1"
 }

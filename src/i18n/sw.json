@@ -65,9 +65,5 @@
   "What should change?": "Nini kibadilishwe?",
   "Change": "Badilisha",
   "Change it: say what should change": "Badilisha picha: eleza nini kibadilishwe",
-  "Click to use %1": "Bofya ili kutumia %1",
-  "Upscale four times": "Kuza mara nne",
-  "No running model can upscale": "Hakuna modeli inayofanya kazi inayoweza kukuza",
-  "Couldn't read the image to upscale": "Haikuweza kusoma picha ya kukuza",
-  "This image is already as large as it can be made": "Picha hii tayari ni kubwa kadiri inavyowezekana"
+  "Click to use %1": "Bofya ili kutumia %1"
 }

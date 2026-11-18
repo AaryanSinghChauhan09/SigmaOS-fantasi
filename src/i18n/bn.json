@@ -65,9 +65,5 @@
   "What should change?": "কী বদলাতে হবে?",
   "Change": "বদলান",
   "Change it: say what should change": "ছবিটি বদলান: কী বদলাতে হবে তা লিখুন",
-  "Click to use %1": "%1 ব্যবহার করতে ক্লিক করুন",
-  "Upscale four times": "চার গুণ বড় করুন",
-  "No running model can upscale": "বড় করতে পারে এমন কোনো মডেল চলছে না",
-  "Couldn't read the image to upscale": "বড় করার ছবিটি পড়া যায়নি",
-  "This image is already as large as it can be made": "এই ছবিটি ইতিমধ্যেই যতটা সম্ভব বড়"
+  "Click to use %1": "%1 ব্যবহার করতে ক্লিক করুন"
 }

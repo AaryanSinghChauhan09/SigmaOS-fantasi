@@ -65,9 +65,5 @@
   "What should change?": "ต้องการแก้ไขอะไร",
   "Change": "แก้ไข",
   "Change it: say what should change": "แก้ไขภาพ: บอกว่าต้องการแก้ไขอะไร",
-  "Click to use %1": "คลิกเพื่อใช้ %1",
-  "Upscale four times": "ขยาย 4 เท่า",
-  "No running model can upscale": "ไม่มีโมเดลที่ทำงานอยู่ซึ่งขยายภาพได้",
-  "Couldn't read the image to upscale": "อ่านภาพที่จะขยายไม่ได้",
-  "This image is already as large as it can be made": "ภาพนี้ใหญ่ที่สุดเท่าที่ทำได้แล้ว"
+  "Click to use %1": "คลิกเพื่อใช้ %1"
 }

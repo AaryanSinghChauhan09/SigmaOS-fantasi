@@ -19,7 +19,7 @@ class QNetworkReply;
 class Generator : public QObject {
     Q_OBJECT
     Q_PROPERTY(bool busy READ busy NOTIFY changed)
-    // "", queued, conditioning, sampling, decoding, saving, upscaling
+    // "", queued, conditioning, sampling, decoding, saving
     Q_PROPERTY(QString stage READ stage NOTIFY changed)
     Q_PROPERTY(int step READ step NOTIFY changed)
     Q_PROPERTY(int totalSteps READ totalSteps NOTIFY changed)
@@ -36,7 +36,7 @@ public:
     explicit Generator(Models *models, const QString &folder = {}, QObject *parent = nullptr);
     ~Generator() override;
 
-    bool busy() const { return !m_job.isEmpty() || m_submitting || m_upscaling; }
+    bool busy() const { return !m_job.isEmpty() || m_submitting; }
     QString stage() const { return m_stage; }
     int step() const { return m_step; }
     int totalSteps() const { return m_totalSteps; }
@@ -70,16 +70,6 @@ public:
     };
     static Base prepareBase(const QString &path);
 
-    // Makes a picture four times larger with a running model's upscaler,
-    // saved as a new image beside it that keeps its prompt.
-    Q_INVOKABLE void upscale(const QString &url);
-    // The largest picture an upscale takes: four times it is the server's
-    // limit of 8192 on a side.
-    static constexpr int upscaleLimit = 2048;
-    // `png` with the `parameters` text chunk of `from` in it, which is how
-    // an upscaled image keeps the prompt it was made from.
-    static QByteArray carryParameters(const QByteArray &from, const QByteArray &png);
-
     Q_INVOKABLE void cancel();
     // Writes a finished image the folder refused last time.
     Q_INVOKABLE void retrySave();
@@ -98,7 +88,7 @@ signals:
     void finished(const QString &error);
 
 private:
-    QNetworkReply *send(const QString &method, const QString &path, const QJsonObject &body = {}, int timeout = 15000);
+    QNetworkReply *send(const QString &method, const QString &path, const QJsonObject &body = {});
     void fetchDefaults();
     void poll();
     void follow(const QJsonObject &job);
@@ -118,8 +108,6 @@ private:
 
     QString m_job;
     bool m_submitting = false;
-    bool m_upscaling = false;
-    QNetworkReply *m_upscaleReply = nullptr;
     bool m_cancelling = false;
     QString m_stage;
     int m_step = 0;

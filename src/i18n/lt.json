@@ -65,9 +65,5 @@
   "What should change?": "Ką pakeisti?",
   "Change": "Keisti",
   "Change it: say what should change": "Keisti vaizdą: aprašyti, ką pakeisti",
-  "Click to use %1": "Spustelėkite, kad naudotumėte %1",
-  "Upscale four times": "Padidinti keturis kartus",
-  "No running model can upscale": "Neveikia joks modelis, galintis didinti",
-  "Couldn't read the image to upscale": "Nepavyko nuskaityti didinamo vaizdo",
-  "This image is already as large as it can be made": "Šis vaizdas jau toks didelis, kokį tik galima padaryti"
+  "Click to use %1": "Spustelėkite, kad naudotumėte %1"
 }

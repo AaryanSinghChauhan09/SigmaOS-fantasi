@@ -65,9 +65,5 @@
   "What should change?": "무엇을 바꿀까요?",
   "Change": "변경",
   "Change it: say what should change": "이미지 변경: 바꿀 내용 입력",
-  "Click to use %1": "클릭하여 %1 사용",
-  "Upscale four times": "4배로 확대",
-  "No running model can upscale": "확대할 수 있는 실행 중인 모델이 없습니다",
-  "Couldn't read the image to upscale": "확대할 이미지를 읽을 수 없습니다",
-  "This image is already as large as it can be made": "이 이미지는 이미 최대 크기입니다"
+  "Click to use %1": "클릭하여 %1 사용"
 }

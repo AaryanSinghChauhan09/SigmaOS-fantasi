@@ -65,9 +65,5 @@
   "What should change?": "Шта треба променити?",
   "Change": "Промени",
   "Change it: say what should change": "Промени слику: опиши шта треба променити",
-  "Click to use %1": "Кликни да користиш %1",
-  "Upscale four times": "Увећај четири пута",
-  "No running model can upscale": "Није покренут ниједан модел који може да увећава",
-  "Couldn't read the image to upscale": "Слика за увећање није могла да се прочита",
-  "This image is already as large as it can be made": "Ова слика је већ највећа што може бити"
+  "Click to use %1": "Кликни да користиш %1"
 }

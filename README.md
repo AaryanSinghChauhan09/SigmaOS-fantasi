@@ -31,7 +31,6 @@ The prompt has the keyboard most of the time, so the shortcuts take Ctrl.
 | Ctrl+B | Set it as the background |
 | Ctrl+Shift+C | Copy it |
 | Ctrl+S | Save a copy somewhere else |
-| Ctrl+U | Upscale it four times, as a new image |
 | Ctrl+Up, Ctrl+Down | Move through the history |
 | Ctrl+Delete | Move it to the trash |
 | F1 | Show or hide the shortcuts |

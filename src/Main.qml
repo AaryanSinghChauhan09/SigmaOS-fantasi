@@ -41,14 +41,6 @@ ApplicationWindow {
     // finishes becomes the base for the next, until it's let go.
     property string baseImage: ""
     readonly property bool changing: baseImage !== ""
-    // A running model can make the shown image four times larger, within the
-    // server's limit.
-    readonly property bool canUpscale: models.upscales && shownFile !== "" && !generator.busy
-        && shown.implicitWidth > 0 && shown.implicitWidth <= 2048 && shown.implicitHeight <= 2048
-    function upscale() {
-        if (canUpscale)
-            generator.upscale(shownFile)
-    }
     readonly property string problem: models.error || generator.error || backend.error
     // What the model is doing, for its icon's tooltip and the empty stage.
     readonly property string modelStatus: {
@@ -123,7 +115,6 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+B"; enabled: win.shownFile !== ""; onActivated: backend.setBackground(win.shownFile) }
     Shortcut { sequence: "Ctrl+Shift+C"; enabled: win.shownFile !== ""; onActivated: backend.copy(win.shownFile) }
     Shortcut { sequence: "Ctrl+S"; enabled: win.shownFile !== ""; onActivated: backend.saveAs(win.shownFile) }
-    Shortcut { sequence: "Ctrl+U"; enabled: win.canUpscale; onActivated: win.upscale() }
     Shortcut { sequence: "Ctrl+Up"; onActivated: win.pick(historyList.currentIndex - 1) }
     Shortcut { sequence: "Ctrl+Down"; onActivated: win.pick(historyList.currentIndex + 1) }
     Shortcut {
@@ -348,8 +339,7 @@ ApplicationWindow {
                                     { icon: "change", label: qsTr("Change this image"), key: "Ctrl+E", run: () => win.changeImage() },
                                     { icon: "background", label: qsTr("Set as background"), key: "Ctrl+B", run: () => backend.setBackground(win.shownFile) },
                                     { icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
-                                    { icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) },
-                                    { icon: "upscale", label: qsTr("Upscale four times"), key: "Ctrl+U", run: () => win.upscale(), shown: win.canUpscale }
+                                    { icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
                                 ]
                                 delegate: ToolButton {
                                     required property var modelData
@@ -897,7 +887,6 @@ ApplicationWindow {
                     { keys: "Ctrl+B", action: qsTr("Set it as the background") },
                     { keys: "Ctrl+Shift+C", action: qsTr("Copy it") },
                     { keys: "Ctrl+S", action: qsTr("Save a copy somewhere else") },
-                    { keys: "Ctrl+U", action: qsTr("Upscale four times") },
                     { keys: "Ctrl+↑ ↓", action: qsTr("Move through the history") },
                     { keys: "Ctrl+Delete", action: qsTr("Move it to the trash") },
                     { keys: "F1", action: qsTr("Show or hide the shortcuts") },

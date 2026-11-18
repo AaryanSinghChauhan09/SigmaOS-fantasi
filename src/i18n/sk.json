@@ -65,9 +65,5 @@
   "What should change?": "Čo sa má zmeniť?",
   "Change": "Upraviť",
   "Change it: say what should change": "Upraviť obrázok: opísať, čo sa má zmeniť",
-  "Click to use %1": "Kliknutím použijete %1",
-  "Upscale four times": "Zväčšiť štvornásobne",
-  "No running model can upscale": "Nebeží žiadny model, ktorý dokáže zväčšovať",
-  "Couldn't read the image to upscale": "Obrázok na zväčšenie sa nepodarilo načítať",
-  "This image is already as large as it can be made": "Tento obrázok je už taký veľký, ako len môže byť"
+  "Click to use %1": "Kliknutím použijete %1"
 }

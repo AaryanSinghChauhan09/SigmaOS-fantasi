@@ -65,9 +65,5 @@
   "What should change?": "Cad ba cheart a athrú?",
   "Change": "Athraigh",
   "Change it: say what should change": "Athraigh í: abair cad ba cheart a athrú",
-  "Click to use %1": "Cliceáil chun %1 a úsáid",
-  "Upscale four times": "Méadaigh faoi cheathair",
-  "No running model can upscale": "Níl aon samhail ag rith atá in ann méadú",
-  "Couldn't read the image to upscale": "Níorbh fhéidir an íomhá le méadú a léamh",
-  "This image is already as large as it can be made": "Tá an íomhá seo chomh mór agus is féidir cheana féin"
+  "Click to use %1": "Cliceáil chun %1 a úsáid"
 }

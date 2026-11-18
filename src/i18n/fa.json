@@ -65,9 +65,5 @@
   "What should change?": "چه چیزی باید تغییر کند؟",
   "Change": "تغییر",
   "Change it: say what should change": "تغییر تصویر: بنویسید چه چیزی باید تغییر کند",
-  "Click to use %1": "برای استفاده از %1 کلیک کنید",
-  "Upscale four times": "بزرگ‌نمایی چهار برابر",
-  "No running model can upscale": "هیچ مدلی که بتواند بزرگ‌نمایی کند در حال اجرا نیست",
-  "Couldn't read the image to upscale": "خواندن تصویر برای بزرگ‌نمایی ممکن نشد",
-  "This image is already as large as it can be made": "این تصویر از قبل در بزرگ‌ترین اندازهٔ ممکن است"
+  "Click to use %1": "برای استفاده از %1 کلیک کنید"
 }

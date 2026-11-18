@@ -65,9 +65,5 @@
   "What should change?": "වෙනස් විය යුත්තේ කුමක්ද?",
   "Change": "වෙනස් කරන්න",
   "Change it: say what should change": "රූපය වෙනස් කරන්න: වෙනස් විය යුතු දේ කියන්න",
-  "Click to use %1": "%1 භාවිත කිරීමට ක්ලික් කරන්න",
-  "Upscale four times": "හතර ගුණයකින් විශාල කරන්න",
-  "No running model can upscale": "විශාල කළ හැකි කිසිදු මාදිලියක් ධාවනය නොවේ",
-  "Couldn't read the image to upscale": "විශාල කළ යුතු රූපය කියවිය නොහැකි විය",
-  "This image is already as large as it can be made": "මෙම රූපය දැනටමත් හැකි තරම් විශාලයි"
+  "Click to use %1": "%1 භාවිත කිරීමට ක්ලික් කරන්න"
 }

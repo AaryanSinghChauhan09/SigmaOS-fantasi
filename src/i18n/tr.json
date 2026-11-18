@@ -65,9 +65,5 @@
   "What should change?": "Ne değişsin?",
   "Change": "Değiştir",
   "Change it: say what should change": "Görseli değiştir: neyin değişeceğini yaz",
-  "Click to use %1": "%1 modelini kullanmak için tıkla",
-  "Upscale four times": "Dört kat büyüt",
-  "No running model can upscale": "Büyütme yapabilen çalışan bir model yok",
-  "Couldn't read the image to upscale": "Büyütülecek görsel okunamadı",
-  "This image is already as large as it can be made": "Bu görsel zaten olabileceği kadar büyük"
+  "Click to use %1": "%1 modelini kullanmak için tıkla"
 }

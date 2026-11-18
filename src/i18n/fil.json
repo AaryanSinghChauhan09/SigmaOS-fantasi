@@ -65,9 +65,5 @@
   "What should change?": "Ano ang dapat baguhin?",
   "Change": "Baguhin",
   "Change it: say what should change": "Baguhin ito: sabihin kung ano ang dapat baguhin",
-  "Click to use %1": "I-click para gamitin ang %1",
-  "Upscale four times": "Palakihin nang apat na beses",
-  "No running model can upscale": "Walang tumatakbong model na kayang magpalaki",
-  "Couldn't read the image to upscale": "Hindi mabasa ang larawang palalakihin",
-  "This image is already as large as it can be made": "Hindi na mapapalaki pa ang larawang ito"
+  "Click to use %1": "I-click para gamitin ang %1"
 }

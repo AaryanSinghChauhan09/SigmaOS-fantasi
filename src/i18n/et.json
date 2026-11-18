@@ -65,9 +65,5 @@
   "What should change?": "Mida peaks muutma?",
   "Change": "Muuda",
   "Change it: say what should change": "Muuda pilti: kirjelda, mida muuta",
-  "Click to use %1": "Klõpsa, et kasutada mudelit %1",
-  "Upscale four times": "Suurenda neli korda",
-  "No running model can upscale": "Ükski töötav mudel ei oska suurendada",
-  "Couldn't read the image to upscale": "Suurendatavat pilti ei õnnestunud lugeda",
-  "This image is already as large as it can be made": "See pilt on juba nii suur, kui olla saab"
+  "Click to use %1": "Klõpsa, et kasutada mudelit %1"
 }
