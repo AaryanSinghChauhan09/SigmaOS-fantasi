@@ -880,60 +880,119 @@ ApplicationWindow {
                             }
                         }
 
-                        // The model: its state as a dot, what it's doing in the
-                        // tooltip, and with more than one set up, a click steps to
-                        // the next.
-                        ToolButton {
-                            id: modelButton
-                            objectName: "model"
+                        // The model in use, as its maker's mark. With more than one
+                        // set up, the others fan out beside it while the pointer is on
+                        // it or it has the keyboard, to pick from; with one, its
+                        // tooltip says what it's doing.
+                        FocusScope {
+                            id: picker
+                            // The others, the next one nearest the mark in use.
+                            readonly property var others: {
+                                const all = models.choices
+                                const at = all.findIndex(c => c.id === models.modelId)
+                                const rest = []
+                                for (let i = 1; i < all.length; i++)
+                                    rest.push(all[(at + i) % all.length])
+                                return rest.reverse()
+                            }
+                            readonly property bool open: others.length > 0 && enabled && (pickerHover.hovered || picker.activeFocus)
                             // Nothing changes while something is made: only stop works.
-                            enabled: !generator.busy
+                            enabled: !generator.busy && !models.working
                             opacity: generator.busy ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
-                            Layout.preferredWidth: 32
+                            Layout.preferredWidth: pickerRow.width
                             Layout.preferredHeight: 32
-                            padding: 0
-                            topInset: 0
-                            bottomInset: 0
-                            leftInset: 0
-                            rightInset: 0
-                            // No hover blot behind it: the icon itself answers the pointer.
-                            background: Item {}
-                            focusPolicy: Qt.NoFocus
-                            // The maker's mark, as the agents panel draws it. It pulses while a
-                            // model starts, and the tooltip says what the model is doing.
-                            readonly property string logo: models.logo(models.vendor, theme.light)
-                            // A short pulse when it switches to another running model;
-                            // one that must start shows in the stage instead.
-                            property string shownModel: models.modelId
-                            Connections {
-                                target: models
-                                function onChanged() {
-                                    if (models.modelId !== modelButton.shownModel && models.state === "ready" && !models.working && modelButton.shownModel !== "")
-                                        switched.restart()
-                                    modelButton.shownModel = models.modelId
+                            HoverHandler { id: pickerHover }
+
+                            Row {
+                                id: pickerRow
+                                height: 32
+                                Item {
+                                    id: fan
+                                    width: picker.open ? picker.others.length * 32 : 0
+                                    height: 32
+                                    clip: true
+                                    Behavior on width { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                                    Row {
+                                        anchors.right: parent.right
+                                        Repeater {
+                                            model: picker.others
+                                            delegate: ToolButton {
+                                                id: choice
+                                                required property var modelData
+                                                readonly property string logo: models.logo(modelData.vendor || "", theme.light)
+                                                objectName: "choice-" + modelData.id
+                                                width: 32
+                                                height: 32
+                                                padding: 0
+                                                topInset: 0
+                                                bottomInset: 0
+                                                leftInset: 0
+                                                rightInset: 0
+                                                background: Item {}
+                                                focusPolicy: Qt.TabFocus
+                                                display: AbstractButton.IconOnly
+                                                icon.source: logo !== "" ? logo : "qrc:/icons/model.svg"
+                                                icon.color: logo !== "" ? "transparent" : (hovered || activeFocus ? theme.accent : win.muted)
+                                                icon.width: 18
+                                                icon.height: 18
+                                                opacity: hovered || activeFocus ? 1 : 0.6
+                                                scale: hovered || activeFocus ? 1.15 : 1
+                                                Behavior on scale { NumberAnimation { duration: 120 } }
+                                                Accessible.name: modelData.name
+                                                ToolTip.visible: hovered || visualFocus
+                                                ToolTip.text: modelData.name
+                                                ToolTip.delay: 150
+                                                onClicked: models.choose(modelData.id)
+                                            }
+                                        }
+                                    }
+                                }
+
+                                ToolButton {
+                                    id: modelButton
+                                    objectName: "model"
+                                    width: 32
+                                    height: 32
+                                    padding: 0
+                                    topInset: 0
+                                    bottomInset: 0
+                                    leftInset: 0
+                                    rightInset: 0
+                                    // No hover blot behind it: the icon itself answers the pointer.
+                                    background: Item {}
+                                    focusPolicy: Qt.TabFocus
+                                    readonly property string logo: models.logo(models.vendor, theme.light)
+                                    // A short pulse when it switches to another running model;
+                                    // one that must start shows in the stage instead.
+                                    property string shownModel: models.modelId
+                                    Connections {
+                                        target: models
+                                        function onChanged() {
+                                            if (models.modelId !== modelButton.shownModel && models.state === "ready" && !models.working && modelButton.shownModel !== "")
+                                                switched.restart()
+                                            modelButton.shownModel = models.modelId
+                                        }
+                                    }
+                                    SequentialAnimation {
+                                        id: switched
+                                        loops: 2
+                                        NumberAnimation { target: modelButton; property: "scale"; from: 1; to: 1.25; duration: 160; easing.type: Easing.OutCubic }
+                                        NumberAnimation { target: modelButton; property: "scale"; from: 1.25; to: 1; duration: 220; easing.type: Easing.InOutSine }
+                                    }
+                                    // A mark in its own colours; without one, a chip in the quiet colour.
+                                    display: AbstractButton.IconOnly
+                                    icon.source: logo !== "" ? logo : "qrc:/icons/model.svg"
+                                    icon.color: logo !== "" ? "transparent" : win.muted
+                                    icon.width: 18
+                                    icon.height: 18
+                                    Accessible.name: win.modelStatus
+                                    // With others fanned out, their names say the rest.
+                                    ToolTip.visible: (hovered || visualFocus) && picker.others.length === 0
+                                    ToolTip.text: win.modelStatus
+                                    ToolTip.delay: 300
                                 }
                             }
-                            SequentialAnimation {
-                                id: switched
-                                loops: 2
-                                NumberAnimation { target: modelButton; property: "scale"; from: 1; to: 1.25; duration: 160; easing.type: Easing.OutCubic }
-                                NumberAnimation { target: modelButton; property: "scale"; from: 1.25; to: 1; duration: 220; easing.type: Easing.InOutSine }
-                            }
-                            // A mark in its own colours; without one, a chip in the quiet colour.
-                            display: AbstractButton.IconOnly
-                            icon.source: logo !== "" ? logo : "qrc:/icons/model.svg"
-                            icon.color: logo !== "" ? "transparent" : (hovered && canStep ? theme.accent : win.muted)
-                            icon.width: 18
-                            icon.height: 18
-                            readonly property int current: models.choices.findIndex(c => c.id === models.modelId)
-                            readonly property bool canStep: models.choices.length > 1 && !models.working && !generator.busy
-                            readonly property var next: models.choices.length > 1 ? models.choices[(current + 1) % models.choices.length] : null
-                            Accessible.name: win.modelStatus
-                            ToolTip.visible: hovered
-                            ToolTip.text: win.modelStatus + (canStep ? "\n" + qsTr("Click to use %1").arg(next.name) : "")
-                            ToolTip.delay: 300
-                            onClicked: if (canStep) models.choose(next.id)
                         }
 
                         // Ready, a round arrow to send (a square to stop while
