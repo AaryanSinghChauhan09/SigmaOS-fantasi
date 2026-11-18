@@ -405,21 +405,6 @@ ApplicationWindow {
                             }
                         }
                     }
-                    // The shortcuts, out of the way in the corner.
-                    ToolButton {
-                        objectName: "shortcuts"
-                        anchors.top: parent.top
-                        anchors.right: parent.right
-                        focusPolicy: Qt.NoFocus
-                        text: "?"
-                        font.pixelSize: 15
-                        Material.foreground: hovered ? theme.accent : win.muted
-                        Accessible.name: qsTr("Show or hide the shortcuts")
-                        ToolTip.visible: hovered
-                        ToolTip.text: qsTr("Show or hide the shortcuts") + "  F1"
-                        ToolTip.delay: 300
-                        onClicked: help.opened ? help.close() : help.open()
-                    }
                 }
 
                 // ------------------------------------------------ the prompt bar
@@ -427,7 +412,7 @@ ApplicationWindow {
                 // the model, and the round button that sends it.
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: bar.implicitHeight + 12
+                    Layout.preferredHeight: bar.implicitHeight + 10
                     color: win.panel
                     // A pill on every theme: its shape is the design, like a circle's.
                     radius: Math.min(height / 2, 28)
@@ -436,10 +421,10 @@ ApplicationWindow {
                     RowLayout {
                         id: bar
                         anchors.fill: parent
-                        anchors.leftMargin: 12
-                        anchors.rightMargin: 6
-                        anchors.topMargin: 6
-                        anchors.bottomMargin: 6
+                        anchors.leftMargin: 8
+                        anchors.rightMargin: 5
+                        anchors.topMargin: 5
+                        anchors.bottomMargin: 5
                         spacing: 4
 
                         // The image being changed, like an attachment: its
@@ -497,6 +482,13 @@ ApplicationWindow {
                             objectName: "startFrom"
                             Layout.alignment: Qt.AlignVCenter
                             visible: !win.changing
+                            Layout.preferredWidth: 32
+                            Layout.preferredHeight: 32
+                            padding: 0
+                            topInset: 0
+                            bottomInset: 0
+                            leftInset: 0
+                            rightInset: 0
                             focusPolicy: Qt.NoFocus
                             Accessible.name: qsTr("Start from a picture…")
                             ToolTip.visible: hovered
@@ -528,7 +520,7 @@ ApplicationWindow {
 
                         ScrollView {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: Math.min(Math.max(prompt.implicitHeight, 40), 96)
+                            Layout.preferredHeight: Math.min(Math.max(prompt.implicitHeight, 34), 96)
                             Layout.alignment: Qt.AlignVCenter
                             TextArea {
                                 id: prompt
@@ -536,8 +528,8 @@ ApplicationWindow {
                                 focus: true
                                 wrapMode: TextEdit.Wrap
                                 background: null
-                                topPadding: 10
-                                bottomPadding: 10
+                                topPadding: 7
+                                bottomPadding: 7
                                 // Drawn here: Material floats its own placeholder up
                                 // as a label, out of this borderless bar.
                                 Label {
@@ -571,6 +563,13 @@ ApplicationWindow {
                             objectName: "size"
                             Layout.alignment: Qt.AlignVCenter
                             visible: !win.changing
+                            Layout.preferredWidth: 32
+                            Layout.preferredHeight: 32
+                            padding: 0
+                            topInset: 0
+                            bottomInset: 0
+                            leftInset: 0
+                            rightInset: 0
                             focusPolicy: Qt.NoFocus
                             readonly property var shapes: [
                                 { name: qsTr("Square"), w: 15, h: 15 },
@@ -607,6 +606,13 @@ ApplicationWindow {
                             id: modelButton
                             objectName: "model"
                             Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredWidth: 32
+                            Layout.preferredHeight: 32
+                            padding: 0
+                            topInset: 0
+                            bottomInset: 0
+                            leftInset: 0
+                            rightInset: 0
                             focusPolicy: Qt.NoFocus
                             display: AbstractButton.IconOnly
                             icon.source: "qrc:/icons/model.svg"
@@ -625,8 +631,8 @@ ApplicationWindow {
                                 width: 7
                                 height: 7
                                 radius: 3.5
-                                x: parent.width - width - 9
-                                y: 9
+                                x: parent.width - width - 6
+                                y: 6
                                 visible: models.state !== "noEngine"
                                 color: win.problem ? theme.colors.red
                                      : models.state === "ready" ? theme.accent : win.muted
@@ -643,8 +649,8 @@ ApplicationWindow {
                         Rectangle {
                             Layout.preferredWidth: 1
                             Layout.preferredHeight: 20
-                            Layout.leftMargin: 2
-                            Layout.rightMargin: 4
+                            Layout.leftMargin: 0
+                            Layout.rightMargin: 0
                             Layout.alignment: Qt.AlignVCenter
                             color: win.line
                         }
@@ -657,8 +663,8 @@ ApplicationWindow {
                             objectName: "action"
                             readonly property bool round: models.state === "ready"
                             Layout.alignment: Qt.AlignVCenter
-                            Layout.preferredWidth: round ? 36 : implicitWidth
-                            Layout.preferredHeight: 36
+                            Layout.preferredWidth: round ? 34 : implicitWidth
+                            Layout.preferredHeight: 34
                             visible: ["ready", "installed", "blocked", "installable", "starting", "installing"].indexOf(models.state) >= 0
                             focusPolicy: Qt.NoFocus
                             topInset: 0
@@ -762,7 +768,25 @@ ApplicationWindow {
                 Layout.margins: 14
                 spacing: 10
 
-                Label { text: qsTr("History"); color: win.muted; font.pixelSize: 12 }
+                // The rail's heading, with the shortcuts' small ? beside it.
+                RowLayout {
+                    Layout.fillWidth: true
+                    Label { Layout.fillWidth: true; text: qsTr("History"); color: win.muted; font.pixelSize: 12 }
+                    Label {
+                        objectName: "shortcuts"
+                        text: "?"
+                        font.pixelSize: 12
+                        font.bold: true
+                        color: shortcutsHover.hovered ? theme.accent : win.muted
+                        Accessible.role: Accessible.Button
+                        Accessible.name: qsTr("Show or hide the shortcuts")
+                        ToolTip.visible: shortcutsHover.hovered
+                        ToolTip.text: qsTr("Show or hide the shortcuts") + "  F1"
+                        ToolTip.delay: 300
+                        HoverHandler { id: shortcutsHover; cursorShape: Qt.PointingHandCursor }
+                        TapHandler { onTapped: help.opened ? help.close() : help.open() }
+                    }
+                }
                 ListView {
                     id: historyList
                     objectName: "history"
