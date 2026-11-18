@@ -297,10 +297,13 @@ ApplicationWindow {
             // this side, from the window's edge to the history, under the
             // image and the prompt bar.
             Item {
+                id: making
                 objectName: "making"
                 anchors.fill: parent
                 clip: true
-                visible: generator.busy
+                // Softer and slower while an empty frame waits for a prompt.
+                readonly property bool waiting: !generator.busy && generator.image === "" && win.composing && models.state === "ready"
+                visible: generator.busy || waiting
                 Rectangle {
                     width: work.width * 0.35
                     height: work.height * 2
@@ -309,15 +312,15 @@ ApplicationWindow {
                     gradient: Gradient {
                         orientation: Gradient.Horizontal
                         GradientStop { position: 0.0; color: "transparent" }
-                        GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, theme.light ? 0.22 : 0.08) }
+                        GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, (theme.light ? 0.22 : 0.08) * (making.waiting ? 0.8 : 1)) }
                         GradientStop { position: 1.0; color: "transparent" }
                     }
                     NumberAnimation on x {
-                        running: generator.busy
+                        running: making.visible
                         loops: Animation.Infinite
                         from: -work.width * 0.5
                         to: work.width * 1.1
-                        duration: 2600
+                        duration: making.waiting ? 3600 : 2600
                         easing.type: Easing.InOutSine
                     }
                 }
@@ -350,12 +353,6 @@ ApplicationWindow {
                         // Empty while a new one is written, shimmering once it's asked for.
                         visible: generator.busy || generator.image !== "" || (win.composing && models.state === "ready")
 
-                        Rectangle {
-                            anchors.fill: parent
-                            color: win.panel
-                            radius: Math.min(4, theme.radius)
-                            visible: generator.image === ""
-                        }
                         // While a picture is being changed, it stays in the frame,
                         // faded, and the new one grows in over it as it's made.
                         Image {
@@ -411,34 +408,6 @@ ApplicationWindow {
                             when: player.status === Loader.Ready
                         }
 
-                        // A soft band of light while the empty frame waits for a prompt.
-                        Item {
-                            id: shimmer
-                            anchors.fill: parent
-                            clip: true
-                            readonly property bool waiting: !generator.busy && generator.image === ""
-                            visible: waiting
-                            Rectangle {
-                                width: frame.width * 0.45
-                                height: frame.height * 2
-                                y: -frame.height / 2
-                                rotation: 18
-                                gradient: Gradient {
-                                    orientation: Gradient.Horizontal
-                                    GradientStop { position: 0.0; color: "transparent" }
-                                    GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, (theme.light ? 0.28 : 0.14) * (shimmer.waiting ? 0.75 : 1)) }
-                                    GradientStop { position: 1.0; color: "transparent" }
-                                }
-                                NumberAnimation on x {
-                                    running: shimmer.visible && frame.visible
-                                    loops: Animation.Infinite
-                                    from: -frame.width * 0.6
-                                    to: frame.width * 1.1
-                                    duration: shimmer.waiting ? 2800 : 1800
-                                    easing.type: Easing.InOutSine
-                                }
-                            }
-                        }
                     }
                     Label {
                         anchors.centerIn: parent
