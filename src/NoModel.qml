@@ -44,6 +44,7 @@ Item {
                 border.color: Qt.rgba(root.ink.r, root.ink.g, root.ink.b, 0.55)
                 transformOrigin: Item.Bottom
                 SequentialAnimation on rotation {
+                    running: root.visible
                     loops: Animation.Infinite
                     NumberAnimation { from: -2.5; to: 2.5; duration: 2600; easing.type: Easing.InOutSine }
                     NumberAnimation { from: 2.5; to: -2.5; duration: 2600; easing.type: Easing.InOutSine }
@@ -99,7 +100,7 @@ Item {
                     y: 40
                     opacity: 0
                     SequentialAnimation {
-                        running: true
+                        running: root.visible
                         loops: Animation.Infinite
                         PauseAnimation { duration: zee.index * 900 }
                         ParallelAnimation {

@@ -11,9 +11,10 @@ Item {
     required property var models
     required property color muted
 
-    // offer, waiting, downloading, starting or failed.
-    readonly property string phase: models.state === "installable" ? "offer"
-                                  : models.error !== "" ? "failed" : models.setupPhase || "waiting"
+    // offer, waiting, downloading, starting or failed. An error comes first:
+    // a setup the engine refused before it began leaves the model installable.
+    readonly property string phase: models.error !== "" ? "failed"
+                                  : models.state === "installable" ? "offer" : models.setupPhase || "waiting"
     readonly property bool working: ["waiting", "downloading", "starting"].indexOf(phase) >= 0
     readonly property var locale: Qt.locale(translator.language)
     readonly property string logo: models.logo(models.vendor, theme.light)
@@ -46,7 +47,7 @@ Item {
     ]
     property int quip: 0
     Timer {
-        running: root.phase === "downloading" || root.phase === "waiting"
+        running: root.visible && (root.phase === "downloading" || root.phase === "waiting")
         interval: 3500
         repeat: true
         onTriggered: root.quip = (root.quip + 1) % root.quips.length
@@ -83,7 +84,7 @@ Item {
                 radius: width / 2
                 color: Qt.rgba(theme.accent.r, theme.accent.g, theme.accent.b, 0.10)
                 SequentialAnimation on scale {
-                    running: root.phase === "offer"
+                    running: root.visible && root.phase === "offer"
                     loops: Animation.Infinite
                     NumberAnimation { from: 0.92; to: 1.06; duration: 1800; easing.type: Easing.InOutSine }
                     NumberAnimation { from: 1.06; to: 0.92; duration: 1800; easing.type: Easing.InOutSine }
@@ -126,7 +127,7 @@ Item {
                 anchors.fill: parent
                 visible: root.working
                 RotationAnimation on rotation {
-                    running: root.working
+                    running: root.visible && root.working
                     loops: Animation.Infinite
                     from: 0
                     to: 360
@@ -242,7 +243,7 @@ Item {
                 id: pulse
                 property real value: 1
                 SequentialAnimation on value {
-                    running: root.working
+                    running: root.visible && root.working
                     loops: Animation.Infinite
                     NumberAnimation { from: 1; to: 0.35; duration: 700; easing.type: Easing.InOutSine }
                     NumberAnimation { from: 0.35; to: 1; duration: 700; easing.type: Easing.InOutSine }
