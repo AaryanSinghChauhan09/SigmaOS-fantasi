@@ -1,6 +1,5 @@
 {
   "Describe an image": "Bir görsel tarif edin",
-  "Size": "Boyut",
   "Square": "Kare",
   "Screen": "Ekran",
   "Portrait": "Dikey",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "Adım %1/%2",
   "Finishing": "Tamamlanıyor",
   "Saving": "Kaydediliyor",
-  "%Ln steps": {
-    "one": "%Ln adım",
-    "other": "%Ln adım"
-  },
   "Set as background": "Arka plan olarak ayarla",
   "Copy": "Kopyala",
-  "Again": "Tekrar",
   "Try saving again": "Yeniden kaydetmeyi dene",
   "History": "Geçmiş",
   "Your images appear here": "Görselleriniz burada görünecek",
@@ -65,9 +59,7 @@
   "Change this image": "Bu görseli değiştir",
   "Stop making it, or go back to a new image": "Oluşturmayı durdur veya yeni görsele dön",
   "Make another like it": "Benzerini oluştur",
-  "Change it: the next image starts from it": "Değiştir: sonraki görsel bundan başlar",
   "Couldn't read the image to start from": "Başlangıç görseli okunamadı",
-  "Describe the new image": "Yeni görseli tarif edin",
   "Save image": "Görseli kaydet",
   "Couldn't listen for the portal file picker's response.": "Portal dosya seçicisinden yanıt alınamadı.",
   "Start from a picture…": "Bir görselden başla…",

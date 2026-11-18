@@ -1,6 +1,5 @@
 {
   "Describe an image": "एक तस्वीर का वर्णन करें",
-  "Size": "आकार",
   "Square": "वर्गाकार",
   "Screen": "स्क्रीन",
   "Portrait": "पोर्ट्रेट",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "%2 में से चरण %1",
   "Finishing": "पूरा हो रहा है",
   "Saving": "सहेजा जा रहा है",
-  "%Ln steps": {
-    "one": "%Ln चरण",
-    "other": "%Ln चरण"
-  },
   "Set as background": "पृष्ठभूमि बनाएँ",
   "Copy": "कॉपी करें",
-  "Again": "फिर से",
   "Try saving again": "फिर से सहेजने की कोशिश करें",
   "History": "इतिहास",
   "Your images appear here": "आपकी तस्वीरें यहाँ दिखेंगी",
@@ -65,9 +59,7 @@
   "Change this image": "यह तस्वीर बदलें",
   "Stop making it, or go back to a new image": "बनाना रोकें, या नई तस्वीर पर लौटें",
   "Make another like it": "इसके जैसी एक और बनाएँ",
-  "Change it: the next image starts from it": "इसे बदलें: अगली तस्वीर इसी से शुरू होगी",
   "Couldn't read the image to start from": "शुरुआती तस्वीर पढ़ी नहीं जा सकी",
-  "Describe the new image": "नई तस्वीर का वर्णन करें",
   "Save image": "तस्वीर सहेजें",
   "Couldn't listen for the portal file picker's response.": "पोर्टल फ़ाइल पिकर का जवाब नहीं मिल सका।",
   "Start from a picture…": "किसी तस्वीर से शुरू करें…",

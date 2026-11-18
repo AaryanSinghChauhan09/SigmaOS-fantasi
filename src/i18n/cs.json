@@ -1,6 +1,5 @@
 {
   "Describe an image": "Popište obrázek",
-  "Size": "Velikost",
   "Square": "Čtverec",
   "Screen": "Obrazovka",
   "Portrait": "Na výšku",
@@ -26,14 +25,8 @@
   "Step %1 of %2": "Krok %1 z %2",
   "Finishing": "Dokončování",
   "Saving": "Ukládání",
-  "%Ln steps": {
-    "one": "%Ln krok",
-    "few": "%Ln kroky",
-    "other": "%Ln kroků"
-  },
   "Set as background": "Nastavit jako pozadí",
   "Copy": "Kopírovat",
-  "Again": "Znovu",
   "Try saving again": "Zkusit znovu uložit",
   "History": "Historie",
   "Your images appear here": "Tady se objeví vaše obrázky",
@@ -66,9 +59,7 @@
   "Change this image": "Upravit tento obrázek",
   "Stop making it, or go back to a new image": "Přestat vytvářet, nebo se vrátit k novému obrázku",
   "Make another like it": "Vytvořit další podobný",
-  "Change it: the next image starts from it": "Upravit: další obrázek z něj vyjde",
   "Couldn't read the image to start from": "Výchozí obrázek se nepodařilo načíst",
-  "Describe the new image": "Popište nový obrázek",
   "Save image": "Uložit obrázek",
   "Couldn't listen for the portal file picker's response.": "Nepodařilo se přijmout odpověď z výběru souborů portálu.",
   "Start from a picture…": "Začít z obrázku…",

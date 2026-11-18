@@ -1,6 +1,5 @@
 {
   "Describe an image": "Kuvaile kuva",
-  "Size": "Koko",
   "Square": "Neliö",
   "Screen": "Näyttö",
   "Portrait": "Pysty",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "Vaihe %1/%2",
   "Finishing": "Viimeistellään",
   "Saving": "Tallennetaan",
-  "%Ln steps": {
-    "one": "%Ln vaihe",
-    "other": "%Ln vaihetta"
-  },
   "Set as background": "Aseta taustaksi",
   "Copy": "Kopioi",
-  "Again": "Uudelleen",
   "Try saving again": "Yritä tallentaa uudelleen",
   "History": "Historia",
   "Your images appear here": "Kuvasi näkyvät tässä",
@@ -65,9 +59,7 @@
   "Change this image": "Muuta tätä kuvaa",
   "Stop making it, or go back to a new image": "Lopeta tekeminen tai palaa uuteen kuvaan",
   "Make another like it": "Tee toinen samanlainen",
-  "Change it: the next image starts from it": "Muuta sitä: seuraava kuva pohjautuu siihen",
   "Couldn't read the image to start from": "Lähtökuvaa ei voitu lukea",
-  "Describe the new image": "Kuvaile uusi kuva",
   "Save image": "Tallenna kuva",
   "Couldn't listen for the portal file picker's response.": "Portaalin tiedostonvalitsimen vastausta ei voitu kuunnella.",
   "Start from a picture…": "Aloita kuvasta…",

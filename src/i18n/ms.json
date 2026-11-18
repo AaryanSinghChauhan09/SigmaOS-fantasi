@@ -1,6 +1,5 @@
 {
   "Describe an image": "Huraikan imej",
-  "Size": "Saiz",
   "Square": "Segi empat sama",
   "Screen": "Skrin",
   "Portrait": "Potret",
@@ -26,12 +25,8 @@
   "Step %1 of %2": "Langkah %1 daripada %2",
   "Finishing": "Menyelesaikan",
   "Saving": "Menyimpan",
-  "%Ln steps": {
-    "other": "%Ln langkah"
-  },
   "Set as background": "Jadikan latar belakang",
   "Copy": "Salin",
-  "Again": "Lagi",
   "Try saving again": "Cuba simpan lagi",
   "History": "Sejarah",
   "Your images appear here": "Imej-imej anda dipaparkan di sini",
@@ -64,9 +59,7 @@
   "Change this image": "Ubah imej ini",
   "Stop making it, or go back to a new image": "Berhenti membuat, atau kembali ke imej baharu",
   "Make another like it": "Buat satu lagi yang serupa",
-  "Change it: the next image starts from it": "Ubah: imej seterusnya bermula daripadanya",
   "Couldn't read the image to start from": "Tidak dapat membaca imej permulaan",
-  "Describe the new image": "Huraikan imej baharu",
   "Save image": "Simpan imej",
   "Couldn't listen for the portal file picker's response.": "Tidak dapat menerima respons pemilih fail portal.",
   "Start from a picture…": "Mula daripada gambar…",

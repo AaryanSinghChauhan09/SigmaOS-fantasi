@@ -1,6 +1,5 @@
 {
   "Describe an image": "Déan cur síos ar íomhá",
-  "Size": "Méid",
   "Square": "Cearnóg",
   "Screen": "Scáileán",
   "Portrait": "Portráid",
@@ -26,16 +25,8 @@
   "Step %1 of %2": "Céim %1 de %2",
   "Finishing": "Á chríochnú",
   "Saving": "Á shábháil",
-  "%Ln steps": {
-    "one": "%Ln chéim",
-    "two": "%Ln chéim",
-    "few": "%Ln chéim",
-    "many": "%Ln gcéim",
-    "other": "%Ln céim"
-  },
   "Set as background": "Socraigh mar chúlra",
   "Copy": "Cóipeáil",
-  "Again": "Arís",
   "Try saving again": "Bain triail as sábháil arís",
   "History": "Stair",
   "Your images appear here": "Feicfear d'íomhánna anseo",
@@ -68,9 +59,7 @@
   "Change this image": "Athraigh an íomhá seo",
   "Stop making it, or go back to a new image": "Stop á déanamh, nó fill ar íomhá nua",
   "Make another like it": "Déan ceann eile cosúil léi",
-  "Change it: the next image starts from it": "Athraigh í: tosóidh an chéad íomhá eile uaithi",
   "Couldn't read the image to start from": "Níorbh fhéidir an íomhá tosaigh a léamh",
-  "Describe the new image": "Déan cur síos ar an íomhá nua",
   "Save image": "Sábháil íomhá",
   "Couldn't listen for the portal file picker's response.": "Níorbh fhéidir éisteacht le freagra roghnóir comhad na tairsí.",
   "Start from a picture…": "Tosaigh ó phictiúr…",

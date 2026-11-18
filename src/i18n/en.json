@@ -1,6 +1,5 @@
 {
   "Describe an image": "Describe an image",
-  "Size": "Size",
   "Square": "Square",
   "Screen": "Screen",
   "Portrait": "Portrait",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "Step %1 of %2",
   "Finishing": "Finishing",
   "Saving": "Saving",
-  "%Ln steps": {
-    "one": "%Ln step",
-    "other": "%Ln steps"
-  },
   "Set as background": "Set as background",
   "Copy": "Copy",
-  "Again": "Again",
   "Try saving again": "Try saving again",
   "History": "History",
   "Your images appear here": "Your images appear here",
@@ -65,9 +59,7 @@
   "Change this image": "Change this image",
   "Stop making it, or go back to a new image": "Stop making it, or go back to a new image",
   "Make another like it": "Make another like it",
-  "Change it: the next image starts from it": "Change it: the next image starts from it",
   "Couldn't read the image to start from": "Couldn't read the image to start from",
-  "Describe the new image": "Describe the new image",
   "Save image": "Save image",
   "Couldn't listen for the portal file picker's response.": "Couldn't listen for the portal file picker's response.",
   "Start from a picture…": "Start from a picture…",
@@ -75,5 +67,8 @@
   "Start from a picture of your own": "Start from a picture of your own",
   "Open": "Open",
   "Pictures": "Pictures",
-  "Start from a picture": "Start from a picture"
+  "Start from a picture": "Start from a picture",
+  "What should change?": "What should change?",
+  "Change": "Change",
+  "Change it: say what should change": "Change it: say what should change"
 }

@@ -1,6 +1,5 @@
 {
   "Describe an image": "یک تصویر را توصیف کنید",
-  "Size": "اندازه",
   "Square": "مربع",
   "Screen": "صفحه‌نمایش",
   "Portrait": "عمودی",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "گام %1 از %2",
   "Finishing": "در حال پایان دادن",
   "Saving": "در حال ذخیره",
-  "%Ln steps": {
-    "one": "%Ln گام",
-    "other": "%Ln گام"
-  },
   "Set as background": "تنظیم به‌عنوان پس‌زمینه",
   "Copy": "کپی",
-  "Again": "دوباره",
   "Try saving again": "تلاش دوباره برای ذخیره",
   "History": "تاریخچه",
   "Your images appear here": "تصاویر شما اینجا نمایش داده می‌شوند",
@@ -65,9 +59,7 @@
   "Change this image": "تغییر این تصویر",
   "Stop making it, or go back to a new image": "توقف ساختن، یا بازگشت به یک تصویر تازه",
   "Make another like it": "ساختن یکی دیگر مثل آن",
-  "Change it: the next image starts from it": "تغییر آن: تصویر بعدی از آن شروع می‌شود",
   "Couldn't read the image to start from": "خواندن تصویر آغازین ممکن نشد",
-  "Describe the new image": "تصویر تازه را توصیف کنید",
   "Save image": "ذخیرهٔ تصویر",
   "Couldn't listen for the portal file picker's response.": "پاسخ انتخابگر فایل پورتال دریافت نشد.",
   "Start from a picture…": "شروع از یک تصویر…",

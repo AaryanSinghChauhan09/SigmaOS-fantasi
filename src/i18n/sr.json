@@ -1,6 +1,5 @@
 {
   "Describe an image": "Опишите слику",
-  "Size": "Величина",
   "Square": "Квадрат",
   "Screen": "Екран",
   "Portrait": "Усправно",
@@ -26,14 +25,8 @@
   "Step %1 of %2": "Корак %1 од %2",
   "Finishing": "Завршавање",
   "Saving": "Чување",
-  "%Ln steps": {
-    "one": "%Ln корак",
-    "few": "%Ln корака",
-    "other": "%Ln корака"
-  },
   "Set as background": "Постави као позадину",
   "Copy": "Копирај",
-  "Again": "Поново",
   "Try saving again": "Покушај поново да сачуваш",
   "History": "Историја",
   "Your images appear here": "Овде ће се појавити ваше слике",
@@ -66,9 +59,7 @@
   "Change this image": "Промени ову слику",
   "Stop making it, or go back to a new image": "Прекини прављење или се врати на нову слику",
   "Make another like it": "Направи још једну сличну",
-  "Change it: the next image starts from it": "Промени је: следећа слика полази од ње",
   "Couldn't read the image to start from": "Полазна слика није могла да се прочита",
-  "Describe the new image": "Опишите нову слику",
   "Save image": "Сачувај слику",
   "Couldn't listen for the portal file picker's response.": "Није могуће примити одговор бирача датотека портала.",
   "Start from a picture…": "Почни од слике…",

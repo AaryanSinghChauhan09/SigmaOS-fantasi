@@ -1,6 +1,5 @@
 {
   "Describe an image": "Írj le egy képet",
-  "Size": "Méret",
   "Square": "Négyzet",
   "Screen": "Képernyő",
   "Portrait": "Álló",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "%1. lépés / %2",
   "Finishing": "Befejezés",
   "Saving": "Mentés",
-  "%Ln steps": {
-    "one": "%Ln lépés",
-    "other": "%Ln lépés"
-  },
   "Set as background": "Beállítás háttérként",
   "Copy": "Másolás",
-  "Again": "Újra",
   "Try saving again": "Mentés újrapróbálása",
   "History": "Előzmények",
   "Your images appear here": "Itt jelennek meg a képeid",
@@ -65,9 +59,7 @@
   "Change this image": "Kép módosítása",
   "Stop making it, or go back to a new image": "Leállítás, vagy vissza egy új képhez",
   "Make another like it": "Még egy hasonló készítése",
-  "Change it: the next image starts from it": "Módosítás: a következő kép ebből indul ki",
   "Couldn't read the image to start from": "Nem sikerült beolvasni a kiinduló képet",
-  "Describe the new image": "Írd le az új képet",
   "Save image": "Kép mentése",
   "Couldn't listen for the portal file picker's response.": "Nem sikerült fogadni a portál fájlválasztójának válaszát.",
   "Start from a picture…": "Kiindulás egy képből…",

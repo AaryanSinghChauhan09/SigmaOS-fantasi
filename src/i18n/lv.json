@@ -1,6 +1,5 @@
 {
   "Describe an image": "Aprakstiet attēlu",
-  "Size": "Izmērs",
   "Square": "Kvadrāts",
   "Screen": "Ekrāns",
   "Portrait": "Portrets",
@@ -26,14 +25,8 @@
   "Step %1 of %2": "%1. solis no %2",
   "Finishing": "Pabeidz",
   "Saving": "Saglabā",
-  "%Ln steps": {
-    "zero": "%Ln soļu",
-    "one": "%Ln solis",
-    "other": "%Ln soļi"
-  },
   "Set as background": "Iestatīt kā fonu",
   "Copy": "Kopēt",
-  "Again": "Vēlreiz",
   "Try saving again": "Mēģināt saglabāt vēlreiz",
   "History": "Vēsture",
   "Your images appear here": "Jūsu attēli parādīsies šeit",
@@ -66,9 +59,7 @@
   "Change this image": "Mainīt šo attēlu",
   "Stop making it, or go back to a new image": "Pārtraukt veidošanu vai atgriezties pie jauna attēla",
   "Make another like it": "Izveidot vēl vienu līdzīgu",
-  "Change it: the next image starts from it": "Mainīt to: nākamais attēls sāksies no tā",
   "Couldn't read the image to start from": "Neizdevās nolasīt sākuma attēlu",
-  "Describe the new image": "Aprakstiet jauno attēlu",
   "Save image": "Saglabāt attēlu",
   "Couldn't listen for the portal file picker's response.": "Neizdevās saņemt portāla failu atlasītāja atbildi.",
   "Start from a picture…": "Sākt no attēla…",

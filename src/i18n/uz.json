@@ -1,6 +1,5 @@
 {
   "Describe an image": "Rasmni tasvirlang",
-  "Size": "Oʻlchami",
   "Square": "Kvadrat",
   "Screen": "Ekran",
   "Portrait": "Portret",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "%1-qadam, jami %2",
   "Finishing": "Yakunlanmoqda",
   "Saving": "Saqlanmoqda",
-  "%Ln steps": {
-    "one": "%Ln qadam",
-    "other": "%Ln qadam"
-  },
   "Set as background": "Fon qilib qoʻyish",
   "Copy": "Nusxalash",
-  "Again": "Yana",
   "Try saving again": "Qayta saqlab koʻrish",
   "History": "Tarix",
   "Your images appear here": "Rasmlaringiz shu yerda chiqadi",
@@ -65,9 +59,7 @@
   "Change this image": "Bu rasmni oʻzgartirish",
   "Stop making it, or go back to a new image": "Yaratishni toʻxtatish yoki yangi rasmga qaytish",
   "Make another like it": "Shunga oʻxshash yana birini yaratish",
-  "Change it: the next image starts from it": "Uni oʻzgartirish: keyingi rasm undan boshlanadi",
   "Couldn't read the image to start from": "Boshlangʻich rasmni oʻqib boʻlmadi",
-  "Describe the new image": "Yangi rasmni tasvirlang",
   "Save image": "Rasmni saqlash",
   "Couldn't listen for the portal file picker's response.": "Portal fayl tanlagichidan javob olib boʻlmadi.",
   "Start from a picture…": "Rasmdan boshlash…",

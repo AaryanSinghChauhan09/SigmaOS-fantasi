@@ -1,6 +1,5 @@
 {
   "Describe an image": "Lýstu mynd",
-  "Size": "Stærð",
   "Square": "Ferningur",
   "Screen": "Skjár",
   "Portrait": "Lóðrétt",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "Skref %1 af %2",
   "Finishing": "Lýk við",
   "Saving": "Vistar",
-  "%Ln steps": {
-    "one": "%Ln skref",
-    "other": "%Ln skref"
-  },
   "Set as background": "Setja sem bakgrunn",
   "Copy": "Afrita",
-  "Again": "Aftur",
   "Try saving again": "Reyna aftur að vista",
   "History": "Saga",
   "Your images appear here": "Myndirnar þínar birtast hér",
@@ -65,9 +59,7 @@
   "Change this image": "Breyta þessari mynd",
   "Stop making it, or go back to a new image": "Hætta við, eða fara aftur í nýja mynd",
   "Make another like it": "Búa til aðra svipaða",
-  "Change it: the next image starts from it": "Breyta henni: næsta mynd byggir á henni",
   "Couldn't read the image to start from": "Ekki tókst að lesa upphafsmyndina",
-  "Describe the new image": "Lýstu nýju myndinni",
   "Save image": "Vista mynd",
   "Couldn't listen for the portal file picker's response.": "Ekki tókst að hlusta eftir svari frá skráavali gáttarinnar.",
   "Start from a picture…": "Byrja á mynd…",

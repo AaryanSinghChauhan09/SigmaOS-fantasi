@@ -1,6 +1,5 @@
 {
   "Describe an image": "Опишіть зображення",
-  "Size": "Розмір",
   "Square": "Квадрат",
   "Screen": "Екран",
   "Portrait": "Портрет",
@@ -26,15 +25,8 @@
   "Step %1 of %2": "Крок %1 з %2",
   "Finishing": "Завершення",
   "Saving": "Збереження",
-  "%Ln steps": {
-    "one": "%Ln крок",
-    "few": "%Ln кроки",
-    "many": "%Ln кроків",
-    "other": "%Ln кроку"
-  },
   "Set as background": "Зробити фоном",
   "Copy": "Копіювати",
-  "Again": "Ще раз",
   "Try saving again": "Спробувати зберегти знову",
   "History": "Історія",
   "Your images appear here": "Тут з’являться ваші зображення",
@@ -67,9 +59,7 @@
   "Change this image": "Змінити це зображення",
   "Stop making it, or go back to a new image": "Зупинити створення або повернутися до нового зображення",
   "Make another like it": "Створити ще одне схоже",
-  "Change it: the next image starts from it": "Змінити його: наступне зображення буде на його основі",
   "Couldn't read the image to start from": "Не вдалося прочитати вихідне зображення",
-  "Describe the new image": "Опишіть нове зображення",
   "Save image": "Зберегти зображення",
   "Couldn't listen for the portal file picker's response.": "Не вдалося отримати відповідь від вікна вибору файлів порталу.",
   "Start from a picture…": "Почати із зображення…",

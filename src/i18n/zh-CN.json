@@ -1,6 +1,5 @@
 {
   "Describe an image": "描述一张图片",
-  "Size": "大小",
   "Square": "方形",
   "Screen": "屏幕",
   "Portrait": "竖版",
@@ -26,12 +25,8 @@
   "Step %1 of %2": "第 %1 步，共 %2 步",
   "Finishing": "即将完成",
   "Saving": "正在保存",
-  "%Ln steps": {
-    "other": "%Ln 步"
-  },
   "Set as background": "设为背景",
   "Copy": "复制",
-  "Again": "再来一张",
   "Try saving again": "重新保存",
   "History": "历史",
   "Your images appear here": "你生成的图片会显示在这里",
@@ -64,9 +59,7 @@
   "Change this image": "修改这张图片",
   "Stop making it, or go back to a new image": "停止生成，或返回新图片",
   "Make another like it": "再生成一张类似的",
-  "Change it: the next image starts from it": "修改：下一张图片将以它为基础",
   "Couldn't read the image to start from": "无法读取作为起点的图片",
-  "Describe the new image": "描述新图片",
   "Save image": "保存图片",
   "Couldn't listen for the portal file picker's response.": "无法接收门户文件选择器的响应。",
   "Start from a picture…": "从图片开始…",

@@ -96,7 +96,7 @@ int runCli(const QStringList &arguments) {
     parser.addOption({"height", "Height in pixels", "px", "1024"});
     parser.addOption({"steps", "Sampling steps; the model's own when left out", "n", "0"});
     parser.addOption({"seed", "Seed; a random one when left out", "n", "-1"});
-    parser.addOption({"from", "Start from this image, keeping its size and composition", "image"});
+    parser.addOption({"from", "Change this picture: the prompt says what to change", "image"});
     parser.addOption({"json", "Print the result as JSON"});
     // The parser takes its first argument as the program's name: here,
     // `generate`, which leaves the prompt as the positional arguments.
@@ -146,7 +146,8 @@ int runCli(const QStringList &arguments) {
         const QString from = parser.value("from");
         generator->generate(prompt, parser.value("width").toInt(), parser.value("height").toInt(),
                             parser.value("steps").toInt(), parser.value("seed").toLongLong(),
-                            from.isEmpty() ? QString() : QUrl::fromLocalFile(QFileInfo(from).absoluteFilePath()).toString());
+                            from.isEmpty() ? QString() : QUrl::fromLocalFile(QFileInfo(from).absoluteFilePath()).toString(),
+                            models->edits());
         if (!generator->busy()) {
             print(stderr, "Error: " + generator->error());
             QCoreApplication::exit(1);

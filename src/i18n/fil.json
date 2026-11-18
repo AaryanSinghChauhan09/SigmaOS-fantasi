@@ -1,6 +1,5 @@
 {
   "Describe an image": "Ilarawan ang isang larawan",
-  "Size": "Laki",
   "Square": "Parisukat",
   "Screen": "Screen",
   "Portrait": "Patayo",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "Hakbang %1 ng %2",
   "Finishing": "Tinatapos",
   "Saving": "Sine-save",
-  "%Ln steps": {
-    "one": "%Ln hakbang",
-    "other": "%Ln hakbang"
-  },
   "Set as background": "Gawing background",
   "Copy": "Kopyahin",
-  "Again": "Ulitin",
   "Try saving again": "Subukang i-save ulit",
   "History": "Kasaysayan",
   "Your images appear here": "Dito lalabas ang mga larawan mo",
@@ -65,9 +59,7 @@
   "Change this image": "Baguhin ang larawang ito",
   "Stop making it, or go back to a new image": "Itigil ang paggawa, o bumalik sa bagong larawan",
   "Make another like it": "Gumawa ng isa pang katulad",
-  "Change it: the next image starts from it": "Baguhin ito: magsisimula rito ang susunod na larawan",
   "Couldn't read the image to start from": "Hindi mabasa ang panimulang larawan",
-  "Describe the new image": "Ilarawan ang bagong larawan",
   "Save image": "I-save ang larawan",
   "Couldn't listen for the portal file picker's response.": "Hindi matanggap ang sagot ng portal file picker.",
   "Start from a picture…": "Magsimula sa isang larawan…",

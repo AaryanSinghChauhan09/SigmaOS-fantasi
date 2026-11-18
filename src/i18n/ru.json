@@ -1,6 +1,5 @@
 {
   "Describe an image": "Опишите изображение",
-  "Size": "Размер",
   "Square": "Квадрат",
   "Screen": "Экран",
   "Portrait": "Портрет",
@@ -26,15 +25,8 @@
   "Step %1 of %2": "Шаг %1 из %2",
   "Finishing": "Завершение",
   "Saving": "Сохранение",
-  "%Ln steps": {
-    "one": "%Ln шаг",
-    "few": "%Ln шага",
-    "many": "%Ln шагов",
-    "other": "%Ln шага"
-  },
   "Set as background": "Сделать фоном",
   "Copy": "Копировать",
-  "Again": "Ещё раз",
   "Try saving again": "Попробовать сохранить снова",
   "History": "История",
   "Your images appear here": "Здесь появятся ваши изображения",
@@ -67,9 +59,7 @@
   "Change this image": "Изменить это изображение",
   "Stop making it, or go back to a new image": "Остановить создание или вернуться к новому изображению",
   "Make another like it": "Создать ещё одно похожее",
-  "Change it: the next image starts from it": "Изменить его: следующее изображение будет основано на нём",
   "Couldn't read the image to start from": "Не удалось прочитать исходное изображение",
-  "Describe the new image": "Опишите новое изображение",
   "Save image": "Сохранить изображение",
   "Couldn't listen for the portal file picker's response.": "Не удалось получить ответ от окна выбора файлов портала.",
   "Start from a picture…": "Начать с изображения…",

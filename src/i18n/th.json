@@ -1,6 +1,5 @@
 {
   "Describe an image": "อธิบายภาพที่ต้องการ",
-  "Size": "ขนาด",
   "Square": "สี่เหลี่ยมจัตุรัส",
   "Screen": "หน้าจอ",
   "Portrait": "แนวตั้ง",
@@ -26,12 +25,8 @@
   "Step %1 of %2": "ขั้นที่ %1 จาก %2",
   "Finishing": "ใกล้เสร็จแล้ว",
   "Saving": "กำลังบันทึก",
-  "%Ln steps": {
-    "other": "%Ln ขั้น"
-  },
   "Set as background": "ตั้งเป็นพื้นหลัง",
   "Copy": "คัดลอก",
-  "Again": "อีกครั้ง",
   "Try saving again": "ลองบันทึกอีกครั้ง",
   "History": "ประวัติ",
   "Your images appear here": "ภาพที่สร้างจะแสดงที่นี่",
@@ -64,9 +59,7 @@
   "Change this image": "แก้ไขภาพนี้",
   "Stop making it, or go back to a new image": "หยุดสร้าง หรือกลับไปสร้างภาพใหม่",
   "Make another like it": "สร้างอีกภาพแบบเดียวกัน",
-  "Change it: the next image starts from it": "แก้ไข: ภาพถัดไปจะเริ่มจากภาพนี้",
   "Couldn't read the image to start from": "อ่านภาพตั้งต้นไม่ได้",
-  "Describe the new image": "อธิบายภาพใหม่",
   "Save image": "บันทึกภาพ",
   "Couldn't listen for the portal file picker's response.": "ไม่ได้รับการตอบกลับจากตัวเลือกไฟล์ของพอร์ทัล",
   "Start from a picture…": "เริ่มจากรูปภาพ…",

@@ -1,6 +1,5 @@
 {
   "Describe an image": "Kirjelda pilti",
-  "Size": "Suurus",
   "Square": "Ruut",
   "Screen": "Ekraan",
   "Portrait": "Püstpaigutus",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "Samm %1/%2",
   "Finishing": "Lõpetamine",
   "Saving": "Salvestamine",
-  "%Ln steps": {
-    "one": "%Ln samm",
-    "other": "%Ln sammu"
-  },
   "Set as background": "Määra taustaks",
   "Copy": "Kopeeri",
-  "Again": "Uuesti",
   "Try saving again": "Proovi uuesti salvestada",
   "History": "Ajalugu",
   "Your images appear here": "Sinu pildid ilmuvad siia",
@@ -65,9 +59,7 @@
   "Change this image": "Muuda seda pilti",
   "Stop making it, or go back to a new image": "Lõpeta tegemine või mine tagasi uue pildi juurde",
   "Make another like it": "Tee veel üks samasugune",
-  "Change it: the next image starts from it": "Muuda seda: järgmine pilt lähtub sellest",
   "Couldn't read the image to start from": "Lähtepilti ei õnnestunud lugeda",
-  "Describe the new image": "Kirjelda uut pilti",
   "Save image": "Salvesta pilt",
   "Couldn't listen for the portal file picker's response.": "Portaali failivalija vastust ei õnnestunud kuulata.",
   "Start from a picture…": "Alusta pildist…",

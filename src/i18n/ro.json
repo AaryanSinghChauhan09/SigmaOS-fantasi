@@ -1,6 +1,5 @@
 {
   "Describe an image": "Descrie o imagine",
-  "Size": "Dimensiune",
   "Square": "Pătrat",
   "Screen": "Ecran",
   "Portrait": "Portret",
@@ -26,14 +25,8 @@
   "Step %1 of %2": "Pasul %1 din %2",
   "Finishing": "Se finalizează",
   "Saving": "Se salvează",
-  "%Ln steps": {
-    "one": "%Ln pas",
-    "few": "%Ln pași",
-    "other": "%Ln de pași"
-  },
   "Set as background": "Setează ca fundal",
   "Copy": "Copiază",
-  "Again": "Din nou",
   "Try saving again": "Încearcă din nou să salvezi",
   "History": "Istoric",
   "Your images appear here": "Imaginile tale apar aici",
@@ -66,9 +59,7 @@
   "Change this image": "Modifică această imagine",
   "Stop making it, or go back to a new image": "Oprește crearea sau revino la o imagine nouă",
   "Make another like it": "Creează încă una asemănătoare",
-  "Change it: the next image starts from it": "Modific-o: următoarea imagine pornește de la ea",
   "Couldn't read the image to start from": "Nu s-a putut citi imaginea de pornire",
-  "Describe the new image": "Descrie imaginea nouă",
   "Save image": "Salvează imaginea",
   "Couldn't listen for the portal file picker's response.": "Nu s-a putut primi răspunsul selectorului de fișiere al portalului.",
   "Start from a picture…": "Pornește de la o imagine…",

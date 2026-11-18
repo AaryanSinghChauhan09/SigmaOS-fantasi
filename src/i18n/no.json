@@ -1,6 +1,5 @@
 {
   "Describe an image": "Beskriv et bilde",
-  "Size": "Størrelse",
   "Square": "Kvadrat",
   "Screen": "Skjerm",
   "Portrait": "Portrett",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "Trinn %1 av %2",
   "Finishing": "Gjør ferdig",
   "Saving": "Lagrer",
-  "%Ln steps": {
-    "one": "%Ln trinn",
-    "other": "%Ln trinn"
-  },
   "Set as background": "Bruk som bakgrunn",
   "Copy": "Kopier",
-  "Again": "Igjen",
   "Try saving again": "Prøv å lagre igjen",
   "History": "Historikk",
   "Your images appear here": "Bildene dine vises her",
@@ -65,9 +59,7 @@
   "Change this image": "Endre dette bildet",
   "Stop making it, or go back to a new image": "Slutt å lage det, eller gå tilbake til et nytt bilde",
   "Make another like it": "Lag ett til av samme slag",
-  "Change it: the next image starts from it": "Endre det: neste bilde tar utgangspunkt i det",
   "Couldn't read the image to start from": "Kunne ikke lese bildet det skal tas utgangspunkt i",
-  "Describe the new image": "Beskriv det nye bildet",
   "Save image": "Lagre bilde",
   "Couldn't listen for the portal file picker's response.": "Kunne ikke lytte etter svar fra portalens filvelger.",
   "Start from a picture…": "Start fra et bilde…",

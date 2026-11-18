@@ -1,6 +1,5 @@
 {
   "Describe an image": "Beskriv en bild",
-  "Size": "Storlek",
   "Square": "Kvadrat",
   "Screen": "Skärm",
   "Portrait": "Porträtt",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "Steg %1 av %2",
   "Finishing": "Gör klart",
   "Saving": "Sparar",
-  "%Ln steps": {
-    "one": "%Ln steg",
-    "other": "%Ln steg"
-  },
   "Set as background": "Använd som bakgrund",
   "Copy": "Kopiera",
-  "Again": "Igen",
   "Try saving again": "Försök spara igen",
   "History": "Historik",
   "Your images appear here": "Dina bilder visas här",
@@ -65,9 +59,7 @@
   "Change this image": "Ändra den här bilden",
   "Stop making it, or go back to a new image": "Sluta skapa den, eller gå tillbaka till en ny bild",
   "Make another like it": "Skapa en till av samma sort",
-  "Change it: the next image starts from it": "Ändra den: nästa bild utgår från den",
   "Couldn't read the image to start from": "Kunde inte läsa bilden som ska vara utgångspunkt",
-  "Describe the new image": "Beskriv den nya bilden",
   "Save image": "Spara bild",
   "Couldn't listen for the portal file picker's response.": "Kunde inte lyssna efter svar från portalens filväljare.",
   "Start from a picture…": "Utgå från en bild…",

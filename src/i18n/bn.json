@@ -1,6 +1,5 @@
 {
   "Describe an image": "একটি ছবির বর্ণনা দিন",
-  "Size": "আকার",
   "Square": "বর্গাকার",
   "Screen": "স্ক্রিন",
   "Portrait": "পোর্ট্রেট",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "%2-এর মধ্যে ধাপ %1",
   "Finishing": "শেষ করা হচ্ছে",
   "Saving": "সংরক্ষণ করা হচ্ছে",
-  "%Ln steps": {
-    "one": "%Ln ধাপ",
-    "other": "%Ln ধাপ"
-  },
   "Set as background": "পটভূমি হিসেবে সেট করুন",
   "Copy": "কপি করুন",
-  "Again": "আবার",
   "Try saving again": "আবার সংরক্ষণের চেষ্টা করুন",
   "History": "ইতিহাস",
   "Your images appear here": "আপনার ছবিগুলো এখানে দেখা যাবে",
@@ -65,9 +59,7 @@
   "Change this image": "এই ছবিটি বদলান",
   "Stop making it, or go back to a new image": "তৈরি করা থামান, বা নতুন ছবিতে ফিরে যান",
   "Make another like it": "এর মতো আরেকটি তৈরি করুন",
-  "Change it: the next image starts from it": "এটি বদলান: পরের ছবি এটি থেকে শুরু হবে",
   "Couldn't read the image to start from": "শুরুর ছবিটি পড়া যায়নি",
-  "Describe the new image": "নতুন ছবির বর্ণনা দিন",
   "Save image": "ছবি সংরক্ষণ করুন",
   "Couldn't listen for the portal file picker's response.": "পোর্টাল ফাইল পিকারের উত্তর পাওয়া যায়নি।",
   "Start from a picture…": "একটি ছবি থেকে শুরু করুন…",

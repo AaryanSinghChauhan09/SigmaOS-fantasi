@@ -1,6 +1,5 @@
 {
   "Describe an image": "画像の説明を入力",
-  "Size": "サイズ",
   "Square": "正方形",
   "Screen": "画面",
   "Portrait": "縦長",
@@ -26,12 +25,8 @@
   "Step %1 of %2": "ステップ %1/%2",
   "Finishing": "仕上げ中",
   "Saving": "保存中",
-  "%Ln steps": {
-    "other": "%Ln ステップ"
-  },
   "Set as background": "壁紙に設定",
   "Copy": "コピー",
-  "Again": "もう一度",
   "Try saving again": "もう一度保存",
   "History": "履歴",
   "Your images appear here": "作成した画像がここに表示されます",
@@ -64,9 +59,7 @@
   "Change this image": "この画像を変更",
   "Stop making it, or go back to a new image": "作成を中止、または新しい画像に戻る",
   "Make another like it": "似た画像をもう一枚作成",
-  "Change it: the next image starts from it": "変更: 次の画像はこの画像から作成されます",
   "Couldn't read the image to start from": "元にする画像を読み込めませんでした",
-  "Describe the new image": "新しい画像の説明を入力",
   "Save image": "画像を保存",
   "Couldn't listen for the portal file picker's response.": "ポータルのファイル選択ダイアログからの応答を受け取れませんでした。",
   "Start from a picture…": "画像から始める…",

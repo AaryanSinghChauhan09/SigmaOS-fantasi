@@ -9,6 +9,7 @@
 #include <QStandardPaths>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <algorithm>
 #include <functional>
 #include <QLocalServer>
 #include <QLocalSocket>
@@ -400,10 +401,21 @@ private slots:
         const QJsonObject body = server.requests.last().second;
         QFile file(dir.filePath("base.png"));
         QVERIFY(file.open(QIODevice::ReadOnly));
-        QCOMPARE(body.value("init_image").toString(), QString::fromLatin1(file.readAll().toBase64()));
+        const QString sent = QString::fromLatin1(file.readAll().toBase64());
+        QCOMPARE(body.value("init_image").toString(), sent);
         QCOMPARE(body.value("strength").toDouble(), Generator::baseStrength);
+        QVERIFY(!body.contains("ref_images"));
         QCOMPARE(body.value("width").toInt(), 1344);
         QCOMPARE(body.value("height").toInt(), 768);
+        QTRY_VERIFY(!generator.busy());
+
+        // An edit model gets the image as a reference and the prompt as the change.
+        generator.generate("include a red balloon", 1024, 1024, 0, -1, QUrl::fromLocalFile(dir.filePath("base.png")).toString(), true);
+        QTRY_VERIFY(std::count_if(server.requests.begin(), server.requests.end(), [](const auto &r) { return r.first == "POST /sdcpp/v1/img_gen"; }) == 2);
+        const QJsonObject edit = server.requests.last().second;
+        QCOMPARE(edit.value("ref_images").toArray(), QJsonArray{sent});
+        QVERIFY(!edit.contains("init_image") && !edit.contains("strength"));
+        QCOMPARE(edit.value("width").toInt(), 1344);
         QTRY_VERIFY(!generator.busy());
     }
 
@@ -766,7 +778,7 @@ private slots:
         auto *portrait = item(window->contentItem(), "size2");
         QVERIFY(portrait);
         QTest::keyClick(window, Qt::Key_3, Qt::ControlModifier);
-        QVERIFY(portrait->property("highlighted").toBool());
+        QVERIFY(portrait->property("checked").toBool());
 
         auto *help = window->findChild<QObject *>("help");
         QTest::keyClick(window, Qt::Key_F1);

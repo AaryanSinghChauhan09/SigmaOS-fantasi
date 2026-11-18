@@ -106,6 +106,7 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
             found.id = row.value("id").toString();
             found.name = row.value("name").toString(found.id);
             found.endpoint = row.value("endpoint").toString();
+            found.edits = row.value("edit").toBool();
             found.state = QString(unit) == "active" ? "ready" : QString(unit) == "activating" ? "starting" : "installing";
             return found;
         }
@@ -228,7 +229,7 @@ void Models::reload() {
     if (found.state == "ready" && found.id != preferred)
         settings.setValue("model", found.id);
 
-    if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint
+    if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
         || found.reason != m_found.reason || found.blockers != m_found.blockers) {
         m_found = found;
         emit changed();

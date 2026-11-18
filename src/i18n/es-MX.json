@@ -1,6 +1,5 @@
 {
   "Describe an image": "Describe una imagen",
-  "Size": "Tamaño",
   "Square": "Cuadrada",
   "Screen": "Pantalla",
   "Portrait": "Vertical",
@@ -26,14 +25,8 @@
   "Step %1 of %2": "Paso %1 de %2",
   "Finishing": "Terminando",
   "Saving": "Guardando",
-  "%Ln steps": {
-    "one": "%Ln paso",
-    "many": "%Ln de pasos",
-    "other": "%Ln pasos"
-  },
   "Set as background": "Usar como fondo",
   "Copy": "Copiar",
-  "Again": "Otra vez",
   "Try saving again": "Intentar guardar de nuevo",
   "History": "Historial",
   "Your images appear here": "Tus imágenes aparecerán aquí",
@@ -66,9 +59,7 @@
   "Change this image": "Cambiar esta imagen",
   "Stop making it, or go back to a new image": "Dejar de crearla o volver a una imagen nueva",
   "Make another like it": "Crear otra parecida",
-  "Change it: the next image starts from it": "Cambiarla: la siguiente imagen parte de ella",
   "Couldn't read the image to start from": "No se pudo leer la imagen de partida",
-  "Describe the new image": "Describe la imagen nueva",
   "Save image": "Guardar imagen",
   "Couldn't listen for the portal file picker's response.": "No se pudo recibir la respuesta del selector de archivos del portal.",
   "Start from a picture…": "Empezar desde una imagen…",

@@ -17,6 +17,9 @@ class Models : public QObject {
     Q_PROPERTY(QString state READ state NOTIFY changed)
     Q_PROPERTY(QString modelId READ modelId NOTIFY changed)
     Q_PROPERTY(QString modelName READ modelName NOTIFY changed)
+    // Whether the model changes an image by an instruction (an edit model),
+    // rather than redrawing it from a description.
+    Q_PROPERTY(bool edits READ edits NOTIFY changed)
     // Why nothing runs here, or why the model can't start now.
     Q_PROPERTY(QString reason READ reason NOTIFY changed)
     // The running text models that hold the memory a blocked model needs.
@@ -30,6 +33,7 @@ public:
         QString id;
         QString name;
         QString endpoint;
+        bool edits = false;
         QString reason;
         QStringList blockers;
         QStringList blockerIds;
@@ -48,6 +52,7 @@ public:
     QString state() const { return m_found.state; }
     QString modelId() const { return m_found.id; }
     QString modelName() const { return m_found.name; }
+    bool edits() const { return m_found.edits; }
     QString reason() const { return m_found.reason; }
     QStringList blockers() const { return m_found.blockers; }
     bool working() const { return m_process.state() != QProcess::NotRunning || !m_queue.isEmpty(); }

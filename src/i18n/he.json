@@ -1,6 +1,5 @@
 {
   "Describe an image": "תארו תמונה",
-  "Size": "גודל",
   "Square": "ריבוע",
   "Screen": "מסך",
   "Portrait": "לאורך",
@@ -26,14 +25,8 @@
   "Step %1 of %2": "שלב %1 מתוך %2",
   "Finishing": "מסיים",
   "Saving": "שומר",
-  "%Ln steps": {
-    "one": "%Ln שלב",
-    "two": "%Ln שלבים",
-    "other": "%Ln שלבים"
-  },
   "Set as background": "הגדרה כרקע",
   "Copy": "העתקה",
-  "Again": "שוב",
   "Try saving again": "ניסיון שמירה נוסף",
   "History": "היסטוריה",
   "Your images appear here": "התמונות שלך יופיעו כאן",
@@ -66,9 +59,7 @@
   "Change this image": "שינוי התמונה הזו",
   "Stop making it, or go back to a new image": "עצירת היצירה, או חזרה לתמונה חדשה",
   "Make another like it": "יצירת עוד אחת כמוה",
-  "Change it: the next image starts from it": "שינוי: התמונה הבאה תתחיל ממנה",
   "Couldn't read the image to start from": "לא ניתן היה לקרוא את תמונת המוצא",
-  "Describe the new image": "תארו את התמונה החדשה",
   "Save image": "שמירת תמונה",
   "Couldn't listen for the portal file picker's response.": "לא ניתן להאזין לתגובה של בורר הקבצים של הפורטל.",
   "Start from a picture…": "התחלה מתמונה…",

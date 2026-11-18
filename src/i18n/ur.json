@@ -1,6 +1,5 @@
 {
   "Describe an image": "ایک تصویر بیان کریں",
-  "Size": "سائز",
   "Square": "مربع",
   "Screen": "اسکرین",
   "Portrait": "عمودی",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "مرحلہ %1 از %2",
   "Finishing": "مکمل کیا جا رہا ہے",
   "Saving": "محفوظ کیا جا رہا ہے",
-  "%Ln steps": {
-    "one": "%Ln مرحلہ",
-    "other": "%Ln مراحل"
-  },
   "Set as background": "پس منظر بنائیں",
   "Copy": "نقل کریں",
-  "Again": "دوبارہ",
   "Try saving again": "دوبارہ محفوظ کرنے کی کوشش کریں",
   "History": "تاریخچہ",
   "Your images appear here": "آپ کی تصویریں یہاں نظر آئیں گی",
@@ -65,9 +59,7 @@
   "Change this image": "یہ تصویر تبدیل کریں",
   "Stop making it, or go back to a new image": "بنانا روکیں، یا نئی تصویر پر واپس جائیں",
   "Make another like it": "اس جیسی ایک اور بنائیں",
-  "Change it: the next image starts from it": "اسے تبدیل کریں: اگلی تصویر اسی سے شروع ہوگی",
   "Couldn't read the image to start from": "شروعاتی تصویر نہیں پڑھی جا سکی",
-  "Describe the new image": "نئی تصویر بیان کریں",
   "Save image": "تصویر محفوظ کریں",
   "Couldn't listen for the portal file picker's response.": "پورٹل فائل پکر کا جواب موصول نہیں ہو سکا۔",
   "Start from a picture…": "کسی تصویر سے شروع کریں…",

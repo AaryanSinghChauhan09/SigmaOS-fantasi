@@ -137,7 +137,7 @@ Generator::Base Generator::prepareBase(const QString &path) {
     return {png, target};
 }
 
-void Generator::generate(const QString &prompt, int width, int height, int steps, qint64 seed, const QString &baseUrl) {
+void Generator::generate(const QString &prompt, int width, int height, int steps, qint64 seed, const QString &baseUrl, bool edit) {
     if (busy() || prompt.trimmed().isEmpty())
         return;
     if (m_origin.isEmpty()) {
@@ -156,8 +156,12 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
             emit changed();
             return;
         }
-        body.insert("init_image", QString::fromLatin1(base.png.toBase64()));
-        body.insert("strength", baseStrength);
+        if (edit) {
+            body.insert("ref_images", QJsonArray{QString::fromLatin1(base.png.toBase64())});
+        } else {
+            body.insert("init_image", QString::fromLatin1(base.png.toBase64()));
+            body.insert("strength", baseStrength);
+        }
         width = base.size.width();
         height = base.size.height();
     }

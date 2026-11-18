@@ -1,6 +1,5 @@
 {
   "Describe an image": "Opišite sliko",
-  "Size": "Velikost",
   "Square": "Kvadrat",
   "Screen": "Zaslon",
   "Portrait": "Pokončno",
@@ -26,15 +25,8 @@
   "Step %1 of %2": "Korak %1 od %2",
   "Finishing": "Zaključevanje",
   "Saving": "Shranjevanje",
-  "%Ln steps": {
-    "one": "%Ln korak",
-    "two": "%Ln koraka",
-    "few": "%Ln koraki",
-    "other": "%Ln korakov"
-  },
   "Set as background": "Nastavi kot ozadje",
   "Copy": "Kopiraj",
-  "Again": "Znova",
   "Try saving again": "Poskusi znova shraniti",
   "History": "Zgodovina",
   "Your images appear here": "Tu se prikažejo vaše slike",
@@ -67,9 +59,7 @@
   "Change this image": "Spremeni to sliko",
   "Stop making it, or go back to a new image": "Prenehaj ustvarjati ali se vrni na novo sliko",
   "Make another like it": "Ustvari še eno podobno",
-  "Change it: the next image starts from it": "Spremeni jo: naslednja slika izhaja iz nje",
   "Couldn't read the image to start from": "Izhodiščne slike ni bilo mogoče prebrati",
-  "Describe the new image": "Opišite novo sliko",
   "Save image": "Shrani sliko",
   "Couldn't listen for the portal file picker's response.": "Odgovora izbirnika datotek portala ni bilo mogoče prejeti.",
   "Start from a picture…": "Začni s sliko…",

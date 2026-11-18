@@ -1,6 +1,5 @@
 {
   "Describe an image": "ஒரு படத்தை விவரிக்கவும்",
-  "Size": "அளவு",
   "Square": "சதுரம்",
   "Screen": "திரை",
   "Portrait": "நீளவாக்கு",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "படி %1 / %2",
   "Finishing": "முடிக்கிறது",
   "Saving": "சேமிக்கிறது",
-  "%Ln steps": {
-    "one": "%Ln படி",
-    "other": "%Ln படிகள்"
-  },
   "Set as background": "பின்னணியாக அமை",
   "Copy": "நகலெடு",
-  "Again": "மீண்டும்",
   "Try saving again": "மீண்டும் சேமிக்க முயல்",
   "History": "வரலாறு",
   "Your images appear here": "உங்கள் படங்கள் இங்கே தோன்றும்",
@@ -65,9 +59,7 @@
   "Change this image": "இந்தப் படத்தை மாற்று",
   "Stop making it, or go back to a new image": "உருவாக்குவதை நிறுத்து, அல்லது புதிய படத்திற்குத் திரும்பு",
   "Make another like it": "இதுபோல் இன்னொன்றை உருவாக்கு",
-  "Change it: the next image starts from it": "அதை மாற்று: அடுத்த படம் இதிலிருந்து தொடங்கும்",
   "Couldn't read the image to start from": "தொடக்கப் படத்தைப் படிக்க முடியவில்லை",
-  "Describe the new image": "புதிய படத்தை விவரிக்கவும்",
   "Save image": "படத்தைச் சேமி",
   "Couldn't listen for the portal file picker's response.": "போர்ட்டல் கோப்புத் தேர்வியின் பதிலைப் பெற முடியவில்லை.",
   "Start from a picture…": "ஒரு படத்திலிருந்து தொடங்கு…",

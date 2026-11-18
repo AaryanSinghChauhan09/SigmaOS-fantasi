@@ -1,6 +1,5 @@
 {
   "Describe an image": "Beskriv et billede",
-  "Size": "Størrelse",
   "Square": "Kvadrat",
   "Screen": "Skærm",
   "Portrait": "Portræt",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "Trin %1 af %2",
   "Finishing": "Gør færdig",
   "Saving": "Gemmer",
-  "%Ln steps": {
-    "one": "%Ln trin",
-    "other": "%Ln trin"
-  },
   "Set as background": "Brug som baggrund",
   "Copy": "Kopiér",
-  "Again": "Igen",
   "Try saving again": "Prøv at gemme igen",
   "History": "Historik",
   "Your images appear here": "Dine billeder vises her",
@@ -65,9 +59,7 @@
   "Change this image": "Ændr dette billede",
   "Stop making it, or go back to a new image": "Stop med at lave det, eller gå tilbage til et nyt billede",
   "Make another like it": "Lav et til af samme slags",
-  "Change it: the next image starts from it": "Ændr det: det næste billede tager udgangspunkt i det",
   "Couldn't read the image to start from": "Kunne ikke læse billedet, der skal tages udgangspunkt i",
-  "Describe the new image": "Beskriv det nye billede",
   "Save image": "Gem billede",
   "Couldn't listen for the portal file picker's response.": "Kunne ikke lytte efter svaret fra portalens filvælger.",
   "Start from a picture…": "Start fra et billede…",
@@ -75,5 +67,8 @@
   "Open": "Åbn",
   "Pictures": "Billeder",
   "Start from a picture": "Start fra et billede",
-  "Stop %1 and start %2": "Stop %1 og start %2"
+  "Stop %1 and start %2": "Stop %1 og start %2",
+  "What should change?": "Hvad skal ændres?",
+  "Change": "Ændr",
+  "Change it: say what should change": "Ændr det: sig, hvad der skal ændres"
 }

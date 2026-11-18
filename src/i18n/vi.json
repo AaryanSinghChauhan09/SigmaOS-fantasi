@@ -1,6 +1,5 @@
 {
   "Describe an image": "Mô tả một hình ảnh",
-  "Size": "Kích thước",
   "Square": "Vuông",
   "Screen": "Màn hình",
   "Portrait": "Dọc",
@@ -26,12 +25,8 @@
   "Step %1 of %2": "Bước %1/%2",
   "Finishing": "Đang hoàn tất",
   "Saving": "Đang lưu",
-  "%Ln steps": {
-    "other": "%Ln bước"
-  },
   "Set as background": "Đặt làm hình nền",
   "Copy": "Sao chép",
-  "Again": "Tạo lại",
   "Try saving again": "Thử lưu lại",
   "History": "Lịch sử",
   "Your images appear here": "Các hình ảnh của bạn sẽ xuất hiện ở đây",
@@ -64,9 +59,7 @@
   "Change this image": "Sửa ảnh này",
   "Stop making it, or go back to a new image": "Dừng tạo, hoặc quay lại tạo ảnh mới",
   "Make another like it": "Tạo một ảnh tương tự",
-  "Change it: the next image starts from it": "Sửa ảnh: ảnh tiếp theo sẽ bắt đầu từ ảnh này",
   "Couldn't read the image to start from": "Không đọc được ảnh gốc",
-  "Describe the new image": "Mô tả ảnh mới",
   "Save image": "Lưu ảnh",
   "Couldn't listen for the portal file picker's response.": "Không nhận được phản hồi từ hộp chọn tệp của portal.",
   "Start from a picture…": "Bắt đầu từ một ảnh…",

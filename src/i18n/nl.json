@@ -1,6 +1,5 @@
 {
   "Describe an image": "Beschrijf een afbeelding",
-  "Size": "Grootte",
   "Square": "Vierkant",
   "Screen": "Scherm",
   "Portrait": "Staand",
@@ -26,13 +25,8 @@
   "Step %1 of %2": "Stap %1 van %2",
   "Finishing": "Wordt afgerond",
   "Saving": "Wordt opgeslagen",
-  "%Ln steps": {
-    "one": "%Ln stap",
-    "other": "%Ln stappen"
-  },
   "Set as background": "Als achtergrond instellen",
   "Copy": "Kopiëren",
-  "Again": "Nog een keer",
   "Try saving again": "Opnieuw proberen op te slaan",
   "History": "Geschiedenis",
   "Your images appear here": "Je afbeeldingen verschijnen hier",
@@ -65,9 +59,7 @@
   "Change this image": "Deze afbeelding aanpassen",
   "Stop making it, or go back to a new image": "Stoppen, of terug naar een nieuwe afbeelding",
   "Make another like it": "Nog zo een maken",
-  "Change it: the next image starts from it": "Aanpassen: de volgende afbeelding begint ermee",
   "Couldn't read the image to start from": "Kan de startafbeelding niet lezen",
-  "Describe the new image": "Beschrijf de nieuwe afbeelding",
   "Save image": "Afbeelding opslaan",
   "Couldn't listen for the portal file picker's response.": "Kan niet luisteren naar het antwoord van de bestandskiezer van het portaal.",
   "Start from a picture…": "Beginnen met een afbeelding…",
