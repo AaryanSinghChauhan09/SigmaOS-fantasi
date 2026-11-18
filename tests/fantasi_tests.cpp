@@ -9,6 +9,7 @@
 #include <QStandardPaths>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <algorithm>
 #include <functional>
 #include <QLocalServer>
 #include <QLocalSocket>
@@ -240,6 +241,7 @@ class FakePicker : public FilePicker {
 public:
     QUrl answer;
     QUrl suggested;
+    void openImage() override { emit openSelected(answer); }
     void saveImage(const QUrl &suggestedUrl) override {
         suggested = suggestedUrl;
         emit saveSelected(answer);
@@ -273,6 +275,9 @@ private slots:
         const auto found = Models::discover(json(q("{'models': { 'a': {'kind': 'image', 'name': 'A', 'unit': 'active', 'endpoint': 'http://127.0.0.1:1/v1'}, 'b': {'kind': 'image', 'name': 'B', 'unit': 'active', 'endpoint': 'http://127.0.0.1:2/v1'}}}")), {}, true, "b");
         QCOMPARE(found.state, QString("ready"));
         QCOMPARE(found.id, QString("b"));
+        // Both are choices, by name, whichever is in use.
+        QCOMPARE(found.choices.size(), 2);
+        QCOMPARE(found.choices.first().toMap().value("id").toString(), QString("a"));
     }
 
     void discoveryOffersToStartAnInstalledModel() {
@@ -388,7 +393,7 @@ private slots:
             return {404, "{}"};
         };
         readyEngine(dir.path() + "/state", server.origin());
-        QImage base(640, 384, QImage::Format_RGB32);
+        QImage base(1344, 768, QImage::Format_RGB32);
         base.fill(Qt::darkBlue);
         QVERIFY(base.save(dir.filePath("base.png")));
 
@@ -399,10 +404,21 @@ private slots:
         const QJsonObject body = server.requests.last().second;
         QFile file(dir.filePath("base.png"));
         QVERIFY(file.open(QIODevice::ReadOnly));
-        QCOMPARE(body.value("init_image").toString(), QString::fromLatin1(file.readAll().toBase64()));
+        const QString sent = QString::fromLatin1(file.readAll().toBase64());
+        QCOMPARE(body.value("init_image").toString(), sent);
         QCOMPARE(body.value("strength").toDouble(), Generator::baseStrength);
-        QCOMPARE(body.value("width").toInt(), 640);
-        QCOMPARE(body.value("height").toInt(), 384);
+        QVERIFY(!body.contains("ref_images"));
+        QCOMPARE(body.value("width").toInt(), 1344);
+        QCOMPARE(body.value("height").toInt(), 768);
+        QTRY_VERIFY(!generator.busy());
+
+        // An edit model gets the image as a reference and the prompt as the change.
+        generator.generate("include a red balloon", 1024, 1024, 0, -1, QUrl::fromLocalFile(dir.filePath("base.png")).toString(), true);
+        QTRY_VERIFY(std::count_if(server.requests.begin(), server.requests.end(), [](const auto &r) { return r.first == "POST /sdcpp/v1/img_gen"; }) == 2);
+        const QJsonObject edit = server.requests.last().second;
+        QCOMPARE(edit.value("ref_images").toArray(), QJsonArray{sent});
+        QVERIFY(!edit.contains("init_image") && !edit.contains("strength"));
+        QCOMPARE(edit.value("width").toInt(), 1344);
         QTRY_VERIFY(!generator.busy());
     }
 
@@ -495,10 +511,40 @@ private slots:
         QVERIFY(!QFileInfo::exists(dir.filePath("missing")));
     }
 
+    void aPictureOfOnesOwnBecomesABaseTheModelWorksIn() {
+        QTemporaryDir dir;
+        // A camera's picture: any size, any shape, a JPEG.
+        QImage photo(4000, 3000, QImage::Format_RGB32);
+        photo.fill(Qt::darkGreen);
+        QVERIFY(photo.save(dir.filePath("photo.jpg")));
+        const Generator::Base base = Generator::prepareBase(dir.filePath("photo.jpg"));
+        QCOMPARE(base.size, QSize(1152, 896));
+        QImage sent;
+        QVERIFY(sent.loadFromData(base.png, "PNG"));
+        QCOMPARE(sent.size(), QSize(1152, 896));
+
+        // Fantasi's own image goes as it is, byte for byte.
+        QVERIFY(write(dir.filePath("made.png"), png(1024)));
+        QCOMPARE(Generator::prepareBase(dir.filePath("made.png")).png, png(1024));
+        QVERIFY(Generator::prepareBase(dir.filePath("missing.png")).png.isEmpty());
+    }
+
+    void aPictureChosenInTheDialogReachesTheWindow() {
+        QTemporaryDir dir;
+        auto *picker = new FakePicker;
+        Backend backend({dir.path() + "/state", {}, "/bin/true", dir.path() + "/out", "/bin/true"}, picker);
+        picker->setParent(&backend);
+        picker->answer = QUrl::fromLocalFile(dir.filePath("mine.jpg"));
+        QSignalSpy chosen(&backend, &Backend::pictureChosen);
+        backend.openPicture();
+        QCOMPARE(chosen.size(), 1);
+        QCOMPARE(chosen.first().first().toString(), picker->answer.toString());
+    }
+
     void screenSizeIsAMegapixelInTheMonitorsShape() {
-        QCOMPARE(Backend::fitMegapixel(2560, 1440), QSize(1344, 768));
-        QCOMPARE(Backend::fitMegapixel(1440, 2560), QSize(768, 1344));
-        QCOMPARE(Backend::fitMegapixel(1000, 1000), QSize(1024, 1024));
+        QCOMPARE(Generator::fitMegapixel(2560, 1440), QSize(1344, 768));
+        QCOMPARE(Generator::fitMegapixel(1440, 2560), QSize(768, 1344));
+        QCOMPARE(Generator::fitMegapixel(1000, 1000), QSize(1024, 1024));
     }
 
     void themeFallsBack() {
@@ -715,10 +761,10 @@ private slots:
         window->requestActivate();
         QVERIFY(QTest::qWaitForWindowActive(window));
 
-        auto *modelLine = item(window->contentItem(), "modelLine");
+        auto *model = item(window->contentItem(), "model");
         auto *action = item(window->contentItem(), "action");
-        QVERIFY(modelLine && action);
-        QTRY_COMPARE(modelLine->property("text").toString(), QString("Z-Image Turbo is ready"));
+        QVERIFY(model && action);
+        QTRY_COMPARE(window->property("modelStatus").toString(), QString("Z-Image Turbo is ready"));
         QCOMPARE(action->property("text").toString(), QString("Generate"));
         // Nothing to make until there's a prompt, which takes the keyboard.
         QVERIFY(!action->property("enabled").toBool());
@@ -726,16 +772,24 @@ private slots:
             QTest::keyClick(window, c);
         QCOMPARE(item(window->contentItem(), "prompt")->property("text").toString(), QString("a calm lake"));
         QVERIFY(action->property("enabled").toBool());
+        // Enter sends the prompt; this engine's model is at an address nothing
+        // answers, so sending shows up as the error it gets back.
+        QTest::keyClick(window, Qt::Key_Return);
+        QTRY_VERIFY(!backend.generator()->error().isEmpty() || backend.generator()->busy());
+        QCOMPARE(item(window->contentItem(), "prompt")->property("text").toString(), QString("a calm lake"));
 
         // The caption reads on the accent: black on the fallback yellow.
         QCOMPARE(action->property("contentItem").value<QQuickItem *>()->property("color").value<QColor>(),
                  theme.accentForeground());
 
         // The size buttons pick one of three.
-        auto *portrait = item(window->contentItem(), "size2");
-        QVERIFY(portrait);
+        // One button steps through the shapes; Ctrl+3 goes straight to portrait.
+        auto *shape = item(window->contentItem(), "size");
+        QVERIFY(shape);
         QTest::keyClick(window, Qt::Key_3, Qt::ControlModifier);
-        QVERIFY(portrait->property("highlighted").toBool());
+        QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Portrait"));
+        QMetaObject::invokeMethod(shape, "clicked");
+        QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Square"));
 
         auto *help = window->findChild<QObject *>("help");
         QTest::keyClick(window, Qt::Key_F1);

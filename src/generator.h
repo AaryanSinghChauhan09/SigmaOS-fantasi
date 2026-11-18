@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include <QNetworkAccessManager>
 #include <QObject>
+#include <QSize>
 #include <QStringList>
 #include <QTimer>
 #include <memory>
@@ -47,14 +48,28 @@ public:
     QString folder() const { return m_folder; }
 
     // A seed below zero asks the server for a random one; steps of zero take
-    // the model's own default. With a base image, the new one starts from it,
-    // at its size, keeping its composition while the prompt changes it.
+    // the model's own default. With a base image the new one is a change of
+    // it, at its size: an edit model takes the prompt as the instruction for
+    // what to change; any other starts from the image and redraws it as the
+    // prompt describes.
     Q_INVOKABLE void generate(const QString &prompt, int width, int height, int steps = 0, qint64 seed = -1,
-                              const QString &baseUrl = {});
+                              const QString &baseUrl = {}, bool edit = false);
 
-    // How far a new image may move from its base: far enough that a change
+    // How far a redrawn image may move from its base: far enough that a change
     // asked for shows, near enough that the picture stays the same picture.
     static constexpr double baseStrength = 0.7;
+
+    // A size near a megapixel in the shape of `width` by `height`, in the
+    // steps of 64 the models work in.
+    static QSize fitMegapixel(int width, int height);
+
+    // A picture ready to start from: its PNG, at a size the model works in.
+    struct Base {
+        QByteArray png;
+        QSize size;
+    };
+    static Base prepareBase(const QString &path);
+
     Q_INVOKABLE void cancel();
     // Writes a finished image the folder refused last time.
     Q_INVOKABLE void retrySave();
