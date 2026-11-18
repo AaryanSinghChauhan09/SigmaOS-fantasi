@@ -129,6 +129,12 @@ int runCli(const QStringList &arguments) {
     // The running model of the kind asked for: a video model for --video, an
     // image model otherwise, whichever is the one chosen in the window.
     const bool video = parser.isSet("video");
+    // A clip is 2, 5 or 10 seconds: anything else is refused before minutes go into it.
+    const int seconds = parser.value("seconds").toInt();
+    if (video && seconds != 2 && seconds != 5 && seconds != 10) {
+        print(stderr, "Error: --seconds takes 2, 5 or 10");
+        return 1;
+    }
 
     int code = 1;
     QString path;
@@ -182,7 +188,7 @@ int runCli(const QStringList &arguments) {
             return;
         }
         if (video)
-            generator->makeVideo(prompt, parser.value("width").toInt(), parser.value("height").toInt(), from.value(0), parser.value("seconds").toInt());
+            generator->makeVideo(prompt, parser.value("width").toInt(), parser.value("height").toInt(), from.value(0), seconds);
         else
             generator->generate(prompt, parser.value("width").toInt(), parser.value("height").toInt(),
                                 parser.value("steps").toInt(), parser.value("seed").toLongLong(), from, models->edits());
