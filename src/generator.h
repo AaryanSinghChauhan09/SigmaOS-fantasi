@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include <QNetworkAccessManager>
 #include <QObject>
+#include <QSize>
 #include <QStringList>
 #include <QTimer>
 #include <memory>
@@ -55,6 +56,18 @@ public:
     // How far a new image may move from its base: far enough that a change
     // asked for shows, near enough that the picture stays the same picture.
     static constexpr double baseStrength = 0.7;
+
+    // A size near a megapixel in the shape of `width` by `height`, in the
+    // steps of 64 the models work in.
+    static QSize fitMegapixel(int width, int height);
+
+    // A picture ready to start from: its PNG, at a size the model works in.
+    struct Base {
+        QByteArray png;
+        QSize size;
+    };
+    static Base prepareBase(const QString &path);
+
     Q_INVOKABLE void cancel();
     // Writes a finished image the folder refused last time.
     Q_INVOKABLE void retrySave();

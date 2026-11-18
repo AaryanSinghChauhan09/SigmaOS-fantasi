@@ -16,7 +16,6 @@
   "Cancel": "Hætta við",
   "Generate": "Búa til mynd",
   "Start %1": "Ræsa %1",
-  "Stop %1 and start": "Stöðva %1 og ræsa",
   "Install %1": "Setja upp %1",
   "Starting…": "Ræsir…",
   "Setting up…": "Set upp…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "Ekki tókst að vista myndina sem %1",
   "Save": "Vista",
   "PNG image": "PNG-mynd",
-  "Save Image": "Vista mynd",
   "The XDG desktop portal file chooser is not available.": "Skráaval XDG-skjáborðsgáttarinnar er ekki tiltækt.",
-  "Could not listen for the portal file picker response.": "Ekki tókst að hlusta eftir svari frá skráavali gáttarinnar.",
   "The portal file picker failed: %1": "Skráaval gáttarinnar mistókst: %1",
   "Changing this image": "Breyti þessari mynd",
   "Make a new image instead": "Búa frekar til nýja mynd",
@@ -70,5 +67,7 @@
   "Make another like it": "Búa til aðra svipaða",
   "Change it: the next image starts from it": "Breyta henni: næsta mynd byggir á henni",
   "Couldn't read the image to start from": "Ekki tókst að lesa upphafsmyndina",
-  "Describe the new image": "Lýstu nýju myndinni"
+  "Describe the new image": "Lýstu nýju myndinni",
+  "Save image": "Vista mynd",
+  "Couldn't listen for the portal file picker's response.": "Ekki tókst að hlusta eftir svari frá skráavali gáttarinnar."
 }

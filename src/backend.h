@@ -41,10 +41,6 @@ public:
     History *history() { return &m_history; }
     QSize screenSize() const { return m_screenSize; }
 
-    // A size near a megapixel in the shape of `width` by `height`, in the
-    // steps of 64 the models work in.
-    static QSize fitMegapixel(int width, int height);
-
     void setInitialPrompt(const QString &prompt) { m_initialPrompt = prompt; }
 
     QString error() const { return m_error; }
@@ -53,10 +49,15 @@ public:
     Q_INVOKABLE void copy(const QString &url);
     // Asks where, then writes a copy of the image there.
     Q_INVOKABLE void saveAs(const QString &url);
+    // Asks for a picture of the user's own to start the next image from.
+    Q_INVOKABLE void openPicture();
+    // Whether a dropped file is a picture Fantasi can start from.
+    Q_INVOKABLE bool isPicture(const QString &url) const;
 
 signals:
     void screenSizeChanged();
     void errorChanged();
+    void pictureChosen(const QString &url);
 
 private:
     Models m_models;

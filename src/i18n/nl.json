@@ -16,7 +16,6 @@
   "Cancel": "Annuleren",
   "Generate": "Afbeelding maken",
   "Start %1": "%1 starten",
-  "Stop %1 and start": "%1 stoppen en starten",
   "Install %1": "%1 installeren",
   "Starting…": "Wordt gestart…",
   "Setting up…": "Wordt ingesteld…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "Kan de afbeelding niet opslaan als %1",
   "Save": "Opslaan",
   "PNG image": "PNG-afbeelding",
-  "Save Image": "Afbeelding opslaan",
   "The XDG desktop portal file chooser is not available.": "De bestandskiezer van het XDG-desktopportaal is niet beschikbaar.",
-  "Could not listen for the portal file picker response.": "Kan niet luisteren naar het antwoord van de bestandskiezer van het portaal.",
   "The portal file picker failed: %1": "De bestandskiezer van het portaal is mislukt: %1",
   "Changing this image": "Deze afbeelding wordt aangepast",
   "Make a new image instead": "In plaats daarvan een nieuwe afbeelding maken",
@@ -70,5 +67,7 @@
   "Make another like it": "Nog zo een maken",
   "Change it: the next image starts from it": "Aanpassen: de volgende afbeelding begint ermee",
   "Couldn't read the image to start from": "Kan de startafbeelding niet lezen",
-  "Describe the new image": "Beschrijf de nieuwe afbeelding"
+  "Describe the new image": "Beschrijf de nieuwe afbeelding",
+  "Save image": "Afbeelding opslaan",
+  "Couldn't listen for the portal file picker's response.": "Kan niet luisteren naar het antwoord van de bestandskiezer van het portaal."
 }

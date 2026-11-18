@@ -16,7 +16,6 @@
   "Cancel": "取消",
   "Generate": "生成",
   "Start %1": "启动 %1",
-  "Stop %1 and start": "停止 %1 并启动",
   "Install %1": "安装 %1",
   "Starting…": "正在启动…",
   "Setting up…": "正在设置…",
@@ -58,9 +57,7 @@
   "Couldn't save the image as %1": "无法将图片另存为 %1",
   "Save": "保存",
   "PNG image": "PNG 图片",
-  "Save Image": "保存图片",
   "The XDG desktop portal file chooser is not available.": "XDG 桌面门户文件选择器不可用。",
-  "Could not listen for the portal file picker response.": "无法接收门户文件选择器的响应。",
   "The portal file picker failed: %1": "门户文件选择器出错：%1",
   "Changing this image": "正在修改这张图片",
   "Make a new image instead": "改为生成新图片",
@@ -69,5 +66,7 @@
   "Make another like it": "再生成一张类似的",
   "Change it: the next image starts from it": "修改：下一张图片将以它为基础",
   "Couldn't read the image to start from": "无法读取作为起点的图片",
-  "Describe the new image": "描述新图片"
+  "Describe the new image": "描述新图片",
+  "Save image": "保存图片",
+  "Couldn't listen for the portal file picker's response.": "无法接收门户文件选择器的响应。"
 }

@@ -16,7 +16,6 @@
   "Cancel": "Atšaukti",
   "Generate": "Kurti vaizdą",
   "Start %1": "Paleisti %1",
-  "Stop %1 and start": "Sustabdyti %1 ir paleisti",
   "Install %1": "Įdiegti %1",
   "Starting…": "Paleidžiama…",
   "Setting up…": "Nustatoma…",
@@ -60,9 +59,7 @@
   "Couldn't save the image as %1": "Nepavyko išsaugoti vaizdo kaip %1",
   "Save": "Išsaugoti",
   "PNG image": "PNG paveikslėlis",
-  "Save Image": "Išsaugoti vaizdą",
   "The XDG desktop portal file chooser is not available.": "XDG darbalaukio portalo failų parinkiklis nepasiekiamas.",
-  "Could not listen for the portal file picker response.": "Nepavyko gauti portalo failų parinkiklio atsakymo.",
   "The portal file picker failed: %1": "Portalo failų parinkiklio klaida: %1",
   "Changing this image": "Keičiamas šis vaizdas",
   "Make a new image instead": "Vietoj to kurti naują vaizdą",
@@ -71,5 +68,7 @@
   "Make another like it": "Sukurti dar vieną panašų",
   "Change it: the next image starts from it": "Keisti jį: kitas vaizdas bus kuriamas iš jo",
   "Couldn't read the image to start from": "Nepavyko nuskaityti pradinio vaizdo",
-  "Describe the new image": "Aprašykite naują vaizdą"
+  "Describe the new image": "Aprašykite naują vaizdą",
+  "Save image": "Išsaugoti vaizdą",
+  "Couldn't listen for the portal file picker's response.": "Nepavyko gauti portalo failų parinkiklio atsakymo."
 }

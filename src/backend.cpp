@@ -7,6 +7,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QFileInfo>
+#include <QImageReader>
 #include <QMimeData>
 #include <QSaveFile>
 #include <QStandardPaths>
@@ -25,6 +26,7 @@ Backend::Backend(const Places &places, FilePicker *picker, QObject *parent)
         m_error = message;
         emit errorChanged();
     });
+    connect(m_picker, &FilePicker::openSelected, this, [this](const QUrl &url) { emit pictureChosen(url.toString()); });
     connect(m_picker, &FilePicker::saveSelected, this, [this](const QUrl &target) {
         const QString source = std::exchange(m_saving, {});
         QFile in(source);
@@ -53,19 +55,12 @@ Backend::Backend(const Places &places, FilePicker *picker, QObject *parent)
             const bool turned = monitor.value("transform").toInt() % 2 == 1;
             const int width = monitor.value("width").toInt(), height = monitor.value("height").toInt();
             if (width > 0 && height > 0) {
-                m_screenSize = turned ? fitMegapixel(height, width) : fitMegapixel(width, height);
+                m_screenSize = turned ? Generator::fitMegapixel(height, width) : Generator::fitMegapixel(width, height);
                 emit screenSizeChanged();
             }
         }
     });
     m_monitors.start(hyprctl, {"-j", "monitors"});
-}
-
-QSize Backend::fitMegapixel(int width, int height) {
-    const double area = 1024.0 * 1024.0, aspect = double(width) / height;
-    const int w = std::max(1, int(std::lround(std::sqrt(area * aspect) / 64))) * 64;
-    const int h = std::max(1, int(std::lround(area / w / 64))) * 64;
-    return {w, h};
 }
 
 void Backend::setBackground(const QString &url) {
@@ -93,4 +88,15 @@ void Backend::saveAs(const QString &url) {
     // The picker starts in Pictures, with the image's own name.
     const QString pictures = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     m_picker->saveImage(QUrl::fromLocalFile(pictures + "/" + QFileInfo(path).fileName()));
+}
+
+void Backend::openPicture() {
+    m_error.clear();
+    emit errorChanged();
+    m_picker->openImage();
+}
+
+bool Backend::isPicture(const QString &url) const {
+    const QUrl parsed(url);
+    return parsed.isLocalFile() && QImageReader(parsed.toLocalFile()).canRead();
 }

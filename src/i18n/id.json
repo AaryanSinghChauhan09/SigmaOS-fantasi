@@ -16,7 +16,6 @@
   "Cancel": "Batal",
   "Generate": "Buat gambar",
   "Start %1": "Mulai %1",
-  "Stop %1 and start": "Hentikan %1 dan mulai",
   "Install %1": "Pasang %1",
   "Starting…": "Memulai…",
   "Setting up…": "Menyiapkan…",
@@ -58,9 +57,7 @@
   "Couldn't save the image as %1": "Tidak dapat menyimpan gambar sebagai %1",
   "Save": "Simpan",
   "PNG image": "Gambar PNG",
-  "Save Image": "Simpan gambar",
   "The XDG desktop portal file chooser is not available.": "Pemilih file XDG desktop portal tidak tersedia.",
-  "Could not listen for the portal file picker response.": "Tidak dapat menerima respons pemilih file portal.",
   "The portal file picker failed: %1": "Pemilih file portal gagal: %1",
   "Changing this image": "Mengubah gambar ini",
   "Make a new image instead": "Buat gambar baru saja",
@@ -69,5 +66,7 @@
   "Make another like it": "Buat satu lagi yang serupa",
   "Change it: the next image starts from it": "Ubah: gambar berikutnya dimulai dari gambar ini",
   "Couldn't read the image to start from": "Tidak dapat membaca gambar awal",
-  "Describe the new image": "Deskripsikan gambar baru"
+  "Describe the new image": "Deskripsikan gambar baru",
+  "Save image": "Simpan gambar",
+  "Couldn't listen for the portal file picker's response.": "Tidak dapat menerima respons pemilih file portal."
 }

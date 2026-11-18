@@ -2,7 +2,10 @@
 
 #include "models.h"
 
+#include <QBuffer>
 #include <QDateTime>
+#include <QImage>
+#include <cmath>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -94,6 +97,46 @@ void Generator::fetchDefaults() {
     });
 }
 
+QSize Generator::fitMegapixel(int width, int height) {
+    const double area = 1024.0 * 1024.0, aspect = double(width) / height;
+    const int w = std::max(1, int(std::lround(std::sqrt(area * aspect) / 64))) * 64;
+    const int h = std::max(1, int(std::lround(area / w / 64))) * 64;
+    return {w, h};
+}
+
+Generator::Base Generator::prepareBase(const QString &path) {
+    QImageReader reader(path);
+    // A camera's picture stands the way it was taken.
+    reader.setAutoTransform(true);
+    const QSize size = reader.size();
+    if (!size.isValid())
+        return {};
+    // A size the model works in, near a megapixel, goes as it is: Fantasi's
+    // own images, which a change keeps pixel for pixel.
+    const bool fits = size.width() % 64 == 0 && size.height() % 64 == 0
+                   && double(size.width()) * size.height() <= 1.6 * 1024 * 1024
+                   && double(size.width()) * size.height() >= 0.4 * 1024 * 1024;
+    if (fits && reader.format() == "png" && reader.transformation() == QImageIOHandler::TransformationNone) {
+        QFile file(path);
+        if (file.open(QIODevice::ReadOnly))
+            return {file.readAll(), size};
+    }
+    // Anything else is scaled to cover the nearest size in its own shape,
+    // then cut to it from the middle.
+    const QImage image = reader.read();
+    if (image.isNull())
+        return {};
+    const QSize target = fitMegapixel(image.width(), image.height());
+    const QImage scaled = image.scaled(target, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    const QImage cropped = scaled.copy((scaled.width() - target.width()) / 2, (scaled.height() - target.height()) / 2,
+                                       target.width(), target.height());
+    QByteArray png;
+    QBuffer buffer(&png);
+    if (!buffer.open(QIODevice::WriteOnly) || !cropped.convertToFormat(QImage::Format_RGB32).save(&buffer, "PNG"))
+        return {};
+    return {png, target};
+}
+
 void Generator::generate(const QString &prompt, int width, int height, int steps, qint64 seed, const QString &baseUrl) {
     if (busy() || prompt.trimmed().isEmpty())
         return;
@@ -107,17 +150,16 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
     QJsonObject body = m_defaults;
     if (!baseUrl.isEmpty()) {
         const QString path = QUrl(baseUrl).isLocalFile() ? QUrl(baseUrl).toLocalFile() : baseUrl;
-        QFile base(path);
-        const QSize size = QImageReader(path).size();
-        if (!base.open(QIODevice::ReadOnly) || !size.isValid()) {
+        const Base base = prepareBase(path);
+        if (base.png.isEmpty()) {
             m_error = tr("Couldn't read the image to start from");
             emit changed();
             return;
         }
-        body.insert("init_image", QString::fromLatin1(base.readAll().toBase64()));
+        body.insert("init_image", QString::fromLatin1(base.png.toBase64()));
         body.insert("strength", baseStrength);
-        width = size.width();
-        height = size.height();
+        width = base.size.width();
+        height = base.size.height();
     }
     QJsonObject sample = body.value("sample_params").toObject();
     if (steps > 0)

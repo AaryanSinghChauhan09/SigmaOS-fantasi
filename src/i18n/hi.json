@@ -16,7 +16,6 @@
   "Cancel": "रद्द करें",
   "Generate": "तस्वीर बनाएँ",
   "Start %1": "%1 शुरू करें",
-  "Stop %1 and start": "%1 बंद करके शुरू करें",
   "Install %1": "%1 इंस्टॉल करें",
   "Starting…": "शुरू हो रहा है…",
   "Setting up…": "सेट अप हो रहा है…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "तस्वीर %1 के रूप में सहेजी नहीं जा सकी",
   "Save": "सहेजें",
   "PNG image": "PNG छवि",
-  "Save Image": "तस्वीर सहेजें",
   "The XDG desktop portal file chooser is not available.": "XDG डेस्कटॉप पोर्टल फ़ाइल चूज़र उपलब्ध नहीं है।",
-  "Could not listen for the portal file picker response.": "पोर्टल फ़ाइल पिकर का जवाब नहीं मिल सका।",
   "The portal file picker failed: %1": "पोर्टल फ़ाइल पिकर विफल रहा: %1",
   "Changing this image": "इस तस्वीर को बदला जा रहा है",
   "Make a new image instead": "इसके बजाय नई तस्वीर बनाएँ",
@@ -70,5 +67,7 @@
   "Make another like it": "इसके जैसी एक और बनाएँ",
   "Change it: the next image starts from it": "इसे बदलें: अगली तस्वीर इसी से शुरू होगी",
   "Couldn't read the image to start from": "शुरुआती तस्वीर पढ़ी नहीं जा सकी",
-  "Describe the new image": "नई तस्वीर का वर्णन करें"
+  "Describe the new image": "नई तस्वीर का वर्णन करें",
+  "Save image": "तस्वीर सहेजें",
+  "Couldn't listen for the portal file picker's response.": "पोर्टल फ़ाइल पिकर का जवाब नहीं मिल सका।"
 }

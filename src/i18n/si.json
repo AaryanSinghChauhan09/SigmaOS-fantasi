@@ -16,7 +16,6 @@
   "Cancel": "අවලංගු කරන්න",
   "Generate": "රූපය සාදන්න",
   "Start %1": "%1 ආරම්භ කරන්න",
-  "Stop %1 and start": "%1 නවත්වා ආරම්භ කරන්න",
   "Install %1": "%1 ස්ථාපනය කරන්න",
   "Starting…": "ආරම්භ වෙමින්…",
   "Setting up…": "සකසමින්…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "රූපය %1 ලෙස සුරැකිය නොහැකි විය",
   "Save": "සුරකින්න",
   "PNG image": "PNG රූපය",
-  "Save Image": "රූපය සුරකින්න",
   "The XDG desktop portal file chooser is not available.": "XDG ඩෙස්ක්ටොප් පෝටල් ගොනු තෝරකය නොමැත.",
-  "Could not listen for the portal file picker response.": "පෝටල් ගොනු තෝරකයේ ප්‍රතිචාරය ලබා ගත නොහැකි විය.",
   "The portal file picker failed: %1": "පෝටල් ගොනු තෝරකය අසාර්ථක විය: %1",
   "Changing this image": "මෙම රූපය වෙනස් කරමින්",
   "Make a new image instead": "ඒ වෙනුවට නව රූපයක් සාදන්න",
@@ -70,5 +67,7 @@
   "Make another like it": "එවැනි තවත් එකක් සාදන්න",
   "Change it: the next image starts from it": "එය වෙනස් කරන්න: ඊළඟ රූපය එයින් ආරම්භ වේ",
   "Couldn't read the image to start from": "ආරම්භක රූපය කියවිය නොහැකි විය",
-  "Describe the new image": "නව රූපය විස්තර කරන්න"
+  "Describe the new image": "නව රූපය විස්තර කරන්න",
+  "Save image": "රූපය සුරකින්න",
+  "Couldn't listen for the portal file picker's response.": "පෝටල් ගොනු තෝරකයේ ප්‍රතිචාරය ලබා ගත නොහැකි විය."
 }

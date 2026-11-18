@@ -16,7 +16,6 @@
   "Cancel": "Скасувати",
   "Generate": "Створити зображення",
   "Start %1": "Запустити %1",
-  "Stop %1 and start": "Зупинити %1 і запустити",
   "Install %1": "Встановити %1",
   "Starting…": "Запуск…",
   "Setting up…": "Налаштування…",
@@ -61,9 +60,7 @@
   "Couldn't save the image as %1": "Не вдалося зберегти зображення як %1",
   "Save": "Зберегти",
   "PNG image": "Зображення PNG",
-  "Save Image": "Зберегти зображення",
   "The XDG desktop portal file chooser is not available.": "Вікно вибору файлів XDG desktop portal недоступне.",
-  "Could not listen for the portal file picker response.": "Не вдалося отримати відповідь від вікна вибору файлів порталу.",
   "The portal file picker failed: %1": "Помилка вікна вибору файлів порталу: %1",
   "Changing this image": "Зміна цього зображення",
   "Make a new image instead": "Натомість створити нове зображення",
@@ -72,5 +69,7 @@
   "Make another like it": "Створити ще одне схоже",
   "Change it: the next image starts from it": "Змінити його: наступне зображення буде на його основі",
   "Couldn't read the image to start from": "Не вдалося прочитати вихідне зображення",
-  "Describe the new image": "Опишіть нове зображення"
+  "Describe the new image": "Опишіть нове зображення",
+  "Save image": "Зберегти зображення",
+  "Couldn't listen for the portal file picker's response.": "Не вдалося отримати відповідь від вікна вибору файлів порталу."
 }

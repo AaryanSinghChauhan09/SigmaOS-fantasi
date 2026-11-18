@@ -16,7 +16,6 @@
   "Cancel": "Cancelar",
   "Generate": "Criar imagem",
   "Start %1": "Iniciar %1",
-  "Stop %1 and start": "Parar %1 e iniciar",
   "Install %1": "Instalar %1",
   "Starting…": "Iniciando…",
   "Setting up…": "Configurando…",
@@ -60,9 +59,7 @@
   "Couldn't save the image as %1": "Não foi possível salvar a imagem como %1",
   "Save": "Salvar",
   "PNG image": "Imagem PNG",
-  "Save Image": "Salvar imagem",
   "The XDG desktop portal file chooser is not available.": "O seletor de arquivos do portal de desktop XDG não está disponível.",
-  "Could not listen for the portal file picker response.": "Não foi possível receber a resposta do seletor de arquivos do portal.",
   "The portal file picker failed: %1": "O seletor de arquivos do portal falhou: %1",
   "Changing this image": "Alterando esta imagem",
   "Make a new image instead": "Criar uma nova imagem",
@@ -71,5 +68,7 @@
   "Make another like it": "Criar outra parecida",
   "Change it: the next image starts from it": "Alterar: a próxima imagem parte desta",
   "Couldn't read the image to start from": "Não foi possível ler a imagem de partida",
-  "Describe the new image": "Descreva a nova imagem"
+  "Describe the new image": "Descreva a nova imagem",
+  "Save image": "Salvar imagem",
+  "Couldn't listen for the portal file picker's response.": "Não foi possível receber a resposta do seletor de arquivos do portal."
 }

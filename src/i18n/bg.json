@@ -16,7 +16,6 @@
   "Cancel": "Отказ",
   "Generate": "Създай изображение",
   "Start %1": "Стартирай %1",
-  "Stop %1 and start": "Спри %1 и стартирай",
   "Install %1": "Инсталирай %1",
   "Starting…": "Стартиране…",
   "Setting up…": "Настройване…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "Изображението не можа да бъде запазено като %1",
   "Save": "Запази",
   "PNG image": "PNG изображение",
-  "Save Image": "Запази изображението",
   "The XDG desktop portal file chooser is not available.": "Диалогът за избор на файлове на XDG портала не е наличен.",
-  "Could not listen for the portal file picker response.": "Не може да се получи отговор от диалога за избор на файлове на портала.",
   "The portal file picker failed: %1": "Грешка в диалога за избор на файлове на портала: %1",
   "Changing this image": "Промяна на това изображение",
   "Make a new image instead": "Вместо това създай ново изображение",
@@ -70,5 +67,7 @@
   "Make another like it": "Създай още едно подобно",
   "Change it: the next image starts from it": "Промени го: следващото изображение тръгва от него",
   "Couldn't read the image to start from": "Изходното изображение не можа да бъде прочетено",
-  "Describe the new image": "Опишете новото изображение"
+  "Describe the new image": "Опишете новото изображение",
+  "Save image": "Запази изображението",
+  "Couldn't listen for the portal file picker's response.": "Не може да се получи отговор от диалога за избор на файлове на портала."
 }

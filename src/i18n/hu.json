@@ -16,7 +16,6 @@
   "Cancel": "Mégse",
   "Generate": "Kép készítése",
   "Start %1": "%1 indítása",
-  "Stop %1 and start": "%1 leállítása és indítás",
   "Install %1": "%1 telepítése",
   "Starting…": "Indítás…",
   "Setting up…": "Beállítás…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "Nem sikerült menteni a képet ezen a néven: %1",
   "Save": "Mentés",
   "PNG image": "PNG-kép",
-  "Save Image": "Kép mentése",
   "The XDG desktop portal file chooser is not available.": "Az XDG desktop portal fájlválasztója nem érhető el.",
-  "Could not listen for the portal file picker response.": "Nem sikerült fogadni a portál fájlválasztójának válaszát.",
   "The portal file picker failed: %1": "A portál fájlválasztója hibát jelzett: %1",
   "Changing this image": "Ezt a képet módosítod",
   "Make a new image instead": "Inkább új kép készítése",
@@ -70,5 +67,7 @@
   "Make another like it": "Még egy hasonló készítése",
   "Change it: the next image starts from it": "Módosítás: a következő kép ebből indul ki",
   "Couldn't read the image to start from": "Nem sikerült beolvasni a kiinduló képet",
-  "Describe the new image": "Írd le az új képet"
+  "Describe the new image": "Írd le az új képet",
+  "Save image": "Kép mentése",
+  "Couldn't listen for the portal file picker's response.": "Nem sikerült fogadni a portál fájlválasztójának válaszát."
 }

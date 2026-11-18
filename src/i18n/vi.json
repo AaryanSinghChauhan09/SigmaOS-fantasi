@@ -16,7 +16,6 @@
   "Cancel": "Hủy",
   "Generate": "Tạo ảnh",
   "Start %1": "Khởi động %1",
-  "Stop %1 and start": "Dừng %1 và khởi động",
   "Install %1": "Cài đặt %1",
   "Starting…": "Đang khởi động…",
   "Setting up…": "Đang thiết lập…",
@@ -58,9 +57,7 @@
   "Couldn't save the image as %1": "Không lưu được ảnh thành %1",
   "Save": "Lưu",
   "PNG image": "Ảnh PNG",
-  "Save Image": "Lưu ảnh",
   "The XDG desktop portal file chooser is not available.": "Không dùng được hộp chọn tệp của XDG desktop portal.",
-  "Could not listen for the portal file picker response.": "Không nhận được phản hồi từ hộp chọn tệp của portal.",
   "The portal file picker failed: %1": "Hộp chọn tệp của portal gặp lỗi: %1",
   "Changing this image": "Đang sửa ảnh này",
   "Make a new image instead": "Chuyển sang tạo ảnh mới",
@@ -69,5 +66,7 @@
   "Make another like it": "Tạo một ảnh tương tự",
   "Change it: the next image starts from it": "Sửa ảnh: ảnh tiếp theo sẽ bắt đầu từ ảnh này",
   "Couldn't read the image to start from": "Không đọc được ảnh gốc",
-  "Describe the new image": "Mô tả ảnh mới"
+  "Describe the new image": "Mô tả ảnh mới",
+  "Save image": "Lưu ảnh",
+  "Couldn't listen for the portal file picker's response.": "Không nhận được phản hồi từ hộp chọn tệp của portal."
 }

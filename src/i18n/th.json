@@ -16,7 +16,6 @@
   "Cancel": "ยกเลิก",
   "Generate": "สร้างภาพ",
   "Start %1": "เริ่ม %1",
-  "Stop %1 and start": "หยุด %1 แล้วเริ่ม",
   "Install %1": "ติดตั้ง %1",
   "Starting…": "กำลังเริ่ม…",
   "Setting up…": "กำลังตั้งค่า…",
@@ -58,9 +57,7 @@
   "Couldn't save the image as %1": "บันทึกภาพเป็น %1 ไม่ได้",
   "Save": "บันทึก",
   "PNG image": "ภาพ PNG",
-  "Save Image": "บันทึกภาพ",
   "The XDG desktop portal file chooser is not available.": "ใช้ตัวเลือกไฟล์ของ XDG desktop portal ไม่ได้",
-  "Could not listen for the portal file picker response.": "ไม่ได้รับการตอบกลับจากตัวเลือกไฟล์ของพอร์ทัล",
   "The portal file picker failed: %1": "ตัวเลือกไฟล์ของพอร์ทัลล้มเหลว: %1",
   "Changing this image": "กำลังแก้ไขภาพนี้",
   "Make a new image instead": "สร้างภาพใหม่แทน",
@@ -69,5 +66,7 @@
   "Make another like it": "สร้างอีกภาพแบบเดียวกัน",
   "Change it: the next image starts from it": "แก้ไข: ภาพถัดไปจะเริ่มจากภาพนี้",
   "Couldn't read the image to start from": "อ่านภาพตั้งต้นไม่ได้",
-  "Describe the new image": "อธิบายภาพใหม่"
+  "Describe the new image": "อธิบายภาพใหม่",
+  "Save image": "บันทึกภาพ",
+  "Couldn't listen for the portal file picker's response.": "ไม่ได้รับการตอบกลับจากตัวเลือกไฟล์ของพอร์ทัล"
 }

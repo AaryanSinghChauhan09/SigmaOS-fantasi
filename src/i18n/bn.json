@@ -16,7 +16,6 @@
   "Cancel": "বাতিল",
   "Generate": "ছবি তৈরি করুন",
   "Start %1": "%1 চালু করুন",
-  "Stop %1 and start": "%1 বন্ধ করে চালু করুন",
   "Install %1": "%1 ইনস্টল করুন",
   "Starting…": "চালু হচ্ছে…",
   "Setting up…": "সেট আপ হচ্ছে…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "ছবিটি %1 হিসেবে সংরক্ষণ করা যায়নি",
   "Save": "সংরক্ষণ করুন",
   "PNG image": "PNG ছবি",
-  "Save Image": "ছবি সংরক্ষণ করুন",
   "The XDG desktop portal file chooser is not available.": "XDG ডেস্কটপ পোর্টালের ফাইল চুজার পাওয়া যাচ্ছে না।",
-  "Could not listen for the portal file picker response.": "পোর্টাল ফাইল পিকারের উত্তর পাওয়া যায়নি।",
   "The portal file picker failed: %1": "পোর্টাল ফাইল পিকার ব্যর্থ হয়েছে: %1",
   "Changing this image": "এই ছবিটি বদলানো হচ্ছে",
   "Make a new image instead": "এর বদলে নতুন ছবি তৈরি করুন",
@@ -70,5 +67,7 @@
   "Make another like it": "এর মতো আরেকটি তৈরি করুন",
   "Change it: the next image starts from it": "এটি বদলান: পরের ছবি এটি থেকে শুরু হবে",
   "Couldn't read the image to start from": "শুরুর ছবিটি পড়া যায়নি",
-  "Describe the new image": "নতুন ছবির বর্ণনা দিন"
+  "Describe the new image": "নতুন ছবির বর্ণনা দিন",
+  "Save image": "ছবি সংরক্ষণ করুন",
+  "Couldn't listen for the portal file picker's response.": "পোর্টাল ফাইল পিকারের উত্তর পাওয়া যায়নি।"
 }

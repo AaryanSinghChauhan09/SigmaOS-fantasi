@@ -16,7 +16,6 @@
   "Cancel": "لغو",
   "Generate": "ساختن تصویر",
   "Start %1": "اجرای %1",
-  "Stop %1 and start": "توقف %1 و اجرا",
   "Install %1": "نصب %1",
   "Starting…": "در حال اجرا…",
   "Setting up…": "در حال راه‌اندازی…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "ذخیرهٔ تصویر با نام %1 ممکن نشد",
   "Save": "ذخیره",
   "PNG image": "تصویر PNG",
-  "Save Image": "ذخیرهٔ تصویر",
   "The XDG desktop portal file chooser is not available.": "انتخابگر فایل پورتال دسکتاپ XDG در دسترس نیست.",
-  "Could not listen for the portal file picker response.": "پاسخ انتخابگر فایل پورتال دریافت نشد.",
   "The portal file picker failed: %1": "انتخابگر فایل پورتال با خطا مواجه شد: %1",
   "Changing this image": "در حال تغییر این تصویر",
   "Make a new image instead": "به‌جای آن یک تصویر تازه بسازید",
@@ -70,5 +67,7 @@
   "Make another like it": "ساختن یکی دیگر مثل آن",
   "Change it: the next image starts from it": "تغییر آن: تصویر بعدی از آن شروع می‌شود",
   "Couldn't read the image to start from": "خواندن تصویر آغازین ممکن نشد",
-  "Describe the new image": "تصویر تازه را توصیف کنید"
+  "Describe the new image": "تصویر تازه را توصیف کنید",
+  "Save image": "ذخیرهٔ تصویر",
+  "Couldn't listen for the portal file picker's response.": "پاسخ انتخابگر فایل پورتال دریافت نشد."
 }

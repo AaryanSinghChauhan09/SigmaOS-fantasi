@@ -16,7 +16,6 @@
   "Cancel": "Откажи",
   "Generate": "Направи слику",
   "Start %1": "Покрени %1",
-  "Stop %1 and start": "Заустави %1 и покрени",
   "Install %1": "Инсталирај %1",
   "Starting…": "Покретање…",
   "Setting up…": "Подешавање…",
@@ -60,9 +59,7 @@
   "Couldn't save the image as %1": "Слика није могла да се сачува као %1",
   "Save": "Сачувај",
   "PNG image": "PNG слика",
-  "Save Image": "Сачувај слику",
   "The XDG desktop portal file chooser is not available.": "Бирач датотека XDG desktop portal није доступан.",
-  "Could not listen for the portal file picker response.": "Није могуће примити одговор бирача датотека портала.",
   "The portal file picker failed: %1": "Бирач датотека портала није успео: %1",
   "Changing this image": "Мењање ове слике",
   "Make a new image instead": "Уместо тога направи нову слику",
@@ -71,5 +68,7 @@
   "Make another like it": "Направи још једну сличну",
   "Change it: the next image starts from it": "Промени је: следећа слика полази од ње",
   "Couldn't read the image to start from": "Полазна слика није могла да се прочита",
-  "Describe the new image": "Опишите нову слику"
+  "Describe the new image": "Опишите нову слику",
+  "Save image": "Сачувај слику",
+  "Couldn't listen for the portal file picker's response.": "Није могуће примити одговор бирача датотека портала."
 }

@@ -16,7 +16,6 @@
   "Cancel": "ביטול",
   "Generate": "יצירת תמונה",
   "Start %1": "הפעלת %1",
-  "Stop %1 and start": "עצירת %1 והפעלה",
   "Install %1": "התקנת %1",
   "Starting…": "מתבצעת הפעלה…",
   "Setting up…": "מתבצעת הגדרה…",
@@ -60,9 +59,7 @@
   "Couldn't save the image as %1": "לא ניתן היה לשמור את התמונה בשם %1",
   "Save": "שמירה",
   "PNG image": "תמונת PNG",
-  "Save Image": "שמירת תמונה",
   "The XDG desktop portal file chooser is not available.": "בורר הקבצים של פורטל שולחן העבודה XDG אינו זמין.",
-  "Could not listen for the portal file picker response.": "לא ניתן להאזין לתגובה של בורר הקבצים של הפורטל.",
   "The portal file picker failed: %1": "בורר הקבצים של הפורטל נכשל: %1",
   "Changing this image": "משנים את התמונה הזו",
   "Make a new image instead": "יצירת תמונה חדשה במקום זאת",
@@ -71,5 +68,7 @@
   "Make another like it": "יצירת עוד אחת כמוה",
   "Change it: the next image starts from it": "שינוי: התמונה הבאה תתחיל ממנה",
   "Couldn't read the image to start from": "לא ניתן היה לקרוא את תמונת המוצא",
-  "Describe the new image": "תארו את התמונה החדשה"
+  "Describe the new image": "תארו את התמונה החדשה",
+  "Save image": "שמירת תמונה",
+  "Couldn't listen for the portal file picker's response.": "לא ניתן להאזין לתגובה של בורר הקבצים של הפורטל."
 }

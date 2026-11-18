@@ -240,6 +240,7 @@ class FakePicker : public FilePicker {
 public:
     QUrl answer;
     QUrl suggested;
+    void openImage() override { emit openSelected(answer); }
     void saveImage(const QUrl &suggestedUrl) override {
         suggested = suggestedUrl;
         emit saveSelected(answer);
@@ -388,7 +389,7 @@ private slots:
             return {404, "{}"};
         };
         readyEngine(dir.path() + "/state", server.origin());
-        QImage base(640, 384, QImage::Format_RGB32);
+        QImage base(1344, 768, QImage::Format_RGB32);
         base.fill(Qt::darkBlue);
         QVERIFY(base.save(dir.filePath("base.png")));
 
@@ -401,8 +402,8 @@ private slots:
         QVERIFY(file.open(QIODevice::ReadOnly));
         QCOMPARE(body.value("init_image").toString(), QString::fromLatin1(file.readAll().toBase64()));
         QCOMPARE(body.value("strength").toDouble(), Generator::baseStrength);
-        QCOMPARE(body.value("width").toInt(), 640);
-        QCOMPARE(body.value("height").toInt(), 384);
+        QCOMPARE(body.value("width").toInt(), 1344);
+        QCOMPARE(body.value("height").toInt(), 768);
         QTRY_VERIFY(!generator.busy());
     }
 
@@ -495,10 +496,40 @@ private slots:
         QVERIFY(!QFileInfo::exists(dir.filePath("missing")));
     }
 
+    void aPictureOfOnesOwnBecomesABaseTheModelWorksIn() {
+        QTemporaryDir dir;
+        // A camera's picture: any size, any shape, a JPEG.
+        QImage photo(4000, 3000, QImage::Format_RGB32);
+        photo.fill(Qt::darkGreen);
+        QVERIFY(photo.save(dir.filePath("photo.jpg")));
+        const Generator::Base base = Generator::prepareBase(dir.filePath("photo.jpg"));
+        QCOMPARE(base.size, QSize(1152, 896));
+        QImage sent;
+        QVERIFY(sent.loadFromData(base.png, "PNG"));
+        QCOMPARE(sent.size(), QSize(1152, 896));
+
+        // Fantasi's own image goes as it is, byte for byte.
+        QVERIFY(write(dir.filePath("made.png"), png(1024)));
+        QCOMPARE(Generator::prepareBase(dir.filePath("made.png")).png, png(1024));
+        QVERIFY(Generator::prepareBase(dir.filePath("missing.png")).png.isEmpty());
+    }
+
+    void aPictureChosenInTheDialogReachesTheWindow() {
+        QTemporaryDir dir;
+        auto *picker = new FakePicker;
+        Backend backend({dir.path() + "/state", {}, "/bin/true", dir.path() + "/out", "/bin/true"}, picker);
+        picker->setParent(&backend);
+        picker->answer = QUrl::fromLocalFile(dir.filePath("mine.jpg"));
+        QSignalSpy chosen(&backend, &Backend::pictureChosen);
+        backend.openPicture();
+        QCOMPARE(chosen.size(), 1);
+        QCOMPARE(chosen.first().first().toString(), picker->answer.toString());
+    }
+
     void screenSizeIsAMegapixelInTheMonitorsShape() {
-        QCOMPARE(Backend::fitMegapixel(2560, 1440), QSize(1344, 768));
-        QCOMPARE(Backend::fitMegapixel(1440, 2560), QSize(768, 1344));
-        QCOMPARE(Backend::fitMegapixel(1000, 1000), QSize(1024, 1024));
+        QCOMPARE(Generator::fitMegapixel(2560, 1440), QSize(1344, 768));
+        QCOMPARE(Generator::fitMegapixel(1440, 2560), QSize(768, 1344));
+        QCOMPARE(Generator::fitMegapixel(1000, 1000), QSize(1024, 1024));
     }
 
     void themeFallsBack() {

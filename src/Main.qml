@@ -56,6 +56,14 @@ ApplicationWindow {
         prompt.forceActiveFocus()
         prompt.cursorPosition = prompt.length
     }
+    // A picture of the user's own becomes the base; its prompt is theirs to write.
+    function startFrom(url) {
+        if (generator.busy)
+            return
+        baseImage = url
+        prompt.forceActiveFocus()
+        prompt.cursorPosition = prompt.length
+    }
     // Shows a history image in the center.
     function pick(index) {
         if (index < 0 || index >= history.count || generator.busy)
@@ -71,6 +79,7 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+Enter"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+R"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+E"; enabled: win.shownFile !== "" && !generator.busy; onActivated: win.changeImage() }
+    Shortcut { sequence: "Ctrl+O"; enabled: !generator.busy; onActivated: backend.openPicture() }
     // Esc stops an image being made, or else lets go of the base image.
     Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }
     Shortcut { sequence: "Escape"; enabled: !generator.busy && win.baseImage !== ""; onActivated: win.baseImage = "" }
@@ -99,6 +108,23 @@ ApplicationWindow {
     Connections {
         target: generator
         function onSaved() { historyList.currentIndex = 0 }
+    }
+    Connections {
+        target: backend
+        function onPictureChosen(url) { win.startFrom(url) }
+    }
+
+    // A picture dropped anywhere on the window becomes the base.
+    DropArea {
+        anchors.fill: parent
+        keys: ["text/uri-list"]
+        onEntered: drag => drag.accept(drag.hasUrls && drag.urls.length === 1 && backend.isPicture(drag.urls[0]))
+        onDropped: drop => {
+            if (drop.hasUrls && backend.isPicture(drop.urls[0])) {
+                win.startFrom(drop.urls[0].toString())
+                drop.accept()
+            }
+        }
     }
 
     Item {
@@ -156,6 +182,19 @@ ApplicationWindow {
                                 onClicked: win.baseImage = ""
                             }
                         }
+                    }
+
+                    // Or start from a picture of one's own, which a drop onto
+                    // the window does too.
+                    Button {
+                        objectName: "startFrom"
+                        Layout.fillWidth: true
+                        visible: win.baseImage === ""
+                        flat: true
+                        focusPolicy: Qt.NoFocus
+                        Material.roundedScale: theme.radius
+                        text: qsTr("Start from a picture…")
+                        onClicked: backend.openPicture()
                     }
 
                     ScrollView {
@@ -266,7 +305,7 @@ ApplicationWindow {
                             switch (models.state) {
                             case "ready": return generator.busy ? qsTr("Cancel") : qsTr("Generate")
                             case "installed": return qsTr("Start %1").arg(models.modelName)
-                            case "blocked": return qsTr("Stop %1 and start").arg(models.blockers.join(", "))
+                            case "blocked": return qsTr("Stop %1 and start %2").arg(models.blockers.join(", ")).arg(models.modelName)
                             case "installable": return qsTr("Install %1").arg(models.modelName)
                             case "starting": return qsTr("Starting…")
                             default: return qsTr("Setting up…")
@@ -503,6 +542,7 @@ ApplicationWindow {
                     { keys: "Esc", action: qsTr("Stop making it, or go back to a new image") },
                     { keys: "Ctrl+R", action: qsTr("Make another like it") },
                     { keys: "Ctrl+E", action: qsTr("Change it: the next image starts from it") },
+                    { keys: "Ctrl+O", action: qsTr("Start from a picture of your own") },
                     { keys: "Ctrl+1 2 3", action: qsTr("Square, screen or portrait") },
                     { keys: "Ctrl+B", action: qsTr("Set it as the background") },
                     { keys: "Ctrl+Shift+C", action: qsTr("Copy it") },

@@ -16,7 +16,6 @@
   "Cancel": "Loobu",
   "Generate": "Tee pilt",
   "Start %1": "Käivita %1",
-  "Stop %1 and start": "Peata %1 ja käivita",
   "Install %1": "Paigalda %1",
   "Starting…": "Käivitub…",
   "Setting up…": "Seadistamine…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "Pilti ei õnnestunud salvestada nimega %1",
   "Save": "Salvesta",
   "PNG image": "PNG-pilt",
-  "Save Image": "Salvesta pilt",
   "The XDG desktop portal file chooser is not available.": "XDG töölauaportaali failivalija pole saadaval.",
-  "Could not listen for the portal file picker response.": "Portaali failivalija vastust ei õnnestunud kuulata.",
   "The portal file picker failed: %1": "Portaali failivalija ebaõnnestus: %1",
   "Changing this image": "Selle pildi muutmine",
   "Make a new image instead": "Tee hoopis uus pilt",
@@ -70,5 +67,7 @@
   "Make another like it": "Tee veel üks samasugune",
   "Change it: the next image starts from it": "Muuda seda: järgmine pilt lähtub sellest",
   "Couldn't read the image to start from": "Lähtepilti ei õnnestunud lugeda",
-  "Describe the new image": "Kirjelda uut pilti"
+  "Describe the new image": "Kirjelda uut pilti",
+  "Save image": "Salvesta pilt",
+  "Couldn't listen for the portal file picker's response.": "Portaali failivalija vastust ei õnnestunud kuulata."
 }

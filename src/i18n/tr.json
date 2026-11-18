@@ -16,7 +16,6 @@
   "Cancel": "İptal",
   "Generate": "Oluştur",
   "Start %1": "%1 modelini başlat",
-  "Stop %1 and start": "%1 modelini durdurup başlat",
   "Install %1": "%1 modelini kur",
   "Starting…": "Başlatılıyor…",
   "Setting up…": "Kuruluyor…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "Görsel şu adla kaydedilemedi: %1",
   "Save": "Kaydet",
   "PNG image": "PNG görüntüsü",
-  "Save Image": "Görseli kaydet",
   "The XDG desktop portal file chooser is not available.": "XDG masaüstü portalı dosya seçicisi kullanılamıyor.",
-  "Could not listen for the portal file picker response.": "Portal dosya seçicisinden yanıt alınamadı.",
   "The portal file picker failed: %1": "Portal dosya seçicisi başarısız oldu: %1",
   "Changing this image": "Bu görsel değiştiriliyor",
   "Make a new image instead": "Bunun yerine yeni görsel oluştur",
@@ -70,5 +67,7 @@
   "Make another like it": "Benzerini oluştur",
   "Change it: the next image starts from it": "Değiştir: sonraki görsel bundan başlar",
   "Couldn't read the image to start from": "Başlangıç görseli okunamadı",
-  "Describe the new image": "Yeni görseli tarif edin"
+  "Describe the new image": "Yeni görseli tarif edin",
+  "Save image": "Görseli kaydet",
+  "Couldn't listen for the portal file picker's response.": "Portal dosya seçicisinden yanıt alınamadı."
 }

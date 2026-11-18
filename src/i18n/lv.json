@@ -16,7 +16,6 @@
   "Cancel": "Atcelt",
   "Generate": "Veidot attēlu",
   "Start %1": "Palaist %1",
-  "Stop %1 and start": "Apturēt %1 un palaist",
   "Install %1": "Instalēt %1",
   "Starting…": "Palaiž…",
   "Setting up…": "Iestata…",
@@ -60,9 +59,7 @@
   "Couldn't save the image as %1": "Neizdevās saglabāt attēlu kā %1",
   "Save": "Saglabāt",
   "PNG image": "PNG attēls",
-  "Save Image": "Saglabāt attēlu",
   "The XDG desktop portal file chooser is not available.": "XDG darbvirsmas portāla failu atlasītājs nav pieejams.",
-  "Could not listen for the portal file picker response.": "Neizdevās saņemt portāla failu atlasītāja atbildi.",
   "The portal file picker failed: %1": "Portāla failu atlasītāja kļūda: %1",
   "Changing this image": "Maina šo attēlu",
   "Make a new image instead": "Tā vietā veidot jaunu attēlu",
@@ -71,5 +68,7 @@
   "Make another like it": "Izveidot vēl vienu līdzīgu",
   "Change it: the next image starts from it": "Mainīt to: nākamais attēls sāksies no tā",
   "Couldn't read the image to start from": "Neizdevās nolasīt sākuma attēlu",
-  "Describe the new image": "Aprakstiet jauno attēlu"
+  "Describe the new image": "Aprakstiet jauno attēlu",
+  "Save image": "Saglabāt attēlu",
+  "Couldn't listen for the portal file picker's response.": "Neizdevās saņemt portāla failu atlasītāja atbildi."
 }

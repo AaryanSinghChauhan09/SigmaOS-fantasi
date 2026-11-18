@@ -1,5 +1,5 @@
 // Follows Omacut's portal file picker (MIT, David Heinemeier Hansson), with
-// only its save dialog, for a PNG.
+// its open dialog for a picture and its save dialog for a PNG.
 #include "portalfilepicker.h"
 
 #include <QDBusArgument>
@@ -11,6 +11,7 @@
 #include <QDBusPendingReply>
 #include <QFileInfo>
 #include <QRandomGenerator>
+#include <QStandardPaths>
 
 namespace {
 struct PortalFilterRule {
@@ -68,6 +69,12 @@ void registerPortalFilterTypes() {
 
 PortalFileFilter pngFilter(const QString &name) { return {name, {{0, QStringLiteral("*.png")}}}; }
 
+PortalFileFilter pictureFilter(const QString &name) {
+    return {name,
+            {{1, QStringLiteral("image/png")}, {1, QStringLiteral("image/jpeg")}, {1, QStringLiteral("image/webp")},
+             {0, QStringLiteral("*.png")}, {0, QStringLiteral("*.jpg")}, {0, QStringLiteral("*.jpeg")}, {0, QStringLiteral("*.webp")}}};
+}
+
 QString portalToken() { return QStringLiteral("fantasi_%1").arg(QRandomGenerator::global()->generate()); }
 
 QByteArray portalPathBytes(const QString &path) {
@@ -78,6 +85,20 @@ QByteArray portalPathBytes(const QString &path) {
 } // namespace
 
 PortalFilePicker::PortalFilePicker(QObject *parent) : FilePicker(parent) { registerPortalFilterTypes(); }
+
+void PortalFilePicker::openImage() {
+    QVariantMap options;
+    options.insert(QStringLiteral("accept_label"), tr("Open"));
+    options.insert(QStringLiteral("modal"), true);
+    options.insert(QStringLiteral("multiple"), false);
+    options.insert(QStringLiteral("current_folder"),
+                   portalPathBytes(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)));
+    const PortalFileFilter pictures = pictureFilter(tr("Pictures"));
+    options.insert(QStringLiteral("filters"), QVariant::fromValue(PortalFileFilters{pictures}));
+    options.insert(QStringLiteral("current_filter"), QVariant::fromValue(pictures));
+
+    requestFile(QStringLiteral("OpenFile"), tr("Start from a picture"), options, Action::Open);
+}
 
 void PortalFilePicker::saveImage(const QUrl &suggestedUrl) {
     const QFileInfo target(suggestedUrl.toLocalFile());
@@ -91,7 +112,7 @@ void PortalFilePicker::saveImage(const QUrl &suggestedUrl) {
     options.insert(QStringLiteral("filters"), QVariant::fromValue(PortalFileFilters{png}));
     options.insert(QStringLiteral("current_filter"), QVariant::fromValue(png));
 
-    requestFile(QStringLiteral("SaveFile"), tr("Save Image"), options);
+    requestFile(QStringLiteral("SaveFile"), tr("Save image"), options, Action::Save);
 }
 
 bool PortalFilePicker::connectToRequestPath(const QString &path) {
@@ -109,11 +130,11 @@ void PortalFilePicker::closePendingRequest() {
     request.asyncCall(QStringLiteral("Close"));
 }
 
-void PortalFilePicker::requestFile(const QString &method, const QString &title, QVariantMap options) {
+void PortalFilePicker::requestFile(const QString &method, const QString &title, QVariantMap options, Action action) {
     // A request whose Response never arrives (the portal crashed or was
     // killed with the dialog up) must not wedge every later dialog behind
     // it: close the stuck one best-effort and replace it.
-    if (m_pending) {
+    if (m_pending != Action::None) {
         closePendingRequest();
         clearPending();
     }
@@ -135,10 +156,10 @@ void PortalFilePicker::requestFile(const QString &method, const QString &title, 
     sender.replace(QLatin1Char('.'), QLatin1Char('_'));
     const QString predictedPath = QStringLiteral("/org/freedesktop/portal/desktop/request/%1/%2").arg(sender, token);
 
-    m_pending = true;
+    m_pending = action;
     if (!connectToRequestPath(predictedPath)) {
         clearPending();
-        emit failed(tr("Could not listen for the portal file picker response."));
+        emit failed(tr("Couldn't listen for the portal file picker's response."));
         return;
     }
 
@@ -154,7 +175,7 @@ void PortalFilePicker::requestFile(const QString &method, const QString &title, 
 
         // Superseded by a newer request, or a response may already have
         // been handled while the reply was in flight.
-        if (generation != m_pendingGeneration || !m_pending)
+        if (generation != m_pendingGeneration || m_pending == Action::None)
             return;
 
         if (reply.isError()) {
@@ -173,18 +194,23 @@ void PortalFilePicker::requestFile(const QString &method, const QString &title, 
                 SLOT(handleResponse(uint, QVariantMap)));
             if (!connectToRequestPath(actualPath)) {
                 clearPending();
-                emit failed(tr("Could not listen for the portal file picker response."));
+                emit failed(tr("Couldn't listen for the portal file picker's response."));
             }
         }
     });
 }
 
 void PortalFilePicker::handleResponse(uint response, const QVariantMap &results) {
+    const Action action = m_pending;
     clearPending();
     if (response != 0)
         return;
     const QStringList uris = results.value(QStringLiteral("uris")).toStringList();
-    if (!uris.isEmpty())
+    if (uris.isEmpty())
+        return;
+    if (action == Action::Open)
+        emit openSelected(QUrl(uris.first()));
+    else if (action == Action::Save)
         emit saveSelected(QUrl(uris.first()));
 }
 
@@ -201,5 +227,5 @@ void PortalFilePicker::clearPending() {
             QStringLiteral("Response"), this, SLOT(handleResponse(uint, QVariantMap)));
     }
     m_pendingPath.clear();
-    m_pending = false;
+    m_pending = Action::None;
 }

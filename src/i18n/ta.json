@@ -16,7 +16,6 @@
   "Cancel": "ரத்துசெய்",
   "Generate": "படத்தை உருவாக்கு",
   "Start %1": "%1 ஐத் தொடங்கு",
-  "Stop %1 and start": "%1 ஐ நிறுத்தித் தொடங்கு",
   "Install %1": "%1 ஐ நிறுவு",
   "Starting…": "தொடங்குகிறது…",
   "Setting up…": "அமைக்கப்படுகிறது…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "படத்தை %1 ஆகச் சேமிக்க முடியவில்லை",
   "Save": "சேமி",
   "PNG image": "PNG படம்",
-  "Save Image": "படத்தைச் சேமி",
   "The XDG desktop portal file chooser is not available.": "XDG டெஸ்க்டாப் போர்ட்டல் கோப்புத் தேர்வி கிடைக்கவில்லை.",
-  "Could not listen for the portal file picker response.": "போர்ட்டல் கோப்புத் தேர்வியின் பதிலைப் பெற முடியவில்லை.",
   "The portal file picker failed: %1": "போர்ட்டல் கோப்புத் தேர்வி தோல்வியடைந்தது: %1",
   "Changing this image": "இந்தப் படம் மாற்றப்படுகிறது",
   "Make a new image instead": "பதிலாகப் புதிய படத்தை உருவாக்கு",
@@ -70,5 +67,7 @@
   "Make another like it": "இதுபோல் இன்னொன்றை உருவாக்கு",
   "Change it: the next image starts from it": "அதை மாற்று: அடுத்த படம் இதிலிருந்து தொடங்கும்",
   "Couldn't read the image to start from": "தொடக்கப் படத்தைப் படிக்க முடியவில்லை",
-  "Describe the new image": "புதிய படத்தை விவரிக்கவும்"
+  "Describe the new image": "புதிய படத்தை விவரிக்கவும்",
+  "Save image": "படத்தைச் சேமி",
+  "Couldn't listen for the portal file picker's response.": "போர்ட்டல் கோப்புத் தேர்வியின் பதிலைப் பெற முடியவில்லை."
 }

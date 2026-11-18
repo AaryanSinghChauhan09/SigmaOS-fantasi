@@ -16,7 +16,6 @@
   "Cancel": "Peruuta",
   "Generate": "Tee kuva",
   "Start %1": "Käynnistä %1",
-  "Stop %1 and start": "Pysäytä %1 ja käynnistä",
   "Install %1": "Asenna %1",
   "Starting…": "Käynnistetään…",
   "Setting up…": "Otetaan käyttöön…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "Kuvaa ei voitu tallentaa nimellä %1",
   "Save": "Tallenna",
   "PNG image": "PNG-kuva",
-  "Save Image": "Tallenna kuva",
   "The XDG desktop portal file chooser is not available.": "XDG-työpöytäportaalin tiedostonvalitsin ei ole käytettävissä.",
-  "Could not listen for the portal file picker response.": "Portaalin tiedostonvalitsimen vastausta ei voitu kuunnella.",
   "The portal file picker failed: %1": "Portaalin tiedostonvalitsin epäonnistui: %1",
   "Changing this image": "Muutetaan tätä kuvaa",
   "Make a new image instead": "Tee sen sijaan uusi kuva",
@@ -70,5 +67,7 @@
   "Make another like it": "Tee toinen samanlainen",
   "Change it: the next image starts from it": "Muuta sitä: seuraava kuva pohjautuu siihen",
   "Couldn't read the image to start from": "Lähtökuvaa ei voitu lukea",
-  "Describe the new image": "Kuvaile uusi kuva"
+  "Describe the new image": "Kuvaile uusi kuva",
+  "Save image": "Tallenna kuva",
+  "Couldn't listen for the portal file picker's response.": "Portaalin tiedostonvalitsimen vastausta ei voitu kuunnella."
 }

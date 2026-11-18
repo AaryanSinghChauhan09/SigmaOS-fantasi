@@ -16,7 +16,6 @@
   "Cancel": "キャンセル",
   "Generate": "作成",
   "Start %1": "%1 を起動",
-  "Stop %1 and start": "%1 を停止して起動",
   "Install %1": "%1 をインストール",
   "Starting…": "起動中…",
   "Setting up…": "セットアップ中…",
@@ -58,9 +57,7 @@
   "Couldn't save the image as %1": "画像を %1 として保存できませんでした",
   "Save": "保存",
   "PNG image": "PNG 画像",
-  "Save Image": "画像を保存",
   "The XDG desktop portal file chooser is not available.": "XDG デスクトップポータルのファイル選択ダイアログを利用できません。",
-  "Could not listen for the portal file picker response.": "ポータルのファイル選択ダイアログからの応答を受け取れませんでした。",
   "The portal file picker failed: %1": "ポータルのファイル選択ダイアログでエラーが発生しました: %1",
   "Changing this image": "この画像を変更中",
   "Make a new image instead": "新しい画像を作成",
@@ -69,5 +66,7 @@
   "Make another like it": "似た画像をもう一枚作成",
   "Change it: the next image starts from it": "変更: 次の画像はこの画像から作成されます",
   "Couldn't read the image to start from": "元にする画像を読み込めませんでした",
-  "Describe the new image": "新しい画像の説明を入力"
+  "Describe the new image": "新しい画像の説明を入力",
+  "Save image": "画像を保存",
+  "Couldn't listen for the portal file picker's response.": "ポータルのファイル選択ダイアログからの応答を受け取れませんでした。"
 }

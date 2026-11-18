@@ -16,7 +16,6 @@
   "Cancel": "Bekor qilish",
   "Generate": "Rasm yaratish",
   "Start %1": "%1 ni ishga tushirish",
-  "Stop %1 and start": "%1 ni toʻxtatib, ishga tushirish",
   "Install %1": "%1 ni oʻrnatish",
   "Starting…": "Ishga tushirilmoqda…",
   "Setting up…": "Sozlanmoqda…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "Rasmni %1 sifatida saqlab boʻlmadi",
   "Save": "Saqlash",
   "PNG image": "PNG rasm",
-  "Save Image": "Rasmni saqlash",
   "The XDG desktop portal file chooser is not available.": "XDG desktop portal fayl tanlagichi mavjud emas.",
-  "Could not listen for the portal file picker response.": "Portal fayl tanlagichidan javob olib boʻlmadi.",
   "The portal file picker failed: %1": "Portal fayl tanlagichida xato: %1",
   "Changing this image": "Bu rasm oʻzgartirilmoqda",
   "Make a new image instead": "Buning oʻrniga yangi rasm yaratish",
@@ -70,5 +67,7 @@
   "Make another like it": "Shunga oʻxshash yana birini yaratish",
   "Change it: the next image starts from it": "Uni oʻzgartirish: keyingi rasm undan boshlanadi",
   "Couldn't read the image to start from": "Boshlangʻich rasmni oʻqib boʻlmadi",
-  "Describe the new image": "Yangi rasmni tasvirlang"
+  "Describe the new image": "Yangi rasmni tasvirlang",
+  "Save image": "Rasmni saqlash",
+  "Couldn't listen for the portal file picker's response.": "Portal fayl tanlagichidan javob olib boʻlmadi."
 }

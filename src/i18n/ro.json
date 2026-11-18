@@ -16,7 +16,6 @@
   "Cancel": "Anulează",
   "Generate": "Creează imaginea",
   "Start %1": "Pornește %1",
-  "Stop %1 and start": "Oprește %1 și pornește",
   "Install %1": "Instalează %1",
   "Starting…": "Se pornește…",
   "Setting up…": "Se configurează…",
@@ -60,9 +59,7 @@
   "Couldn't save the image as %1": "Nu s-a putut salva imaginea ca %1",
   "Save": "Salvează",
   "PNG image": "Imagine PNG",
-  "Save Image": "Salvează imaginea",
   "The XDG desktop portal file chooser is not available.": "Selectorul de fișiere al portalului desktop XDG nu este disponibil.",
-  "Could not listen for the portal file picker response.": "Nu s-a putut primi răspunsul selectorului de fișiere al portalului.",
   "The portal file picker failed: %1": "Selectorul de fișiere al portalului a eșuat: %1",
   "Changing this image": "Se modifică această imagine",
   "Make a new image instead": "Creează în schimb o imagine nouă",
@@ -71,5 +68,7 @@
   "Make another like it": "Creează încă una asemănătoare",
   "Change it: the next image starts from it": "Modific-o: următoarea imagine pornește de la ea",
   "Couldn't read the image to start from": "Nu s-a putut citi imaginea de pornire",
-  "Describe the new image": "Descrie imaginea nouă"
+  "Describe the new image": "Descrie imaginea nouă",
+  "Save image": "Salvează imaginea",
+  "Couldn't listen for the portal file picker's response.": "Nu s-a putut primi răspunsul selectorului de fișiere al portalului."
 }

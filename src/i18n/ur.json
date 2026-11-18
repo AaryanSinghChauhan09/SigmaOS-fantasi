@@ -16,7 +16,6 @@
   "Cancel": "منسوخ کریں",
   "Generate": "تصویر بنائیں",
   "Start %1": "ماڈل %1 شروع کریں",
-  "Stop %1 and start": "پہلے %1 بند کریں، پھر شروع کریں",
   "Install %1": "ماڈل %1 انسٹال کریں",
   "Starting…": "شروع ہو رہا ہے…",
   "Setting up…": "سیٹ اپ ہو رہا ہے…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "تصویر بطور %1 محفوظ نہیں ہو سکی",
   "Save": "محفوظ کریں",
   "PNG image": "PNG تصویر",
-  "Save Image": "تصویر محفوظ کریں",
   "The XDG desktop portal file chooser is not available.": "XDG ڈیسک ٹاپ پورٹل فائل چوزر دستیاب نہیں ہے۔",
-  "Could not listen for the portal file picker response.": "پورٹل فائل پکر کا جواب موصول نہیں ہو سکا۔",
   "The portal file picker failed: %1": "پورٹل فائل پکر ناکام ہو گیا: %1",
   "Changing this image": "اس تصویر میں تبدیلی ہو رہی ہے",
   "Make a new image instead": "اس کے بجائے نئی تصویر بنائیں",
@@ -70,5 +67,7 @@
   "Make another like it": "اس جیسی ایک اور بنائیں",
   "Change it: the next image starts from it": "اسے تبدیل کریں: اگلی تصویر اسی سے شروع ہوگی",
   "Couldn't read the image to start from": "شروعاتی تصویر نہیں پڑھی جا سکی",
-  "Describe the new image": "نئی تصویر بیان کریں"
+  "Describe the new image": "نئی تصویر بیان کریں",
+  "Save image": "تصویر محفوظ کریں",
+  "Couldn't listen for the portal file picker's response.": "پورٹل فائل پکر کا جواب موصول نہیں ہو سکا۔"
 }

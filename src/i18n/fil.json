@@ -16,7 +16,6 @@
   "Cancel": "Kanselahin",
   "Generate": "Gumawa",
   "Start %1": "Simulan ang %1",
-  "Stop %1 and start": "Ihinto ang %1 at magsimula",
   "Install %1": "I-install ang %1",
   "Starting…": "Sinisimulan…",
   "Setting up…": "Sine-set up…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "Hindi ma-save ang larawan bilang %1",
   "Save": "I-save",
   "PNG image": "PNG na larawan",
-  "Save Image": "I-save ang larawan",
   "The XDG desktop portal file chooser is not available.": "Hindi available ang file chooser ng XDG desktop portal.",
-  "Could not listen for the portal file picker response.": "Hindi matanggap ang sagot ng portal file picker.",
   "The portal file picker failed: %1": "Nabigo ang portal file picker: %1",
   "Changing this image": "Binabago ang larawang ito",
   "Make a new image instead": "Gumawa na lang ng bagong larawan",
@@ -70,5 +67,7 @@
   "Make another like it": "Gumawa ng isa pang katulad",
   "Change it: the next image starts from it": "Baguhin ito: magsisimula rito ang susunod na larawan",
   "Couldn't read the image to start from": "Hindi mabasa ang panimulang larawan",
-  "Describe the new image": "Ilarawan ang bagong larawan"
+  "Describe the new image": "Ilarawan ang bagong larawan",
+  "Save image": "I-save ang larawan",
+  "Couldn't listen for the portal file picker's response.": "Hindi matanggap ang sagot ng portal file picker."
 }

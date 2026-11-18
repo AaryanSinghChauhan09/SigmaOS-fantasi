@@ -16,7 +16,6 @@
   "Cancel": "Zrušiť",
   "Generate": "Vytvoriť obrázok",
   "Start %1": "Spustiť %1",
-  "Stop %1 and start": "Zastaviť %1 a spustiť",
   "Install %1": "Nainštalovať %1",
   "Starting…": "Spúšťa sa…",
   "Setting up…": "Nastavuje sa…",
@@ -60,9 +59,7 @@
   "Couldn't save the image as %1": "Obrázok sa nepodarilo uložiť ako %1",
   "Save": "Uložiť",
   "PNG image": "Obrázok PNG",
-  "Save Image": "Uložiť obrázok",
   "The XDG desktop portal file chooser is not available.": "Výber súborov XDG desktop portal nie je k dispozícii.",
-  "Could not listen for the portal file picker response.": "Nepodarilo sa prijať odpoveď z výberu súborov portálu.",
   "The portal file picker failed: %1": "Výber súborov portálu zlyhal: %1",
   "Changing this image": "Úprava tohto obrázka",
   "Make a new image instead": "Radšej vytvoriť nový obrázok",
@@ -71,5 +68,7 @@
   "Make another like it": "Vytvoriť ďalší podobný",
   "Change it: the next image starts from it": "Upraviť: ďalší obrázok z neho vyjde",
   "Couldn't read the image to start from": "Východiskový obrázok sa nepodarilo načítať",
-  "Describe the new image": "Opíšte nový obrázok"
+  "Describe the new image": "Opíšte nový obrázok",
+  "Save image": "Uložiť obrázok",
+  "Couldn't listen for the portal file picker's response.": "Nepodarilo sa prijať odpoveď z výberu súborov portálu."
 }

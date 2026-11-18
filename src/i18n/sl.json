@@ -16,7 +16,6 @@
   "Cancel": "Prekliči",
   "Generate": "Ustvari sliko",
   "Start %1": "Zaženi %1",
-  "Stop %1 and start": "Ustavi %1 in zaženi",
   "Install %1": "Namesti %1",
   "Starting…": "Zaganjanje…",
   "Setting up…": "Nastavljanje…",
@@ -61,9 +60,7 @@
   "Couldn't save the image as %1": "Slike ni bilo mogoče shraniti kot %1",
   "Save": "Shrani",
   "PNG image": "Slika PNG",
-  "Save Image": "Shrani sliko",
   "The XDG desktop portal file chooser is not available.": "Izbirnik datotek XDG desktop portal ni na voljo.",
-  "Could not listen for the portal file picker response.": "Odgovora izbirnika datotek portala ni bilo mogoče prejeti.",
   "The portal file picker failed: %1": "Izbirnik datotek portala ni uspel: %1",
   "Changing this image": "Spreminjanje te slike",
   "Make a new image instead": "Raje ustvari novo sliko",
@@ -72,5 +69,7 @@
   "Make another like it": "Ustvari še eno podobno",
   "Change it: the next image starts from it": "Spremeni jo: naslednja slika izhaja iz nje",
   "Couldn't read the image to start from": "Izhodiščne slike ni bilo mogoče prebrati",
-  "Describe the new image": "Opišite novo sliko"
+  "Describe the new image": "Opišite novo sliko",
+  "Save image": "Shrani sliko",
+  "Couldn't listen for the portal file picker's response.": "Odgovora izbirnika datotek portala ni bilo mogoče prejeti."
 }

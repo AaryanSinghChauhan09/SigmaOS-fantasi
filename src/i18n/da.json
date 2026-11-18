@@ -16,7 +16,6 @@
   "Cancel": "Annuller",
   "Generate": "Lav billede",
   "Start %1": "Start %1",
-  "Stop %1 and start": "Stop %1 og start",
   "Install %1": "Installer %1",
   "Starting…": "Starter…",
   "Setting up…": "Sætter op…",
@@ -59,9 +58,7 @@
   "Couldn't save the image as %1": "Kunne ikke gemme billedet som %1",
   "Save": "Gem",
   "PNG image": "PNG-billede",
-  "Save Image": "Gem billede",
   "The XDG desktop portal file chooser is not available.": "Skrivebordsportalens filvælger er ikke tilgængelig.",
-  "Could not listen for the portal file picker response.": "Kunne ikke lytte efter svaret fra portalens filvælger.",
   "The portal file picker failed: %1": "Portalens filvælger fejlede: %1",
   "Changing this image": "Ændrer dette billede",
   "Make a new image instead": "Lav et nyt billede i stedet",
@@ -70,5 +67,13 @@
   "Make another like it": "Lav et til af samme slags",
   "Change it: the next image starts from it": "Ændr det: det næste billede tager udgangspunkt i det",
   "Couldn't read the image to start from": "Kunne ikke læse billedet, der skal tages udgangspunkt i",
-  "Describe the new image": "Beskriv det nye billede"
+  "Describe the new image": "Beskriv det nye billede",
+  "Save image": "Gem billede",
+  "Couldn't listen for the portal file picker's response.": "Kunne ikke lytte efter svaret fra portalens filvælger.",
+  "Start from a picture…": "Start fra et billede…",
+  "Start from a picture of your own": "Start fra dit eget billede",
+  "Open": "Åbn",
+  "Pictures": "Billeder",
+  "Start from a picture": "Start fra et billede",
+  "Stop %1 and start %2": "Stop %1 og start %2"
 }

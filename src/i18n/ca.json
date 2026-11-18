@@ -16,7 +16,6 @@
   "Cancel": "Cancel·la",
   "Generate": "Crea la imatge",
   "Start %1": "Inicia %1",
-  "Stop %1 and start": "Atura %1 i inicia",
   "Install %1": "Instal·la %1",
   "Starting…": "S'està iniciant…",
   "Setting up…": "S'està configurant…",
@@ -60,9 +59,7 @@
   "Couldn't save the image as %1": "No s'ha pogut desar la imatge com a %1",
   "Save": "Desa",
   "PNG image": "Imatge PNG",
-  "Save Image": "Desa la imatge",
   "The XDG desktop portal file chooser is not available.": "El selector de fitxers del portal d'escriptori XDG no està disponible.",
-  "Could not listen for the portal file picker response.": "No s'ha pogut rebre la resposta del selector de fitxers del portal.",
   "The portal file picker failed: %1": "Ha fallat el selector de fitxers del portal: %1",
   "Changing this image": "S'està canviant aquesta imatge",
   "Make a new image instead": "Crea una imatge nova",
@@ -71,5 +68,7 @@
   "Make another like it": "Crea'n una altra de semblant",
   "Change it: the next image starts from it": "Canvia-la: la imatge següent parteix d'aquesta",
   "Couldn't read the image to start from": "No s'ha pogut llegir la imatge de partida",
-  "Describe the new image": "Descriu la imatge nova"
+  "Describe the new image": "Descriu la imatge nova",
+  "Save image": "Desa la imatge",
+  "Couldn't listen for the portal file picker's response.": "No s'ha pogut rebre la resposta del selector de fitxers del portal."
 }

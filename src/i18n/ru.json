@@ -16,7 +16,6 @@
   "Cancel": "Отмена",
   "Generate": "Создать изображение",
   "Start %1": "Запустить %1",
-  "Stop %1 and start": "Остановить %1 и запустить",
   "Install %1": "Установить %1",
   "Starting…": "Запуск…",
   "Setting up…": "Установка…",
@@ -61,9 +60,7 @@
   "Couldn't save the image as %1": "Не удалось сохранить изображение как %1",
   "Save": "Сохранить",
   "PNG image": "Изображение PNG",
-  "Save Image": "Сохранить изображение",
   "The XDG desktop portal file chooser is not available.": "Окно выбора файлов XDG desktop portal недоступно.",
-  "Could not listen for the portal file picker response.": "Не удалось получить ответ от окна выбора файлов портала.",
   "The portal file picker failed: %1": "Ошибка окна выбора файлов портала: %1",
   "Changing this image": "Изменение этого изображения",
   "Make a new image instead": "Создать новое изображение вместо этого",
@@ -72,5 +69,7 @@
   "Make another like it": "Создать ещё одно похожее",
   "Change it: the next image starts from it": "Изменить его: следующее изображение будет основано на нём",
   "Couldn't read the image to start from": "Не удалось прочитать исходное изображение",
-  "Describe the new image": "Опишите новое изображение"
+  "Describe the new image": "Опишите новое изображение",
+  "Save image": "Сохранить изображение",
+  "Couldn't listen for the portal file picker's response.": "Не удалось получить ответ от окна выбора файлов портала."
 }

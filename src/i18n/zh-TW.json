@@ -16,7 +16,6 @@
   "Cancel": "取消",
   "Generate": "產生",
   "Start %1": "啟動 %1",
-  "Stop %1 and start": "停止 %1 並啟動",
   "Install %1": "安裝 %1",
   "Starting…": "正在啟動…",
   "Setting up…": "正在設定…",
@@ -58,9 +57,7 @@
   "Couldn't save the image as %1": "無法將圖片另存為 %1",
   "Save": "儲存",
   "PNG image": "PNG 圖片",
-  "Save Image": "儲存圖片",
   "The XDG desktop portal file chooser is not available.": "無法使用 XDG 桌面入口檔案選擇器。",
-  "Could not listen for the portal file picker response.": "無法接收入口檔案選擇器的回應。",
   "The portal file picker failed: %1": "入口檔案選擇器發生錯誤：%1",
   "Changing this image": "正在修改這張圖片",
   "Make a new image instead": "改為產生新圖片",
@@ -69,5 +66,7 @@
   "Make another like it": "再產生一張類似的",
   "Change it: the next image starts from it": "修改：下一張圖片會以它為基礎",
   "Couldn't read the image to start from": "無法讀取作為起點的圖片",
-  "Describe the new image": "描述新圖片"
+  "Describe the new image": "描述新圖片",
+  "Save image": "儲存圖片",
+  "Couldn't listen for the portal file picker's response.": "無法接收入口檔案選擇器的回應。"
 }
