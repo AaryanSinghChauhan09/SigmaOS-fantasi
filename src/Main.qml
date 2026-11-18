@@ -29,6 +29,8 @@ ApplicationWindow {
     readonly property color muted: Qt.rgba(theme.foreground.r, theme.foreground.g, theme.foreground.b, 0.68)
     readonly property color line: theme.colors.selection
     readonly property color panel: theme.light ? Qt.darker(theme.background, 1.04) : Qt.darker(theme.background, 1.3)
+    // The history rail's own surface: a step lighter on a dark theme, darker on a light one.
+    readonly property color rail: theme.light ? Qt.darker(theme.background, 1.05) : Qt.lighter(theme.background, 1.6)
 
     // 0 Screen, 1 Square, 2 Portrait; a new image starts in the screen's shape.
     property int sizeChoice: 0
@@ -796,103 +798,105 @@ ApplicationWindow {
             }
 
 
-            Rectangle { Layout.preferredWidth: 1; Layout.fillHeight: true; color: win.line }
-
             // ----------------------------------------------------------- history
-            // A rail of its own width: its list fills the column, which would
-            // otherwise make the column take the image's space.
-            ColumnLayout {
-                Layout.preferredWidth: 124
-                Layout.maximumWidth: 124
+            // A rail of its own width and its own background: its list fills
+            // the column, which would otherwise take the image's space.
+            Rectangle {
+                Layout.preferredWidth: 152
+                Layout.maximumWidth: 152
                 Layout.fillWidth: false
                 Layout.fillHeight: true
-                Layout.margins: 14
-                spacing: 10
-
-                // The rail's heading, with the shortcuts' small ? beside it.
-                RowLayout {
-                    Layout.fillWidth: true
-                    Label { Layout.fillWidth: true; text: qsTr("History"); color: win.muted; font.pixelSize: 12 }
-                    Label {
-                        objectName: "shortcuts"
-                        text: "?"
-                        font.pixelSize: 12
-                        font.bold: true
-                        color: shortcutsHover.hovered ? theme.accent : win.muted
-                        Accessible.role: Accessible.Button
-                        Accessible.name: qsTr("Show or hide the shortcuts")
-                        ToolTip.visible: shortcutsHover.hovered
-                        ToolTip.text: qsTr("Show or hide the shortcuts") + "  F1"
-                        ToolTip.delay: 300
-                        HoverHandler { id: shortcutsHover; cursorShape: Qt.PointingHandCursor }
-                        TapHandler { onTapped: help.opened ? help.close() : help.open() }
-                    }
-                }
-                ListView {
-                    id: historyList
-                    objectName: "history"
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    clip: true
+                color: win.rail
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 14
                     spacing: 10
-                    currentIndex: -1
-                    model: history
-                    delegate: Item {
-                        id: entry
-                        required property int index
-                        required property string url
-                        required property string prompt
-                        width: ListView.view.width
-                        height: width
-                        // Its corners rounded as the theme rounds windows.
-                        Image {
-                            anchors.fill: parent
-                            source: entry.url
-                            sourceSize: Qt.size(192, 192)
-                            fillMode: Image.PreserveAspectCrop
-                            asynchronous: true
-                            layer.enabled: theme.radius > 0
-                            layer.effect: MultiEffect {
-                                maskEnabled: true
-                                maskSource: thumbMask
-                                maskThresholdMin: 0.5
-                                maskSpreadAtMin: 1.0
+
+                    // The rail's heading, with the shortcuts' small ? beside it.
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { Layout.fillWidth: true; text: qsTr("History"); color: win.muted; font.pixelSize: 12 }
+                        Label {
+                            objectName: "shortcuts"
+                            text: "?"
+                            font.pixelSize: 12
+                            font.bold: true
+                            color: shortcutsHover.hovered ? theme.accent : win.muted
+                            Accessible.role: Accessible.Button
+                            Accessible.name: qsTr("Show or hide the shortcuts")
+                            ToolTip.visible: shortcutsHover.hovered
+                            ToolTip.text: qsTr("Show or hide the shortcuts") + "  F1"
+                            ToolTip.delay: 300
+                            HoverHandler { id: shortcutsHover; cursorShape: Qt.PointingHandCursor }
+                            TapHandler { onTapped: help.opened ? help.close() : help.open() }
+                        }
+                    }
+                    ListView {
+                        id: historyList
+                        objectName: "history"
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        clip: true
+                        spacing: 10
+                        currentIndex: -1
+                        model: history
+                        delegate: Item {
+                            id: entry
+                            required property int index
+                            required property string url
+                            required property string prompt
+                            width: ListView.view.width
+                            height: width
+                            // Its corners rounded as the theme rounds windows.
+                            Image {
+                                anchors.fill: parent
+                                source: entry.url
+                                sourceSize: Qt.size(192, 192)
+                                fillMode: Image.PreserveAspectCrop
+                                asynchronous: true
+                                layer.enabled: theme.radius > 0
+                                layer.effect: MultiEffect {
+                                    maskEnabled: true
+                                    maskSource: thumbMask
+                                    maskThresholdMin: 0.5
+                                    maskSpreadAtMin: 1.0
+                                }
                             }
-                        }
-                        Item {
-                            id: thumbMask
-                            anchors.fill: parent
-                            visible: false
-                            layer.enabled: true
-                            Rectangle { anchors.fill: parent; radius: theme.radius; color: "black" }
-                        }
-                        Rectangle {
-                            anchors.fill: parent
-                            color: "transparent"
-                            radius: theme.radius
-                            border.color: theme.accent
-                            border.width: 2
-                            visible: entry.ListView.isCurrentItem
-                        }
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: win.pick(entry.index)
-                            // Takes the image's prompt back into the bar.
-                            onDoubleClicked: {
-                                win.pick(entry.index)
-                                win.baseImage = ""
-                                prompt.text = entry.prompt
+                            Item {
+                                id: thumbMask
+                                anchors.fill: parent
+                                visible: false
+                                layer.enabled: true
+                                Rectangle { anchors.fill: parent; radius: theme.radius; color: "black" }
+                            }
+                            Rectangle {
+                                anchors.fill: parent
+                                color: "transparent"
+                                radius: theme.radius
+                                border.color: theme.accent
+                                border.width: 2
+                                visible: entry.ListView.isCurrentItem
+                            }
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: win.pick(entry.index)
+                                // Takes the image's prompt back into the bar.
+                                onDoubleClicked: {
+                                    win.pick(entry.index)
+                                    win.baseImage = ""
+                                    prompt.text = entry.prompt
+                                }
                             }
                         }
                     }
-                }
-                Label {
-                    Layout.fillWidth: true
-                    visible: history.count === 0
-                    wrapMode: Text.Wrap
-                    color: win.muted
-                    font.pixelSize: 12
-                    text: qsTr("Your images appear here")
+                    Label {
+                        Layout.fillWidth: true
+                        visible: history.count === 0
+                        wrapMode: Text.Wrap
+                        color: win.muted
+                        font.pixelSize: 12
+                        text: qsTr("Your images appear here")
+                    }
                 }
             }
         }
