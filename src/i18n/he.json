@@ -57,8 +57,6 @@
   "Change it: say what should change": "שינוי התמונה: תיאור של מה שצריך לשנות",
   "Click to use %1": "יש ללחוץ כדי להשתמש ב־%1",
   "Change it": "שינוי התמונה",
-  "New image": "תמונה חדשה",
-  "Start a new image": "התחלת תמונה חדשה",
   "Screen, square or portrait": "מסך, ריבוע או לאורך",
   "%1 on %2": "%1 ב־%2",
   "Show or hide the history": "הצגה או הסתרה של ההיסטוריה",
@@ -66,5 +64,14 @@
   "Combining this picture": "משלבים את התמונה הזו",
   "How should they come together?": "איך הן צריכות להתחבר?",
   "Let this picture go": "לשחרר את התמונה הזו",
-  "Only a model that edits can combine pictures": "רק מודל שעורך יכול לשלב תמונות"
+  "Only a model that edits can combine pictures": "רק מודל שעורך יכול לשלב תמונות",
+  "Animate it": "הנפשת התמונה",
+  "How should it move?": "איך היא צריכה לזוז?",
+  "Describe a clip": "תארו קליפ",
+  "No video model is running": "אין מודל וידאו פעיל",
+  "WebM video": "סרטון WebM",
+  "%1 is making your clip": "המודל %1 יוצר את הקליפ שלך",
+  "Couldn't save the clip's poster in %1": "לא ניתן היה לשמור את תמונת השער של הקליפ בתיקייה %1",
+  "New generation": "יצירה חדשה",
+  "Start a new generation": "התחלת יצירה חדשה"
 }

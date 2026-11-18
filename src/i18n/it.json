@@ -57,8 +57,6 @@
   "Change it: say what should change": "Modifica l'immagine: descrivi cosa va cambiato",
   "Click to use %1": "Fai clic per usare %1",
   "Change it": "Modifica l'immagine",
-  "New image": "Nuova immagine",
-  "Start a new image": "Inizia una nuova immagine",
   "Screen, square or portrait": "Schermo, quadrato o verticale",
   "%1 on %2": "%1 su %2",
   "Show or hide the history": "Mostra o nascondi la cronologia",
@@ -66,5 +64,14 @@
   "Combining this picture": "Combinazione di questa immagine",
   "How should they come together?": "Come dovrebbero unirsi?",
   "Let this picture go": "Lascia andare questa immagine",
-  "Only a model that edits can combine pictures": "Solo un modello che modifica può combinare immagini"
+  "Only a model that edits can combine pictures": "Solo un modello che modifica può combinare immagini",
+  "Animate it": "Anima l'immagine",
+  "How should it move?": "Come deve muoversi?",
+  "Describe a clip": "Descrivi una clip",
+  "No video model is running": "Nessun modello video in esecuzione",
+  "WebM video": "Video WebM",
+  "%1 is making your clip": "%1 sta creando la tua clip",
+  "Couldn't save the clip's poster in %1": "Impossibile salvare la copertina della clip in %1",
+  "New generation": "Nuova generazione",
+  "Start a new generation": "Inizia una nuova generazione"
 }

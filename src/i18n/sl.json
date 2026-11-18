@@ -57,8 +57,6 @@
   "Change it: say what should change": "Spremeni sliko: opiši, kaj naj se spremeni",
   "Click to use %1": "Klikni za uporabo modela %1",
   "Change it": "Spremeni sliko",
-  "New image": "Nova slika",
-  "Start a new image": "Začni novo sliko",
   "Screen, square or portrait": "Zaslon, kvadrat ali pokončno",
   "%1 on %2": "%1 na %2",
   "Show or hide the history": "Pokaži ali skrij zgodovino",
@@ -66,5 +64,14 @@
   "Combining this picture": "Združevanje te slike",
   "How should they come together?": "Kako naj se združijo?",
   "Let this picture go": "Izpusti to sliko",
-  "Only a model that edits can combine pictures": "Slike lahko združuje samo model, ki ureja"
+  "Only a model that edits can combine pictures": "Slike lahko združuje samo model, ki ureja",
+  "Animate it": "Animiraj sliko",
+  "How should it move?": "Kako naj se premika?",
+  "Describe a clip": "Opišite posnetek",
+  "No video model is running": "Noben model za video ne teče",
+  "WebM video": "Video WebM",
+  "%1 is making your clip": "%1 ustvarja vaš posnetek",
+  "Couldn't save the clip's poster in %1": "Naslovne slike posnetka ni bilo mogoče shraniti v %1",
+  "New generation": "Novo generiranje",
+  "Start a new generation": "Začni novo generiranje"
 }

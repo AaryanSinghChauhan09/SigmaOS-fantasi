@@ -20,8 +20,10 @@ public:
         qint64 seed = -1;
         QString size;
         QDateTime modified;
+        // The clip a poster stands for; empty for an image.
+        QString video;
     };
-    enum Role { UrlRole = Qt::UserRole + 1, PathRole, PromptRole, SeedRole, SizeRole };
+    enum Role { UrlRole = Qt::UserRole + 1, PathRole, PromptRole, SeedRole, SizeRole, VideoRole };
 
     explicit History(const QString &folder, QObject *parent = nullptr);
 
@@ -35,7 +37,11 @@ public:
     static Entry readEntry(const QString &path);
     static QList<Entry> scan(const QString &folder);
 
-    Q_INVOKABLE QString urlAt(int row) const { return data(index(row), UrlRole).toString(); }
+    // What the entry shows: its image, or a poster's clip.
+    Q_INVOKABLE QString urlAt(int row) const {
+        const QString clip = data(index(row), VideoRole).toString();
+        return clip.isEmpty() ? data(index(row), UrlRole).toString() : clip;
+    }
     Q_INVOKABLE QString promptAt(int row) const { return data(index(row), PromptRole).toString(); }
     // Moves the image to the trash, from where it can come back.
     Q_INVOKABLE bool remove(int row);

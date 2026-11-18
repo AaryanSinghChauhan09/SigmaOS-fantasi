@@ -57,8 +57,6 @@
   "Change it: say what should change": "Ändra den: säg vad som ska ändras",
   "Click to use %1": "Klicka för att använda %1",
   "Change it": "Ändra den",
-  "New image": "Ny bild",
-  "Start a new image": "Börja på en ny bild",
   "Screen, square or portrait": "Skärm, kvadrat eller porträtt",
   "%1 on %2": "%1 på %2",
   "Show or hide the history": "Visa eller dölj historiken",
@@ -66,5 +64,14 @@
   "Combining this picture": "Kombinerar den här bilden",
   "How should they come together?": "Hur ska de smälta samman?",
   "Let this picture go": "Släpp den här bilden",
-  "Only a model that edits can combine pictures": "Bara en modell som redigerar kan kombinera bilder"
+  "Only a model that edits can combine pictures": "Bara en modell som redigerar kan kombinera bilder",
+  "Animate it": "Animera den",
+  "How should it move?": "Hur ska den röra sig?",
+  "Describe a clip": "Beskriv ett klipp",
+  "No video model is running": "Ingen videomodell körs",
+  "WebM video": "WebM-video",
+  "%1 is making your clip": "%1 skapar ditt klipp",
+  "Couldn't save the clip's poster in %1": "Kunde inte spara klippets omslagsbild i %1",
+  "New generation": "Ny generering",
+  "Start a new generation": "Börja på en ny generering"
 }

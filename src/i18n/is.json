@@ -57,8 +57,6 @@
   "Change it: say what should change": "Breyta mynd: segðu hverju á að breyta",
   "Click to use %1": "Smelltu til að nota %1",
   "Change it": "Breyta mynd",
-  "New image": "Ný mynd",
-  "Start a new image": "Byrja á nýrri mynd",
   "Screen, square or portrait": "Skjár, ferningur eða lóðrétt",
   "%1 on %2": "%1 á %2",
   "Show or hide the history": "Sýna eða fela söguna",
@@ -66,5 +64,14 @@
   "Combining this picture": "Sameina þessa mynd",
   "How should they come together?": "Hvernig eiga þær að koma saman?",
   "Let this picture go": "Sleppa þessari mynd",
-  "Only a model that edits can combine pictures": "Aðeins líkan sem breytir getur sameinað myndir"
+  "Only a model that edits can combine pictures": "Aðeins líkan sem breytir getur sameinað myndir",
+  "Animate it": "Hreyfa mynd",
+  "How should it move?": "Hvernig á hún að hreyfast?",
+  "Describe a clip": "Lýstu myndskeiði",
+  "No video model is running": "Ekkert myndbandslíkan er í gangi",
+  "WebM video": "WebM-myndband",
+  "%1 is making your clip": "%1 er að búa til myndskeiðið þitt",
+  "Couldn't save the clip's poster in %1": "Ekki tókst að vista forsíðumynd myndskeiðsins í %1",
+  "New generation": "Ný myndun",
+  "Start a new generation": "Byrja á nýrri myndun"
 }

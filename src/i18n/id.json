@@ -57,8 +57,6 @@
   "Change it: say what should change": "Ubah gambar: tulis apa yang perlu diubah",
   "Click to use %1": "Klik untuk memakai %1",
   "Change it": "Ubah gambar",
-  "New image": "Gambar baru",
-  "Start a new image": "Mulai gambar baru",
   "Screen, square or portrait": "Layar, persegi, atau potret",
   "%1 on %2": "%1 di %2",
   "Show or hide the history": "Tampilkan atau sembunyikan riwayat",
@@ -66,5 +64,14 @@
   "Combining this picture": "Menggabungkan gambar ini",
   "How should they come together?": "Bagaimana mereka sebaiknya menyatu?",
   "Let this picture go": "Lepaskan gambar ini",
-  "Only a model that edits can combine pictures": "Hanya model yang bisa mengedit yang dapat menggabungkan gambar"
+  "Only a model that edits can combine pictures": "Hanya model yang bisa mengedit yang dapat menggabungkan gambar",
+  "Animate it": "Animasikan gambar",
+  "How should it move?": "Bagaimana gambar harus bergerak?",
+  "Describe a clip": "Deskripsikan klip",
+  "No video model is running": "Tidak ada model video yang berjalan",
+  "WebM video": "Video WebM",
+  "%1 is making your clip": "%1 sedang membuat klip Anda",
+  "Couldn't save the clip's poster in %1": "Tidak dapat menyimpan poster klip di %1",
+  "New generation": "Pembuatan baru",
+  "Start a new generation": "Mulai pembuatan baru"
 }

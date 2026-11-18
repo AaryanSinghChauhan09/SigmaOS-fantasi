@@ -46,10 +46,22 @@ ApplicationWindow {
     // with a model that edits, up to four.
     property var baseImages: []
     readonly property bool changing: baseImages.length > 0
-    readonly property bool canAddPicture: !changing || (models.canEdit && baseImages.length < 4)
+    // A clip starts from one picture; a change combines up to four with a model that edits.
+    readonly property bool canAddPicture: !changing || (!videoMode && models.canEdit && baseImages.length < 4)
     // Writing a prompt, or looking at a finished image and choosing what's
     // next: change it, make a new one, or use it.
     property bool composing: true
+    // The model in use makes clips: from the prompt alone, or animating the
+    // picture being changed.
+    readonly property bool videoMode: models.video
+    // A clip starts from one picture: switching to a video model keeps the first.
+    onVideoModeChanged: if (videoMode && baseImages.length > 1) baseImages = [baseImages[0]]
+    // A clip in the frame: its poster stands in for it as an image.
+    readonly property bool showingClip: shownFile.endsWith(".webm")
+    readonly property string shownImage: showingClip ? shownFile.slice(0, -5) + ".png" : generator.image
+    // The player loads with the first clip shown, and stays.
+    property bool playerWanted: false
+    onShowingClipChanged: if (showingClip) playerWanted = true
     readonly property bool choosing: !composing && shownFile !== "" && !generator.busy
     // The history image a new one was started from, for Esc to go back to.
     property int returnIndex: -1
@@ -57,7 +69,7 @@ ApplicationWindow {
     // What the model is doing, for its icon's tooltip and the empty stage.
     readonly property string modelStatus: {
         switch (models.state) {
-        case "ready": return generator.busy ? qsTr("%1 is making your image").arg(models.modelName)
+        case "ready": return generator.busy ? (models.video ? qsTr("%1 is making your clip") : qsTr("%1 is making your image")).arg(models.modelName)
                                             : qsTr("%1 is ready").arg(models.modelName)
         case "starting": return qsTr("Starting %1…").arg(models.modelName)
         case "installing": return qsTr("Setting up %1…").arg(models.modelName)
@@ -73,6 +85,7 @@ ApplicationWindow {
     // What was last sent, to tell it from what is typed while it's made.
     property string sentPrompt
     property var sentPictures: []
+    property bool sentVideo: false
     // How far along the image is being made, 0 to 1: the steps, then whole
     // once they're done and it's finishing.
     readonly property real progress: !generator.busy ? 0
@@ -86,18 +99,26 @@ ApplicationWindow {
             return
         sentPrompt = prompt.text
         sentPictures = baseImages
-        generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImages, models.edits)
+        sentVideo = videoMode
+        if (videoMode)
+            generator.makeVideo(prompt.text, outputSize.width, outputSize.height, baseImages.length > 0 ? baseImages[0] : "")
+        else
+            generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImages, models.edits)
     }
     // Makes another like the last one asked for, though the prompt has cleared.
     function repeat() {
         if (models.state !== "ready" || generator.busy || sentPrompt.trim() === "")
             return
-        generator.generate(sentPrompt, outputSize.width, outputSize.height, 0, -1, sentPictures, models.edits)
+        // A clip again as a clip, while the model in use still makes them.
+        if (sentVideo && videoMode)
+            generator.makeVideo(sentPrompt, outputSize.width, outputSize.height, sentPictures.length > 0 ? sentPictures[0] : "")
+        else if (!sentVideo && !videoMode)
+            generator.generate(sentPrompt, outputSize.width, outputSize.height, 0, -1, sentPictures, models.edits)
     }
     // Makes the shown image the one to change, with an empty prompt for
     // what should change.
     function changeImage() {
-        if (shownFile === "" || generator.busy)
+        if (shownFile === "" || showingClip || generator.busy)
             return
         composing = true
         baseImages = [shownFile]
@@ -110,10 +131,10 @@ ApplicationWindow {
         if (generator.busy)
             return
         // With four already, another is refused rather than replacing them.
-        if (changing && models.canEdit && !canAddPicture)
+        if (changing && models.canEdit && !videoMode && !canAddPicture)
             return
         composing = true
-        if (changing && models.canEdit)
+        if (changing && models.canEdit && !videoMode)
             baseImages = baseImages.indexOf(url) < 0 ? baseImages.concat([url]) : baseImages
         else
             baseImages = [url]
@@ -147,7 +168,7 @@ ApplicationWindow {
     function backToImage() {
         if (changing) {
             baseImages = []
-            composing = false
+                composing = false
         } else if (prompt.text === "" && returnIndex >= 0) {
             pick(returnIndex)
         }
@@ -159,7 +180,7 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+Return"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+Enter"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+R"; enabled: models.state === "ready" && !generator.busy; onActivated: win.canGenerate ? win.generate() : win.repeat() }
-    Shortcut { sequence: "Ctrl+E"; enabled: win.shownFile !== "" && !generator.busy; onActivated: win.changeImage() }
+    Shortcut { sequence: "Ctrl+E"; enabled: win.shownFile !== "" && !win.showingClip && !generator.busy; onActivated: win.changeImage() }
     Shortcut { sequence: "Ctrl+O"; enabled: win.page === "studio" && !generator.busy; onActivated: backend.openPicture() }
     // Esc stops an image being made, or else goes back to the image shown.
     Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }
@@ -314,12 +335,26 @@ ApplicationWindow {
                             id: shown
                             objectName: "image"
                             anchors.fill: parent
-                            source: generator.image
+                            source: win.shownImage
                             fillMode: Image.PreserveAspectFit
                             asynchronous: true
                             smooth: true
                             opacity: generator.busy && win.changing ? 0.2 + 0.8 * win.progress : 1
                             Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
+                        }
+                        Loader {
+                            id: player
+                            objectName: "player"
+                            anchors.fill: parent
+                            active: win.playerWanted
+                            visible: win.showingClip
+                            source: "qrc:/VideoPlayer.qml"
+                        }
+                        Binding {
+                            target: player.item
+                            property: "source"
+                            value: win.showingClip ? win.shownFile : ""
+                            when: player.status === Loader.Ready
                         }
 
                         // While it's being made, its edge says how far along it is:
@@ -485,14 +520,15 @@ ApplicationWindow {
                         Item { Layout.fillWidth: true }
                         Repeater {
                             model: [
-                                { name: "changeIt", icon: "change", label: qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage() },
-                                { name: "newImage", icon: "new", label: qsTr("New image"), key: "Ctrl+N", run: () => win.newImage() },
+                                { name: "changeIt", icon: "change", label: win.videoMode ? qsTr("Animate it") : qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage(), shown: !win.showingClip },
+                                { name: "newImage", icon: "new", label: qsTr("New generation"), key: "Ctrl+N", run: () => win.newImage() },
                                 { name: "copy", icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
                                 { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
                             ]
                             delegate: ToolButton {
                                 required property var modelData
                                 objectName: modelData.name
+                                visible: modelData.shown !== false
                                 Layout.preferredWidth: 32
                                 Layout.preferredHeight: 32
                                 padding: 0
@@ -645,7 +681,8 @@ ApplicationWindow {
                                     visible: prompt.length === 0 && prompt.preeditText === ""
                                     color: win.muted
                                     font: prompt.font
-                                    text: win.baseImages.length > 1 ? qsTr("How should they come together?")
+                                    text: win.videoMode ? (win.changing ? qsTr("How should it move?") : qsTr("Describe a clip"))
+                                          : win.baseImages.length > 1 ? qsTr("How should they come together?")
                                           : win.changing ? qsTr("What should change?") : qsTr("Describe an image")
                                 }
                                 // Enter sends the prompt; Shift+Enter is a new line.
@@ -887,6 +924,7 @@ ApplicationWindow {
                             required property int index
                             required property string url
                             required property string prompt
+                        required property string video
                             width: ListView.view.width
                             height: width
                             // Its corners rounded as the theme rounds windows.
@@ -919,7 +957,25 @@ ApplicationWindow {
                                 border.width: 2
                                 visible: entry.ListView.isCurrentItem
                             }
-                            MouseArea {
+                            // A clip: a play mark on its poster.
+                        Rectangle {
+                            visible: entry.video !== ""
+                            anchors.right: parent.right
+                            anchors.bottom: parent.bottom
+                            anchors.margins: 6
+                            width: 22
+                            height: 22
+                            radius: 11
+                            color: Qt.rgba(0, 0, 0, 0.6)
+                            Label {
+                                anchors.centerIn: parent
+                                anchors.horizontalCenterOffset: 1
+                                text: "▶"
+                                color: "white"
+                                font.pixelSize: 10
+                            }
+                        }
+                        MouseArea {
                                 anchors.fill: parent
                                 onClicked: win.pick(entry.index)
                                 // Takes the image's prompt back into the bar.
@@ -961,7 +1017,7 @@ ApplicationWindow {
                     { keys: "Esc", action: qsTr("Stop making it, or go back to a new image") },
                     { keys: "Ctrl+R", action: qsTr("Make another like it") },
                     { keys: "Ctrl+E", action: qsTr("Change it: say what should change") },
-                    { keys: "Ctrl+N", action: qsTr("Start a new image") },
+                    { keys: "Ctrl+N", action: qsTr("Start a new generation") },
                     { keys: "Ctrl+O", action: qsTr("Start from a picture of your own") },
                     { keys: "Ctrl+1 2 3", action: qsTr("Screen, square or portrait") },
                     { keys: "Ctrl+B", action: qsTr("Show or hide the history") },

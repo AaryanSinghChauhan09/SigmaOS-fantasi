@@ -57,8 +57,6 @@
   "Change it: say what should change": "Muuta kuvaa: kerro, mitä pitäisi muuttaa",
   "Click to use %1": "Napsauta käyttääksesi mallia %1",
   "Change it": "Muuta kuvaa",
-  "New image": "Uusi kuva",
-  "Start a new image": "Aloita uusi kuva",
   "Screen, square or portrait": "Näyttö, neliö tai pysty",
   "%1 on %2": "%1 koneella %2",
   "Show or hide the history": "Näytä tai piilota historia",
@@ -66,5 +64,14 @@
   "Combining this picture": "Yhdistetään tätä kuvaa",
   "How should they come together?": "Miten niiden pitäisi yhdistyä?",
   "Let this picture go": "Päästä tästä kuvasta irti",
-  "Only a model that edits can combine pictures": "Vain muokkaava malli voi yhdistää kuvia"
+  "Only a model that edits can combine pictures": "Vain muokkaava malli voi yhdistää kuvia",
+  "Animate it": "Animoi kuva",
+  "How should it move?": "Miten sen pitäisi liikkua?",
+  "Describe a clip": "Kuvaile leike",
+  "No video model is running": "Videomalli ei ole käynnissä",
+  "WebM video": "WebM-video",
+  "%1 is making your clip": "%1 tekee leikettäsi",
+  "Couldn't save the clip's poster in %1": "Leikkeen kansikuvaa ei voitu tallentaa kansioon %1",
+  "New generation": "Uusi generointi",
+  "Start a new generation": "Aloita uusi generointi"
 }

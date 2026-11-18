@@ -92,7 +92,8 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
     for (auto it = models.begin(); it != models.end(); ++it) {
         QJsonObject row = it.value().toObject();
         row.insert("id", it.key());
-        if (isImage(row))
+        // A video model is chosen like an image one: what it makes is clips.
+        if (isImage(row) || row.value("kind").toString() == "video")
             images << row;
         else if (row.value("unit").toString() == "active") {
             runningText << row.value("name").toString(it.key());
@@ -110,7 +111,8 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
     for (const QJsonObject &row : images)
         if (row.value("unit").toString() != "installing")
             found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())},
-                                         {"running", row.value("unit").toString() == "active"}};
+                                         {"running", row.value("unit").toString() == "active"},
+                                         {"video", row.value("kind").toString() == "video"}};
     for (const QJsonObject &row : images)
         if (row.value("unit").toString() == "active" && row.value("edit").toBool() && found.editEndpoint.isEmpty()) {
             found.editEndpoint = row.value("endpoint").toString();
@@ -129,6 +131,7 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
             found.name = row.value("name").toString(found.id);
             found.endpoint = row.value("endpoint").toString();
             found.edits = row.value("edit").toBool();
+            found.video = row.value("kind").toString() == "video";
             found.state = QString(unit) == "active" ? "ready" : QString(unit) == "activating" ? "starting" : "installing";
             // What a setup screen shows: the download's progress, then the
             // start, timed against how long the catalog measured one to take.
@@ -153,6 +156,7 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
         const QJsonObject &row = images.first();
         found.id = row.value("id").toString();
         found.name = row.value("name").toString(found.id);
+        found.video = row.value("kind").toString() == "video";
         // An installed model the memory can't hold right now waits for the
         // text models in its way.
         if (row.value("fits").toBool(true) || runningText.isEmpty()) {
@@ -210,6 +214,7 @@ static QString originOf(const QString &endpoint) {
 
 QString Models::origin() const { return originOf(m_found.endpoint); }
 QString Models::editOrigin() const { return originOf(m_found.editEndpoint); }
+QString Models::videoOrigin() const { return m_found.video ? origin() : QString(); }
 
 QString Models::logo(const QString &vendor, bool light) {
     const QString omarchy = qEnvironmentVariable("OMARCHY_PATH");
@@ -315,7 +320,8 @@ void Models::reload() {
     const QJsonObject network = readJson(m_directory + "/network.json").object().value("models").toObject();
     for (auto it = network.begin(); it != network.end(); ++it) {
         QJsonObject row = it.value().toObject();
-        if (row.value("kind").toString() != "image" || !row.value("paired").toBool() || !row.value("offline").toString().isEmpty()
+        const QString kind = row.value("kind").toString();
+        if ((kind != "image" && kind != "video") || !row.value("paired").toBool() || !row.value("offline").toString().isEmpty()
             || row.value("unit").toString() != "active")
             continue;
         row.insert("name", tr("%1 on %2").arg(row.value("name").toString(it.key()), row.value("host").toString()));
@@ -345,7 +351,7 @@ void Models::reload() {
 
     if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
         || found.reason != m_found.reason || found.blockers != m_found.blockers
-        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor
+        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor || found.video != m_found.video
         || found.setupPhase != m_found.setupPhase || found.doneBytes != m_found.doneBytes || found.totalBytes != m_found.totalBytes
         || found.rateBytes != m_found.rateBytes || found.startedMs != m_found.startedMs || found.loadSeconds != m_found.loadSeconds
         || found.firstStart != m_found.firstStart || settingUp != m_settingUp) {

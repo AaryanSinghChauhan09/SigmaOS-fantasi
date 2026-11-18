@@ -57,8 +57,6 @@
   "Change it: say what should change": "රූපය වෙනස් කරන්න: වෙනස් විය යුතු දේ කියන්න",
   "Click to use %1": "%1 භාවිත කිරීමට ක්ලික් කරන්න",
   "Change it": "රූපය වෙනස් කරන්න",
-  "New image": "නව රූපය",
-  "Start a new image": "නව රූපයක් අරඹන්න",
   "Screen, square or portrait": "තිරය, සමචතුරස්‍ර හෝ සිරස්",
   "%1 on %2": "%2 හි %1",
   "Show or hide the history": "ඉතිහාසය පෙන්වන්න හෝ සඟවන්න",
@@ -66,5 +64,14 @@
   "Combining this picture": "මෙම රූපය ඒකාබද්ධ කරමින්",
   "How should they come together?": "ඒවා එකට එක් විය යුත්තේ කෙසේද?",
   "Let this picture go": "මෙම රූපය අත්හරින්න",
-  "Only a model that edits can combine pictures": "රූප ඒකාබද්ධ කළ හැක්කේ සංස්කරණය කරන ආකෘතියකට පමණි"
+  "Only a model that edits can combine pictures": "රූප ඒකාබද්ධ කළ හැක්කේ සංස්කරණය කරන ආකෘතියකට පමණි",
+  "Animate it": "රූපය චලනය කරන්න",
+  "How should it move?": "එය චලනය විය යුත්තේ කෙසේද?",
+  "Describe a clip": "ක්ලිපයක් විස්තර කරන්න",
+  "No video model is running": "කිසිදු වීඩියෝ මාදිලියක් ධාවනය නොවේ",
+  "WebM video": "WebM වීඩියෝව",
+  "%1 is making your clip": "%1 ඔබේ ක්ලිපය සාදමින් සිටී",
+  "Couldn't save the clip's poster in %1": "ක්ලිපයේ පෝස්ටරය %1 තුළ සුරැකිය නොහැකි විය",
+  "New generation": "නව උත්පාදනය",
+  "Start a new generation": "නව උත්පාදනයක් අරඹන්න"
 }

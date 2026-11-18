@@ -57,8 +57,6 @@
   "Change it: say what should change": "Промени слику: опиши шта треба променити",
   "Click to use %1": "Кликни да користиш %1",
   "Change it": "Промени слику",
-  "New image": "Нова слика",
-  "Start a new image": "Започни нову слику",
   "Screen, square or portrait": "Екран, квадрат или усправно",
   "%1 on %2": "%1 на %2",
   "Show or hide the history": "Прикажи или сакриј историју",
@@ -66,5 +64,14 @@
   "Combining this picture": "Спајање ове слике",
   "How should they come together?": "Како треба да се споје?",
   "Let this picture go": "Пусти ову слику",
-  "Only a model that edits can combine pictures": "Само модел који уређује може да спаја слике"
+  "Only a model that edits can combine pictures": "Само модел који уређује може да спаја слике",
+  "Animate it": "Анимирај слику",
+  "How should it move?": "Како треба да се креће?",
+  "Describe a clip": "Опишите клип",
+  "No video model is running": "Ниједан модел за видео није покренут",
+  "WebM video": "WebM видео",
+  "%1 is making your clip": "%1 прави ваш снимак",
+  "Couldn't save the clip's poster in %1": "Насловна слика снимка није могла да се сачува у %1",
+  "New generation": "Ново генерисање",
+  "Start a new generation": "Започни ново генерисање"
 }

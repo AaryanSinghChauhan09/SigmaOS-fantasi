@@ -57,8 +57,6 @@
   "Change it: say what should change": "Αλλαγή εικόνας: περιγραφή του τι πρέπει να αλλάξει",
   "Click to use %1": "Κάντε κλικ για χρήση του %1",
   "Change it": "Αλλαγή εικόνας",
-  "New image": "Νέα εικόνα",
-  "Start a new image": "Έναρξη νέας εικόνας",
   "Screen, square or portrait": "Οθόνη, τετράγωνο ή πορτρέτο",
   "%1 on %2": "%1 στο %2",
   "Show or hide the history": "Εμφάνιση ή απόκρυψη του ιστορικού",
@@ -66,5 +64,14 @@
   "Combining this picture": "Συνδυάζετε αυτή την εικόνα",
   "How should they come together?": "Πώς πρέπει να ενωθούν;",
   "Let this picture go": "Αφήστε αυτή την εικόνα",
-  "Only a model that edits can combine pictures": "Μόνο ένα μοντέλο που επεξεργάζεται μπορεί να συνδυάσει εικόνες"
+  "Only a model that edits can combine pictures": "Μόνο ένα μοντέλο που επεξεργάζεται μπορεί να συνδυάσει εικόνες",
+  "Animate it": "Κίνηση εικόνας",
+  "How should it move?": "Πώς πρέπει να κινείται;",
+  "Describe a clip": "Περιγράψτε ένα κλιπ",
+  "No video model is running": "Δεν εκτελείται κανένα μοντέλο βίντεο",
+  "WebM video": "Βίντεο WebM",
+  "%1 is making your clip": "Το %1 δημιουργεί το κλιπ σας",
+  "Couldn't save the clip's poster in %1": "Δεν ήταν δυνατή η αποθήκευση της εικόνας εξωφύλλου του κλιπ στο %1",
+  "New generation": "Νέα δημιουργία",
+  "Start a new generation": "Έναρξη νέας δημιουργίας"
 }

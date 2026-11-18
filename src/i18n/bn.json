@@ -57,8 +57,6 @@
   "Change it: say what should change": "ছবিটি বদলান: কী বদলাতে হবে তা লিখুন",
   "Click to use %1": "%1 ব্যবহার করতে ক্লিক করুন",
   "Change it": "ছবিটি বদলান",
-  "New image": "নতুন ছবি",
-  "Start a new image": "নতুন ছবি শুরু করুন",
   "Screen, square or portrait": "স্ক্রিন, বর্গাকার বা পোর্ট্রেট",
   "%1 on %2": "%2-এ %1",
   "Show or hide the history": "ইতিহাস দেখান বা লুকান",
@@ -66,5 +64,14 @@
   "Combining this picture": "এই ছবিটি মেলানো হচ্ছে",
   "How should they come together?": "এগুলো কীভাবে একসাথে মিলবে?",
   "Let this picture go": "এই ছবিটি বাদ দিন",
-  "Only a model that edits can combine pictures": "শুধু সম্পাদনা করতে পারে এমন মডেলই ছবি মেলাতে পারে"
+  "Only a model that edits can combine pictures": "শুধু সম্পাদনা করতে পারে এমন মডেলই ছবি মেলাতে পারে",
+  "Animate it": "ছবিটি চলমান করুন",
+  "How should it move?": "এটি কীভাবে নড়বে?",
+  "Describe a clip": "একটি ক্লিপের বর্ণনা দিন",
+  "No video model is running": "কোনো ভিডিও মডেল চলছে না",
+  "WebM video": "WebM ভিডিও",
+  "%1 is making your clip": "%1 আপনার ক্লিপ তৈরি করছে",
+  "Couldn't save the clip's poster in %1": "ক্লিপের পোস্টার %1-এ সংরক্ষণ করা যায়নি",
+  "New generation": "নতুন জেনারেশন",
+  "Start a new generation": "নতুন জেনারেশন শুরু করুন"
 }

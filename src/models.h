@@ -43,6 +43,8 @@ class Models : public QObject {
     Q_PROPERTY(double loadSeconds READ loadSeconds NOTIFY changed)
     Q_PROPERTY(QString vendor READ vendor NOTIFY changed)
     Q_PROPERTY(bool canEdit READ canEdit NOTIFY changed)
+    // The model in use makes clips with their sound rather than images.
+    Q_PROPERTY(bool video READ video NOTIFY changed)
     Q_PROPERTY(QString error READ error NOTIFY changed)
 
 public:
@@ -73,6 +75,8 @@ public:
         // Starting for the first time ever: the engine records how a start went
         // (`observed`) only once one has succeeded.
         bool firstStart = false;
+        // The model in use makes clips rather than images.
+        bool video = false;
     };
 
     // The engine's state folder, its key file, and the command that drives
@@ -94,6 +98,10 @@ public:
     QVariantList choices() const { return m_found.choices; }
     // Whether a running model edits by instruction, which can take several pictures.
     bool canEdit() const { return !m_found.editEndpoint.isEmpty(); }
+    bool video() const { return m_found.video; }
+    // The video model's server, when it's the one in use and running.
+    QString videoOrigin() const;
+    QByteArray videoKey() const { return key(); }
     QString vendor() const { return m_found.vendor; }
     bool settingUp() const { return m_settingUp; }
     QString setupPhase() const { return m_found.setupPhase; }

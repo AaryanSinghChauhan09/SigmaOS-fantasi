@@ -72,8 +72,6 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    if (!modelId.isEmpty())
-        QSettings().setValue("model", modelId);
     Theme theme;
     Backend backend;
     backend.setInitialPrompt(initialPrompt);
@@ -89,6 +87,10 @@ int main(int argc, char *argv[]) {
     engine.load(QUrl("qrc:/Main.qml"));
     if (engine.rootObjects().isEmpty())
         return 1;
+    // The model asked for, once the models are known: an image model to use,
+    // or the video model to make clips with.
+    if (!modelId.isEmpty())
+        backend.open(modelId, {});
 
     // `omarchy agent look app` runs the app offscreen with these set, to see
     // the window without a display: size it to OMARCHY_LOOK_SIZE when given,

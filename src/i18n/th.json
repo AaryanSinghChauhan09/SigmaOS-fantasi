@@ -57,8 +57,6 @@
   "Change it: say what should change": "แก้ไขภาพ: บอกว่าต้องการแก้ไขอะไร",
   "Click to use %1": "คลิกเพื่อใช้ %1",
   "Change it": "แก้ไขภาพ",
-  "New image": "ภาพใหม่",
-  "Start a new image": "เริ่มภาพใหม่",
   "Screen, square or portrait": "หน้าจอ สี่เหลี่ยมจัตุรัส หรือแนวตั้ง",
   "%1 on %2": "%1 บน %2",
   "Show or hide the history": "แสดงหรือซ่อนประวัติ",
@@ -66,5 +64,14 @@
   "Combining this picture": "กำลังรวมภาพนี้",
   "How should they come together?": "ต้องการให้รวมกันอย่างไร",
   "Let this picture go": "ปล่อยภาพนี้ไป",
-  "Only a model that edits can combine pictures": "มีเพียงโมเดลที่แก้ไขภาพได้เท่านั้นที่รวมรูปภาพได้"
+  "Only a model that edits can combine pictures": "มีเพียงโมเดลที่แก้ไขภาพได้เท่านั้นที่รวมรูปภาพได้",
+  "Animate it": "ทำให้ภาพเคลื่อนไหว",
+  "How should it move?": "ต้องการให้เคลื่อนไหวอย่างไร",
+  "Describe a clip": "อธิบายคลิปที่ต้องการ",
+  "No video model is running": "ไม่มีโมเดลวิดีโอที่ทำงานอยู่",
+  "WebM video": "วิดีโอ WebM",
+  "%1 is making your clip": "%1 กำลังสร้างคลิปของคุณ",
+  "Couldn't save the clip's poster in %1": "บันทึกภาพปกของคลิปใน %1 ไม่ได้",
+  "New generation": "การสร้างใหม่",
+  "Start a new generation": "เริ่มการสร้างใหม่"
 }

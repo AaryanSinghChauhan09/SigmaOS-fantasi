@@ -57,8 +57,6 @@
   "Change it: say what should change": "修改圖片：描述要修改的內容",
   "Click to use %1": "點按以使用 %1",
   "Change it": "修改圖片",
-  "New image": "新圖片",
-  "Start a new image": "開始新圖片",
   "Screen, square or portrait": "螢幕、正方形或直式",
   "%1 on %2": "%2 上的 %1",
   "Show or hide the history": "顯示或隱藏歷史紀錄",
@@ -66,5 +64,14 @@
   "Combining this picture": "正在合成這張圖片",
   "How should they come together?": "要怎樣把它們合在一起？",
   "Let this picture go": "移除這張圖片",
-  "Only a model that edits can combine pictures": "只有能編輯的模型才能合成圖片"
+  "Only a model that edits can combine pictures": "只有能編輯的模型才能合成圖片",
+  "Animate it": "讓圖片動起來",
+  "How should it move?": "它該如何移動？",
+  "Describe a clip": "描述一段短片",
+  "No video model is running": "沒有正在執行的影片模型",
+  "WebM video": "WebM 影片",
+  "%1 is making your clip": "%1 正在產生你的短片",
+  "Couldn't save the clip's poster in %1": "無法將短片的封面儲存到 %1",
+  "New generation": "新生成",
+  "Start a new generation": "開始新生成"
 }

@@ -57,8 +57,6 @@
   "Change it: say what should change": "Modifică imaginea: descrie ce ar trebui să se schimbe",
   "Click to use %1": "Fă clic pentru a folosi %1",
   "Change it": "Modifică imaginea",
-  "New image": "Imagine nouă",
-  "Start a new image": "Începe o imagine nouă",
   "Screen, square or portrait": "Ecran, pătrat sau portret",
   "%1 on %2": "%1 pe %2",
   "Show or hide the history": "Arată sau ascunde istoricul",
@@ -66,5 +64,14 @@
   "Combining this picture": "Se combină această imagine",
   "How should they come together?": "Cum ar trebui să se îmbine?",
   "Let this picture go": "Renunță la această imagine",
-  "Only a model that edits can combine pictures": "Doar un model care editează poate combina imagini"
+  "Only a model that edits can combine pictures": "Doar un model care editează poate combina imagini",
+  "Animate it": "Animează imaginea",
+  "How should it move?": "Cum ar trebui să se miște?",
+  "Describe a clip": "Descrie un clip",
+  "No video model is running": "Niciun model video nu rulează",
+  "WebM video": "Videoclip WebM",
+  "%1 is making your clip": "%1 îți creează clipul",
+  "Couldn't save the clip's poster in %1": "Nu s-a putut salva coperta clipului în %1",
+  "New generation": "Generare nouă",
+  "Start a new generation": "Începe o generare nouă"
 }
