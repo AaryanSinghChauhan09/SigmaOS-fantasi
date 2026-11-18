@@ -74,5 +74,7 @@
   "No video model is running": "Tidak ada model video yang berjalan",
   "WebM video": "Video WebM",
   "%1 is making your clip": "%1 sedang membuat klip Anda",
-  "Couldn't save the clip's poster in %1": "Tidak dapat menyimpan poster klip di %1"
+  "Couldn't save the clip's poster in %1": "Tidak dapat menyimpan poster klip di %1",
+  "New generation": "Pembuatan baru",
+  "Start a new generation": "Mulai pembuatan baru"
 }

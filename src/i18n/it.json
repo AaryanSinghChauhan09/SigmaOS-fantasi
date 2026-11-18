@@ -74,5 +74,7 @@
   "No video model is running": "Nessun modello video in esecuzione",
   "WebM video": "Video WebM",
   "%1 is making your clip": "%1 sta creando la tua clip",
-  "Couldn't save the clip's poster in %1": "Impossibile salvare la copertina della clip in %1"
+  "Couldn't save the clip's poster in %1": "Impossibile salvare la copertina della clip in %1",
+  "New generation": "Nuova generazione",
+  "Start a new generation": "Inizia una nuova generazione"
 }

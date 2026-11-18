@@ -74,5 +74,7 @@
   "No video model is running": "Жодна модель відео не запущена",
   "WebM video": "Відео WebM",
   "%1 is making your clip": "%1 створює ваш кліп",
-  "Couldn't save the clip's poster in %1": "Не вдалося зберегти обкладинку кліпу в %1"
+  "Couldn't save the clip's poster in %1": "Не вдалося зберегти обкладинку кліпу в %1",
+  "New generation": "Нова генерація",
+  "Start a new generation": "Почати нову генерацію"
 }

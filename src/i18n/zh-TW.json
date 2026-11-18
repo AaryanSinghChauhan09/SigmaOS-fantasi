@@ -74,5 +74,7 @@
   "No video model is running": "沒有正在執行的影片模型",
   "WebM video": "WebM 影片",
   "%1 is making your clip": "%1 正在產生你的短片",
-  "Couldn't save the clip's poster in %1": "無法將短片的封面儲存到 %1"
+  "Couldn't save the clip's poster in %1": "無法將短片的封面儲存到 %1",
+  "New generation": "新生成",
+  "Start a new generation": "開始新生成"
 }

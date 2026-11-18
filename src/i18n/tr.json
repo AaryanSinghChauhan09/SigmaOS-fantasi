@@ -74,5 +74,7 @@
   "No video model is running": "Çalışan bir video modeli yok",
   "WebM video": "WebM videosu",
   "%1 is making your clip": "%1 klibinizi oluşturuyor",
-  "Couldn't save the clip's poster in %1": "Klibin kapak görseli şuraya kaydedilemedi: %1"
+  "Couldn't save the clip's poster in %1": "Klibin kapak görseli şuraya kaydedilemedi: %1",
+  "New generation": "Yeni üretim",
+  "Start a new generation": "Yeni üretim başlat"
 }

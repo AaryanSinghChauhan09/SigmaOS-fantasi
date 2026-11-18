@@ -74,5 +74,7 @@
   "No video model is running": "කිසිදු වීඩියෝ මාදිලියක් ධාවනය නොවේ",
   "WebM video": "WebM වීඩියෝව",
   "%1 is making your clip": "%1 ඔබේ ක්ලිපය සාදමින් සිටී",
-  "Couldn't save the clip's poster in %1": "ක්ලිපයේ පෝස්ටරය %1 තුළ සුරැකිය නොහැකි විය"
+  "Couldn't save the clip's poster in %1": "ක්ලිපයේ පෝස්ටරය %1 තුළ සුරැකිය නොහැකි විය",
+  "New generation": "නව උත්පාදනය",
+  "Start a new generation": "නව උත්පාදනයක් අරඹන්න"
 }

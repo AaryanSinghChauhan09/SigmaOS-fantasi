@@ -74,5 +74,7 @@
   "No video model is running": "Niciun model video nu rulează",
   "WebM video": "Videoclip WebM",
   "%1 is making your clip": "%1 îți creează clipul",
-  "Couldn't save the clip's poster in %1": "Nu s-a putut salva coperta clipului în %1"
+  "Couldn't save the clip's poster in %1": "Nu s-a putut salva coperta clipului în %1",
+  "New generation": "Generare nouă",
+  "Start a new generation": "Începe o generare nouă"
 }

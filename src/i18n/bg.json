@@ -74,5 +74,7 @@
   "No video model is running": "Не работи модел за видео",
   "WebM video": "WebM видео",
   "%1 is making your clip": "%1 създава вашия клип",
-  "Couldn't save the clip's poster in %1": "Корицата на клипа не можа да бъде запазена в %1"
+  "Couldn't save the clip's poster in %1": "Корицата на клипа не можа да бъде запазена в %1",
+  "New generation": "Ново генериране",
+  "Start a new generation": "Започни ново генериране"
 }

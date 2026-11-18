@@ -74,5 +74,7 @@
   "No video model is running": "Hech qanday video modeli ishlamayapti",
   "WebM video": "WebM video",
   "%1 is making your clip": "%1 klipingizni yaratmoqda",
-  "Couldn't save the clip's poster in %1": "Klip muqovasini %1 ga saqlab boʻlmadi"
+  "Couldn't save the clip's poster in %1": "Klip muqovasini %1 ga saqlab boʻlmadi",
+  "New generation": "Yangi generatsiya",
+  "Start a new generation": "Yangi generatsiya boshlash"
 }

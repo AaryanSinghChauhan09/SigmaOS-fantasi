@@ -74,5 +74,7 @@
   "No video model is running": "Noben model za video ne teče",
   "WebM video": "Video WebM",
   "%1 is making your clip": "%1 ustvarja vaš posnetek",
-  "Couldn't save the clip's poster in %1": "Naslovne slike posnetka ni bilo mogoče shraniti v %1"
+  "Couldn't save the clip's poster in %1": "Naslovne slike posnetka ni bilo mogoče shraniti v %1",
+  "New generation": "Novo generiranje",
+  "Start a new generation": "Začni novo generiranje"
 }

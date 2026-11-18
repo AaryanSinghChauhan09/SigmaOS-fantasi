@@ -74,5 +74,7 @@
   "No video model is running": "هیچ مدل ویدیویی در حال اجرا نیست",
   "WebM video": "ویدیوی WebM",
   "%1 is making your clip": "مدل %1 در حال ساختن کلیپ شماست",
-  "Couldn't save the clip's poster in %1": "ذخیرهٔ تصویر کاور کلیپ در %1 ممکن نشد"
+  "Couldn't save the clip's poster in %1": "ذخیرهٔ تصویر کاور کلیپ در %1 ممکن نشد",
+  "New generation": "تولید جدید",
+  "Start a new generation": "شروع تولید جدید"
 }

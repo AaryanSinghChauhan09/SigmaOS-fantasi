@@ -74,5 +74,7 @@
   "No video model is running": "لا يعمل أي نموذج فيديو",
   "WebM video": "فيديو WebM",
   "%1 is making your clip": "النموذج %1 يصنع مقطعك",
-  "Couldn't save the clip's poster in %1": "تعذّر حفظ صورة غلاف المقطع في %1"
+  "Couldn't save the clip's poster in %1": "تعذّر حفظ صورة غلاف المقطع في %1",
+  "New generation": "توليد جديد",
+  "Start a new generation": "بدء توليد جديد"
 }

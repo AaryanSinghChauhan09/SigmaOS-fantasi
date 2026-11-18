@@ -74,5 +74,7 @@
   "No video model is running": "எந்த வீடியோ மாதிரியும் இயங்கவில்லை",
   "WebM video": "WebM வீடியோ",
   "%1 is making your clip": "%1 உங்கள் கிளிப்பை உருவாக்குகிறது",
-  "Couldn't save the clip's poster in %1": "கிளிப்பின் போஸ்டரை %1 இல் சேமிக்க முடியவில்லை"
+  "Couldn't save the clip's poster in %1": "கிளிப்பின் போஸ்டரை %1 இல் சேமிக்க முடியவில்லை",
+  "New generation": "புதிய உருவாக்கம்",
+  "Start a new generation": "புதிய உருவாக்கத்தைத் தொடங்கு"
 }

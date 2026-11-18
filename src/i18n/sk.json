@@ -74,5 +74,7 @@
   "No video model is running": "Nebeží žiadny model na video",
   "WebM video": "Video WebM",
   "%1 is making your clip": "%1 vytvára váš klip",
-  "Couldn't save the clip's poster in %1": "Titulný obrázok klipu sa nepodarilo uložiť do %1"
+  "Couldn't save the clip's poster in %1": "Titulný obrázok klipu sa nepodarilo uložiť do %1",
+  "New generation": "Nové generovanie",
+  "Start a new generation": "Začať nové generovanie"
 }

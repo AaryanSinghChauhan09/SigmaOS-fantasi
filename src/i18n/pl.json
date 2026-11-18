@@ -74,5 +74,7 @@
   "No video model is running": "Żaden model wideo nie działa",
   "WebM video": "Wideo WebM",
   "%1 is making your clip": "%1 tworzy twój klip",
-  "Couldn't save the clip's poster in %1": "Nie udało się zapisać okładki klipu w %1"
+  "Couldn't save the clip's poster in %1": "Nie udało się zapisać okładki klipu w %1",
+  "New generation": "Nowe generowanie",
+  "Start a new generation": "Zacznij nowe generowanie"
 }

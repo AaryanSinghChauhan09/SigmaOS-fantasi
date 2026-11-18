@@ -74,5 +74,7 @@
   "No video model is running": "Neveikia joks vaizdo įrašų modelis",
   "WebM video": "WebM vaizdo įrašas",
   "%1 is making your clip": "%1 kuria jūsų klipą",
-  "Couldn't save the clip's poster in %1": "Nepavyko išsaugoti klipo viršelio aplanke %1"
+  "Couldn't save the clip's poster in %1": "Nepavyko išsaugoti klipo viršelio aplanke %1",
+  "New generation": "Naujas generavimas",
+  "Start a new generation": "Pradėti naują generavimą"
 }

@@ -74,5 +74,7 @@
   "No video model is running": "কোনো ভিডিও মডেল চলছে না",
   "WebM video": "WebM ভিডিও",
   "%1 is making your clip": "%1 আপনার ক্লিপ তৈরি করছে",
-  "Couldn't save the clip's poster in %1": "ক্লিপের পোস্টার %1-এ সংরক্ষণ করা যায়নি"
+  "Couldn't save the clip's poster in %1": "ক্লিপের পোস্টার %1-এ সংরক্ষণ করা যায়নি",
+  "New generation": "নতুন জেনারেশন",
+  "Start a new generation": "নতুন জেনারেশন শুরু করুন"
 }

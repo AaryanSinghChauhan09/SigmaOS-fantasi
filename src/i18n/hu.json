@@ -74,5 +74,7 @@
   "No video model is running": "Nem fut videómodell",
   "WebM video": "WebM-videó",
   "%1 is making your clip": "%1 készíti a klipedet",
-  "Couldn't save the clip's poster in %1": "Nem sikerült menteni a klip borítóképét ide: %1"
+  "Couldn't save the clip's poster in %1": "Nem sikerült menteni a klip borítóképét ide: %1",
+  "New generation": "Új generálás",
+  "Start a new generation": "Új generálás indítása"
 }

@@ -74,5 +74,7 @@
   "No video model is running": "Walang tumatakbong video model",
   "WebM video": "WebM na video",
   "%1 is making your clip": "Ginagawa ng %1 ang clip mo",
-  "Couldn't save the clip's poster in %1": "Hindi ma-save ang poster ng clip sa %1"
+  "Couldn't save the clip's poster in %1": "Hindi ma-save ang poster ng clip sa %1",
+  "New generation": "Bagong generation",
+  "Start a new generation": "Magsimula ng bagong generation"
 }
