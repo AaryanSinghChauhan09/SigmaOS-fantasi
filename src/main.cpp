@@ -22,6 +22,10 @@ int main(int argc, char *argv[]) {
     if (command)
         qputenv("QT_QPA_PLATFORM", "offscreen");
 
+    // Controls only follow the pointer where the platform asks for hover
+    // effects, which Wayland doesn't, and without it no tooltip ever shows.
+    qputenv("QT_QUICK_CONTROLS_HOVER_ENABLED", "1");
+
     QGuiApplication app(argc, argv);
     app.setApplicationName("fantasi");
     // Settings (the model used last) live in ~/.config/fantasi/.

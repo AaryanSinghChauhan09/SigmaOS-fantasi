@@ -5,6 +5,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QQmlProperty>
+#include <QQmlContext>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTcpServer>
@@ -256,6 +258,8 @@ class FantasiTests : public QObject {
 private slots:
     void initTestCase() {
         QQuickStyle::setStyle("Material");
+        // As main() does: hover, and so tooltips, whatever the platform says.
+        qputenv("QT_QUICK_CONTROLS_HOVER_ENABLED", "1");
         // The model used last is remembered in settings; never the user's own.
         QStandardPaths::setTestModeEnabled(true);
     }
@@ -852,6 +856,16 @@ private slots:
         // A Material popup animates out: `opened` drops at once, `visible` after.
         QTest::keyClick(window, Qt::Key_Escape);
         QTRY_VERIFY(!help->property("visible").toBool());
+
+        // Each control in the prompt bar names itself in a tooltip on hover.
+        for (const char *name : {"startFrom", "size", "model"}) {
+            auto *control = item(window->contentItem(), name);
+            QVERIFY2(control && control->isVisible(), name);
+            const QPointF centre = control->mapToScene(QPointF(control->width() / 2, control->height() / 2));
+            QTest::mouseMove(window, centre.toPoint());
+            QTRY_VERIFY2(control->property("hovered").toBool(), name);
+            QTRY_VERIFY2(QQmlProperty(control, "ToolTip.visible", qmlContext(control)).read().toBool(), name);
+        }
 
         QVERIFY2(warnings.isEmpty(), qPrintable(warnings.join('\n')));
         QCoreApplication::removeTranslator(&translator);
