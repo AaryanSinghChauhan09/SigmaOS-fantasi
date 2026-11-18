@@ -164,7 +164,6 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+1"; onActivated: win.sizeChoice = 0 }
     Shortcut { sequence: "Ctrl+2"; onActivated: win.sizeChoice = 1 }
     Shortcut { sequence: "Ctrl+3"; onActivated: win.sizeChoice = 2 }
-    Shortcut { sequence: "Ctrl+Shift+B"; enabled: win.shownFile !== ""; onActivated: backend.setBackground(win.shownFile) }
     Shortcut { sequence: "Ctrl+B"; onActivated: layout.historyShown = !layout.historyShown }
     // Whether the history sidebar is shown, kept between runs.
     Settings {
@@ -458,7 +457,6 @@ ApplicationWindow {
                             model: [
                                 { name: "changeIt", icon: "change", label: qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage() },
                                 { name: "newImage", icon: "new", label: qsTr("New image"), key: "Ctrl+N", run: () => win.newImage() },
-                                { name: "background", icon: "background", label: qsTr("Set as background"), key: "Ctrl+Shift+B", run: () => backend.setBackground(win.shownFile) },
                                 { name: "copy", icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
                                 { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
                             ]
@@ -938,7 +936,6 @@ ApplicationWindow {
                     { keys: "Ctrl+N", action: qsTr("Start a new image") },
                     { keys: "Ctrl+O", action: qsTr("Start from a picture of your own") },
                     { keys: "Ctrl+1 2 3", action: qsTr("Screen, square or portrait") },
-                    { keys: "Ctrl+Shift+B", action: qsTr("Set it as the background") },
                     { keys: "Ctrl+B", action: qsTr("Show or hide the history") },
                     { keys: "Ctrl+Shift+C", action: qsTr("Copy it") },
                     { keys: "Ctrl+S", action: qsTr("Save a copy somewhere else") },

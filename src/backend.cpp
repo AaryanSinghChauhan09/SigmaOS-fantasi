@@ -63,12 +63,6 @@ Backend::Backend(const Places &places, FilePicker *picker, QObject *parent)
     m_monitors.start(hyprctl, {"-j", "monitors"});
 }
 
-void Backend::setBackground(const QString &url) {
-    const QString path = QUrl(url).toLocalFile();
-    if (!path.isEmpty())
-        QProcess::startDetached("omarchy-theme-bg-set", {path});
-}
-
 void Backend::copy(const QString &url) {
     QFile file(QUrl(url).toLocalFile());
     if (!file.open(QIODevice::ReadOnly))

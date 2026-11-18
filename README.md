@@ -4,7 +4,7 @@ Make images on your own machine with a local model, the way Omarchy runs them.
 
 ![Fantasi making a lighthouse at dusk, with the eight steps it took under the image and earlier images in the history](docs/screenshot.png)
 
-Describe an image, pick a size, and watch it sharpen step by step. Then change it: the next image starts from this one, keeping its composition while your prompt moves it. Or start from a picture of your own: open one, or drop it on the window. Every image lands in `~/Pictures/Generated` with its prompt and seed inside, so the history can show it again and make it again. One key sets it as your background.
+Describe an image, pick a size, and watch it sharpen step by step. Then change it: the next image starts from this one, keeping its composition while your prompt moves it. Or start from a picture of your own: open one, or drop it on the window. Every image lands in `~/Pictures/Generated` with its prompt and seed inside, so the history can show it again and make it again.
 
 ## Where the model comes from
 
@@ -29,7 +29,6 @@ The prompt has the keyboard most of the time, so the shortcuts take Ctrl.
 | Ctrl+N | Start a new image |
 | Ctrl+O | Start from a picture of your own |
 | Ctrl+1, 2, 3 | Screen, square or portrait |
-| Ctrl+Shift+B | Set it as the background |
 | Ctrl+B | Show or hide the history |
 | Ctrl+Shift+C | Copy it |
 | Ctrl+S | Save a copy somewhere else |
