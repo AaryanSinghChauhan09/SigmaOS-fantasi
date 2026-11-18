@@ -63,6 +63,13 @@ Backend::Backend(const Places &places, FilePicker *picker, QObject *parent)
     m_monitors.start(hyprctl, {"-j", "monitors"});
 }
 
+void Backend::open(const QString &model, const QString &prompt) {
+    if (!model.isEmpty())
+        m_models.choose(model);
+    if (!prompt.isEmpty())
+        emit promptRequested(prompt);
+}
+
 void Backend::copy(const QString &url) {
     QFile file(QUrl(url).toLocalFile());
     if (!file.open(QIODevice::ReadOnly))

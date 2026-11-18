@@ -46,6 +46,9 @@ public:
     QString error() const { return m_error; }
 
     Q_INVOKABLE void copy(const QString &url);
+    // What a later `fantasi open` asked for: that model, and a new image
+    // from that prompt when it gave one.
+    void open(const QString &model, const QString &prompt);
     // Asks where, then writes a copy of the image there.
     Q_INVOKABLE void saveAs(const QString &url);
     // Asks for a picture of the user's own to start the next image from.
@@ -57,6 +60,7 @@ signals:
     void screenSizeChanged();
     void errorChanged();
     void pictureChosen(const QString &url);
+    void promptRequested(const QString &prompt);
 
 private:
     Models m_models;

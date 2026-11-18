@@ -25,6 +25,7 @@
 #include <QtTest>
 
 #include "backend.h"
+#include "instance.h"
 #include "theme.h"
 #include "translator.h"
 
@@ -335,6 +336,23 @@ private slots:
         models.choose("spark/klein");
         QCOMPARE(models.origin(), QString("https://spark.tail.ts.net/local-ai/klein"));
         QCOMPARE(models.key(), QByteArray("spark-key"));
+    }
+
+    void aLaterOpenHandsItsRequestToTheOpenWindow() {
+        QTemporaryDir dir;
+        const QString path = dir.path() + "/fantasi.sock";
+        // Nothing open: the launch opens a window of its own.
+        QVERIFY(!Instance(path).forward({{"model", "klein"}}));
+        // A socket a crashed window left behind is taken over.
+        write(path, "");
+        Instance open(path);
+        QVERIFY(open.listen());
+        QSignalSpy requested(&open, &Instance::requested);
+        QVERIFY(Instance(path).forward({{"model", "z-image"}, {"prompt", "a calm lake"}}));
+        QTRY_COMPARE(requested.count(), 1);
+        const QJsonObject request = requested.first().first().toJsonObject();
+        QCOMPARE(request.value("model").toString(), QString("z-image"));
+        QCOMPARE(request.value("prompt").toString(), QString("a calm lake"));
     }
 
     void logoIsTheVendorsMarkFromOmarchy() {

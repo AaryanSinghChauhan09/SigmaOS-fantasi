@@ -212,6 +212,11 @@ ApplicationWindow {
     Connections {
         target: backend
         function onPictureChosen(url) { win.startFrom(url) }
+        // Another `fantasi open` with a prompt: a new image from it.
+        function onPromptRequested(text) {
+            win.newImage()
+            prompt.text = text
+        }
     }
 
     // A picture dropped anywhere on the window becomes the one to change,
