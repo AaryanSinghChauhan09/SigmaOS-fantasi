@@ -501,6 +501,8 @@ ApplicationWindow {
                             bottomInset: 0
                             leftInset: 0
                             rightInset: 0
+                            // No hover blot behind it: the icon itself answers the pointer.
+                            background: Item {}
                             focusPolicy: Qt.NoFocus
                             Accessible.name: qsTr("Start from a picture…")
                             ToolTip.visible: hovered
@@ -584,6 +586,8 @@ ApplicationWindow {
                             bottomInset: 0
                             leftInset: 0
                             rightInset: 0
+                            // No hover blot behind it: the icon itself answers the pointer.
+                            background: Item {}
                             focusPolicy: Qt.NoFocus
                             readonly property var shapes: [
                                 { name: qsTr("Square"), w: 15, h: 15 },
@@ -627,6 +631,8 @@ ApplicationWindow {
                             bottomInset: 0
                             leftInset: 0
                             rightInset: 0
+                            // No hover blot behind it: the icon itself answers the pointer.
+                            background: Item {}
                             focusPolicy: Qt.NoFocus
                             // The maker's mark, as the agents panel draws it. It pulses while a
                             // model starts, and the tooltip says what the model is doing.
@@ -662,6 +668,8 @@ ApplicationWindow {
                             id: action
                             objectName: "action"
                             readonly property bool round: models.state === "ready"
+                            // The same gap from the model's mark as between the icons.
+                            Layout.leftMargin: 9
                             Layout.alignment: Qt.AlignVCenter
                             Layout.preferredWidth: round ? 34 : implicitWidth
                             Layout.preferredHeight: 34
