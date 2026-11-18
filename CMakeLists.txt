@@ -9,7 +9,7 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Network Qml Quick QuickControls2 DBus Concurrent Test)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Network Qml Quick QuickControls2 DBus Concurrent Test ShaderTools)
 
 # Everything but main.cpp, shared by the app and the tests, so each source
 # compiles once and a new file in src/ needs no line here.
@@ -23,11 +23,14 @@ target_compile_options(fantasi_core PUBLIC -Wall -Wextra)
 
 add_executable(fantasi src/main.cpp src/resources.qrc)
 target_link_libraries(fantasi PRIVATE fantasi_core)
+# The aurora's shader, compiled for every graphics API Qt might use.
+qt_add_shaders(fantasi "shaders" PREFIX "/" BASE src FILES src/aurora.frag)
 
 # The tests load the real Main.qml, so they carry the resources too.
 enable_testing()
 add_executable(fantasi_tests tests/fantasi_tests.cpp src/resources.qrc)
 target_link_libraries(fantasi_tests PRIVATE fantasi_core Qt6::Test)
+qt_add_shaders(fantasi_tests "shaders" PREFIX "/" BASE src FILES src/aurora.frag)
 add_test(NAME fantasi_tests COMMAND fantasi_tests)
 set_tests_properties(fantasi_tests PROPERTIES ENVIRONMENT QT_QPA_PLATFORM=offscreen)
 

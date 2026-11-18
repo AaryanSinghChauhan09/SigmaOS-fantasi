@@ -302,37 +302,20 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-            // While something is made, a band of light sweeps the whole of
-            // this side, from the window's edge to the history, under the
-            // image and the prompt bar.
-            Item {
+            // While something is made, an aurora plays over the whole of this
+            // side, from the window's edge to the history, under the image and
+            // the prompt bar; faintly while an empty frame waits for a prompt.
+            Aurora {
                 id: making
                 objectName: "making"
                 anchors.fill: parent
-                clip: true
-                // Softer and slower while an empty frame waits for a prompt.
                 readonly property bool waiting: !generator.busy && generator.image === "" && win.composing && models.state === "ready"
                 visible: generator.busy || waiting
-                Rectangle {
-                    width: work.width * 0.35
-                    height: work.height * 2
-                    y: -work.height / 2
-                    rotation: 18
-                    gradient: Gradient {
-                        orientation: Gradient.Horizontal
-                        GradientStop { position: 0.0; color: "transparent" }
-                        GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, (theme.light ? 0.22 : 0.08) * (making.waiting ? 0.8 : 1)) }
-                        GradientStop { position: 1.0; color: "transparent" }
-                    }
-                    NumberAnimation on x {
-                        running: making.visible
-                        loops: Animation.Infinite
-                        from: -work.width * 0.5
-                        to: work.width * 1.1
-                        duration: making.waiting ? 3600 : 2600
-                        easing.type: Easing.InOutSine
-                    }
-                }
+                colorA: theme.colors.cyan || theme.accent
+                colorB: theme.accent
+                colorC: theme.colors.magenta || theme.accent
+                intensity: generator.busy ? 1 : 0.35
+                Behavior on intensity { NumberAnimation { duration: 600; easing.type: Easing.InOutSine } }
             }
 
             ColumnLayout {
