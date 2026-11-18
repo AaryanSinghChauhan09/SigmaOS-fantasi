@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 veido jūsu klipu",
   "Couldn't save the clip's poster in %1": "Neizdevās saglabāt klipa vāka attēlu mapē %1",
   "New generation": "Jauna ģenerēšana",
-  "Start a new generation": "Sākt jaunu ģenerēšanu"
+  "Start a new generation": "Sākt jaunu ģenerēšanu",
+  "Clip length: %1 s": "Klipa garums: %1 s"
 }

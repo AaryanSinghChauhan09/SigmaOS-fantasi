@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 กำลังสร้างคลิปของคุณ",
   "Couldn't save the clip's poster in %1": "บันทึกภาพปกของคลิปใน %1 ไม่ได้",
   "New generation": "การสร้างใหม่",
-  "Start a new generation": "เริ่มการสร้างใหม่"
+  "Start a new generation": "เริ่มการสร้างใหม่",
+  "Clip length: %1 s": "ความยาวคลิป: %1 วิ"
 }

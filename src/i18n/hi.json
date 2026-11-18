@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 आपकी क्लिप बना रहा है",
   "Couldn't save the clip's poster in %1": "क्लिप का पोस्टर %1 में सहेजा नहीं जा सका",
   "New generation": "नया जनरेशन",
-  "Start a new generation": "नया जनरेशन शुरू करें"
+  "Start a new generation": "नया जनरेशन शुरू करें",
+  "Clip length: %1 s": "क्लिप की लंबाई: %1 से."
 }

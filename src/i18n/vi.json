@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 đang tạo clip của bạn",
   "Couldn't save the clip's poster in %1": "Không lưu được ảnh bìa của clip vào %1",
   "New generation": "Lượt tạo mới",
-  "Start a new generation": "Bắt đầu lượt tạo mới"
+  "Start a new generation": "Bắt đầu lượt tạo mới",
+  "Clip length: %1 s": "Độ dài clip: %1 giây"
 }

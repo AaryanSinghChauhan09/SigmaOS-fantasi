@@ -76,5 +76,6 @@
   "%1 is making your clip": "Το %1 δημιουργεί το κλιπ σας",
   "Couldn't save the clip's poster in %1": "Δεν ήταν δυνατή η αποθήκευση της εικόνας εξωφύλλου του κλιπ στο %1",
   "New generation": "Νέα δημιουργία",
-  "Start a new generation": "Έναρξη νέας δημιουργίας"
+  "Start a new generation": "Έναρξη νέας δημιουργίας",
+  "Clip length: %1 s": "Διάρκεια κλιπ: %1 δευτ."
 }

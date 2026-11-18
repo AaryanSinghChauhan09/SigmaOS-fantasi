@@ -76,5 +76,6 @@
   "%1 is making your clip": "Tá %1 ag déanamh do ghearrthóige",
   "Couldn't save the clip's poster in %1": "Níorbh fhéidir póstaer na gearrthóige a shábháil in %1",
   "New generation": "Giniúint nua",
-  "Start a new generation": "Tosaigh giniúint nua"
+  "Start a new generation": "Tosaigh giniúint nua",
+  "Clip length: %1 s": "Fad na gearrthóige: %1 s"
 }

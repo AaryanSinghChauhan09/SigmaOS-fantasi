@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 створює ваш кліп",
   "Couldn't save the clip's poster in %1": "Не вдалося зберегти обкладинку кліпу в %1",
   "New generation": "Нова генерація",
-  "Start a new generation": "Почати нову генерацію"
+  "Start a new generation": "Почати нову генерацію",
+  "Clip length: %1 s": "Довжина кліпу: %1 с"
 }

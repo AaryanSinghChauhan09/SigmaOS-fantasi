@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 tworzy twój klip",
   "Couldn't save the clip's poster in %1": "Nie udało się zapisać okładki klipu w %1",
   "New generation": "Nowe generowanie",
-  "Start a new generation": "Zacznij nowe generowanie"
+  "Start a new generation": "Zacznij nowe generowanie",
+  "Clip length: %1 s": "Długość klipu: %1 s"
 }

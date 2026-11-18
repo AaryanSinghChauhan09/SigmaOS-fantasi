@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 està creant el teu clip",
   "Couldn't save the clip's poster in %1": "No s'ha pogut desar la portada del clip a %1",
   "New generation": "Generació nova",
-  "Start a new generation": "Comença una generació nova"
+  "Start a new generation": "Comença una generació nova",
+  "Clip length: %1 s": "Durada del clip: %1 s"
 }

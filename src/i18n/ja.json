@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 がクリップを作成中",
   "Couldn't save the clip's poster in %1": "%1 にクリップのポスター画像を保存できませんでした",
   "New generation": "新しい生成",
-  "Start a new generation": "新しい生成を始める"
+  "Start a new generation": "新しい生成を始める",
+  "Clip length: %1 s": "クリップの長さ: %1 秒"
 }

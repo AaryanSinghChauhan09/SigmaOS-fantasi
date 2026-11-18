@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 er að búa til myndskeiðið þitt",
   "Couldn't save the clip's poster in %1": "Ekki tókst að vista forsíðumynd myndskeiðsins í %1",
   "New generation": "Ný myndun",
-  "Start a new generation": "Byrja á nýrri myndun"
+  "Start a new generation": "Byrja á nýrri myndun",
+  "Clip length: %1 s": "Lengd myndskeiðs: %1 s"
 }

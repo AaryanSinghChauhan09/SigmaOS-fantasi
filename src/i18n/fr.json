@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 crée votre clip",
   "Couldn't save the clip's poster in %1": "Impossible d'enregistrer l'affiche du clip dans %1",
   "New generation": "Nouvelle génération",
-  "Start a new generation": "Commencer une nouvelle génération"
+  "Start a new generation": "Commencer une nouvelle génération",
+  "Clip length: %1 s": "Durée du clip : %1 s"
 }

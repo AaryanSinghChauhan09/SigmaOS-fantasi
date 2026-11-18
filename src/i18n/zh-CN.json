@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 正在生成你的短片",
   "Couldn't save the clip's poster in %1": "无法将短片的封面保存到 %1",
   "New generation": "新生成",
-  "Start a new generation": "开始新生成"
+  "Start a new generation": "开始新生成",
+  "Clip length: %1 s": "短片时长：%1 秒"
 }

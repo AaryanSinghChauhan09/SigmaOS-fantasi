@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 teeb sinu klippi",
   "Couldn't save the clip's poster in %1": "Klipi kaanepilti ei õnnestunud salvestada kausta %1",
   "New generation": "Uus genereerimine",
-  "Start a new generation": "Alusta uut genereerimist"
+  "Start a new generation": "Alusta uut genereerimist",
+  "Clip length: %1 s": "Klipi pikkus: %1 s"
 }

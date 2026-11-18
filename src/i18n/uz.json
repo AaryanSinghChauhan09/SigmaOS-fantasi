@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 klipingizni yaratmoqda",
   "Couldn't save the clip's poster in %1": "Klip muqovasini %1 ga saqlab boʻlmadi",
   "New generation": "Yangi generatsiya",
-  "Start a new generation": "Yangi generatsiya boshlash"
+  "Start a new generation": "Yangi generatsiya boshlash",
+  "Clip length: %1 s": "Klip uzunligi: %1 s"
 }

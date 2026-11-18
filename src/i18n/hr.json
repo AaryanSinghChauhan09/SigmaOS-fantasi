@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 izrađuje vaš isječak",
   "Couldn't save the clip's poster in %1": "Naslovna slika isječka nije se mogla spremiti u %1",
   "New generation": "Novo generiranje",
-  "Start a new generation": "Započni novo generiranje"
+  "Start a new generation": "Započni novo generiranje",
+  "Clip length: %1 s": "Duljina isječka: %1 s"
 }

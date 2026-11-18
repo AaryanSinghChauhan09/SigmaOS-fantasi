@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 laver dit klip",
   "Couldn't save the clip's poster in %1": "Kunne ikke gemme klippets forsidebillede i %1",
   "New generation": "Ny generering",
-  "Start a new generation": "Start en ny generering"
+  "Start a new generation": "Start en ny generering",
+  "Clip length: %1 s": "Kliplængde: %1 s"
 }

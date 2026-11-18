@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 vytváří váš klip",
   "Couldn't save the clip's poster in %1": "Titulní obrázek klipu se nepodařilo uložit do %1",
   "New generation": "Nové generování",
-  "Start a new generation": "Začít nové generování"
+  "Start a new generation": "Začít nové generování",
+  "Clip length: %1 s": "Délka klipu: %1 s"
 }

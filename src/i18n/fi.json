@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 tekee leikettäsi",
   "Couldn't save the clip's poster in %1": "Leikkeen kansikuvaa ei voitu tallentaa kansioon %1",
   "New generation": "Uusi generointi",
-  "Start a new generation": "Aloita uusi generointi"
+  "Start a new generation": "Aloita uusi generointi",
+  "Clip length: %1 s": "Leikkeen pituus: %1 s"
 }

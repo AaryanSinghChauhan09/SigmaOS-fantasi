@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 ustvarja vaš posnetek",
   "Couldn't save the clip's poster in %1": "Naslovne slike posnetka ni bilo mogoče shraniti v %1",
   "New generation": "Novo generiranje",
-  "Start a new generation": "Začni novo generiranje"
+  "Start a new generation": "Začni novo generiranje",
+  "Clip length: %1 s": "Dolžina posnetka: %1 s"
 }

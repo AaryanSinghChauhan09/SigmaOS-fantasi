@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1에서 클립을 만드는 중",
   "Couldn't save the clip's poster in %1": "%1에 클립 포스터 이미지를 저장할 수 없습니다",
   "New generation": "새 생성",
-  "Start a new generation": "새 생성 시작"
+  "Start a new generation": "새 생성 시작",
+  "Clip length: %1 s": "클립 길이: %1초"
 }

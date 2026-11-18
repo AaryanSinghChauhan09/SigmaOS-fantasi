@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 inatengeneza klipu yako",
   "Couldn't save the clip's poster in %1": "Haikuweza kuhifadhi picha ya jalada ya klipu katika %1",
   "New generation": "Uundaji mpya",
-  "Start a new generation": "Anza uundaji mpya"
+  "Start a new generation": "Anza uundaji mpya",
+  "Clip length: %1 s": "Urefu wa klipu: sek. %1"
 }

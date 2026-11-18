@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 kuria jūsų klipą",
   "Couldn't save the clip's poster in %1": "Nepavyko išsaugoti klipo viršelio aplanke %1",
   "New generation": "Naujas generavimas",
-  "Start a new generation": "Pradėti naują generavimą"
+  "Start a new generation": "Pradėti naują generavimą",
+  "Clip length: %1 s": "Klipo trukmė: %1 s"
 }

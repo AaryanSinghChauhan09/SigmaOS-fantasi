@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 прави ваш снимак",
   "Couldn't save the clip's poster in %1": "Насловна слика снимка није могла да се сачува у %1",
   "New generation": "Ново генерисање",
-  "Start a new generation": "Започни ново генерисање"
+  "Start a new generation": "Започни ново генерисање",
+  "Clip length: %1 s": "Дужина снимка: %1 с"
 }
