@@ -78,13 +78,10 @@ void Backend::open(const QString &model, const QString &prompt) {
         m_waitingOpen = {{"model", model}, {"prompt", prompt}};
         return;
     }
-    const bool video = !model.isEmpty() && model == m_models.videoId();
-    if (!model.isEmpty() && !video)
+    if (!model.isEmpty())
         m_models.choose(model);
     if (!prompt.isEmpty())
         emit promptRequested(prompt);
-    if (video)
-        emit videoRequested();
 }
 
 void Backend::copy(const QString &url) {

@@ -71,12 +71,8 @@
   "Let this picture go": "Pustiť tento obrázok",
   "Only a model that edits can combine pictures": "Obrázky dokáže spojiť len model, ktorý upravuje",
   "Animate it": "Rozpohybovať obrázok",
-  "Animate it: say how it should move": "Rozpohybovať obrázok: opísať, ako sa má hýbať",
   "How should it move?": "Ako sa má hýbať?",
   "Describe a clip": "Opíšte klip",
-  "Make a clip": "Vytvoriť klip",
-  "Make an image instead": "Radšej vytvoriť obrázok",
-  "%1 makes the clip": "Klip vytvorí %1",
   "No video model is running": "Nebeží žiadny model na video",
   "WebM video": "Video WebM"
 }

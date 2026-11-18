@@ -71,12 +71,8 @@
   "Let this picture go": "Deixar esta imagem ir",
   "Only a model that edits can combine pictures": "Só um modelo que edita pode combinar imagens",
   "Animate it": "Animar a imagem",
-  "Animate it: say how it should move": "Animar a imagem: descrever como se deve mover",
   "How should it move?": "Como se deve mover?",
   "Describe a clip": "Descreva um clipe",
-  "Make a clip": "Criar um clipe",
-  "Make an image instead": "Criar antes uma imagem",
-  "%1 makes the clip": "%1 cria o clipe",
   "No video model is running": "Nenhum modelo de vídeo em execução",
   "WebM video": "Vídeo WebM"
 }

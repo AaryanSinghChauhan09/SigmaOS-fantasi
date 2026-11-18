@@ -51,9 +51,9 @@ ApplicationWindow {
     // Writing a prompt, or looking at a finished image and choosing what's
     // next: change it, make a new one, or use it.
     property bool composing: true
-    // Writing a clip rather than an image, with a video model running: from
-    // the prompt alone, or animating the picture being changed.
-    property bool videoMode: false
+    // The model in use makes clips: from the prompt alone, or animating the
+    // picture being changed.
+    readonly property bool videoMode: models.video
     // A clip in the frame: its poster stands in for it as an image.
     readonly property bool showingClip: shownFile.endsWith(".webm")
     readonly property string shownImage: showingClip ? shownFile.slice(0, -5) + ".png" : generator.image
@@ -67,7 +67,7 @@ ApplicationWindow {
     // What the model is doing, for its icon's tooltip and the empty stage.
     readonly property string modelStatus: {
         switch (models.state) {
-        case "ready": return generator.busy ? qsTr("%1 is making your image").arg(models.modelName)
+        case "ready": return generator.busy ? (models.video ? qsTr("%1 is making your clip") : qsTr("%1 is making your image")).arg(models.modelName)
                                             : qsTr("%1 is ready").arg(models.modelName)
         case "starting": return qsTr("Starting %1…").arg(models.modelName)
         case "installing": return qsTr("Setting up %1…").arg(models.modelName)
@@ -100,16 +100,6 @@ ApplicationWindow {
         else
             generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImages, models.edits)
     }
-    // Makes the shown picture move, with a prompt for how.
-    function animate() {
-        if (shownFile === "" || showingClip || generator.busy || !models.makesVideo)
-            return
-        composing = true
-        videoMode = true
-        baseImages = [shownFile]
-        prompt.text = ""
-        prompt.forceActiveFocus()
-    }
     // Makes another like the last one asked for, though the prompt has cleared.
     function repeat() {
         if (models.state !== "ready" || generator.busy || sentPrompt.trim() === "")
@@ -122,7 +112,6 @@ ApplicationWindow {
         if (shownFile === "" || generator.busy)
             return
         composing = true
-        videoMode = false
         baseImages = [shownFile]
         prompt.text = ""
         prompt.forceActiveFocus()
@@ -150,7 +139,6 @@ ApplicationWindow {
         historyList.currentIndex = index
         generator.show(history.urlAt(index))
         baseImages = []
-        videoMode = false
         composing = false
     }
     // An empty frame and an empty prompt for a new image.
@@ -163,17 +151,15 @@ ApplicationWindow {
         historyList.currentIndex = -1
         generator.show("")
         baseImages = []
-        videoMode = false
         prompt.text = ""
         composing = true
         prompt.forceActiveFocus()
     }
     // Back from writing to the image that was shown, if there was one.
     function backToImage() {
-        if (changing || videoMode) {
+        if (changing) {
             baseImages = []
-            videoMode = false
-            composing = false
+                composing = false
         } else if (prompt.text === "" && returnIndex >= 0) {
             pick(returnIndex)
         }
@@ -191,7 +177,6 @@ ApplicationWindow {
     Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }
     Shortcut { sequence: "Escape"; enabled: !generator.busy && win.composing; onActivated: win.backToImage() }
     Shortcut { sequence: "Ctrl+N"; enabled: !generator.busy; onActivated: win.newImage() }
-    Shortcut { sequence: "Ctrl+M"; enabled: models.makesVideo && win.shownFile !== "" && !win.showingClip && !generator.busy; onActivated: win.animate() }
     Shortcut { sequence: "Ctrl+1"; onActivated: win.sizeChoice = 0 }
     Shortcut { sequence: "Ctrl+2"; onActivated: win.sizeChoice = 1 }
     Shortcut { sequence: "Ctrl+3"; onActivated: win.sizeChoice = 2 }
@@ -232,7 +217,6 @@ ApplicationWindow {
                     win.baseImages = [generator.image]
             } else {
                 win.baseImages = []
-                win.videoMode = false
                 prompt.text = ""
                 win.composing = false
             }
@@ -245,11 +229,6 @@ ApplicationWindow {
         function onPromptRequested(text) {
             win.newImage()
             prompt.text = text
-        }
-        function onVideoRequested() {
-            if (!win.changing)
-                win.newImage()
-            win.videoMode = true
         }
     }
 
@@ -511,8 +490,7 @@ ApplicationWindow {
                         Item { Layout.fillWidth: true }
                         Repeater {
                             model: [
-                                { name: "changeIt", icon: "change", label: qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage(), shown: !win.showingClip },
-                                { name: "animate", icon: "animate", label: qsTr("Animate it"), key: "Ctrl+M", run: () => win.animate(), shown: models.makesVideo && !win.showingClip },
+                                { name: "changeIt", icon: "change", label: win.videoMode ? qsTr("Animate it") : qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage(), shown: !win.showingClip },
                                 { name: "newImage", icon: "new", label: qsTr("New image"), key: "Ctrl+N", run: () => win.newImage() },
                                 { name: "copy", icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
                                 { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
@@ -693,33 +671,6 @@ ApplicationWindow {
                             }
                         }
 
-                        // A clip instead of an image, while a video model runs.
-                        ToolButton {
-                            objectName: "videoToggle"
-                            Layout.alignment: Qt.AlignVCenter
-                            Layout.preferredWidth: 32
-                            Layout.preferredHeight: 32
-                            padding: 0
-                            topInset: 0
-                            bottomInset: 0
-                            leftInset: 0
-                            rightInset: 0
-                            background: Item {}
-                            focusPolicy: Qt.NoFocus
-                            visible: models.makesVideo && !win.changing
-                            display: AbstractButton.IconOnly
-                            icon.source: "qrc:/icons/animate.svg"
-                            icon.width: 18
-                            icon.height: 18
-                            icon.color: win.videoMode || hovered ? theme.accent : win.muted
-                            readonly property string label: win.videoMode ? qsTr("Make an image instead") : qsTr("Make a clip")
-                            Accessible.name: label
-                            ToolTip.visible: hovered
-                            ToolTip.text: label
-                            ToolTip.delay: 300
-                            onClicked: win.videoMode = !win.videoMode
-                        }
-
                         // The shape of a new image, one button that steps through
                         // square, screen and portrait; a change keeps its own.
                         ToolButton {
@@ -784,7 +735,7 @@ ApplicationWindow {
                             focusPolicy: Qt.NoFocus
                             // The maker's mark, as the agents panel draws it. It pulses while a
                             // model starts, and the tooltip says what the model is doing.
-                            readonly property string logo: models.logo(win.videoMode ? models.videoVendor : models.vendor, theme.light)
+                            readonly property string logo: models.logo(models.vendor, theme.light)
                             readonly property bool waiting: models.state === "starting" || models.state === "installing" || models.working
                             SequentialAnimation on opacity {
                                 running: modelButton.waiting
@@ -804,7 +755,7 @@ ApplicationWindow {
                             readonly property var next: models.choices.length > 1 ? models.choices[(current + 1) % models.choices.length] : null
                             Accessible.name: win.modelStatus
                             ToolTip.visible: hovered
-                            ToolTip.text: win.videoMode ? qsTr("%1 makes the clip").arg(models.videoName) : win.modelStatus + (canStep ? "\n" + qsTr("Click to use %1").arg(next.name) : "")
+                            ToolTip.text: win.modelStatus + (canStep ? "\n" + qsTr("Click to use %1").arg(next.name) : "")
                             ToolTip.delay: 300
                             onClicked: if (canStep) models.choose(next.id)
                         }
@@ -1039,7 +990,6 @@ ApplicationWindow {
                     { keys: "Ctrl+R", action: qsTr("Make another like it") },
                     { keys: "Ctrl+E", action: qsTr("Change it: say what should change") },
                     { keys: "Ctrl+N", action: qsTr("Start a new image") },
-                    { keys: "Ctrl+M", action: qsTr("Animate it: say how it should move") },
                     { keys: "Ctrl+O", action: qsTr("Start from a picture of your own") },
                     { keys: "Ctrl+1 2 3", action: qsTr("Screen, square or portrait") },
                     { keys: "Ctrl+B", action: qsTr("Show or hide the history") },

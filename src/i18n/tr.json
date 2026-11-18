@@ -71,12 +71,8 @@
   "Let this picture go": "Bu görseli bırak",
   "Only a model that edits can combine pictures": "Görselleri yalnızca düzenleyen bir model birleştirebilir",
   "Animate it": "Görseli canlandır",
-  "Animate it: say how it should move": "Görseli canlandır: nasıl hareket edeceğini yaz",
   "How should it move?": "Nasıl hareket etsin?",
   "Describe a clip": "Bir klip tarif edin",
-  "Make a clip": "Klip oluştur",
-  "Make an image instead": "Bunun yerine görsel oluştur",
-  "%1 makes the clip": "Klibi %1 oluşturur",
   "No video model is running": "Çalışan bir video modeli yok",
   "WebM video": "WebM videosu"
 }

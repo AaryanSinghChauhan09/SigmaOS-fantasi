@@ -71,12 +71,8 @@
   "Let this picture go": "Paleisti šį vaizdą",
   "Only a model that edits can combine pictures": "Paveikslėlius gali sujungti tik redaguojantis modelis",
   "Animate it": "Animuoti vaizdą",
-  "Animate it: say how it should move": "Animuoti vaizdą: aprašyti, kaip jis turi judėti",
   "How should it move?": "Kaip jis turi judėti?",
   "Describe a clip": "Aprašykite klipą",
-  "Make a clip": "Kurti klipą",
-  "Make an image instead": "Verčiau kurti vaizdą",
-  "%1 makes the clip": "Klipą kuria %1",
   "No video model is running": "Neveikia joks vaizdo įrašų modelis",
   "WebM video": "WebM vaizdo įrašas"
 }

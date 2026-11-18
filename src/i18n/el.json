@@ -71,12 +71,8 @@
   "Let this picture go": "Αφήστε αυτή την εικόνα",
   "Only a model that edits can combine pictures": "Μόνο ένα μοντέλο που επεξεργάζεται μπορεί να συνδυάσει εικόνες",
   "Animate it": "Κίνηση εικόνας",
-  "Animate it: say how it should move": "Κίνηση εικόνας: περιγραφή του πώς πρέπει να κινείται",
   "How should it move?": "Πώς πρέπει να κινείται;",
   "Describe a clip": "Περιγράψτε ένα κλιπ",
-  "Make a clip": "Δημιουργία κλιπ",
-  "Make an image instead": "Δημιουργία εικόνας αντί γι' αυτό",
-  "%1 makes the clip": "Το %1 δημιουργεί το κλιπ",
   "No video model is running": "Δεν εκτελείται κανένα μοντέλο βίντεο",
   "WebM video": "Βίντεο WebM"
 }

@@ -71,12 +71,8 @@
   "Let this picture go": "Bu rasmni qoʻyib yuborish",
   "Only a model that edits can combine pictures": "Rasmlarni faqat tahrirlaydigan model birlashtira oladi",
   "Animate it": "Rasmni jonlantirish",
-  "Animate it: say how it should move": "Rasmni jonlantirish: qanday harakatlanishini yozing",
   "How should it move?": "Qanday harakatlansin?",
   "Describe a clip": "Klipni tasvirlang",
-  "Make a clip": "Klip yaratish",
-  "Make an image instead": "Uning oʻrniga rasm yaratish",
-  "%1 makes the clip": "Klipni %1 yaratadi",
   "No video model is running": "Hech qanday video modeli ishlamayapti",
   "WebM video": "WebM video"
 }

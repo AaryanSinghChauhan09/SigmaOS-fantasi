@@ -71,12 +71,8 @@
   "Let this picture go": "Deze afbeelding loslaten",
   "Only a model that edits can combine pictures": "Alleen een model dat bewerkt kan afbeeldingen combineren",
   "Animate it": "Afbeelding animeren",
-  "Animate it: say how it should move": "Afbeelding animeren: beschrijf hoe het moet bewegen",
   "How should it move?": "Hoe moet het bewegen?",
   "Describe a clip": "Beschrijf een clip",
-  "Make a clip": "Een clip maken",
-  "Make an image instead": "Toch een afbeelding maken",
-  "%1 makes the clip": "%1 maakt de clip",
   "No video model is running": "Er draait geen videomodel",
   "WebM video": "WebM-video"
 }

@@ -71,12 +71,8 @@
   "Let this picture go": "Engedd el ezt a képet",
   "Only a model that edits can combine pictures": "Képeket csak szerkesztő modell tud egyesíteni",
   "Animate it": "Kép animálása",
-  "Animate it: say how it should move": "Kép animálása: írd le, hogyan mozogjon",
   "How should it move?": "Hogyan mozogjon?",
   "Describe a clip": "Írj le egy klipet",
-  "Make a clip": "Klip készítése",
-  "Make an image instead": "Inkább kép készítése",
-  "%1 makes the clip": "A klipet a(z) %1 készíti",
   "No video model is running": "Nem fut videómodell",
   "WebM video": "WebM-videó"
 }

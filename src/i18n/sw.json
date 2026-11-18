@@ -71,12 +71,8 @@
   "Let this picture go": "Iachilie picha hii",
   "Only a model that edits can combine pictures": "Ni modeli inayohariri tu inayoweza kuunganisha picha",
   "Animate it": "Huisha picha",
-  "Animate it: say how it should move": "Huisha picha: eleza inavyopaswa kusogea",
   "How should it move?": "Inapaswa kusogea vipi?",
   "Describe a clip": "Eleza klipu",
-  "Make a clip": "Tengeneza klipu",
-  "Make an image instead": "Tengeneza picha badala yake",
-  "%1 makes the clip": "%1 inatengeneza klipu",
   "No video model is running": "Hakuna modeli ya video inayofanya kazi",
   "WebM video": "Video ya WebM"
 }

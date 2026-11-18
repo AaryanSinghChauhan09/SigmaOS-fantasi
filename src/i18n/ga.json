@@ -71,12 +71,8 @@
   "Let this picture go": "Lig don phictiúr seo imeacht",
   "Only a model that edits can combine pictures": "Ní féidir ach le samhail a chuireann in eagar pictiúir a chumasc",
   "Animate it": "Beochan í",
-  "Animate it: say how it should move": "Beochan í: abair conas ba cheart di bogadh",
   "How should it move?": "Conas ba cheart di bogadh?",
   "Describe a clip": "Déan cur síos ar ghearrthóg",
-  "Make a clip": "Déan gearrthóg",
-  "Make an image instead": "Déan íomhá ina ionad",
-  "%1 makes the clip": "Déanann %1 an ghearrthóg",
   "No video model is running": "Níl aon samhail físe ag rith",
   "WebM video": "Físeán WebM"
 }

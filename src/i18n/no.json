@@ -71,12 +71,8 @@
   "Let this picture go": "Gi slipp på dette bildet",
   "Only a model that edits can combine pictures": "Bare en modell som redigerer kan kombinere bilder",
   "Animate it": "Animer det",
-  "Animate it: say how it should move": "Animer det: si hvordan det skal bevege seg",
   "How should it move?": "Hvordan skal det bevege seg?",
   "Describe a clip": "Beskriv et klipp",
-  "Make a clip": "Lag et klipp",
-  "Make an image instead": "Lag et bilde i stedet",
-  "%1 makes the clip": "%1 lager klippet",
   "No video model is running": "Ingen videomodell kjører",
   "WebM video": "WebM-video"
 }

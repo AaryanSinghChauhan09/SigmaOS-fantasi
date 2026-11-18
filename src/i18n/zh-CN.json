@@ -71,12 +71,8 @@
   "Let this picture go": "移除这张图片",
   "Only a model that edits can combine pictures": "只有能编辑的模型才能合成图片",
   "Animate it": "让图片动起来",
-  "Animate it: say how it should move": "让图片动起来：描述它该如何运动",
   "How should it move?": "它该如何运动？",
   "Describe a clip": "描述一段短片",
-  "Make a clip": "生成短片",
-  "Make an image instead": "改为生成图片",
-  "%1 makes the clip": "由 %1 生成短片",
   "No video model is running": "没有正在运行的视频模型",
   "WebM video": "WebM 视频"
 }

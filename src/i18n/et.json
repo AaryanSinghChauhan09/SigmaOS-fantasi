@@ -71,12 +71,8 @@
   "Let this picture go": "Lase sellest pildist lahti",
   "Only a model that edits can combine pictures": "Pilte saab kombineerida ainult muutmist toetav mudel",
   "Animate it": "Animeeri pilti",
-  "Animate it: say how it should move": "Animeeri pilti: kirjelda, kuidas see peaks liikuma",
   "How should it move?": "Kuidas see peaks liikuma?",
   "Describe a clip": "Kirjelda klippi",
-  "Make a clip": "Tee klipp",
-  "Make an image instead": "Tee hoopis pilt",
-  "%1 makes the clip": "%1 teeb klipi",
   "No video model is running": "Ükski videomudel ei tööta",
   "WebM video": "WebM-video"
 }

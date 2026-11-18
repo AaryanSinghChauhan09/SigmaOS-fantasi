@@ -71,12 +71,8 @@
   "Let this picture go": "ปล่อยภาพนี้ไป",
   "Only a model that edits can combine pictures": "มีเพียงโมเดลที่แก้ไขภาพได้เท่านั้นที่รวมรูปภาพได้",
   "Animate it": "ทำให้ภาพเคลื่อนไหว",
-  "Animate it: say how it should move": "ทำให้ภาพเคลื่อนไหว: บอกว่าต้องการให้เคลื่อนไหวอย่างไร",
   "How should it move?": "ต้องการให้เคลื่อนไหวอย่างไร",
   "Describe a clip": "อธิบายคลิปที่ต้องการ",
-  "Make a clip": "สร้างคลิป",
-  "Make an image instead": "สร้างภาพแทน",
-  "%1 makes the clip": "%1 สร้างคลิป",
   "No video model is running": "ไม่มีโมเดลวิดีโอที่ทำงานอยู่",
   "WebM video": "วิดีโอ WebM"
 }

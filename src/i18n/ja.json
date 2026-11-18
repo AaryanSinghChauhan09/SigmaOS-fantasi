@@ -71,12 +71,8 @@
   "Let this picture go": "この画像を外す",
   "Only a model that edits can combine pictures": "画像を組み合わせられるのは編集できるモデルだけです",
   "Animate it": "画像を動かす",
-  "Animate it: say how it should move": "画像を動かす: 動き方を入力",
   "How should it move?": "どのように動かしますか？",
   "Describe a clip": "クリップの説明を入力",
-  "Make a clip": "クリップを作成",
-  "Make an image instead": "画像の作成に切り替え",
-  "%1 makes the clip": "%1 がクリップを作成",
   "No video model is running": "動画モデルが起動していません",
   "WebM video": "WebM 動画"
 }

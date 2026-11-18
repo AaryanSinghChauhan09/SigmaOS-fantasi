@@ -71,12 +71,8 @@
   "Let this picture go": "التخلّي عن هذه الصورة",
   "Only a model that edits can combine pictures": "لا يمكن دمج الصور إلا بنموذج يعدّل",
   "Animate it": "حرّكها",
-  "Animate it: say how it should move": "حرّكها: صِف كيف يجب أن تتحرك",
   "How should it move?": "كيف يجب أن تتحرك؟",
   "Describe a clip": "صف مقطعًا",
-  "Make a clip": "اصنع مقطعًا",
-  "Make an image instead": "اصنع صورة بدلًا من ذلك",
-  "%1 makes the clip": "النموذج %1 يصنع المقطع",
   "No video model is running": "لا يعمل أي نموذج فيديو",
   "WebM video": "فيديو WebM"
 }

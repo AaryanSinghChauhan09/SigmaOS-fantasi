@@ -92,17 +92,10 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
     for (auto it = models.begin(); it != models.end(); ++it) {
         QJsonObject row = it.value().toObject();
         row.insert("id", it.key());
-        if (isImage(row))
+        // A video model is chosen like an image one: what it makes is clips.
+        if (isImage(row) || row.value("kind").toString() == "video")
             images << row;
-        else if (row.value("kind").toString() == "video") {
-            // A running video model makes clips beside the image model in use.
-            if (row.value("unit").toString() == "active" && found.videoEndpoint.isEmpty()) {
-                found.videoEndpoint = row.value("endpoint").toString();
-                found.videoId = it.key();
-                found.videoName = row.value("name").toString(it.key());
-                found.videoVendor = row.value("vendor").toString();
-            }
-        } else if (row.value("unit").toString() == "active") {
+        else if (row.value("unit").toString() == "active") {
             runningText << row.value("name").toString(it.key());
             runningTextIds << it.key();
         }
@@ -135,6 +128,7 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
             found.name = row.value("name").toString(found.id);
             found.endpoint = row.value("endpoint").toString();
             found.edits = row.value("edit").toBool();
+            found.video = row.value("kind").toString() == "video";
             found.state = QString(unit) == "active" ? "ready" : QString(unit) == "activating" ? "starting" : "installing";
             return found;
         }
@@ -143,6 +137,7 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
         const QJsonObject &row = images.first();
         found.id = row.value("id").toString();
         found.name = row.value("name").toString(found.id);
+        found.video = row.value("kind").toString() == "video";
         // An installed model the memory can't hold right now waits for the
         // text models in its way.
         if (row.value("fits").toBool(true) || runningText.isEmpty()) {
@@ -200,7 +195,7 @@ static QString originOf(const QString &endpoint) {
 
 QString Models::origin() const { return originOf(m_found.endpoint); }
 QString Models::editOrigin() const { return originOf(m_found.editEndpoint); }
-QString Models::videoOrigin() const { return originOf(m_found.videoEndpoint); }
+QString Models::videoOrigin() const { return m_found.video ? origin() : QString(); }
 
 QString Models::logo(const QString &vendor, bool light) {
     const QString omarchy = qEnvironmentVariable("OMARCHY_PATH");
@@ -323,8 +318,7 @@ void Models::reload() {
 
     if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
         || found.reason != m_found.reason || found.blockers != m_found.blockers
-        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor
-        || found.videoEndpoint != m_found.videoEndpoint || found.videoName != m_found.videoName) {
+        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor || found.video != m_found.video) {
         m_found = found;
         emit changed();
     }

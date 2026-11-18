@@ -631,8 +631,12 @@ private slots:
         QVERIFY(picture.save(dir.filePath("cabin.png")));
 
         Models models(state, state + "/key", "/bin/true");
-        QVERIFY(models.makesVideo());
-        QCOMPARE(models.videoName(), QString("MiniMax H3"));
+        // The video model is a choice like an image one; choosing it makes clips.
+        QVERIFY(!models.video());
+        models.choose("h3");
+        QVERIFY(models.video());
+        QCOMPARE(models.modelName(), QString("MiniMax H3"));
+        QCOMPARE(models.vendor(), QString("minimax"));
         Generator generator(&models, dir.path() + "/out");
         QSignalSpy saved(&generator, &Generator::saved);
         generator.makeVideo("snow falls", 1344, 768, QUrl::fromLocalFile(dir.filePath("cabin.png")).toString());

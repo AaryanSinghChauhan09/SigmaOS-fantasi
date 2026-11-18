@@ -71,12 +71,8 @@
   "Let this picture go": "Puść ten obraz",
   "Only a model that edits can combine pictures": "Tylko model, który edytuje, może łączyć obrazy",
   "Animate it": "Ożyw obraz",
-  "Animate it: say how it should move": "Ożyw obraz: opisz, jak ma się poruszać",
   "How should it move?": "Jak ma się poruszać?",
   "Describe a clip": "Opisz klip",
-  "Make a clip": "Utwórz klip",
-  "Make an image instead": "Zamiast tego utwórz obraz",
-  "%1 makes the clip": "Klip tworzy %1",
   "No video model is running": "Żaden model wideo nie działa",
   "WebM video": "Wideo WebM"
 }

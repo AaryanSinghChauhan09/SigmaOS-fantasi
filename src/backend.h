@@ -62,8 +62,6 @@ signals:
     void errorChanged();
     void pictureChosen(const QString &url);
     void promptRequested(const QString &prompt);
-    // A `fantasi open --model` named the video model: clips, then.
-    void videoRequested();
 
 private:
     Models m_models;
