@@ -405,25 +405,42 @@ ApplicationWindow {
                             }
                         }
                     }
+                    // The shortcuts, out of the way in the corner.
+                    ToolButton {
+                        objectName: "shortcuts"
+                        anchors.top: parent.top
+                        anchors.right: parent.right
+                        focusPolicy: Qt.NoFocus
+                        text: "?"
+                        font.pixelSize: 15
+                        Material.foreground: hovered ? theme.accent : win.muted
+                        Accessible.name: qsTr("Show or hide the shortcuts")
+                        ToolTip.visible: hovered
+                        ToolTip.text: qsTr("Show or hide the shortcuts") + "  F1"
+                        ToolTip.delay: 300
+                        onClicked: help.opened ? help.close() : help.open()
+                    }
                 }
 
                 // ------------------------------------------------ the prompt bar
-                // The bar, and beside it the shape, the model and the shortcuts.
-                RowLayout {
-                Layout.fillWidth: true
-                spacing: 6
+                // One pill: the picture to start from, the prompt, the shape,
+                // the model, and the round button that sends it.
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: bar.implicitHeight + 16
+                    Layout.preferredHeight: bar.implicitHeight + 12
                     color: win.panel
-                    radius: Math.min(8, theme.radius + 4)
+                    // A pill where the theme rounds windows, square where it doesn't.
+                    radius: theme.radius > 0 ? Math.min(height / 2, 28) : 0
                     border.color: prompt.activeFocus ? theme.accent : win.line
 
                     RowLayout {
                         id: bar
                         anchors.fill: parent
-                        anchors.margins: 8
-                        spacing: 8
+                        anchors.leftMargin: 10
+                        anchors.rightMargin: 6
+                        anchors.topMargin: 6
+                        anchors.bottomMargin: 6
+                        spacing: 4
 
                         // The image being changed, like an attachment: its
                         // thumbnail, with a × to go back to a new image.
@@ -547,18 +564,112 @@ ApplicationWindow {
                             }
                         }
 
+                        // The shape of a new image, one button that steps through
+                        // square, screen and portrait; a change keeps its own.
+                        ToolButton {
+                            id: shape
+                            objectName: "size"
+                            Layout.alignment: Qt.AlignVCenter
+                            visible: !win.changing
+                            focusPolicy: Qt.NoFocus
+                            readonly property var shapes: [
+                                { name: qsTr("Square"), w: 15, h: 15 },
+                                { name: qsTr("Screen"), w: 20, h: 12 },
+                                { name: qsTr("Portrait"), w: 12, h: 20 }
+                            ]
+                            readonly property var current: shapes[win.sizeChoice]
+                            Accessible.name: current.name
+                            ToolTip.visible: hovered
+                            ToolTip.text: current.name + "  " + win.outputSize.width + " × " + win.outputSize.height
+                            ToolTip.delay: 400
+                            onClicked: win.sizeChoice = (win.sizeChoice + 1) % 3
+                            contentItem: Item {
+                                implicitWidth: 24
+                                implicitHeight: 24
+                                Rectangle {
+                                    anchors.centerIn: parent
+                                    width: shape.current.w
+                                    height: shape.current.h
+                                    color: "transparent"
+                                    border.color: shape.hovered ? theme.accent : win.muted
+                                    border.width: 1.5
+                                    radius: 2
+                                    Behavior on width { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+                                    Behavior on height { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+                                }
+                            }
+                        }
+
+                        // The model: its state as a dot, what it's doing in the
+                        // tooltip, and with more than one set up, a click steps to
+                        // the next.
+                        ToolButton {
+                            id: modelButton
+                            objectName: "model"
+                            Layout.alignment: Qt.AlignVCenter
+                            focusPolicy: Qt.NoFocus
+                            display: AbstractButton.IconOnly
+                            icon.source: "qrc:/icons/model.svg"
+                            icon.width: 20
+                            icon.height: 20
+                            icon.color: hovered && canStep ? theme.accent : win.muted
+                            readonly property int current: models.choices.findIndex(c => c.id === models.modelId)
+                            readonly property bool canStep: models.choices.length > 1 && !models.working && !generator.busy
+                            readonly property var next: models.choices.length > 1 ? models.choices[(current + 1) % models.choices.length] : null
+                            Accessible.name: win.modelStatus
+                            ToolTip.visible: hovered
+                            ToolTip.text: win.modelStatus + (canStep ? "\n" + qsTr("Click to use %1").arg(next.name) : "")
+                            ToolTip.delay: 300
+                            onClicked: if (canStep) models.choose(next.id)
+                            Rectangle {
+                                width: 7
+                                height: 7
+                                radius: 3.5
+                                x: parent.width - width - 9
+                                y: 9
+                                visible: models.state !== "noEngine"
+                                color: win.problem ? theme.colors.red
+                                     : models.state === "ready" ? theme.accent : win.muted
+                                SequentialAnimation on opacity {
+                                    running: models.state === "starting" || models.state === "installing" || models.working
+                                    loops: Animation.Infinite
+                                    onRunningChanged: if (!running) parent.opacity = 1
+                                    NumberAnimation { from: 1; to: 0.3; duration: 700; easing.type: Easing.InOutSine }
+                                    NumberAnimation { from: 0.3; to: 1; duration: 700; easing.type: Easing.InOutSine }
+                                }
+                            }
+                        }
+
+                        Rectangle {
+                            Layout.preferredWidth: 1
+                            Layout.preferredHeight: 20
+                            Layout.leftMargin: 2
+                            Layout.rightMargin: 4
+                            Layout.alignment: Qt.AlignVCenter
+                            color: win.line
+                        }
+
+                        // Ready, a round arrow to send (a square to stop while
+                        // it's making one); otherwise, in words, what gets a
+                        // model going.
                         Button {
                             id: action
                             objectName: "action"
+                            readonly property bool round: models.state === "ready"
                             Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredWidth: round ? 38 : implicitWidth
+                            Layout.preferredHeight: 38
                             visible: ["ready", "installed", "blocked", "installable", "starting", "installing"].indexOf(models.state) >= 0
-                            highlighted: true
                             focusPolicy: Qt.NoFocus
-                            Material.roundedScale: theme.radius
                             topInset: 0
                             bottomInset: 0
-                            leftPadding: 16
-                            rightPadding: 16
+                            leftInset: 0
+                            rightInset: 0
+                            padding: round ? 0 : 14
+                            Accessible.name: text
+                            ToolTip.visible: round && hovered
+                            ToolTip.text: text + (generator.busy ? "  Esc" : "  Enter")
+                            ToolTip.delay: 400
                             enabled: models.state === "ready" ? (generator.busy || prompt.text.trim() !== "")
                                    : ["installed", "blocked", "installable"].indexOf(models.state) >= 0 && !models.working
                             text: {
@@ -579,109 +690,64 @@ ApplicationWindow {
                                 case "installable": models.install(); break
                                 }
                             }
-                            contentItem: Label {
-                                text: action.text
-                                font: action.font
-                                color: theme.accentForeground
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                                elide: Text.ElideRight
+                            contentItem: Item {
+                                id: face
+                                // What's drawn on the accent: the arrow, the square or the words.
+                                readonly property color color: theme.accentForeground
+                                implicitWidth: action.round ? 20 : caption.implicitWidth
+                                implicitHeight: 20
+                                Label {
+                                    id: caption
+                                    anchors.centerIn: parent
+                                    visible: !action.round
+                                    text: action.text
+                                    font: action.font
+                                    color: face.color
+                                }
+                                // An arrow up to send.
+                                Shape {
+                                    anchors.centerIn: parent
+                                    width: 16
+                                    height: 16
+                                    visible: action.round && !generator.busy
+                                    preferredRendererType: Shape.CurveRenderer
+                                    ShapePath {
+                                        strokeColor: face.color
+                                        strokeWidth: 2.2
+                                        fillColor: "transparent"
+                                        capStyle: ShapePath.RoundCap
+                                        joinStyle: ShapePath.RoundJoin
+                                        PathPolyline { path: [Qt.point(8, 15), Qt.point(8, 2)] }
+                                    }
+                                    ShapePath {
+                                        strokeColor: face.color
+                                        strokeWidth: 2.2
+                                        fillColor: "transparent"
+                                        capStyle: ShapePath.RoundCap
+                                        joinStyle: ShapePath.RoundJoin
+                                        PathPolyline { path: [Qt.point(2.5, 7.5), Qt.point(8, 2), Qt.point(13.5, 7.5)] }
+                                    }
+                                }
+                                // A square to stop.
+                                Rectangle {
+                                    anchors.centerIn: parent
+                                    width: 11
+                                    height: 11
+                                    radius: Math.min(2, theme.radius)
+                                    visible: action.round && generator.busy
+                                    color: face.color
+                                }
+                            }
+                            background: Rectangle {
+                                radius: theme.radius > 0 ? height / 2 : 0
+                                color: theme.accent
+                                opacity: action.enabled ? (action.hovered ? 0.88 : 1) : 0.35
                             }
                         }
                     }
                 }
-                    // The shape of a new image, one button that steps through
-                    // square, screen and portrait; a change keeps its own.
-                    ToolButton {
-                        id: shape
-                        objectName: "size"
-                        Layout.alignment: Qt.AlignVCenter
-                    Layout.leftMargin: 4
-                        visible: !win.changing
-                        focusPolicy: Qt.NoFocus
-                        readonly property var shapes: [
-                            { name: qsTr("Square"), w: 15, h: 15 },
-                            { name: qsTr("Screen"), w: 20, h: 12 },
-                            { name: qsTr("Portrait"), w: 12, h: 20 }
-                        ]
-                        readonly property var current: shapes[win.sizeChoice]
-                        Accessible.name: current.name
-                        ToolTip.visible: hovered
-                        ToolTip.text: current.name + "  " + win.outputSize.width + " × " + win.outputSize.height
-                        ToolTip.delay: 400
-                        onClicked: win.sizeChoice = (win.sizeChoice + 1) % 3
-                        contentItem: Item {
-                            implicitWidth: 24
-                            implicitHeight: 24
-                            Rectangle {
-                                anchors.centerIn: parent
-                                width: shape.current.w
-                                height: shape.current.h
-                                color: "transparent"
-                                border.color: shape.hovered ? theme.accent : win.muted
-                                border.width: 1.5
-                                radius: 2
-                                Behavior on width { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
-                                Behavior on height { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
-                            }
-                        }
-                    }
-
-                    // The model: its state as a dot, what it's doing in the
-                    // tooltip, and with more than one set up, a click steps to
-                    // the next.
-                    ToolButton {
-                        id: modelButton
-                        objectName: "model"
-                        Layout.alignment: Qt.AlignVCenter
-                        focusPolicy: Qt.NoFocus
-                        display: AbstractButton.IconOnly
-                        icon.source: "qrc:/icons/model.svg"
-                        icon.width: 20
-                        icon.height: 20
-                        icon.color: hovered && canStep ? theme.accent : win.muted
-                        readonly property int current: models.choices.findIndex(c => c.id === models.modelId)
-                        readonly property bool canStep: models.choices.length > 1 && !models.working && !generator.busy
-                        readonly property var next: models.choices.length > 1 ? models.choices[(current + 1) % models.choices.length] : null
-                        Accessible.name: win.modelStatus
-                        ToolTip.visible: hovered
-                        ToolTip.text: win.modelStatus + (canStep ? "\n" + qsTr("Click to use %1").arg(next.name) : "")
-                        ToolTip.delay: 300
-                        onClicked: if (canStep) models.choose(next.id)
-                        Rectangle {
-                            width: 7
-                            height: 7
-                            radius: 3.5
-                            x: parent.width - width - 9
-                            y: 9
-                            visible: models.state !== "noEngine"
-                            color: win.problem ? theme.colors.red
-                                 : models.state === "ready" ? theme.accent : win.muted
-                            SequentialAnimation on opacity {
-                                running: models.state === "starting" || models.state === "installing" || models.working
-                                loops: Animation.Infinite
-                                onRunningChanged: if (!running) parent.opacity = 1
-                                NumberAnimation { from: 1; to: 0.3; duration: 700; easing.type: Easing.InOutSine }
-                                NumberAnimation { from: 0.3; to: 1; duration: 700; easing.type: Easing.InOutSine }
-                            }
-                        }
-                    }
-                    ToolButton {
-                        objectName: "shortcuts"
-                        Layout.alignment: Qt.AlignVCenter
-                        focusPolicy: Qt.NoFocus
-                        text: "?"
-                        font.pixelSize: 15
-                        Material.foreground: hovered ? theme.accent : win.muted
-                        Accessible.name: qsTr("Show or hide the shortcuts")
-                        ToolTip.visible: hovered
-                        ToolTip.text: qsTr("Show or hide the shortcuts") + "  F1"
-                        ToolTip.delay: 300
-                        onClicked: help.opened ? help.close() : help.open()
-                    }
-                }
-
             }
+
 
             Rectangle { Layout.preferredWidth: 1; Layout.fillHeight: true; color: win.line }
 

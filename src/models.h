@@ -42,6 +42,9 @@ public:
         QStringList blockers;
         QStringList blockerIds;
         QVariantList choices;
+        // A running model that edits by instruction, for changing a picture
+        // whichever model makes new ones.
+        QString editEndpoint;
     };
 
     // The engine's state folder, its key file, and the command that drives
@@ -66,6 +69,8 @@ public:
 
     // The ready model's server, as scheme://host:port, and the engine's key.
     QString origin() const;
+    // The server of a running edit model, empty when none runs.
+    QString editOrigin() const;
     QByteArray key() const;
 
     Q_INVOKABLE void start();
@@ -93,4 +98,6 @@ private:
     QTimer m_debounce;
     QProcess m_process;
     QList<QStringList> m_queue;
+    // The model chosen, kept as the one to use once it has started.
+    QString m_chosen;
 };

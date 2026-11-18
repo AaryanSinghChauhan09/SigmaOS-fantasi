@@ -280,6 +280,13 @@ private slots:
         QCOMPARE(found.choices.first().toMap().value("id").toString(), QString("a"));
     }
 
+    void discoveryFindsAnEditModelForChanges() {
+        // Z-Image is the one in use, but a change goes to Klein, which edits.
+        const auto found = Models::discover(json(q("{'models': { 'z': {'kind': 'image', 'name': 'Z', 'unit': 'active', 'endpoint': 'http://127.0.0.1:1/v1'}, 'k': {'kind': 'image', 'name': 'K', 'unit': 'active', 'edit': true, 'endpoint': 'http://127.0.0.1:2/v1'}}}")), {}, true, "z");
+        QCOMPARE(found.id, QString("z"));
+        QCOMPARE(found.editEndpoint, QString("http://127.0.0.1:2/v1"));
+    }
+
     void discoveryOffersToStartAnInstalledModel() {
         const auto found = Models::discover(json(q("{'models': {'z': {'kind': 'image', 'name': 'Z', 'unit': 'inactive'}}}")), {}, true);
         QCOMPARE(found.state, QString("installed"));

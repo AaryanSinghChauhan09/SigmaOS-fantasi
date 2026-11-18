@@ -41,8 +41,15 @@ Models::Models(const QString &stateDirectory, const QString &keyPath, const QStr
             const auto said = std::find_if(lines.rbegin(), lines.rend(), [](const QString &l) { return l.startsWith("Error: "); });
             m_error = said != lines.rend() ? said->mid(7).trimmed() : tr("The model couldn't be started");
             m_queue.clear();
+            m_chosen.clear();
             emit changed();
             return;
+        }
+        // Only a model that started becomes the one to use.
+        if (m_queue.isEmpty() && !m_chosen.isEmpty()) {
+            QSettings().setValue("model", m_chosen);
+            m_chosen.clear();
+            reload();
         }
         runNext();
     });
@@ -96,6 +103,9 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
     });
     for (const QJsonObject &row : images)
         found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())}};
+    for (const QJsonObject &row : images)
+        if (row.value("unit").toString() == "active" && row.value("edit").toBool() && found.editEndpoint.isEmpty())
+            found.editEndpoint = row.value("endpoint").toString();
     std::stable_sort(images.begin(), images.end(), [&](const QJsonObject &a, const QJsonObject &b) {
         return a.value("id").toString() == preferred && b.value("id").toString() != preferred;
     });
@@ -157,15 +167,18 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
     return found;
 }
 
-QString Models::origin() const {
-    // The engine's endpoint is the OpenAI base, ending in /v1; the native
-    // API lives beside it.
-    QUrl url(m_found.endpoint);
+// The engine's endpoint is the OpenAI base, ending in /v1; the native API
+// lives beside it.
+static QString originOf(const QString &endpoint) {
+    QUrl url(endpoint);
     if (!url.isValid() || url.host().isEmpty())
         return {};
     url.setPath({});
     return url.toString(QUrl::StripTrailingSlash);
 }
+
+QString Models::origin() const { return originOf(m_found.endpoint); }
+QString Models::editOrigin() const { return originOf(m_found.editEndpoint); }
 
 QByteArray Models::key() const {
     QFile file(m_keyPath);
@@ -195,7 +208,7 @@ void Models::switchTo() {
 void Models::choose(const QString &id) {
     if (id == m_found.id || working())
         return;
-    QSettings().setValue("model", id);
+    m_chosen = id;
     QList<QStringList> commands;
     if (m_found.state == "ready" || m_found.state == "starting")
         commands << QStringList{"stop", m_found.id};
@@ -244,7 +257,7 @@ void Models::reload() {
 
     if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
         || found.reason != m_found.reason || found.blockers != m_found.blockers
-        || found.choices != m_found.choices) {
+        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint) {
         m_found = found;
         emit changed();
     }

@@ -75,7 +75,7 @@ int Generator::defaultSteps() const {
 }
 
 QNetworkReply *Generator::send(const QString &method, const QString &path, const QJsonObject &body) {
-    QNetworkRequest request(QUrl(m_origin + path));
+    QNetworkRequest request(QUrl((m_jobOrigin.isEmpty() ? m_origin : m_jobOrigin) + path));
     request.setRawHeader("Authorization", "Bearer " + m_key);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setTransferTimeout(15000);
@@ -146,8 +146,16 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
         return;
     }
 
-    // The model's defaults, with what the window sets on top.
+    // The model's defaults, with what the window sets on top. A change goes
+    // to a running edit model when the one in use isn't one, with that
+    // server's own defaults.
     QJsonObject body = m_defaults;
+    m_jobOrigin.clear();
+    if (!baseUrl.isEmpty() && !edit && !m_models->editOrigin().isEmpty()) {
+        m_jobOrigin = m_models->editOrigin();
+        body = {};
+        edit = true;
+    }
     if (!baseUrl.isEmpty()) {
         const QString path = QUrl(baseUrl).isLocalFile() ? QUrl(baseUrl).toLocalFile() : baseUrl;
         const Base base = prepareBase(path);
@@ -287,6 +295,7 @@ void Generator::finish(const QString &error) {
     m_submitting = false;
     m_cancelling = false;
     m_stage.clear();
+    m_jobOrigin.clear();
     m_error = error;
     m_locker.reset();
     emit changed();

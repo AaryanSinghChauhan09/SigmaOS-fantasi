@@ -101,6 +101,9 @@ private:
     QTimer m_poll;
     QJsonObject m_defaults;
     QString m_origin;
+    // The server the job in hand runs on, when a change goes to a running
+    // edit model rather than the one in use.
+    QString m_jobOrigin;
     QByteArray m_key;
 
     QString m_job;
