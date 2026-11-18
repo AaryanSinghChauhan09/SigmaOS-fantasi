@@ -416,44 +416,38 @@ ApplicationWindow {
                             }
                         }
 
-                        // The shape of a new image; a change keeps its own.
-                        Row {
+                        // The shape of a new image, one button that steps through
+                        // square, screen and portrait; a change keeps its own.
+                        ToolButton {
+                            id: shape
+                            objectName: "size"
                             Layout.alignment: Qt.AlignVCenter
                             visible: !win.changing
-                            spacing: 0
-                            Repeater {
-                                model: [
-                                    { name: qsTr("Square"), w: 14, h: 14 },
-                                    { name: qsTr("Screen"), w: 18, h: 11 },
-                                    { name: qsTr("Portrait"), w: 11, h: 18 }
-                                ]
-                                delegate: ToolButton {
-                                    id: sizeButton
-                                    required property int index
-                                    required property var modelData
-                                    objectName: "size" + index
-                                    checkable: true
-                                    checked: win.sizeChoice === index
-                                    focusPolicy: Qt.NoFocus
-                                    Accessible.name: modelData.name
-                                    ToolTip.visible: hovered
-                                    ToolTip.text: modelData.name + "  " + (index === 1 ? backend.screenSize.width + " × " + backend.screenSize.height
-                                                                                      : index === 2 ? "832 × 1216" : "1024 × 1024")
-                                    ToolTip.delay: 400
-                                    onClicked: win.sizeChoice = index
-                                    contentItem: Item {
-                                        implicitWidth: 22
-                                        implicitHeight: 22
-                                        Rectangle {
-                                            anchors.centerIn: parent
-                                            width: sizeButton.modelData.w
-                                            height: sizeButton.modelData.h
-                                            color: sizeButton.checked ? theme.accent : "transparent"
-                                            border.color: sizeButton.checked ? theme.accent : win.muted
-                                            border.width: 1.5
-                                            radius: 2
-                                        }
-                                    }
+                            focusPolicy: Qt.NoFocus
+                            readonly property var shapes: [
+                                { name: qsTr("Square"), w: 15, h: 15 },
+                                { name: qsTr("Screen"), w: 20, h: 12 },
+                                { name: qsTr("Portrait"), w: 12, h: 20 }
+                            ]
+                            readonly property var current: shapes[win.sizeChoice]
+                            Accessible.name: current.name
+                            ToolTip.visible: hovered
+                            ToolTip.text: current.name + "  " + win.outputSize.width + " × " + win.outputSize.height
+                            ToolTip.delay: 400
+                            onClicked: win.sizeChoice = (win.sizeChoice + 1) % 3
+                            contentItem: Item {
+                                implicitWidth: 24
+                                implicitHeight: 24
+                                Rectangle {
+                                    anchors.centerIn: parent
+                                    width: shape.current.w
+                                    height: shape.current.h
+                                    color: "transparent"
+                                    border.color: shape.hovered ? theme.accent : win.muted
+                                    border.width: 1.5
+                                    radius: 2
+                                    Behavior on width { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+                                    Behavior on height { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
                                 }
                             }
                         }

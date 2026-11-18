@@ -775,10 +775,13 @@ private slots:
                  theme.accentForeground());
 
         // The size buttons pick one of three.
-        auto *portrait = item(window->contentItem(), "size2");
-        QVERIFY(portrait);
+        // One button steps through the shapes; Ctrl+3 goes straight to portrait.
+        auto *shape = item(window->contentItem(), "size");
+        QVERIFY(shape);
         QTest::keyClick(window, Qt::Key_3, Qt::ControlModifier);
-        QVERIFY(portrait->property("checked").toBool());
+        QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Portrait"));
+        QMetaObject::invokeMethod(shape, "clicked");
+        QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Square"));
 
         auto *help = window->findChild<QObject *>("help");
         QTest::keyClick(window, Qt::Key_F1);
