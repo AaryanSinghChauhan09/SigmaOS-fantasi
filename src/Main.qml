@@ -54,8 +54,6 @@ ApplicationWindow {
     // The model in use makes clips: from the prompt alone, or animating the
     // picture being changed.
     readonly property bool videoMode: models.video
-    // A long job says about how long it has left, once it's known to be long.
-    property bool longJob: false
     function remainingText(seconds) {
         if (seconds < 0)
             return qsTr("Working out how long this takes…")
@@ -245,17 +243,6 @@ ApplicationWindow {
         }
     }
     Connections {
-        target: generator
-        function onRemainingChanged() {
-            if (generator.remainingSeconds > 20)
-                win.longJob = true
-        }
-        function onChanged() {
-            if (!generator.busy)
-                win.longJob = false
-        }
-    }
-    Connections {
         target: backend
         function onPictureChosen(url) { win.startFrom(url) }
         // Another `fantasi open` with a prompt: a new image from it.
@@ -384,11 +371,12 @@ ApplicationWindow {
                             visible: win.showingClip
                             source: "qrc:/VideoPlayer.qml"
                         }
-                        // How long a long job has left, in the middle of the frame.
+                        // How long a clip has left, in the middle of the frame. An
+                        // image needs none: it comes to life before your eyes.
                         Rectangle {
                             objectName: "remaining"
                             anchors.centerIn: parent
-                            visible: generator.busy && (win.longJob || (win.videoMode && generator.remainingSeconds < 0))
+                            visible: generator.busy && win.videoMode
                             width: remainingLabel.implicitWidth + 28
                             height: remainingLabel.implicitHeight + 14
                             radius: Math.min(height / 2, theme.radius + 6)
