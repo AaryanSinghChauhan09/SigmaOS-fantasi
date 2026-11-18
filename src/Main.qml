@@ -429,14 +429,14 @@ ApplicationWindow {
                     Layout.fillWidth: true
                     Layout.preferredHeight: bar.implicitHeight + 12
                     color: win.panel
-                    // A pill where the theme rounds windows, square where it doesn't.
-                    radius: theme.radius > 0 ? Math.min(height / 2, 28) : 0
+                    // A pill on every theme: its shape is the design, like a circle's.
+                    radius: Math.min(height / 2, 28)
                     border.color: prompt.activeFocus ? theme.accent : win.line
 
                     RowLayout {
                         id: bar
                         anchors.fill: parent
-                        anchors.leftMargin: 10
+                        anchors.leftMargin: 12
                         anchors.rightMargin: 6
                         anchors.topMargin: 6
                         anchors.bottomMargin: 6
@@ -657,8 +657,8 @@ ApplicationWindow {
                             objectName: "action"
                             readonly property bool round: models.state === "ready"
                             Layout.alignment: Qt.AlignVCenter
-                            Layout.preferredWidth: round ? 38 : implicitWidth
-                            Layout.preferredHeight: 38
+                            Layout.preferredWidth: round ? 36 : implicitWidth
+                            Layout.preferredHeight: 36
                             visible: ["ready", "installed", "blocked", "installable", "starting", "installing"].indexOf(models.state) >= 0
                             focusPolicy: Qt.NoFocus
                             topInset: 0
@@ -739,7 +739,7 @@ ApplicationWindow {
                                 }
                             }
                             background: Rectangle {
-                                radius: theme.radius > 0 ? height / 2 : 0
+                                radius: height / 2
                                 color: theme.accent
                                 opacity: action.enabled ? (action.hovered ? 0.88 : 1) : 0.35
                             }
