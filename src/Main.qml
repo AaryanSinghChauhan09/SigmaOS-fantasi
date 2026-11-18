@@ -354,13 +354,77 @@ ApplicationWindow {
                                                    ? previous.implicitWidth / previous.implicitHeight
                                                    : win.outputSize.width / win.outputSize.height
 
+                    // A model starting in place of the one in use: its mark in a
+                    // ring with a spark circling it, as on the setup screen.
+                    Item {
+                        id: starting
+                        objectName: "starting"
+                        readonly property bool active: models.working || models.state === "starting"
+                        readonly property string name: models.switchingTo !== "" ? models.switchingTo : models.modelName
+                        readonly property string mark: models.logo(models.switchingTo !== "" ? models.switchingVendor : models.vendor, theme.light)
+                        anchors.centerIn: parent
+                        width: 220
+                        height: 200
+                        z: 2
+                        visible: active && !generator.busy
+                        Item {
+                            id: ring
+                            width: 120
+                            height: 120
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            Shape {
+                                anchors.fill: parent
+                                preferredRendererType: Shape.CurveRenderer
+                                ShapePath {
+                                    strokeColor: Qt.rgba(theme.foreground.r, theme.foreground.g, theme.foreground.b, 0.12)
+                                    strokeWidth: 5
+                                    fillColor: "transparent"
+                                    PathAngleArc { centerX: 60; centerY: 60; radiusX: 55; radiusY: 55; startAngle: -90; sweepAngle: 360 }
+                                }
+                            }
+                            Item {
+                                anchors.fill: parent
+                                RotationAnimation on rotation {
+                                    running: starting.visible
+                                    loops: Animation.Infinite
+                                    from: 0
+                                    to: 360
+                                    duration: 2400
+                                }
+                                Rectangle {
+                                    x: 60 - width / 2
+                                    y: 5 - height / 2
+                                    width: 9
+                                    height: 9
+                                    radius: 4.5
+                                    color: theme.accent
+                                }
+                            }
+                            Image {
+                                anchors.centerIn: parent
+                                width: 44
+                                height: 44
+                                sourceSize: Qt.size(88, 88)
+                                fillMode: Image.PreserveAspectFit
+                                source: starting.mark !== "" ? starting.mark : "qrc:/icons/model.svg"
+                            }
+                        }
+                        Label {
+                            anchors.top: ring.bottom
+                            anchors.topMargin: 16
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            color: win.muted
+                            text: qsTr("Starting %1…").arg(starting.name)
+                        }
+                    }
+
                     Item {
                         id: frame
                         anchors.centerIn: parent
                         width: Math.min(parent.width, parent.height * stage.aspect)
                         height: width / stage.aspect
                         // Empty while a new one is written, shimmering once it's asked for.
-                        visible: generator.busy || generator.image !== "" || (win.composing && models.state === "ready")
+                        visible: !starting.visible && (generator.busy || generator.image !== "" || (win.composing && models.state === "ready"))
 
                         // While a picture is being changed, it stays in the frame,
                         // faded, and the new one grows in over it as it's made.
@@ -422,7 +486,7 @@ ApplicationWindow {
                     Label {
                         anchors.centerIn: parent
                         width: parent.width * 0.6
-                        visible: !frame.visible
+                        visible: !frame.visible && !starting.visible
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.Wrap
                         color: win.muted
@@ -835,13 +899,22 @@ ApplicationWindow {
                             // The maker's mark, as the agents panel draws it. It pulses while a
                             // model starts, and the tooltip says what the model is doing.
                             readonly property string logo: models.logo(models.vendor, theme.light)
-                            readonly property bool waiting: models.state === "starting" || models.state === "installing" || models.working
-                            SequentialAnimation on opacity {
-                                running: modelButton.waiting
-                                loops: Animation.Infinite
-                                onRunningChanged: if (!running) modelButton.opacity = 1
-                                NumberAnimation { from: 1; to: 0.35; duration: 700; easing.type: Easing.InOutSine }
-                                NumberAnimation { from: 0.35; to: 1; duration: 700; easing.type: Easing.InOutSine }
+                            // A short pulse when it switches to another running model;
+                            // one that must start shows in the stage instead.
+                            property string shownModel: models.modelId
+                            Connections {
+                                target: models
+                                function onChanged() {
+                                    if (models.modelId !== modelButton.shownModel && models.state === "ready" && !models.working && modelButton.shownModel !== "")
+                                        switched.restart()
+                                    modelButton.shownModel = models.modelId
+                                }
+                            }
+                            SequentialAnimation {
+                                id: switched
+                                loops: 2
+                                NumberAnimation { target: modelButton; property: "scale"; from: 1; to: 1.25; duration: 160; easing.type: Easing.OutCubic }
+                                NumberAnimation { target: modelButton; property: "scale"; from: 1.25; to: 1; duration: 220; easing.type: Easing.InOutSine }
                             }
                             // A mark in its own colours; without one, a chip in the quiet colour.
                             display: AbstractButton.IconOnly
