@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "Hindi mabasa ang panimulang larawan",
   "Describe the new image": "Ilarawan ang bagong larawan",
   "Save image": "I-save ang larawan",
-  "Couldn't listen for the portal file picker's response.": "Hindi matanggap ang sagot ng portal file picker."
+  "Couldn't listen for the portal file picker's response.": "Hindi matanggap ang sagot ng portal file picker.",
+  "Start from a picture…": "Magsimula sa isang larawan…",
+  "Start from a picture of your own": "Magsimula sa sarili mong larawan",
+  "Open": "Buksan",
+  "Pictures": "Mga larawan",
+  "Start from a picture": "Magsimula sa isang larawan",
+  "Stop %1 and start %2": "Itigil ang %1 at simulan ang %2"
 }

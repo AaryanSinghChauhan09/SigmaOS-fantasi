@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "ආරම්භක රූපය කියවිය නොහැකි විය",
   "Describe the new image": "නව රූපය විස්තර කරන්න",
   "Save image": "රූපය සුරකින්න",
-  "Couldn't listen for the portal file picker's response.": "පෝටල් ගොනු තෝරකයේ ප්‍රතිචාරය ලබා ගත නොහැකි විය."
+  "Couldn't listen for the portal file picker's response.": "පෝටල් ගොනු තෝරකයේ ප්‍රතිචාරය ලබා ගත නොහැකි විය.",
+  "Start from a picture…": "රූපයකින් ආරම්භ කරන්න…",
+  "Start from a picture of your own": "ඔබේම රූපයකින් ආරම්භ කරන්න",
+  "Open": "විවෘත කරන්න",
+  "Pictures": "රූප",
+  "Start from a picture": "රූපයකින් ආරම්භ කරන්න",
+  "Stop %1 and start %2": "%1 නවත්වා %2 ආරම්භ කරන්න"
 }

@@ -68,5 +68,11 @@
   "Couldn't read the image to start from": "无法读取作为起点的图片",
   "Describe the new image": "描述新图片",
   "Save image": "保存图片",
-  "Couldn't listen for the portal file picker's response.": "无法接收门户文件选择器的响应。"
+  "Couldn't listen for the portal file picker's response.": "无法接收门户文件选择器的响应。",
+  "Start from a picture…": "从图片开始…",
+  "Start from a picture of your own": "从你自己的图片开始",
+  "Open": "打开",
+  "Pictures": "图片",
+  "Start from a picture": "从图片开始",
+  "Stop %1 and start %2": "停止 %1 并启动 %2"
 }

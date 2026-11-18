@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "Nem sikerült beolvasni a kiinduló képet",
   "Describe the new image": "Írd le az új képet",
   "Save image": "Kép mentése",
-  "Couldn't listen for the portal file picker's response.": "Nem sikerült fogadni a portál fájlválasztójának válaszát."
+  "Couldn't listen for the portal file picker's response.": "Nem sikerült fogadni a portál fájlválasztójának válaszát.",
+  "Start from a picture…": "Kiindulás egy képből…",
+  "Start from a picture of your own": "Kiindulás egy saját képből",
+  "Open": "Megnyitás",
+  "Pictures": "Képek",
+  "Start from a picture": "Kiindulás egy képből",
+  "Stop %1 and start %2": "%1 leállítása és %2 indítása"
 }

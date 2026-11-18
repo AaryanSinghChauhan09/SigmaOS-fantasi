@@ -70,5 +70,11 @@
   "Couldn't read the image to start from": "Nu s-a putut citi imaginea de pornire",
   "Describe the new image": "Descrie imaginea nouă",
   "Save image": "Salvează imaginea",
-  "Couldn't listen for the portal file picker's response.": "Nu s-a putut primi răspunsul selectorului de fișiere al portalului."
+  "Couldn't listen for the portal file picker's response.": "Nu s-a putut primi răspunsul selectorului de fișiere al portalului.",
+  "Start from a picture…": "Pornește de la o imagine…",
+  "Start from a picture of your own": "Pornește de la o imagine proprie",
+  "Open": "Deschide",
+  "Pictures": "Imagini",
+  "Start from a picture": "Pornește de la o imagine",
+  "Stop %1 and start %2": "Oprește %1 și pornește %2"
 }

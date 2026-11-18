@@ -73,5 +73,11 @@
   "Couldn't read the image to start from": "تعذّرت قراءة صورة البداية",
   "Describe the new image": "صف الصورة الجديدة",
   "Save image": "حفظ الصورة",
-  "Couldn't listen for the portal file picker's response.": "تعذّر انتظار رد منتقي الملفات في البوابة."
+  "Couldn't listen for the portal file picker's response.": "تعذّر انتظار رد منتقي الملفات في البوابة.",
+  "Start from a picture…": "البدء من صورة…",
+  "Start from a picture of your own": "البدء من صورة خاصة بك",
+  "Open": "فتح",
+  "Pictures": "الصور",
+  "Start from a picture": "البدء من صورة",
+  "Stop %1 and start %2": "إيقاف %1 وتشغيل %2"
 }

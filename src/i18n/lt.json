@@ -70,5 +70,11 @@
   "Couldn't read the image to start from": "Nepavyko nuskaityti pradinio vaizdo",
   "Describe the new image": "Aprašykite naują vaizdą",
   "Save image": "Išsaugoti vaizdą",
-  "Couldn't listen for the portal file picker's response.": "Nepavyko gauti portalo failų parinkiklio atsakymo."
+  "Couldn't listen for the portal file picker's response.": "Nepavyko gauti portalo failų parinkiklio atsakymo.",
+  "Start from a picture…": "Pradėti nuo paveikslėlio…",
+  "Start from a picture of your own": "Pradėti nuo savo paveikslėlio",
+  "Open": "Atidaryti",
+  "Pictures": "Paveikslėliai",
+  "Start from a picture": "Pradėti nuo paveikslėlio",
+  "Stop %1 and start %2": "Sustabdyti %1 ir paleisti %2"
 }

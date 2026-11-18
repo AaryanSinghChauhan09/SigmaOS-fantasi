@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "Başlangıç görseli okunamadı",
   "Describe the new image": "Yeni görseli tarif edin",
   "Save image": "Görseli kaydet",
-  "Couldn't listen for the portal file picker's response.": "Portal dosya seçicisinden yanıt alınamadı."
+  "Couldn't listen for the portal file picker's response.": "Portal dosya seçicisinden yanıt alınamadı.",
+  "Start from a picture…": "Bir görselden başla…",
+  "Start from a picture of your own": "Kendi görselinden başla",
+  "Open": "Aç",
+  "Pictures": "Görseller",
+  "Start from a picture": "Bir görselden başla",
+  "Stop %1 and start %2": "%1 modelini durdur ve %2 modelini başlat"
 }

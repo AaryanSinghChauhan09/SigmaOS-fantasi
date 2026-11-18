@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "خواندن تصویر آغازین ممکن نشد",
   "Describe the new image": "تصویر تازه را توصیف کنید",
   "Save image": "ذخیرهٔ تصویر",
-  "Couldn't listen for the portal file picker's response.": "پاسخ انتخابگر فایل پورتال دریافت نشد."
+  "Couldn't listen for the portal file picker's response.": "پاسخ انتخابگر فایل پورتال دریافت نشد.",
+  "Start from a picture…": "شروع از یک تصویر…",
+  "Start from a picture of your own": "شروع از تصویری از خودتان",
+  "Open": "باز کردن",
+  "Pictures": "تصاویر",
+  "Start from a picture": "شروع از یک تصویر",
+  "Stop %1 and start %2": "توقف %1 و اجرای %2"
 }

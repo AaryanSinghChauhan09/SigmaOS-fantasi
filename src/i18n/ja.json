@@ -68,5 +68,11 @@
   "Couldn't read the image to start from": "元にする画像を読み込めませんでした",
   "Describe the new image": "新しい画像の説明を入力",
   "Save image": "画像を保存",
-  "Couldn't listen for the portal file picker's response.": "ポータルのファイル選択ダイアログからの応答を受け取れませんでした。"
+  "Couldn't listen for the portal file picker's response.": "ポータルのファイル選択ダイアログからの応答を受け取れませんでした。",
+  "Start from a picture…": "画像から始める…",
+  "Start from a picture of your own": "自分の画像から始める",
+  "Open": "開く",
+  "Pictures": "画像",
+  "Start from a picture": "画像から始める",
+  "Stop %1 and start %2": "%1 を停止して %2 を起動"
 }

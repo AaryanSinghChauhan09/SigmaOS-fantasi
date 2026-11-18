@@ -68,5 +68,11 @@
   "Couldn't read the image to start from": "Tidak dapat membaca gambar awal",
   "Describe the new image": "Deskripsikan gambar baru",
   "Save image": "Simpan gambar",
-  "Couldn't listen for the portal file picker's response.": "Tidak dapat menerima respons pemilih file portal."
+  "Couldn't listen for the portal file picker's response.": "Tidak dapat menerima respons pemilih file portal.",
+  "Start from a picture…": "Mulai dari gambar…",
+  "Start from a picture of your own": "Mulai dari gambar milik sendiri",
+  "Open": "Buka",
+  "Pictures": "Gambar",
+  "Start from a picture": "Mulai dari gambar",
+  "Stop %1 and start %2": "Hentikan %1 dan mulai %2"
 }

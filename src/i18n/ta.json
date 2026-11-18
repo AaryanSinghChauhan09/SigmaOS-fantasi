@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "தொடக்கப் படத்தைப் படிக்க முடியவில்லை",
   "Describe the new image": "புதிய படத்தை விவரிக்கவும்",
   "Save image": "படத்தைச் சேமி",
-  "Couldn't listen for the portal file picker's response.": "போர்ட்டல் கோப்புத் தேர்வியின் பதிலைப் பெற முடியவில்லை."
+  "Couldn't listen for the portal file picker's response.": "போர்ட்டல் கோப்புத் தேர்வியின் பதிலைப் பெற முடியவில்லை.",
+  "Start from a picture…": "ஒரு படத்திலிருந்து தொடங்கு…",
+  "Start from a picture of your own": "உங்கள் சொந்தப் படத்திலிருந்து தொடங்கு",
+  "Open": "திற",
+  "Pictures": "படங்கள்",
+  "Start from a picture": "ஒரு படத்திலிருந்து தொடங்கு",
+  "Stop %1 and start %2": "%1 ஐ நிறுத்தி %2 ஐத் தொடங்கு"
 }

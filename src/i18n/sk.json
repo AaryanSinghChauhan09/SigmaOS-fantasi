@@ -70,5 +70,11 @@
   "Couldn't read the image to start from": "Východiskový obrázok sa nepodarilo načítať",
   "Describe the new image": "Opíšte nový obrázok",
   "Save image": "Uložiť obrázok",
-  "Couldn't listen for the portal file picker's response.": "Nepodarilo sa prijať odpoveď z výberu súborov portálu."
+  "Couldn't listen for the portal file picker's response.": "Nepodarilo sa prijať odpoveď z výberu súborov portálu.",
+  "Start from a picture…": "Začať z obrázka…",
+  "Start from a picture of your own": "Začať z vlastného obrázka",
+  "Open": "Otvoriť",
+  "Pictures": "Obrázky",
+  "Start from a picture": "Začať z obrázka",
+  "Stop %1 and start %2": "Zastaviť %1 a spustiť %2"
 }

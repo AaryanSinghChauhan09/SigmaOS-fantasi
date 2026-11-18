@@ -71,5 +71,11 @@
   "Couldn't read the image to start from": "Izhodiščne slike ni bilo mogoče prebrati",
   "Describe the new image": "Opišite novo sliko",
   "Save image": "Shrani sliko",
-  "Couldn't listen for the portal file picker's response.": "Odgovora izbirnika datotek portala ni bilo mogoče prejeti."
+  "Couldn't listen for the portal file picker's response.": "Odgovora izbirnika datotek portala ni bilo mogoče prejeti.",
+  "Start from a picture…": "Začni s sliko…",
+  "Start from a picture of your own": "Začni z lastno sliko",
+  "Open": "Odpri",
+  "Pictures": "Slike",
+  "Start from a picture": "Začni s sliko",
+  "Stop %1 and start %2": "Ustavi %1 in zaženi %2"
 }

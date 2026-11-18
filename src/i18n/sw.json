@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "Haikuweza kusoma picha ya kuanzia",
   "Describe the new image": "Eleza picha mpya",
   "Save image": "Hifadhi picha",
-  "Couldn't listen for the portal file picker's response.": "Imeshindwa kusikiliza jibu la kichagua faili cha lango."
+  "Couldn't listen for the portal file picker's response.": "Imeshindwa kusikiliza jibu la kichagua faili cha lango.",
+  "Start from a picture…": "Anza kutoka kwa picha…",
+  "Start from a picture of your own": "Anza kutoka kwa picha yako mwenyewe",
+  "Open": "Fungua",
+  "Pictures": "Picha",
+  "Start from a picture": "Anza kutoka kwa picha",
+  "Stop %1 and start %2": "Simamisha %1 na uanzishe %2"
 }

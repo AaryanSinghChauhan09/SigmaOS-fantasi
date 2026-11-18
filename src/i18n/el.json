@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "Δεν ήταν δυνατή η ανάγνωση της αρχικής εικόνας",
   "Describe the new image": "Περιγράψτε τη νέα εικόνα",
   "Save image": "Αποθήκευση εικόνας",
-  "Couldn't listen for the portal file picker's response.": "Δεν ήταν δυνατή η λήψη απάντησης από τον επιλογέα αρχείων της πύλης."
+  "Couldn't listen for the portal file picker's response.": "Δεν ήταν δυνατή η λήψη απάντησης από τον επιλογέα αρχείων της πύλης.",
+  "Start from a picture…": "Έναρξη από εικόνα…",
+  "Start from a picture of your own": "Έναρξη από δική σας εικόνα",
+  "Open": "Άνοιγμα",
+  "Pictures": "Εικόνες",
+  "Start from a picture": "Έναρξη από εικόνα",
+  "Stop %1 and start %2": "Διακοπή του %1 και εκκίνηση του %2"
 }

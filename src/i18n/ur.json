@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "شروعاتی تصویر نہیں پڑھی جا سکی",
   "Describe the new image": "نئی تصویر بیان کریں",
   "Save image": "تصویر محفوظ کریں",
-  "Couldn't listen for the portal file picker's response.": "پورٹل فائل پکر کا جواب موصول نہیں ہو سکا۔"
+  "Couldn't listen for the portal file picker's response.": "پورٹل فائل پکر کا جواب موصول نہیں ہو سکا۔",
+  "Start from a picture…": "کسی تصویر سے شروع کریں…",
+  "Start from a picture of your own": "اپنی تصویر سے شروع کریں",
+  "Open": "کھولیں",
+  "Pictures": "تصاویر",
+  "Start from a picture": "کسی تصویر سے شروع کریں",
+  "Stop %1 and start %2": "ماڈل %1 روکیں اور %2 شروع کریں"
 }

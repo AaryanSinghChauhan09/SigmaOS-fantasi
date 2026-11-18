@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "শুরুর ছবিটি পড়া যায়নি",
   "Describe the new image": "নতুন ছবির বর্ণনা দিন",
   "Save image": "ছবি সংরক্ষণ করুন",
-  "Couldn't listen for the portal file picker's response.": "পোর্টাল ফাইল পিকারের উত্তর পাওয়া যায়নি।"
+  "Couldn't listen for the portal file picker's response.": "পোর্টাল ফাইল পিকারের উত্তর পাওয়া যায়নি।",
+  "Start from a picture…": "একটি ছবি থেকে শুরু করুন…",
+  "Start from a picture of your own": "নিজের একটি ছবি থেকে শুরু করুন",
+  "Open": "খুলুন",
+  "Pictures": "ছবি",
+  "Start from a picture": "একটি ছবি থেকে শুরু করুন",
+  "Stop %1 and start %2": "%1 বন্ধ করে %2 চালু করুন"
 }

@@ -68,5 +68,11 @@
   "Couldn't read the image to start from": "시작 이미지를 읽을 수 없습니다",
   "Describe the new image": "새 이미지를 설명하세요",
   "Save image": "이미지 저장",
-  "Couldn't listen for the portal file picker's response.": "포털 파일 선택기의 응답을 받을 수 없습니다."
+  "Couldn't listen for the portal file picker's response.": "포털 파일 선택기의 응답을 받을 수 없습니다.",
+  "Start from a picture…": "이미지에서 시작…",
+  "Start from a picture of your own": "내 이미지에서 시작",
+  "Open": "열기",
+  "Pictures": "이미지",
+  "Start from a picture": "이미지에서 시작",
+  "Stop %1 and start %2": "%1 중지 후 %2 시작"
 }

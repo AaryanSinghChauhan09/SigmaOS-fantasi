@@ -71,5 +71,11 @@
   "Couldn't read the image to start from": "Nie udało się odczytać obrazu wyjściowego",
   "Describe the new image": "Opisz nowy obraz",
   "Save image": "Zapisz obraz",
-  "Couldn't listen for the portal file picker's response.": "Nie udało się odebrać odpowiedzi z okna wyboru plików portalu."
+  "Couldn't listen for the portal file picker's response.": "Nie udało się odebrać odpowiedzi z okna wyboru plików portalu.",
+  "Start from a picture…": "Zacznij od obrazu…",
+  "Start from a picture of your own": "Zacznij od własnego obrazu",
+  "Open": "Otwórz",
+  "Pictures": "Obrazy",
+  "Start from a picture": "Zacznij od obrazu",
+  "Stop %1 and start %2": "Zatrzymaj %1 i uruchom %2"
 }

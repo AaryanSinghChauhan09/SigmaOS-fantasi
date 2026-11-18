@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "Lähtepilti ei õnnestunud lugeda",
   "Describe the new image": "Kirjelda uut pilti",
   "Save image": "Salvesta pilt",
-  "Couldn't listen for the portal file picker's response.": "Portaali failivalija vastust ei õnnestunud kuulata."
+  "Couldn't listen for the portal file picker's response.": "Portaali failivalija vastust ei õnnestunud kuulata.",
+  "Start from a picture…": "Alusta pildist…",
+  "Start from a picture of your own": "Alusta oma pildist",
+  "Open": "Ava",
+  "Pictures": "Pildid",
+  "Start from a picture": "Alusta pildist",
+  "Stop %1 and start %2": "Peata %1 ja käivita %2"
 }

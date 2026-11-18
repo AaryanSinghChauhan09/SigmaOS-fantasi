@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "Boshlangʻich rasmni oʻqib boʻlmadi",
   "Describe the new image": "Yangi rasmni tasvirlang",
   "Save image": "Rasmni saqlash",
-  "Couldn't listen for the portal file picker's response.": "Portal fayl tanlagichidan javob olib boʻlmadi."
+  "Couldn't listen for the portal file picker's response.": "Portal fayl tanlagichidan javob olib boʻlmadi.",
+  "Start from a picture…": "Rasmdan boshlash…",
+  "Start from a picture of your own": "Oʻz rasmingizdan boshlash",
+  "Open": "Ochish",
+  "Pictures": "Rasmlar",
+  "Start from a picture": "Rasmdan boshlash",
+  "Stop %1 and start %2": "%1 ni toʻxtatib, %2 ni ishga tushirish"
 }

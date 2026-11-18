@@ -70,5 +70,11 @@
   "Couldn't read the image to start from": "לא ניתן היה לקרוא את תמונת המוצא",
   "Describe the new image": "תארו את התמונה החדשה",
   "Save image": "שמירת תמונה",
-  "Couldn't listen for the portal file picker's response.": "לא ניתן להאזין לתגובה של בורר הקבצים של הפורטל."
+  "Couldn't listen for the portal file picker's response.": "לא ניתן להאזין לתגובה של בורר הקבצים של הפורטל.",
+  "Start from a picture…": "התחלה מתמונה…",
+  "Start from a picture of your own": "התחלה מתמונה משלך",
+  "Open": "פתיחה",
+  "Pictures": "תמונות",
+  "Start from a picture": "התחלה מתמונה",
+  "Stop %1 and start %2": "עצירת %1 והפעלת %2"
 }

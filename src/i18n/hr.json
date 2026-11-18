@@ -70,5 +70,11 @@
   "Couldn't read the image to start from": "Polazna slika nije se mogla pročitati",
   "Describe the new image": "Opišite novu sliku",
   "Save image": "Spremi sliku",
-  "Couldn't listen for the portal file picker's response.": "Nije moguće primiti odgovor birača datoteka portala."
+  "Couldn't listen for the portal file picker's response.": "Nije moguće primiti odgovor birača datoteka portala.",
+  "Start from a picture…": "Počni od slike…",
+  "Start from a picture of your own": "Počni od vlastite slike",
+  "Open": "Otvori",
+  "Pictures": "Slike",
+  "Start from a picture": "Počni od slike",
+  "Stop %1 and start %2": "Zaustavi %1 i pokreni %2"
 }

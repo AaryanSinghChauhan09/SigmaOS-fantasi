@@ -72,5 +72,11 @@
   "Couldn't read the image to start from": "Níorbh fhéidir an íomhá tosaigh a léamh",
   "Describe the new image": "Déan cur síos ar an íomhá nua",
   "Save image": "Sábháil íomhá",
-  "Couldn't listen for the portal file picker's response.": "Níorbh fhéidir éisteacht le freagra roghnóir comhad na tairsí."
+  "Couldn't listen for the portal file picker's response.": "Níorbh fhéidir éisteacht le freagra roghnóir comhad na tairsí.",
+  "Start from a picture…": "Tosaigh ó phictiúr…",
+  "Start from a picture of your own": "Tosaigh ó phictiúr de do chuid féin",
+  "Open": "Oscail",
+  "Pictures": "Pictiúir",
+  "Start from a picture": "Tosaigh ó phictiúr",
+  "Stop %1 and start %2": "Stop %1 agus tosaigh %2"
 }

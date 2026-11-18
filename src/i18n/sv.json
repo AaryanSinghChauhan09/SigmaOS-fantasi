@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "Kunde inte läsa bilden som ska vara utgångspunkt",
   "Describe the new image": "Beskriv den nya bilden",
   "Save image": "Spara bild",
-  "Couldn't listen for the portal file picker's response.": "Kunde inte lyssna efter svar från portalens filväljare."
+  "Couldn't listen for the portal file picker's response.": "Kunde inte lyssna efter svar från portalens filväljare.",
+  "Start from a picture…": "Utgå från en bild…",
+  "Start from a picture of your own": "Utgå från en egen bild",
+  "Open": "Öppna",
+  "Pictures": "Bilder",
+  "Start from a picture": "Utgå från en bild",
+  "Stop %1 and start %2": "Stoppa %1 och starta %2"
 }

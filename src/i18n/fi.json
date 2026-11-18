@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "Lähtökuvaa ei voitu lukea",
   "Describe the new image": "Kuvaile uusi kuva",
   "Save image": "Tallenna kuva",
-  "Couldn't listen for the portal file picker's response.": "Portaalin tiedostonvalitsimen vastausta ei voitu kuunnella."
+  "Couldn't listen for the portal file picker's response.": "Portaalin tiedostonvalitsimen vastausta ei voitu kuunnella.",
+  "Start from a picture…": "Aloita kuvasta…",
+  "Start from a picture of your own": "Aloita omasta kuvasta",
+  "Open": "Avaa",
+  "Pictures": "Kuvat",
+  "Start from a picture": "Aloita kuvasta",
+  "Stop %1 and start %2": "Pysäytä %1 ja käynnistä %2"
 }

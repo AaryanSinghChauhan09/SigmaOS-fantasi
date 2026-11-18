@@ -70,5 +70,11 @@
   "Couldn't read the image to start from": "No s'ha pogut llegir la imatge de partida",
   "Describe the new image": "Descriu la imatge nova",
   "Save image": "Desa la imatge",
-  "Couldn't listen for the portal file picker's response.": "No s'ha pogut rebre la resposta del selector de fitxers del portal."
+  "Couldn't listen for the portal file picker's response.": "No s'ha pogut rebre la resposta del selector de fitxers del portal.",
+  "Start from a picture…": "Comença des d'una imatge…",
+  "Start from a picture of your own": "Comença des d'una imatge pròpia",
+  "Open": "Obre",
+  "Pictures": "Imatges",
+  "Start from a picture": "Comença des d'una imatge",
+  "Stop %1 and start %2": "Atura %1 i inicia %2"
 }

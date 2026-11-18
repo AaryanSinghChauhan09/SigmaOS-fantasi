@@ -68,5 +68,11 @@
   "Couldn't read the image to start from": "無法讀取作為起點的圖片",
   "Describe the new image": "描述新圖片",
   "Save image": "儲存圖片",
-  "Couldn't listen for the portal file picker's response.": "無法接收入口檔案選擇器的回應。"
+  "Couldn't listen for the portal file picker's response.": "無法接收入口檔案選擇器的回應。",
+  "Start from a picture…": "從圖片開始…",
+  "Start from a picture of your own": "從你自己的圖片開始",
+  "Open": "開啟",
+  "Pictures": "圖片",
+  "Start from a picture": "從圖片開始",
+  "Stop %1 and start %2": "停止 %1 並啟動 %2"
 }

@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "Ekki tókst að lesa upphafsmyndina",
   "Describe the new image": "Lýstu nýju myndinni",
   "Save image": "Vista mynd",
-  "Couldn't listen for the portal file picker's response.": "Ekki tókst að hlusta eftir svari frá skráavali gáttarinnar."
+  "Couldn't listen for the portal file picker's response.": "Ekki tókst að hlusta eftir svari frá skráavali gáttarinnar.",
+  "Start from a picture…": "Byrja á mynd…",
+  "Start from a picture of your own": "Byrja á eigin mynd",
+  "Open": "Opna",
+  "Pictures": "Myndir",
+  "Start from a picture": "Byrja á mynd",
+  "Stop %1 and start %2": "Stöðva %1 og ræsa %2"
 }

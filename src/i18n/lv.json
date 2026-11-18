@@ -70,5 +70,11 @@
   "Couldn't read the image to start from": "Neizdevās nolasīt sākuma attēlu",
   "Describe the new image": "Aprakstiet jauno attēlu",
   "Save image": "Saglabāt attēlu",
-  "Couldn't listen for the portal file picker's response.": "Neizdevās saņemt portāla failu atlasītāja atbildi."
+  "Couldn't listen for the portal file picker's response.": "Neizdevās saņemt portāla failu atlasītāja atbildi.",
+  "Start from a picture…": "Sākt no attēla…",
+  "Start from a picture of your own": "Sākt no sava attēla",
+  "Open": "Atvērt",
+  "Pictures": "Attēli",
+  "Start from a picture": "Sākt no attēla",
+  "Stop %1 and start %2": "Apturēt %1 un palaist %2"
 }

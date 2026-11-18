@@ -69,5 +69,11 @@
   "Couldn't read the image to start from": "Изходното изображение не можа да бъде прочетено",
   "Describe the new image": "Опишете новото изображение",
   "Save image": "Запази изображението",
-  "Couldn't listen for the portal file picker's response.": "Не може да се получи отговор от диалога за избор на файлове на портала."
+  "Couldn't listen for the portal file picker's response.": "Не може да се получи отговор от диалога за избор на файлове на портала.",
+  "Start from a picture…": "Започни от изображение…",
+  "Start from a picture of your own": "Започни от собствено изображение",
+  "Open": "Отвори",
+  "Pictures": "Изображения",
+  "Start from a picture": "Започни от изображение",
+  "Stop %1 and start %2": "Спри %1 и стартирай %2"
 }

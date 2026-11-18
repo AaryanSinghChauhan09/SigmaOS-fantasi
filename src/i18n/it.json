@@ -70,5 +70,11 @@
   "Couldn't read the image to start from": "Impossibile leggere l'immagine di partenza",
   "Describe the new image": "Descrivi la nuova immagine",
   "Save image": "Salva immagine",
-  "Couldn't listen for the portal file picker's response.": "Impossibile ricevere la risposta dal selettore file del portale."
+  "Couldn't listen for the portal file picker's response.": "Impossibile ricevere la risposta dal selettore file del portale.",
+  "Start from a picture…": "Parti da un'immagine…",
+  "Start from a picture of your own": "Parti da una tua immagine",
+  "Open": "Apri",
+  "Pictures": "Immagini",
+  "Start from a picture": "Parti da un'immagine",
+  "Stop %1 and start %2": "Arresta %1 e avvia %2"
 }

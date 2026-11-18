@@ -68,5 +68,11 @@
   "Couldn't read the image to start from": "Không đọc được ảnh gốc",
   "Describe the new image": "Mô tả ảnh mới",
   "Save image": "Lưu ảnh",
-  "Couldn't listen for the portal file picker's response.": "Không nhận được phản hồi từ hộp chọn tệp của portal."
+  "Couldn't listen for the portal file picker's response.": "Không nhận được phản hồi từ hộp chọn tệp của portal.",
+  "Start from a picture…": "Bắt đầu từ một ảnh…",
+  "Start from a picture of your own": "Bắt đầu từ ảnh của riêng bạn",
+  "Open": "Mở",
+  "Pictures": "Hình ảnh",
+  "Start from a picture": "Bắt đầu từ một ảnh",
+  "Stop %1 and start %2": "Dừng %1 và khởi động %2"
 }

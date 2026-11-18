@@ -68,5 +68,11 @@
   "Couldn't read the image to start from": "อ่านภาพตั้งต้นไม่ได้",
   "Describe the new image": "อธิบายภาพใหม่",
   "Save image": "บันทึกภาพ",
-  "Couldn't listen for the portal file picker's response.": "ไม่ได้รับการตอบกลับจากตัวเลือกไฟล์ของพอร์ทัล"
+  "Couldn't listen for the portal file picker's response.": "ไม่ได้รับการตอบกลับจากตัวเลือกไฟล์ของพอร์ทัล",
+  "Start from a picture…": "เริ่มจากรูปภาพ…",
+  "Start from a picture of your own": "เริ่มจากรูปภาพของคุณเอง",
+  "Open": "เปิด",
+  "Pictures": "รูปภาพ",
+  "Start from a picture": "เริ่มจากรูปภาพ",
+  "Stop %1 and start %2": "หยุด %1 แล้วเริ่ม %2"
 }
