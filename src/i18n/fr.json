@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Impossible d'enregistrer l'affiche du clip dans %1",
   "New generation": "Nouvelle génération",
   "Start a new generation": "Commencer une nouvelle génération",
-  "Clip length: %1 s": "Durée du clip : %1 s"
+  "Clip length: %1 s": "Durée du clip : %1 s",
+  "Working out how long this takes…": "Estimation de la durée…",
+  "Almost done": "Presque terminé",
+  "About %1 s left": "Environ %1 s restantes",
+  "About %1 min left": "Environ %1 min restantes"
 }

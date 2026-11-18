@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Kan de posterafbeelding van de clip niet opslaan in %1",
   "New generation": "Nieuwe generatie",
   "Start a new generation": "Nieuwe generatie beginnen",
-  "Clip length: %1 s": "Cliplengte: %1 s"
+  "Clip length: %1 s": "Cliplengte: %1 s",
+  "Working out how long this takes…": "Inschatten hoe lang dit duurt…",
+  "Almost done": "Bijna klaar",
+  "About %1 s left": "Nog ongeveer %1 s",
+  "About %1 min left": "Nog ongeveer %1 min"
 }

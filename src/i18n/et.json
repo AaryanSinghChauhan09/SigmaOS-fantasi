@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Klipi kaanepilti ei õnnestunud salvestada kausta %1",
   "New generation": "Uus genereerimine",
   "Start a new generation": "Alusta uut genereerimist",
-  "Clip length: %1 s": "Klipi pikkus: %1 s"
+  "Clip length: %1 s": "Klipi pikkus: %1 s",
+  "Working out how long this takes…": "Arvutan, kui kaua see aega võtab…",
+  "Almost done": "Peaaegu valmis",
+  "About %1 s left": "Jäänud umbes %1 s",
+  "About %1 min left": "Jäänud umbes %1 min"
 }

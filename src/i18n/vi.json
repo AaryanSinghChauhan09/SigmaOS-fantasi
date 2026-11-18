@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Không lưu được ảnh bìa của clip vào %1",
   "New generation": "Lượt tạo mới",
   "Start a new generation": "Bắt đầu lượt tạo mới",
-  "Clip length: %1 s": "Độ dài clip: %1 giây"
+  "Clip length: %1 s": "Độ dài clip: %1 giây",
+  "Working out how long this takes…": "Đang ước tính thời gian…",
+  "Almost done": "Sắp xong",
+  "About %1 s left": "Còn khoảng %1 giây",
+  "About %1 min left": "Còn khoảng %1 phút"
 }

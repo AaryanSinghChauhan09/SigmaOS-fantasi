@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Ekki tókst að vista forsíðumynd myndskeiðsins í %1",
   "New generation": "Ný myndun",
   "Start a new generation": "Byrja á nýrri myndun",
-  "Clip length: %1 s": "Lengd myndskeiðs: %1 s"
+  "Clip length: %1 s": "Lengd myndskeiðs: %1 s",
+  "Working out how long this takes…": "Reikna út hve langan tíma þetta tekur…",
+  "Almost done": "Næstum búið",
+  "About %1 s left": "Um %1 s eftir",
+  "About %1 min left": "Um %1 mín. eftir"
 }

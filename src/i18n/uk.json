@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Не вдалося зберегти обкладинку кліпу в %1",
   "New generation": "Нова генерація",
   "Start a new generation": "Почати нову генерацію",
-  "Clip length: %1 s": "Довжина кліпу: %1 с"
+  "Clip length: %1 s": "Довжина кліпу: %1 с",
+  "Working out how long this takes…": "Оцінюємо, скільки це триватиме…",
+  "Almost done": "Майже готово",
+  "About %1 s left": "Залишилося близько %1 с",
+  "About %1 min left": "Залишилося близько %1 хв"
 }

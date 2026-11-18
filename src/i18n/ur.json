@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "کلپ کا پوسٹر %1 میں محفوظ نہیں ہو سکا",
   "New generation": "نئی تخلیق",
   "Start a new generation": "نئی تخلیق شروع کریں",
-  "Clip length: %1 s": "کلپ کی لمبائی: %1 سیکنڈ"
+  "Clip length: %1 s": "کلپ کی لمبائی: %1 سیکنڈ",
+  "Working out how long this takes…": "اندازہ لگایا جا رہا ہے کہ کتنا وقت لگے گا…",
+  "Almost done": "تقریباً مکمل",
+  "About %1 s left": "تقریباً %1 سیکنڈ باقی",
+  "About %1 min left": "تقریباً %1 منٹ باقی"
 }

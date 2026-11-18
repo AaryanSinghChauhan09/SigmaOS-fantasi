@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Насловна слика снимка није могла да се сачува у %1",
   "New generation": "Ново генерисање",
   "Start a new generation": "Започни ново генерисање",
-  "Clip length: %1 s": "Дужина снимка: %1 с"
+  "Clip length: %1 s": "Дужина снимка: %1 с",
+  "Working out how long this takes…": "Процењује се колико ће трајати…",
+  "Almost done": "Скоро готово",
+  "About %1 s left": "Још око %1 с",
+  "About %1 min left": "Још око %1 мин"
 }

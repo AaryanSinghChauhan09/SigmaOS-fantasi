@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Hindi ma-save ang poster ng clip sa %1",
   "New generation": "Bagong generation",
   "Start a new generation": "Magsimula ng bagong generation",
-  "Clip length: %1 s": "Haba ng clip: %1 s"
+  "Clip length: %1 s": "Haba ng clip: %1 s",
+  "Working out how long this takes…": "Tinatantiya kung gaano ito katagal…",
+  "Almost done": "Halos tapos na",
+  "About %1 s left": "Mga %1 s na lang",
+  "About %1 min left": "Mga %1 min na lang"
 }

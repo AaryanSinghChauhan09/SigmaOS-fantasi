@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Leikkeen kansikuvaa ei voitu tallentaa kansioon %1",
   "New generation": "Uusi generointi",
   "Start a new generation": "Aloita uusi generointi",
-  "Clip length: %1 s": "Leikkeen pituus: %1 s"
+  "Clip length: %1 s": "Leikkeen pituus: %1 s",
+  "Working out how long this takes…": "Arvioidaan, kauanko tämä kestää…",
+  "Almost done": "Melkein valmis",
+  "About %1 s left": "Noin %1 s jäljellä",
+  "About %1 min left": "Noin %1 min jäljellä"
 }

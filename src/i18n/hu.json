@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Nem sikerült menteni a klip borítóképét ide: %1",
   "New generation": "Új generálás",
   "Start a new generation": "Új generálás indítása",
-  "Clip length: %1 s": "Klip hossza: %1 mp"
+  "Clip length: %1 s": "Klip hossza: %1 mp",
+  "Working out how long this takes…": "Kiszámítjuk, mennyi ideig tart…",
+  "Almost done": "Mindjárt kész",
+  "About %1 s left": "Kb. %1 mp van hátra",
+  "About %1 min left": "Kb. %1 perc van hátra"
 }

@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Titulní obrázek klipu se nepodařilo uložit do %1",
   "New generation": "Nové generování",
   "Start a new generation": "Začít nové generování",
-  "Clip length: %1 s": "Délka klipu: %1 s"
+  "Clip length: %1 s": "Délka klipu: %1 s",
+  "Working out how long this takes…": "Zjišťuji, jak dlouho to potrvá…",
+  "Almost done": "Skoro hotovo",
+  "About %1 s left": "Zbývá asi %1 s",
+  "About %1 min left": "Zbývá asi %1 min"
 }

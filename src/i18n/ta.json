@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "கிளிப்பின் போஸ்டரை %1 இல் சேமிக்க முடியவில்லை",
   "New generation": "புதிய உருவாக்கம்",
   "Start a new generation": "புதிய உருவாக்கத்தைத் தொடங்கு",
-  "Clip length: %1 s": "கிளிப் நீளம்: %1 வி."
+  "Clip length: %1 s": "கிளிப் நீளம்: %1 வி.",
+  "Working out how long this takes…": "எவ்வளவு நேரம் ஆகும் எனக் கணக்கிடுகிறது…",
+  "Almost done": "கிட்டத்தட்ட முடிந்தது",
+  "About %1 s left": "சுமார் %1 வி. மீதமுள்ளது",
+  "About %1 min left": "சுமார் %1 நி. மீதமுள்ளது"
 }

@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Naslovne slike posnetka ni bilo mogoče shraniti v %1",
   "New generation": "Novo generiranje",
   "Start a new generation": "Začni novo generiranje",
-  "Clip length: %1 s": "Dolžina posnetka: %1 s"
+  "Clip length: %1 s": "Dolžina posnetka: %1 s",
+  "Working out how long this takes…": "Ocenjujem, koliko časa bo trajalo…",
+  "Almost done": "Skoraj končano",
+  "About %1 s left": "Še približno %1 s",
+  "About %1 min left": "Še približno %1 min"
 }

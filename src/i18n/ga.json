@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Níorbh fhéidir póstaer na gearrthóige a shábháil in %1",
   "New generation": "Giniúint nua",
   "Start a new generation": "Tosaigh giniúint nua",
-  "Clip length: %1 s": "Fad na gearrthóige: %1 s"
+  "Clip length: %1 s": "Fad na gearrthóige: %1 s",
+  "Working out how long this takes…": "Ag oibriú amach cá fhad a thógfaidh sé…",
+  "Almost done": "Beagnach réidh",
+  "About %1 s left": "Thart ar %1 s fágtha",
+  "About %1 min left": "Thart ar %1 nóim fágtha"
 }

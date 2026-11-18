@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "ذخیرهٔ تصویر کاور کلیپ در %1 ممکن نشد",
   "New generation": "تولید جدید",
   "Start a new generation": "شروع تولید جدید",
-  "Clip length: %1 s": "مدت کلیپ: %1 ثانیه"
+  "Clip length: %1 s": "مدت کلیپ: %1 ثانیه",
+  "Working out how long this takes…": "در حال محاسبهٔ زمان لازم…",
+  "Almost done": "تقریباً تمام شد",
+  "About %1 s left": "حدود %1 ثانیه مانده",
+  "About %1 min left": "حدود %1 دقیقه مانده"
 }

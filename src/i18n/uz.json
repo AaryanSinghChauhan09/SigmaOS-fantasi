@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Klip muqovasini %1 ga saqlab boʻlmadi",
   "New generation": "Yangi generatsiya",
   "Start a new generation": "Yangi generatsiya boshlash",
-  "Clip length: %1 s": "Klip uzunligi: %1 s"
+  "Clip length: %1 s": "Klip uzunligi: %1 s",
+  "Working out how long this takes…": "Qancha vaqt ketishi hisoblanmoqda…",
+  "Almost done": "Deyarli tayyor",
+  "About %1 s left": "Taxminan %1 s qoldi",
+  "About %1 min left": "Taxminan %1 daq qoldi"
 }

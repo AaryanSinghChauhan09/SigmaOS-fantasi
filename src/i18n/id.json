@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Tidak dapat menyimpan poster klip di %1",
   "New generation": "Pembuatan baru",
   "Start a new generation": "Mulai pembuatan baru",
-  "Clip length: %1 s": "Durasi klip: %1 dtk"
+  "Clip length: %1 s": "Durasi klip: %1 dtk",
+  "Working out how long this takes…": "Menghitung berapa lama waktunya…",
+  "Almost done": "Hampir selesai",
+  "About %1 s left": "Sekitar %1 dtk lagi",
+  "About %1 min left": "Sekitar %1 mnt lagi"
 }

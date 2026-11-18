@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Kunde inte spara klippets omslagsbild i %1",
   "New generation": "Ny generering",
   "Start a new generation": "Börja på en ny generering",
-  "Clip length: %1 s": "Klipplängd: %1 s"
+  "Clip length: %1 s": "Klipplängd: %1 s",
+  "Working out how long this takes…": "Räknar ut hur lång tid det tar…",
+  "Almost done": "Nästan klart",
+  "About %1 s left": "Cirka %1 s kvar",
+  "About %1 min left": "Cirka %1 min kvar"
 }

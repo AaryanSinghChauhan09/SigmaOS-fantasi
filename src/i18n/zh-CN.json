@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "无法将短片的封面保存到 %1",
   "New generation": "新生成",
   "Start a new generation": "开始新生成",
-  "Clip length: %1 s": "短片时长：%1 秒"
+  "Clip length: %1 s": "短片时长：%1 秒",
+  "Working out how long this takes…": "正在估算所需时间…",
+  "Almost done": "即将完成",
+  "About %1 s left": "大约还剩 %1 秒",
+  "About %1 min left": "大约还剩 %1 分钟"
 }

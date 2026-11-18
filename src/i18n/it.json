@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Impossibile salvare la copertina della clip in %1",
   "New generation": "Nuova generazione",
   "Start a new generation": "Inizia una nuova generazione",
-  "Clip length: %1 s": "Durata della clip: %1 s"
+  "Clip length: %1 s": "Durata della clip: %1 s",
+  "Working out how long this takes…": "Calcolo del tempo necessario…",
+  "Almost done": "Quasi fatto",
+  "About %1 s left": "Circa %1 s rimanenti",
+  "About %1 min left": "Circa %1 min rimanenti"
 }

@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "%1 にクリップのポスター画像を保存できませんでした",
   "New generation": "新しい生成",
   "Start a new generation": "新しい生成を始める",
-  "Clip length: %1 s": "クリップの長さ: %1 秒"
+  "Clip length: %1 s": "クリップの長さ: %1 秒",
+  "Working out how long this takes…": "所要時間を見積もっています…",
+  "Almost done": "まもなく完了",
+  "About %1 s left": "残り約 %1 秒",
+  "About %1 min left": "残り約 %1 分"
 }
