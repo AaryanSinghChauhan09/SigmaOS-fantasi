@@ -30,8 +30,6 @@ ApplicationWindow {
     readonly property color muted: Qt.rgba(theme.foreground.r, theme.foreground.g, theme.foreground.b, 0.68)
     readonly property color line: theme.colors.selection
     readonly property color panel: theme.light ? Qt.darker(theme.background, 1.04) : Qt.darker(theme.background, 1.3)
-    // The history rail's own surface: a step lighter on a dark theme, darker on a light one.
-    readonly property color rail: theme.light ? Qt.darker(theme.background, 1.05) : Qt.lighter(theme.background, 1.6)
 
     // 0 Screen, 1 Square, 2 Portrait; a new image starts in the screen's shape.
     property int sizeChoice: 0
@@ -320,6 +318,20 @@ ApplicationWindow {
         LayoutMirroring.enabled: win.rightToLeft
         LayoutMirroring.childrenInherit: true
 
+        // An aurora plays over the whole window, under the image, the prompt
+        // bar and the history: at full strength while something is made,
+        // softer the rest of the time.
+        Aurora {
+            id: making
+            objectName: "making"
+            anchors.fill: parent
+            colorA: theme.colors.cyan || theme.accent
+            colorB: theme.accent
+            colorC: theme.colors.magenta || theme.accent
+            intensity: generator.busy ? 1 : 0.5
+            Behavior on intensity { NumberAnimation { duration: 600; easing.type: Easing.InOutSine } }
+        }
+
         RowLayout {
             anchors.fill: parent
             spacing: 0
@@ -328,20 +340,6 @@ ApplicationWindow {
                 id: work
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-
-            // An aurora plays over the whole of this side, from the window's edge
-            // to the history, under the image and the prompt bar: at full
-            // strength while something is made, softer the rest of the time.
-            Aurora {
-                id: making
-                objectName: "making"
-                anchors.fill: parent
-                colorA: theme.colors.cyan || theme.accent
-                colorB: theme.accent
-                colorC: theme.colors.magenta || theme.accent
-                intensity: generator.busy ? 1 : 0.5
-                Behavior on intensity { NumberAnimation { duration: 600; easing.type: Easing.InOutSine } }
-            }
 
             ColumnLayout {
                 anchors.fill: parent
@@ -480,6 +478,20 @@ ApplicationWindow {
                             }
                             onStatusChanged: if (awaitingFirst && arrival === 0 && status !== Image.Loading) fadeIn()
                             NumberAnimation { id: arrive; target: shown; property: "arrival"; from: 0; to: 1; duration: 900; easing.type: Easing.InOutSine }
+                        }
+                        // A thin edge round the picture, in the inactive window
+                        // border's colour, hugging what's drawn.
+                        Rectangle {
+                            objectName: "imageEdge"
+                            visible: shown.status === Image.Ready && shown.opacity > 0
+                            opacity: shown.opacity
+                            width: shown.paintedWidth + 2
+                            height: shown.paintedHeight + 2
+                            anchors.centerIn: parent
+                            color: "transparent"
+                            border.color: theme.inactiveBorder
+                            border.width: 1
+                            z: 2
                         }
                         Loader {
                             id: player
@@ -1278,7 +1290,7 @@ ApplicationWindow {
 
 
             // ----------------------------------------------------------- history
-            // A rail of its own width and its own background: its list fills
+            // A rail of its own width, with no background: its list fills
             // the column, which would otherwise take the image's space. Only
             // once there's an image to list, and Ctrl+B hides it.
             Rectangle {
@@ -1288,7 +1300,8 @@ ApplicationWindow {
                 Layout.maximumWidth: 152
                 Layout.fillWidth: false
                 Layout.fillHeight: true
-                color: win.rail
+                // No background of its own: the aurora runs under it too.
+                color: "transparent"
                 ColumnLayout {
                     anchors.fill: parent
                     anchors.margins: 14
@@ -1380,13 +1393,14 @@ ApplicationWindow {
                                 layer.enabled: true
                                 Rectangle { anchors.fill: parent; radius: theme.radius; color: "black" }
                             }
+                            // A thin edge in the inactive window border's colour, or
+                            // the accent for the one shown.
                             Rectangle {
                                 anchors.fill: parent
                                 color: "transparent"
                                 radius: theme.radius
-                                border.color: theme.accent
-                                border.width: 2
-                                visible: entry.ListView.isCurrentItem
+                                border.color: entry.ListView.isCurrentItem ? theme.accent : theme.inactiveBorder
+                                border.width: entry.ListView.isCurrentItem ? 2 : 1
                             }
                             // A clip: a play mark on its poster.
                         Rectangle {

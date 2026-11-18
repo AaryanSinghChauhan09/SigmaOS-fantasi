@@ -18,6 +18,8 @@ class Theme : public QObject {
     Q_PROPERTY(QColor background READ background NOTIFY changed)
     Q_PROPERTY(QColor foreground READ foreground NOTIFY changed)
     Q_PROPERTY(QVariantMap colors READ colors NOTIFY changed)
+    // The colour Hyprland draws an inactive window's border in.
+    Q_PROPERTY(QColor inactiveBorder READ inactiveBorder NOTIFY changed)
     Q_PROPERTY(bool light READ light NOTIFY changed)
     Q_PROPERTY(int radius READ radius NOTIFY changed)
 
@@ -31,6 +33,7 @@ public:
     QColor accentForeground() const;
     QColor background() const { return color("background"); }
     QColor foreground() const { return color("foreground"); }
+    QColor inactiveBorder() const;
     QVariantMap colors() const;
     bool light() const { return m_light; }
     int radius() const { return m_radius; }

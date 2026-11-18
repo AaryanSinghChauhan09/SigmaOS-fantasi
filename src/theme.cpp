@@ -140,10 +140,22 @@ Theme::Palette Theme::readThemeColors(const QString &path) {
         return palette;
     static const QRegularExpression entry(R"re(^\s*([a-z0-9_]+)\s*=\s*(["']?)(#[0-9a-fA-F]{6}|light|dark)\2\s*(#.*)?$)re");
     QHash<QString, QString> modes;
+    static const QRegularExpression hyprColor(R"re(^\s*([a-z0-9_]+)\s*=\s*["']?rgba?\(([0-9a-fA-F]{6})([0-9a-fA-F]{2})?\))re");
     while (!file.atEnd()) {
-        const auto match = entry.match(QString::fromUtf8(file.readLine()).trimmed());
-        if (!match.hasMatch())
+        const QString line = QString::fromUtf8(file.readLine()).trimmed();
+        const auto match = entry.match(line);
+        if (!match.hasMatch()) {
+            // Hyprland's own colours are written its way, rgb(rrggbb) or
+            // rgba(rrggbbaa), and a gradient's first one stands for it.
+            const auto hypr = hyprColor.match(line);
+            if (hypr.hasMatch()) {
+                QColor color("#" + hypr.captured(2));
+                if (!hypr.captured(3).isEmpty())
+                    color.setAlpha(hypr.captured(3).toInt(nullptr, 16));
+                palette.colors.insert(hypr.captured(1), color);
+            }
             continue;
+        }
         const QString key = match.captured(1), value = match.captured(3);
         if (value.startsWith('#'))
             palette.colors.insert(key, QColor(value));
@@ -182,6 +194,11 @@ QVariantMap Theme::colors() const {
 }
 
 // Black or white, whichever reads on the accent (WCAG relative luminance).
+QColor Theme::inactiveBorder() const {
+    // Hyprland's own default when the theme names none.
+    return m_colors.value("hyprland_inactive_border", QColor(0x59, 0x59, 0x59, 0xaa));
+}
+
 QColor Theme::accentForeground() const {
     return luminance(accent()) > .179 ? QColor("black") : QColor("white");
 }

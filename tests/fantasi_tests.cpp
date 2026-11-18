@@ -1034,6 +1034,7 @@ private slots:
         QCOMPARE(theme.accentForeground(), QColor("black"));
         QVERIFY(!theme.light());
         QCOMPARE(theme.radius(), 0);
+        QCOMPARE(theme.inactiveBorder(), QColor(0x59, 0x59, 0x59, 0xaa));
     }
 
     void themeReadsThePalette() {
@@ -1044,7 +1045,8 @@ private slots:
                                                          "accent = \"#112233\"\n"
                                                          "bg = #fafafa # paper\n"
                                                          "foreground = '#202020'\n"
-                                                         "color1 = \"#aa0000\"\n"));
+                                                         "color1 = \"#aa0000\"\n"
+                                                         "hyprland_inactive_border = \"rgba(584e51aa) rgba(000000ff) 45deg\"\n"));
 
         Theme theme(dir.path());
         QCOMPARE(theme.accent(), QColor("#112233"));
@@ -1052,6 +1054,7 @@ private slots:
         QCOMPARE(theme.background(), QColor("#fafafa"));
         QCOMPARE(theme.foreground(), QColor("#202020"));
         QCOMPARE(theme.colors().value("red").value<QColor>(), QColor("#aa0000"));
+        QCOMPARE(theme.inactiveBorder(), QColor(0x58, 0x4e, 0x51, 0xaa));
         QVERIFY(theme.light());
     }
 
