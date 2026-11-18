@@ -410,10 +410,11 @@ ApplicationWindow {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: (win.choosing ? nextBar.implicitHeight : bar.implicitHeight) + 10
-                    color: win.panel
+                    // What's next has no box: just its icons, centred.
+                    color: win.choosing ? "transparent" : win.panel
                     // Rounded as the theme rounds windows, sharp where it doesn't.
                     radius: Math.min(height / 2, theme.radius)
-                    border.color: prompt.activeFocus ? theme.accent : win.line
+                    border.color: win.choosing ? "transparent" : prompt.activeFocus ? theme.accent : win.line
 
                     // What's next, once an image is done: change it, start a new
                     // one, or use it.
@@ -422,44 +423,21 @@ ApplicationWindow {
                         objectName: "next"
                         visible: win.choosing
                         anchors.fill: parent
-                        anchors.leftMargin: 8
-                        anchors.rightMargin: 8
                         anchors.topMargin: 5
                         anchors.bottomMargin: 5
                         spacing: 4
+                        Item { Layout.fillWidth: true }
                         Repeater {
                             model: [
                                 { name: "changeIt", icon: "change", label: qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage() },
-                                { name: "newImage", icon: "new", label: qsTr("New image"), key: "Ctrl+N", run: () => win.newImage() }
+                                { name: "newImage", icon: "new", label: qsTr("New image"), key: "Ctrl+N", run: () => win.newImage() },
+                                { name: "background", icon: "background", label: qsTr("Set as background"), key: "Ctrl+B", run: () => backend.setBackground(win.shownFile) },
+                                { name: "copy", icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
+                                { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
                             ]
                             delegate: ToolButton {
                                 required property var modelData
                                 objectName: modelData.name
-                                Layout.preferredHeight: 34
-                                focusPolicy: Qt.NoFocus
-                                background: Item {}
-                                display: AbstractButton.TextBesideIcon
-                                text: modelData.label
-                                icon.source: "qrc:/icons/" + modelData.icon + ".svg"
-                                icon.width: 18
-                                icon.height: 18
-                                icon.color: hovered ? theme.accent : theme.foreground
-                                Material.foreground: hovered ? theme.accent : theme.foreground
-                                ToolTip.visible: hovered
-                                ToolTip.text: modelData.key
-                                ToolTip.delay: 400
-                                onClicked: modelData.run()
-                            }
-                        }
-                        Item { Layout.fillWidth: true }
-                        Repeater {
-                            model: [
-                                { icon: "background", label: qsTr("Set as background"), key: "Ctrl+B", run: () => backend.setBackground(win.shownFile) },
-                                { icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
-                                { icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
-                            ]
-                            delegate: ToolButton {
-                                required property var modelData
                                 Layout.preferredWidth: 32
                                 Layout.preferredHeight: 32
                                 padding: 0
@@ -477,6 +455,7 @@ ApplicationWindow {
                                 onClicked: modelData.run()
                             }
                         }
+                        Item { Layout.fillWidth: true }
                     }
 
                     RowLayout {
