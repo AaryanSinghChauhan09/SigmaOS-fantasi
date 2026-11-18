@@ -30,8 +30,8 @@ ApplicationWindow {
     readonly property color line: theme.colors.selection
     readonly property color panel: theme.light ? Qt.darker(theme.background, 1.04) : Qt.darker(theme.background, 1.3)
 
-    // 0 Square, 1 Screen, 2 Portrait.
-    property int sizeChoice: 0
+    // 0 Square, 1 Screen, 2 Portrait; a new image starts in the screen's shape.
+    property int sizeChoice: 1
     readonly property size outputSize: sizeChoice === 1 ? backend.screenSize
                                      : sizeChoice === 2 ? Qt.size(832, 1216) : Qt.size(1024, 1024)
     // The file in the center, when it is one rather than a preview.
@@ -324,10 +324,14 @@ ApplicationWindow {
                                 PathPolyline { path: edge.outline }
                             }
                         }
+                        // A band of light across it while it's made, and a softer,
+                        // slower one while the empty frame waits for a prompt.
                         Item {
+                            id: shimmer
                             anchors.fill: parent
                             clip: true
-                            visible: generator.busy
+                            readonly property bool waiting: !generator.busy && generator.image === ""
+                            visible: generator.busy || waiting
                             Rectangle {
                                 width: frame.width * 0.45
                                 height: frame.height * 2
@@ -336,15 +340,15 @@ ApplicationWindow {
                                 gradient: Gradient {
                                     orientation: Gradient.Horizontal
                                     GradientStop { position: 0.0; color: "transparent" }
-                                    GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, theme.light ? 0.28 : 0.14) }
+                                    GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, (theme.light ? 0.28 : 0.14) * (shimmer.waiting ? 0.75 : 1)) }
                                     GradientStop { position: 1.0; color: "transparent" }
                                 }
                                 NumberAnimation on x {
-                                    running: generator.busy
+                                    running: shimmer.visible && frame.visible
                                     loops: Animation.Infinite
                                     from: -frame.width * 0.6
                                     to: frame.width * 1.1
-                                    duration: 1800
+                                    duration: shimmer.waiting ? 2800 : 1800
                                     easing.type: Easing.InOutSine
                                 }
                             }
