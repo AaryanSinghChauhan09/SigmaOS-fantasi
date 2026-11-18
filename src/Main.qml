@@ -40,6 +40,22 @@ ApplicationWindow {
     // finishes becomes the base for the next, until it's let go.
     property string baseImage: ""
     readonly property bool changing: baseImage !== ""
+    readonly property string problem: models.error || generator.error || backend.error
+    // What the model is doing, for its icon's tooltip and the empty stage.
+    readonly property string modelStatus: {
+        switch (models.state) {
+        case "ready": return generator.busy ? qsTr("%1 is making your image").arg(models.modelName)
+                                            : qsTr("%1 is ready").arg(models.modelName)
+        case "starting": return qsTr("Starting %1…").arg(models.modelName)
+        case "installing": return qsTr("Setting up %1…").arg(models.modelName)
+        case "installed": return qsTr("%1 is set up but not running").arg(models.modelName)
+        case "blocked": return qsTr("%1 needs the memory %2 is using").arg(models.modelName).arg(models.blockers.join(", "))
+        case "installable": return qsTr("No image model is set up. %1 runs on this machine.").arg(models.modelName)
+        case "none": return qsTr("No image model runs on this machine yet.") + (models.reason ? " " + models.reason : "")
+        case "noEngine": return qsTr("Fantasi makes images with Omarchy's local models, which aren't installed.")
+        default: return ""
+        }
+    }
     // What was last sent, to tell it from what is typed while it's made.
     property string sentPrompt
     // How far along the image is being made, 0 to 1: the steps, then whole
@@ -348,11 +364,54 @@ ApplicationWindow {
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.Wrap
                         color: win.muted
-                        text: qsTr("Your image appears here")
+                        text: models.state === "ready" ? qsTr("Your image appears here") : win.modelStatus
+                    }
+
+                    // What went wrong, over the top of the image.
+                    Rectangle {
+                        objectName: "problem"
+                        anchors.top: parent.top
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.topMargin: 10
+                        width: Math.min(parent.width - 24, problemRow.implicitWidth + 24)
+                        height: problemRow.implicitHeight + 12
+                        radius: Math.min(height / 2, theme.radius + 6)
+                        visible: win.problem !== ""
+                        color: Qt.rgba(theme.background.r, theme.background.g, theme.background.b, 0.9)
+                        border.color: theme.colors.red
+                        RowLayout {
+                            id: problemRow
+                            anchors.centerIn: parent
+                            width: Math.min(implicitWidth, parent.width - 24)
+                            spacing: 8
+                            Label {
+                                id: error
+                                objectName: "error"
+                                Layout.fillWidth: true
+                                elide: Text.ElideRight
+                                color: theme.colors.red
+                                font.pixelSize: 13
+                                text: win.problem
+                            }
+                            Button {
+                                visible: generator.unsaved
+                                flat: true
+                                focusPolicy: Qt.NoFocus
+                                topInset: 0
+                                bottomInset: 0
+                                Material.roundedScale: theme.radius
+                                text: qsTr("Try saving again")
+                                onClicked: generator.retrySave()
+                            }
+                        }
                     }
                 }
 
                 // ------------------------------------------------ the prompt bar
+                // The bar, and beside it the shape, the model and the shortcuts.
+                RowLayout {
+                Layout.fillWidth: true
+                spacing: 6
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: bar.implicitHeight + 16
@@ -488,42 +547,6 @@ ApplicationWindow {
                             }
                         }
 
-                        // The shape of a new image, one button that steps through
-                        // square, screen and portrait; a change keeps its own.
-                        ToolButton {
-                            id: shape
-                            objectName: "size"
-                            Layout.alignment: Qt.AlignVCenter
-                            visible: !win.changing
-                            focusPolicy: Qt.NoFocus
-                            readonly property var shapes: [
-                                { name: qsTr("Square"), w: 15, h: 15 },
-                                { name: qsTr("Screen"), w: 20, h: 12 },
-                                { name: qsTr("Portrait"), w: 12, h: 20 }
-                            ]
-                            readonly property var current: shapes[win.sizeChoice]
-                            Accessible.name: current.name
-                            ToolTip.visible: hovered
-                            ToolTip.text: current.name + "  " + win.outputSize.width + " × " + win.outputSize.height
-                            ToolTip.delay: 400
-                            onClicked: win.sizeChoice = (win.sizeChoice + 1) % 3
-                            contentItem: Item {
-                                implicitWidth: 24
-                                implicitHeight: 24
-                                Rectangle {
-                                    anchors.centerIn: parent
-                                    width: shape.current.w
-                                    height: shape.current.h
-                                    color: "transparent"
-                                    border.color: shape.hovered ? theme.accent : win.muted
-                                    border.width: 1.5
-                                    radius: 2
-                                    Behavior on width { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
-                                    Behavior on height { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
-                                }
-                            }
-                        }
-
                         Button {
                             id: action
                             objectName: "action"
@@ -567,61 +590,89 @@ ApplicationWindow {
                         }
                     }
                 }
-
-                // The model's state, and what went wrong.
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: 12
-                    Label {
-                        objectName: "modelLine"
-                        Layout.fillWidth: true
-                        elide: Text.ElideRight
-                        color: win.muted
-                        font.pixelSize: 12
-                        visible: error.text === ""
-                        text: {
-                            switch (models.state) {
-                            case "ready": return generator.busy ? qsTr("%1 is making your image").arg(models.modelName)
-                                                                : qsTr("%1 is ready").arg(models.modelName)
-                            case "starting": return qsTr("Starting %1…").arg(models.modelName)
-                            case "installing": return qsTr("Setting up %1…").arg(models.modelName)
-                            case "installed": return qsTr("%1 is set up but not running").arg(models.modelName)
-                            case "blocked": return qsTr("%1 needs the memory %2 is using").arg(models.modelName).arg(models.blockers.join(", "))
-                            case "installable": return qsTr("No image model is set up. %1 runs on this machine.").arg(models.modelName)
-                            case "none": return qsTr("No image model runs on this machine yet.") + (models.reason ? " " + models.reason : "")
-                            case "noEngine": return qsTr("Fantasi makes images with Omarchy's local models, which aren't installed.")
-                            default: return ""
+                    // The shape of a new image, one button that steps through
+                    // square, screen and portrait; a change keeps its own.
+                    ToolButton {
+                        id: shape
+                        objectName: "size"
+                        Layout.alignment: Qt.AlignVCenter
+                    Layout.leftMargin: 4
+                        visible: !win.changing
+                        focusPolicy: Qt.NoFocus
+                        readonly property var shapes: [
+                            { name: qsTr("Square"), w: 15, h: 15 },
+                            { name: qsTr("Screen"), w: 20, h: 12 },
+                            { name: qsTr("Portrait"), w: 12, h: 20 }
+                        ]
+                        readonly property var current: shapes[win.sizeChoice]
+                        Accessible.name: current.name
+                        ToolTip.visible: hovered
+                        ToolTip.text: current.name + "  " + win.outputSize.width + " × " + win.outputSize.height
+                        ToolTip.delay: 400
+                        onClicked: win.sizeChoice = (win.sizeChoice + 1) % 3
+                        contentItem: Item {
+                            implicitWidth: 24
+                            implicitHeight: 24
+                            Rectangle {
+                                anchors.centerIn: parent
+                                width: shape.current.w
+                                height: shape.current.h
+                                color: "transparent"
+                                border.color: shape.hovered ? theme.accent : win.muted
+                                border.width: 1.5
+                                radius: 2
+                                Behavior on width { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+                                Behavior on height { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
                             }
                         }
                     }
-                    Label {
-                        id: error
-                        objectName: "error"
-                        Layout.fillWidth: true
-                        visible: text !== ""
-                        elide: Text.ElideRight
-                        color: theme.colors.red
-                        font.pixelSize: 12
-                        text: models.error || generator.error || backend.error
-                    }
-                    Button {
-                        visible: generator.unsaved
-                        flat: true
+
+                    // The model: its state as a dot, what it's doing in the
+                    // tooltip, and with more than one set up, a click steps to
+                    // the next.
+                    ToolButton {
+                        id: modelButton
+                        objectName: "model"
+                        Layout.alignment: Qt.AlignVCenter
                         focusPolicy: Qt.NoFocus
-                        topInset: 0
-                        bottomInset: 0
-                        Material.roundedScale: theme.radius
-                        text: qsTr("Try saving again")
-                        onClicked: generator.retrySave()
+                        display: AbstractButton.IconOnly
+                        icon.source: "qrc:/icons/model.svg"
+                        icon.width: 20
+                        icon.height: 20
+                        icon.color: hovered && canStep ? theme.accent : win.muted
+                        readonly property int current: models.choices.findIndex(c => c.id === models.modelId)
+                        readonly property bool canStep: models.choices.length > 1 && !models.working && !generator.busy
+                        readonly property var next: models.choices.length > 1 ? models.choices[(current + 1) % models.choices.length] : null
+                        Accessible.name: win.modelStatus
+                        ToolTip.visible: hovered
+                        ToolTip.text: win.modelStatus + (canStep ? "\n" + qsTr("Click to use %1").arg(next.name) : "")
+                        ToolTip.delay: 300
+                        onClicked: if (canStep) models.choose(next.id)
+                        Rectangle {
+                            width: 7
+                            height: 7
+                            radius: 3.5
+                            x: parent.width - width - 9
+                            y: 9
+                            visible: models.state !== "noEngine"
+                            color: win.problem ? theme.colors.red
+                                 : models.state === "ready" ? theme.accent : win.muted
+                            SequentialAnimation on opacity {
+                                running: models.state === "starting" || models.state === "installing" || models.working
+                                loops: Animation.Infinite
+                                onRunningChanged: if (!running) parent.opacity = 1
+                                NumberAnimation { from: 1; to: 0.3; duration: 700; easing.type: Easing.InOutSine }
+                                NumberAnimation { from: 0.3; to: 1; duration: 700; easing.type: Easing.InOutSine }
+                            }
+                        }
                     }
                     ToolButton {
                         objectName: "shortcuts"
-                        Layout.preferredWidth: 26
-                        Layout.preferredHeight: 26
-                        padding: 0
+                        Layout.alignment: Qt.AlignVCenter
                         focusPolicy: Qt.NoFocus
                         text: "?"
-                        font.pixelSize: 13
+                        font.pixelSize: 15
+                        Material.foreground: hovered ? theme.accent : win.muted
                         Accessible.name: qsTr("Show or hide the shortcuts")
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Show or hide the shortcuts") + "  F1"
@@ -629,6 +680,7 @@ ApplicationWindow {
                         onClicked: help.opened ? help.close() : help.open()
                     }
                 }
+
             }
 
             Rectangle { Layout.preferredWidth: 1; Layout.fillHeight: true; color: win.line }

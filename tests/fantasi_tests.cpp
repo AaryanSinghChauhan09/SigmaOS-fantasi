@@ -275,6 +275,9 @@ private slots:
         const auto found = Models::discover(json(q("{'models': { 'a': {'kind': 'image', 'name': 'A', 'unit': 'active', 'endpoint': 'http://127.0.0.1:1/v1'}, 'b': {'kind': 'image', 'name': 'B', 'unit': 'active', 'endpoint': 'http://127.0.0.1:2/v1'}}}")), {}, true, "b");
         QCOMPARE(found.state, QString("ready"));
         QCOMPARE(found.id, QString("b"));
+        // Both are choices, by name, whichever is in use.
+        QCOMPARE(found.choices.size(), 2);
+        QCOMPARE(found.choices.first().toMap().value("id").toString(), QString("a"));
     }
 
     void discoveryOffersToStartAnInstalledModel() {
@@ -758,10 +761,10 @@ private slots:
         window->requestActivate();
         QVERIFY(QTest::qWaitForWindowActive(window));
 
-        auto *modelLine = item(window->contentItem(), "modelLine");
+        auto *model = item(window->contentItem(), "model");
         auto *action = item(window->contentItem(), "action");
-        QVERIFY(modelLine && action);
-        QTRY_COMPARE(modelLine->property("text").toString(), QString("Z-Image Turbo is ready"));
+        QVERIFY(model && action);
+        QTRY_COMPARE(window->property("modelStatus").toString(), QString("Z-Image Turbo is ready"));
         QCOMPARE(action->property("text").toString(), QString("Generate"));
         // Nothing to make until there's a prompt, which takes the keyboard.
         QVERIFY(!action->property("enabled").toBool());

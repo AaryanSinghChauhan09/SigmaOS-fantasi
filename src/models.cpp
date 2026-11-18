@@ -91,11 +91,13 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
             runningTextIds << it.key();
         }
     }
-    std::sort(images.begin(), images.end(), [&](const QJsonObject &a, const QJsonObject &b) {
-        const bool aPreferred = a.value("id").toString() == preferred, bPreferred = b.value("id").toString() == preferred;
-        if (aPreferred != bPreferred)
-            return aPreferred;
+    std::sort(images.begin(), images.end(), [](const QJsonObject &a, const QJsonObject &b) {
         return a.value("name").toString() < b.value("name").toString();
+    });
+    for (const QJsonObject &row : images)
+        found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())}};
+    std::stable_sort(images.begin(), images.end(), [&](const QJsonObject &a, const QJsonObject &b) {
+        return a.value("id").toString() == preferred && b.value("id").toString() != preferred;
     });
 
     // A running model wins, then one on its way, then one that's set up.
@@ -190,6 +192,17 @@ void Models::switchTo() {
     run(commands);
 }
 
+void Models::choose(const QString &id) {
+    if (id == m_found.id || working())
+        return;
+    QSettings().setValue("model", id);
+    QList<QStringList> commands;
+    if (m_found.state == "ready" || m_found.state == "starting")
+        commands << QStringList{"stop", m_found.id};
+    commands << QStringList{"start", id};
+    run(commands);
+}
+
 void Models::run(const QList<QStringList> &commands) {
     if (m_command.isEmpty() || working())
         return;
@@ -230,7 +243,8 @@ void Models::reload() {
         settings.setValue("model", found.id);
 
     if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
-        || found.reason != m_found.reason || found.blockers != m_found.blockers) {
+        || found.reason != m_found.reason || found.blockers != m_found.blockers
+        || found.choices != m_found.choices) {
         m_found = found;
         emit changed();
     }

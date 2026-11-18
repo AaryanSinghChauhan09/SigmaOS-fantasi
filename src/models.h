@@ -7,6 +7,7 @@
 #include <QProcess>
 #include <QStringList>
 #include <QTimer>
+#include <QVariantList>
 
 // The image models omarchy-local-ai knows about, and which one Fantasi uses.
 // It reads the engine's own status.json and list.json, follows their changes,
@@ -25,6 +26,9 @@ class Models : public QObject {
     // The running text models that hold the memory a blocked model needs.
     Q_PROPERTY(QStringList blockers READ blockers NOTIFY changed)
     Q_PROPERTY(bool working READ working NOTIFY changed)
+    // Every image model that's set up, as {id, name}, in the order to step
+    // through them; the one in use among them.
+    Q_PROPERTY(QVariantList choices READ choices NOTIFY changed)
     Q_PROPERTY(QString error READ error NOTIFY changed)
 
 public:
@@ -37,6 +41,7 @@ public:
         QString reason;
         QStringList blockers;
         QStringList blockerIds;
+        QVariantList choices;
     };
 
     // The engine's state folder, its key file, and the command that drives
@@ -55,6 +60,7 @@ public:
     bool edits() const { return m_found.edits; }
     QString reason() const { return m_found.reason; }
     QStringList blockers() const { return m_found.blockers; }
+    QVariantList choices() const { return m_found.choices; }
     bool working() const { return m_process.state() != QProcess::NotRunning || !m_queue.isEmpty(); }
     QString error() const { return m_error; }
 
@@ -66,6 +72,9 @@ public:
     Q_INVOKABLE void install();
     // Stops the text models in the way, then starts the image model.
     Q_INVOKABLE void switchTo();
+    // Uses another set-up image model from now on: stops the running one
+    // and starts it.
+    Q_INVOKABLE void choose(const QString &id);
 
 signals:
     void changed();
