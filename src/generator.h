@@ -77,9 +77,10 @@ public:
     // Makes a short clip with its sound on the running video model, from the
     // prompt alone or with `firstFrameUrl` as its first frame, about the
     // size the model is fastest at in the shape of `width` by `height`.
-    Q_INVOKABLE void makeVideo(const QString &prompt, int width, int height, const QString &firstFrameUrl = {});
-    // A clip's frames: 2.3 seconds at 24 a second.
-    static constexpr int videoFrames = 56;
+    Q_INVOKABLE void makeVideo(const QString &prompt, int width, int height, const QString &firstFrameUrl = {},
+                               int seconds = defaultSeconds);
+    // A clip is 2, 5 or 10 seconds at 24 frames a second.
+    static constexpr int defaultSeconds = 5;
     static constexpr int videoFps = 24;
     // About 0.4 megapixels in the shape of `width` by `height`, in steps of 32.
     static QSize fitVideo(int width, int height);

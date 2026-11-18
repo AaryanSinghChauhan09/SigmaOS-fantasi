@@ -54,6 +54,9 @@ ApplicationWindow {
     // The model in use makes clips: from the prompt alone, or animating the
     // picture being changed.
     readonly property bool videoMode: models.video
+    // How long a clip is, stepped through with the length button.
+    readonly property var clipLengths: [2, 5, 10]
+    property int clipSeconds: 5
     // A clip starts from one picture: switching to a video model keeps the first.
     onVideoModeChanged: if (videoMode && baseImages.length > 1) baseImages = [baseImages[0]]
     // A clip in the frame: its poster stands in for it as an image.
@@ -100,7 +103,7 @@ ApplicationWindow {
         sentPictures = baseImages
         sentVideo = videoMode
         if (videoMode)
-            generator.makeVideo(prompt.text, outputSize.width, outputSize.height, baseImages.length > 0 ? baseImages[0] : "")
+            generator.makeVideo(prompt.text, outputSize.width, outputSize.height, baseImages.length > 0 ? baseImages[0] : "", clipSeconds)
         else
             generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImages, models.edits)
     }
@@ -110,7 +113,7 @@ ApplicationWindow {
             return
         // A clip again as a clip, while the model in use still makes them.
         if (sentVideo && videoMode)
-            generator.makeVideo(sentPrompt, outputSize.width, outputSize.height, sentPictures.length > 0 ? sentPictures[0] : "")
+            generator.makeVideo(sentPrompt, outputSize.width, outputSize.height, sentPictures.length > 0 ? sentPictures[0] : "", clipSeconds)
         else if (!sentVideo && !videoMode)
             generator.generate(sentPrompt, outputSize.width, outputSize.height, 0, -1, sentPictures, models.edits)
     }
@@ -677,6 +680,31 @@ ApplicationWindow {
                                         win.generate()
                                 }
                             }
+                        }
+
+                        // A clip's length, 2, 5 or 10 seconds, while a video model is in use.
+                        ToolButton {
+                            objectName: "clipLength"
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredWidth: 32
+                            Layout.preferredHeight: 32
+                            padding: 0
+                            topInset: 0
+                            bottomInset: 0
+                            leftInset: 0
+                            rightInset: 0
+                            background: Item {}
+                            focusPolicy: Qt.NoFocus
+                            visible: win.videoMode
+                            text: win.clipSeconds + "s"
+                            font.pixelSize: 12
+                            Material.foreground: hovered ? theme.accent : win.muted
+                            readonly property string label: qsTr("Clip length: %1 s").arg(win.clipSeconds)
+                            Accessible.name: label
+                            ToolTip.visible: hovered
+                            ToolTip.text: label
+                            ToolTip.delay: 300
+                            onClicked: win.clipSeconds = win.clipLengths[(win.clipLengths.indexOf(win.clipSeconds) + 1) % win.clipLengths.length]
                         }
 
                         // The shape of a new image, one button that steps through

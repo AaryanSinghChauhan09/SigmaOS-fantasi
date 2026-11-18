@@ -1,4 +1,5 @@
 #include "generator.h"
+#include <algorithm>
 #include <memory>
 #include <QSaveFile>
 #include <QProcess>
@@ -262,7 +263,7 @@ QSize Generator::fitVideo(int width, int height) {
     return {step(width * scale), step(height * scale)};
 }
 
-void Generator::makeVideo(const QString &prompt, int width, int height, const QString &firstFrameUrl) {
+void Generator::makeVideo(const QString &prompt, int width, int height, const QString &firstFrameUrl, int seconds) {
     if (busy() || prompt.trimmed().isEmpty())
         return;
     const QString origin = m_models->videoOrigin();
@@ -296,7 +297,7 @@ void Generator::makeVideo(const QString &prompt, int width, int height, const QS
     body.insert("prompt", prompt.trimmed());
     body.insert("width", size.width());
     body.insert("height", size.height());
-    body.insert("video_frames", videoFrames);
+    body.insert("video_frames", std::clamp(seconds, 1, 10) * videoFps);
     body.insert("fps", videoFps);
     body.insert("seed", -1);
     body.insert("output_format", "webm");

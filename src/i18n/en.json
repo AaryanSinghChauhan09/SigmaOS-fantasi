@@ -76,5 +76,6 @@
   "%1 is making your clip": "%1 is making your clip",
   "Couldn't save the clip's poster in %1": "Couldn't save the clip's poster in %1",
   "New generation": "New generation",
-  "Start a new generation": "Start a new generation"
+  "Start a new generation": "Start a new generation",
+  "Clip length: %1 s": "Clip length: %1 s"
 }

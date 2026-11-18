@@ -647,6 +647,8 @@ private slots:
         QCOMPARE(submit->second.value("lora").toArray().first().toObject().value("path").toString(), QString("turbo.safetensors"));
         QVERIFY(!submit->second.value("init_image").toString().isEmpty());
         QCOMPARE(submit->second.value("width").toInt(), 640);
+        // Five seconds at 24 frames a second unless asked otherwise.
+        QCOMPARE(submit->second.value("video_frames").toInt(), 120);
         QVERIFY(images.requests.isEmpty() || std::none_of(images.requests.begin(), images.requests.end(), [](const auto &r) { return r.first.contains("vid_gen"); }));
         // The clip, with a poster beside it that the history lists as the clip.
         const QString path = saved.first().first().toString();
