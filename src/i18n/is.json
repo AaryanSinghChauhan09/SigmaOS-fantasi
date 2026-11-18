@@ -74,5 +74,6 @@
   "How should it move?": "Hvernig á hún að hreyfast?",
   "Describe a clip": "Lýstu myndskeiði",
   "No video model is running": "Ekkert myndbandslíkan er í gangi",
-  "WebM video": "WebM-myndband"
+  "WebM video": "WebM-myndband",
+  "%1 is making your clip": "%1 er að búa til myndskeiðið þitt"
 }

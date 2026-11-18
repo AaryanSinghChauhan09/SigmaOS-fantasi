@@ -74,5 +74,6 @@
   "How should it move?": "어떻게 움직일까요?",
   "Describe a clip": "클립을 설명하세요",
   "No video model is running": "실행 중인 동영상 모델이 없습니다",
-  "WebM video": "WebM 동영상"
+  "WebM video": "WebM 동영상",
+  "%1 is making your clip": "%1에서 클립을 만드는 중"
 }

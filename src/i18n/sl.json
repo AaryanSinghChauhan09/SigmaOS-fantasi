@@ -74,5 +74,6 @@
   "How should it move?": "Kako naj se premika?",
   "Describe a clip": "Opišite posnetek",
   "No video model is running": "Noben model za video ne teče",
-  "WebM video": "Video WebM"
+  "WebM video": "Video WebM",
+  "%1 is making your clip": "%1 ustvarja vaš posnetek"
 }

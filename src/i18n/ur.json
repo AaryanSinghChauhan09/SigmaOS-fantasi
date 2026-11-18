@@ -74,5 +74,6 @@
   "How should it move?": "یہ کیسے حرکت کرے؟",
   "Describe a clip": "ایک کلپ بیان کریں",
   "No video model is running": "کوئی ویڈیو ماڈل نہیں چل رہا",
-  "WebM video": "WebM ویڈیو"
+  "WebM video": "WebM ویڈیو",
+  "%1 is making your clip": "ماڈل %1 آپ کا کلپ بنا رہا ہے"
 }

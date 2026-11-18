@@ -74,5 +74,6 @@
   "How should it move?": "ต้องการให้เคลื่อนไหวอย่างไร",
   "Describe a clip": "อธิบายคลิปที่ต้องการ",
   "No video model is running": "ไม่มีโมเดลวิดีโอที่ทำงานอยู่",
-  "WebM video": "วิดีโอ WebM"
+  "WebM video": "วิดีโอ WebM",
+  "%1 is making your clip": "%1 กำลังสร้างคลิปของคุณ"
 }

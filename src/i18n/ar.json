@@ -74,5 +74,6 @@
   "How should it move?": "كيف يجب أن تتحرك؟",
   "Describe a clip": "صف مقطعًا",
   "No video model is running": "لا يعمل أي نموذج فيديو",
-  "WebM video": "فيديو WebM"
+  "WebM video": "فيديو WebM",
+  "%1 is making your clip": "النموذج %1 يصنع مقطعك"
 }

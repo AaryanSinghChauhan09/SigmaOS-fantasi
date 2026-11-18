@@ -74,5 +74,6 @@
   "How should it move?": "Wie soll es sich bewegen?",
   "Describe a clip": "Beschreibe einen Clip",
   "No video model is running": "Kein Videomodell läuft",
-  "WebM video": "WebM-Video"
+  "WebM video": "WebM-Video",
+  "%1 is making your clip": "%1 erstellt deinen Clip"
 }

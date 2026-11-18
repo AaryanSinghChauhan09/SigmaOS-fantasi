@@ -74,5 +74,6 @@
   "How should it move?": "Hur ska den röra sig?",
   "Describe a clip": "Beskriv ett klipp",
   "No video model is running": "Ingen videomodell körs",
-  "WebM video": "WebM-video"
+  "WebM video": "WebM-video",
+  "%1 is making your clip": "%1 skapar ditt klipp"
 }

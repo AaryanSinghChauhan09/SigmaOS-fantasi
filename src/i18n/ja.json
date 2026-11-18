@@ -74,5 +74,6 @@
   "How should it move?": "どのように動かしますか？",
   "Describe a clip": "クリップの説明を入力",
   "No video model is running": "動画モデルが起動していません",
-  "WebM video": "WebM 動画"
+  "WebM video": "WebM 動画",
+  "%1 is making your clip": "%1 がクリップを作成中"
 }

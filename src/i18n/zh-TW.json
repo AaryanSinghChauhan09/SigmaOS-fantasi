@@ -74,5 +74,6 @@
   "How should it move?": "它該如何移動？",
   "Describe a clip": "描述一段短片",
   "No video model is running": "沒有正在執行的影片模型",
-  "WebM video": "WebM 影片"
+  "WebM video": "WebM 影片",
+  "%1 is making your clip": "%1 正在產生你的短片"
 }

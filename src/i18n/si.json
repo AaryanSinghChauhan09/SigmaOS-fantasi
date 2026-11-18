@@ -74,5 +74,6 @@
   "How should it move?": "එය චලනය විය යුත්තේ කෙසේද?",
   "Describe a clip": "ක්ලිපයක් විස්තර කරන්න",
   "No video model is running": "කිසිදු වීඩියෝ මාදිලියක් ධාවනය නොවේ",
-  "WebM video": "WebM වීඩියෝව"
+  "WebM video": "WebM වීඩියෝව",
+  "%1 is making your clip": "%1 ඔබේ ක්ලිපය සාදමින් සිටී"
 }

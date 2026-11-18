@@ -74,5 +74,6 @@
   "How should it move?": "Kaip jis turi judėti?",
   "Describe a clip": "Aprašykite klipą",
   "No video model is running": "Neveikia joks vaizdo įrašų modelis",
-  "WebM video": "WebM vaizdo įrašas"
+  "WebM video": "WebM vaizdo įrašas",
+  "%1 is making your clip": "%1 kuria jūsų klipą"
 }

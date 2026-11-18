@@ -74,5 +74,6 @@
   "How should it move?": "איך היא צריכה לזוז?",
   "Describe a clip": "תארו קליפ",
   "No video model is running": "אין מודל וידאו פעיל",
-  "WebM video": "סרטון WebM"
+  "WebM video": "סרטון WebM",
+  "%1 is making your clip": "המודל %1 יוצר את הקליפ שלך"
 }

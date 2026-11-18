@@ -74,5 +74,6 @@
   "How should it move?": "Conas ba cheart di bogadh?",
   "Describe a clip": "Déan cur síos ar ghearrthóg",
   "No video model is running": "Níl aon samhail físe ag rith",
-  "WebM video": "Físeán WebM"
+  "WebM video": "Físeán WebM",
+  "%1 is making your clip": "Tá %1 ag déanamh do ghearrthóige"
 }

@@ -74,5 +74,6 @@
   "How should it move?": "Πώς πρέπει να κινείται;",
   "Describe a clip": "Περιγράψτε ένα κλιπ",
   "No video model is running": "Δεν εκτελείται κανένα μοντέλο βίντεο",
-  "WebM video": "Βίντεο WebM"
+  "WebM video": "Βίντεο WebM",
+  "%1 is making your clip": "Το %1 δημιουργεί το κλιπ σας"
 }

@@ -74,5 +74,6 @@
   "How should it move?": "Nasıl hareket etsin?",
   "Describe a clip": "Bir klip tarif edin",
   "No video model is running": "Çalışan bir video modeli yok",
-  "WebM video": "WebM videosu"
+  "WebM video": "WebM videosu",
+  "%1 is making your clip": "%1 klibinizi oluşturuyor"
 }

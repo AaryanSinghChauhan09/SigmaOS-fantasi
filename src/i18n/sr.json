@@ -74,5 +74,6 @@
   "How should it move?": "Како треба да се креће?",
   "Describe a clip": "Опишите клип",
   "No video model is running": "Ниједан модел за видео није покренут",
-  "WebM video": "WebM видео"
+  "WebM video": "WebM видео",
+  "%1 is making your clip": "%1 прави ваш снимак"
 }

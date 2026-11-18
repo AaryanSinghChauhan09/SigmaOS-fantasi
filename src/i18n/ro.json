@@ -74,5 +74,6 @@
   "How should it move?": "Cum ar trebui să se miște?",
   "Describe a clip": "Descrie un clip",
   "No video model is running": "Niciun model video nu rulează",
-  "WebM video": "Videoclip WebM"
+  "WebM video": "Videoclip WebM",
+  "%1 is making your clip": "%1 îți creează clipul"
 }

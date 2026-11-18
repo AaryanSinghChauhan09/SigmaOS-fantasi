@@ -74,5 +74,6 @@
   "How should it move?": "چگونه باید حرکت کند؟",
   "Describe a clip": "یک کلیپ را توصیف کنید",
   "No video model is running": "هیچ مدل ویدیویی در حال اجرا نیست",
-  "WebM video": "ویدیوی WebM"
+  "WebM video": "ویدیوی WebM",
+  "%1 is making your clip": "مدل %1 در حال ساختن کلیپ شماست"
 }
