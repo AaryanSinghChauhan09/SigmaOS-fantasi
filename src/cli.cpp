@@ -26,7 +26,7 @@ const char *usage = "Usage:\n"
                     "  fantasi open [prompt] [--model <id>]\n"
                     "                               Open the window with a prompt, and a model\n"
                     "  fantasi generate <prompt>    Make an image, print where it's saved\n"
-                    "      --from <image> --width <px> --height <px> --steps <n> --seed <n> --video --json\n"
+                    "      --from <image> --width <px> --height <px> --steps <n> --seed <n> --video --seconds <n> --json\n"
                     "      --music [--lyrics <text> | --instrumental] [--seconds <n>]\n"
                     "  fantasi skill [install]      Print the agent skill, or install it\n";
 
@@ -103,7 +103,7 @@ int runCli(const QStringList &arguments) {
     parser.addOption({"music", "Make a song on the running music model: the prompt describes it"});
     parser.addOption({"lyrics", "The song's lyrics, with [verse] and [chorus] over their parts and \\n between lines; the model writes them when left out", "text"});
     parser.addOption({"instrumental", "A song without words"});
-    parser.addOption({"seconds", "How long the song is", "n", QString::number(Generator::defaultSongSeconds)});
+    parser.addOption({"seconds", "How long a clip is: 2, 5 or 10; or a song, a minute when left out", "n"});
     parser.addOption({"json", "Print the result as JSON"});
     // The parser takes its first argument as the program's name: here,
     // `generate`, which leaves the prompt as the positional arguments.
@@ -134,6 +134,13 @@ int runCli(const QStringList &arguments) {
     // video model for --video, an image model otherwise, whichever is the
     // one chosen in the window.
     const bool video = parser.isSet("video"), music = parser.isSet("music");
+    // A clip is 2, 5 or 10 seconds: anything else is refused before minutes go into it.
+    const int seconds = parser.isSet("seconds") ? parser.value("seconds").toInt()
+                        : music ? Generator::defaultSongSeconds : Generator::defaultSeconds;
+    if (video && seconds != 2 && seconds != 5 && seconds != 10) {
+        print(stderr, "Error: --seconds takes 2, 5 or 10");
+        return 1;
+    }
 
     int code = 1;
     QString path;
@@ -189,9 +196,9 @@ int runCli(const QStringList &arguments) {
         }
         if (music)
             generator->makeSong(prompt, parser.isSet("instrumental") ? QString("[Instrumental]") : parser.value("lyrics").replace("\\n", "\n"),
-                                parser.value("seconds").toInt());
+                                seconds);
         else if (video)
-            generator->makeVideo(prompt, parser.value("width").toInt(), parser.value("height").toInt(), from.value(0));
+            generator->makeVideo(prompt, parser.value("width").toInt(), parser.value("height").toInt(), from.value(0), seconds);
         else
             generator->generate(prompt, parser.value("width").toInt(), parser.value("height").toInt(),
                                 parser.value("steps").toInt(), parser.value("seed").toLongLong(), from, models->edits());

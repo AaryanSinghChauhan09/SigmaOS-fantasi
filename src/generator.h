@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QByteArray>
+#include <QElapsedTimer>
 #include <QEventLoopLocker>
 #include <QImage>
 #include <QJsonObject>
@@ -32,6 +33,10 @@ class Generator : public QObject {
     Q_PROPERTY(QString error READ error NOTIFY changed)
     Q_PROPERTY(bool unsaved READ unsaved NOTIFY changed)
     Q_PROPERTY(int defaultSteps READ defaultSteps NOTIFY defaultsChanged)
+    // About how many seconds the job in hand has left, or -1 while that
+    // can't be told yet. From how long the last one like it took, or else
+    // from how fast its steps go.
+    Q_PROPERTY(int remainingSeconds READ remainingSeconds NOTIFY remainingChanged)
 
 public:
     // Images and clips are kept in `folder`, songs in `musicFolder` with
@@ -49,6 +54,7 @@ public:
     QString error() const { return m_error; }
     bool unsaved() const { return !m_pending.isEmpty() || !m_unposted.isEmpty(); }
     int defaultSteps() const;
+    int remainingSeconds() const;
     QString folder() const { return m_folder; }
     QString musicFolder() const { return m_musicFolder; }
 
@@ -81,9 +87,10 @@ public:
     // Makes a short clip with its sound on the running video model, from the
     // prompt alone or with `firstFrameUrl` as its first frame, about the
     // size the model is fastest at in the shape of `width` by `height`.
-    Q_INVOKABLE void makeVideo(const QString &prompt, int width, int height, const QString &firstFrameUrl = {});
-    // A clip's frames: 2.3 seconds at 24 a second.
-    static constexpr int videoFrames = 56;
+    Q_INVOKABLE void makeVideo(const QString &prompt, int width, int height, const QString &firstFrameUrl = {},
+                               int seconds = defaultSeconds);
+    // A clip is 2, 5 or 10 seconds at 24 frames a second.
+    static constexpr int defaultSeconds = 5;
     static constexpr int videoFps = 24;
     // About 0.4 megapixels in the shape of `width` by `height`, in steps of 32.
     static QSize fitVideo(int width, int height);
@@ -120,6 +127,7 @@ signals:
     // A clip's poster is written beside it, a moment after the clip; a
     // song's with it.
     void posterSaved(const QString &clip);
+    void remainingChanged();
     void posterFailed(const QString &error);
     // A job has ended: made and saved, cancelled, or failed with `error`.
     void finished(const QString &error);
@@ -152,6 +160,13 @@ private:
     QString m_musicFolder;
     QNetworkAccessManager m_network;
     QTimer m_poll;
+    // When the job in hand started, what it's called among the durations
+    // remembered, and how long the last one like it took.
+    QElapsedTimer m_clock;
+    QString m_durationKey;
+    double m_expected = 0;
+    QTimer m_tick;
+    void startClock(const QString &key);
     QJsonObject m_defaults;
     QString m_origin;
     // The server the job in hand runs on, when a change goes to a running

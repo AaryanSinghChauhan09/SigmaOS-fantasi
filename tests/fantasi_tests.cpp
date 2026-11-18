@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QQmlProperty>
 #include <QQmlContext>
+#include <QSettings>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTcpServer>
@@ -405,6 +406,55 @@ private slots:
         QCOMPARE(found.reason, QString("needs 128 GB"));
     }
 
+    void discoveryReadsASetupInProgressAndOffersItNoChoiceYet() {
+        auto found = Models::discover(json(q("{'models': {'z': {'kind': 'image', 'name': 'Z', 'unit': 'installing', 'since_ms': 1000, 'expected_load_seconds': 4, 'error': '', 'install': {'phase': 'downloading', 'done_bytes': 300, 'total_bytes': 1000, 'rate_bytes_s': 50}}}}")), {}, true);
+        QCOMPARE(found.state, QString("installing"));
+        QCOMPARE(found.setupPhase, QString("downloading"));
+        QCOMPARE(found.doneBytes, 300);
+        QCOMPARE(found.totalBytes, 1000);
+        QCOMPARE(found.rateBytes, 50);
+        QCOMPARE(found.loadSeconds, 4.0);
+        // Still downloading, it's nothing to pick.
+        QVERIFY(found.choices.isEmpty());
+
+        found = Models::discover(json(q("{'models': {'z': {'kind': 'image', 'name': 'Z', 'unit': 'installing', 'error': 'The download stopped', 'install': {'phase': 'failed'}}}}")), {}, true);
+        QCOMPARE(found.setupPhase, QString("failed"));
+        QCOMPARE(found.reason, QString("The download stopped"));
+    }
+
+    void theFirstSetupCarriesOnThroughItsFirstStart() {
+        QTemporaryDir dir;
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        write(state + "/list.json", "[]");
+        // The engine records how a start went once one has succeeded.
+        const auto status = [&](const QString &unit, bool startedBefore = false) {
+            QJsonObject row{{"kind", "image"}, {"name", "Z"}, {"unit", unit}, {"endpoint", "http://127.0.0.1:1/v1"}};
+            row.insert("observed", startedBefore ? QJsonValue(QJsonObject{{"load_seconds", 3.1}}) : QJsonValue());
+            write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{{"z", row}}}}).toJson());
+        };
+        status("installing");
+        Models models(state, state + "/key", "/bin/true");
+        QVERIFY(models.settingUp());
+        // Its first start looks like any model's start, and stays part of the setup.
+        status("activating");
+        QTRY_COMPARE(models.state(), QString("starting"));
+        QVERIFY(models.settingUp());
+        status("active");
+        QTRY_COMPARE(models.state(), QString("ready"));
+        QVERIFY(!models.settingUp());
+        // A model set up before, starting again, is no setup.
+        status("activating", true);
+        QTRY_COMPARE(models.state(), QString("starting"));
+        QVERIFY(!models.settingUp());
+
+        // Opened during that first start, it's still the setup.
+        status("activating");
+        Models opened(state, state + "/key", "/bin/true");
+        QCOMPARE(opened.state(), QString("starting"));
+        QVERIFY(opened.settingUp());
+    }
+
     void modelsFollowTheEngineFiles() {
         QTemporaryDir dir;
         Models models(dir.path() + "/state", dir.path() + "/state/key", "/bin/true");
@@ -647,6 +697,8 @@ private slots:
         QCOMPARE(submit->second.value("lora").toArray().first().toObject().value("path").toString(), QString("turbo.safetensors"));
         QVERIFY(!submit->second.value("init_image").toString().isEmpty());
         QCOMPARE(submit->second.value("width").toInt(), 640);
+        // Five seconds at 24 frames a second unless asked otherwise.
+        QCOMPARE(submit->second.value("video_frames").toInt(), 120);
         QVERIFY(images.requests.isEmpty() || std::none_of(images.requests.begin(), images.requests.end(), [](const auto &r) { return r.first.contains("vid_gen"); }));
         // The clip, with a poster beside it that the history lists as the clip.
         const QString path = saved.first().first().toString();
@@ -822,6 +874,32 @@ private slots:
 
         QVERIFY2(warnings.isEmpty(), qPrintable(warnings.join('\n')));
         QCoreApplication::removeTranslator(&translator);
+    }
+
+    void generatorEstimatesTheTimeLeftFromTheLastOneLikeIt() {
+        QTemporaryDir dir;
+        FakeServer server;
+        server.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (method == "POST" && path == "/sdcpp/v1/img_gen")
+                return {202, q("{'id': 'slow'}")};
+            if (path == "/sdcpp/v1/jobs/slow")
+                return {200, q("{'status': 'generating', 'progress': {'stage': 'sampling', 'unit': 'steps', 'completed': 0, 'total': 8}}")};
+            return {404, "{}"};
+        };
+        readyEngine(dir.path() + "/state", server.origin());
+        Models models(dir.path() + "/state", dir.path() + "/state/key", "/bin/true");
+        Generator generator(&models, dir.path() + "/out");
+        // Nothing like it yet, and no step done: not known.
+        generator.generate("a lake", 1024, 1024);
+        QTRY_VERIFY(generator.busy());
+        QCOMPARE(generator.remainingSeconds(), -1);
+        // The last one like it took 120 seconds: about that long is left.
+        QSettings().setValue("durations/z-image-turbo/image/1024x1024", 120.0);
+        Generator next(&models, dir.path() + "/out");
+        next.generate("a lake", 1024, 1024);
+        QTRY_VERIFY(next.busy());
+        QVERIFY2(next.remainingSeconds() > 115 && next.remainingSeconds() <= 120, qPrintable(QString::number(next.remainingSeconds())));
+        QSettings().remove("durations");
     }
 
     void generatorCancelsAndSavesNothing() {
@@ -1191,6 +1269,8 @@ private slots:
         // One button steps through the shapes; Ctrl+3 goes straight to portrait.
         auto *shape = item(window->contentItem(), "size");
         QVERIFY(shape);
+        // Nothing changes while something is made: wait for the one sent above.
+        QTRY_VERIFY(!backend.generator()->busy());
         QTest::keyClick(window, Qt::Key_3, Qt::ControlModifier);
         QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Portrait"));
         QMetaObject::invokeMethod(shape, "clicked");

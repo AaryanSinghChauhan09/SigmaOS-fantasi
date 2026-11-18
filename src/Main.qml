@@ -54,6 +54,18 @@ ApplicationWindow {
     // The model in use makes clips: from the prompt alone, or animating the
     // picture being changed.
     readonly property bool videoMode: models.video
+    function remainingText(seconds) {
+        if (seconds < 0)
+            return qsTr("Working out how long this takes…")
+        if (seconds < 10)
+            return qsTr("Almost done")
+        if (seconds < 90)
+            return qsTr("About %1 s left").arg(Math.max(10, Math.round(seconds / 10) * 10))
+        return qsTr("About %1 min left").arg(Math.round(seconds / 60))
+    }
+    // How long a clip is, stepped through with the length button.
+    readonly property var clipLengths: [2, 5, 10]
+    property int clipSeconds: 5
     // A clip starts from one picture: switching to a video model keeps the first.
     onVideoModeChanged: if (videoMode && baseImages.length > 1) baseImages = [baseImages[0]]
     // The model in use makes songs, from the prompt and the lyrics alone.
@@ -92,12 +104,13 @@ ApplicationWindow {
         case "installing": return qsTr("Setting up %1…").arg(models.modelName)
         case "installed": return qsTr("%1 is set up but not running").arg(models.modelName)
         case "blocked": return qsTr("%1 needs the memory %2 is using").arg(models.modelName).arg(models.blockers.join(", "))
-        case "installable": return qsTr("No image model is set up. %1 runs on this machine.").arg(models.modelName)
-        case "none": return qsTr("No image model runs on this machine yet.") + (models.reason ? " " + models.reason : "")
-        case "noEngine": return qsTr("Fantasi makes images with Omarchy's local models, which aren't installed.")
         default: return ""
         }
     }
+    // Which screen shows: setting up the first image model, sorry there's
+    // none for this machine, or the studio once one is set up.
+    readonly property string page: models.settingUp ? "setup"
+                                 : models.state === "none" || models.state === "noEngine" ? "sorry" : "studio"
     // What was last sent, to tell it from what is typed while it's made.
     property string sentPrompt
     property var sentPictures: []
@@ -123,7 +136,7 @@ ApplicationWindow {
         if (musicMode)
             generator.makeSong(prompt.text, sentLyrics, songSeconds, translator.language)
         else if (videoMode)
-            generator.makeVideo(prompt.text, outputSize.width, outputSize.height, baseImages.length > 0 ? baseImages[0] : "")
+            generator.makeVideo(prompt.text, outputSize.width, outputSize.height, baseImages.length > 0 ? baseImages[0] : "", clipSeconds)
         else
             generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImages, models.edits)
     }
@@ -137,7 +150,7 @@ ApplicationWindow {
         else if (sentMusic || musicMode)
             return
         else if (sentVideo && videoMode)
-            generator.makeVideo(sentPrompt, outputSize.width, outputSize.height, sentPictures.length > 0 ? sentPictures[0] : "")
+            generator.makeVideo(sentPrompt, outputSize.width, outputSize.height, sentPictures.length > 0 ? sentPictures[0] : "", clipSeconds)
         else if (!sentVideo && !videoMode)
             generator.generate(sentPrompt, outputSize.width, outputSize.height, 0, -1, sentPictures, models.edits)
     }
@@ -207,14 +220,14 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+Enter"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+R"; enabled: models.state === "ready" && !generator.busy; onActivated: win.canGenerate ? win.generate() : win.repeat() }
     Shortcut { sequence: "Ctrl+E"; enabled: win.showingImage && !win.musicMode && !generator.busy; onActivated: win.changeImage() }
-    Shortcut { sequence: "Ctrl+O"; enabled: !generator.busy && !win.musicMode; onActivated: backend.openPicture() }
+    Shortcut { sequence: "Ctrl+O"; enabled: win.page === "studio" && !generator.busy && !win.musicMode; onActivated: backend.openPicture() }
     // Esc stops an image being made, or else goes back to the image shown.
     Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }
     Shortcut { sequence: "Escape"; enabled: !generator.busy && win.composing; onActivated: win.backToImage() }
-    Shortcut { sequence: "Ctrl+N"; enabled: !generator.busy; onActivated: win.newImage() }
-    Shortcut { sequence: "Ctrl+1"; onActivated: win.sizeChoice = 0 }
-    Shortcut { sequence: "Ctrl+2"; onActivated: win.sizeChoice = 1 }
-    Shortcut { sequence: "Ctrl+3"; onActivated: win.sizeChoice = 2 }
+    Shortcut { sequence: "Ctrl+N"; enabled: win.page === "studio" && !generator.busy; onActivated: win.newImage() }
+    Shortcut { sequence: "Ctrl+1"; enabled: !generator.busy; onActivated: win.sizeChoice = 0 }
+    Shortcut { sequence: "Ctrl+2"; enabled: !generator.busy; onActivated: win.sizeChoice = 1 }
+    Shortcut { sequence: "Ctrl+3"; enabled: !generator.busy; onActivated: win.sizeChoice = 2 }
     Shortcut { sequence: "Ctrl+B"; onActivated: layout.historyShown = !layout.historyShown }
     // Whether the history sidebar is shown, kept between runs.
     Settings {
@@ -272,17 +285,38 @@ ApplicationWindow {
     DropArea {
         anchors.fill: parent
         keys: ["text/uri-list"]
-        onEntered: drag => drag.accept(!generator.busy && !win.musicMode && drag.hasUrls && drag.urls.length === 1 && backend.isPicture(drag.urls[0]))
+        onEntered: drag => drag.accept(win.page === "studio" && !generator.busy && !win.musicMode && drag.hasUrls && drag.urls.length === 1 && backend.isPicture(drag.urls[0]))
         onDropped: drop => {
-            if (!generator.busy && !win.musicMode && drop.hasUrls && backend.isPicture(drop.urls[0])) {
+            if (win.page === "studio" && !generator.busy && !win.musicMode && drop.hasUrls && backend.isPicture(drop.urls[0])) {
                 win.startFrom(drop.urls[0].toString())
                 drop.accept()
             }
         }
     }
 
+    Setup {
+        anchors.fill: parent
+        visible: win.page === "setup"
+        models: win.models
+        muted: win.muted
+        LayoutMirroring.enabled: win.rightToLeft
+        LayoutMirroring.childrenInherit: true
+    }
+
+    NoModel {
+        anchors.fill: parent
+        visible: win.page === "sorry"
+        models: win.models
+        muted: win.muted
+        LayoutMirroring.enabled: win.rightToLeft
+        LayoutMirroring.childrenInherit: true
+    }
+
+    // The studio: the image, its prompt, and the history beside it.
     Item {
         anchors.fill: parent
+        visible: win.page === "studio"
+        enabled: visible
         LayoutMirroring.enabled: win.rightToLeft
         LayoutMirroring.childrenInherit: true
 
@@ -290,10 +324,28 @@ ApplicationWindow {
             anchors.fill: parent
             spacing: 0
 
-            ColumnLayout {
+            Item {
+                id: work
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.margins: 20
+
+            // An aurora plays over the whole of this side, from the window's edge
+            // to the history, under the image and the prompt bar: at full
+            // strength while something is made, softer the rest of the time.
+            Aurora {
+                id: making
+                objectName: "making"
+                anchors.fill: parent
+                colorA: theme.colors.cyan || theme.accent
+                colorB: theme.accent
+                colorC: theme.colors.magenta || theme.accent
+                intensity: generator.busy ? 1 : 0.5
+                Behavior on intensity { NumberAnimation { duration: 600; easing.type: Easing.InOutSine } }
+            }
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 20
                 spacing: 12
 
                 // ----------------------------------------------------- the image
@@ -311,20 +363,78 @@ ApplicationWindow {
                                                    ? previous.implicitWidth / previous.implicitHeight
                                                    : win.musicMode ? 3 : win.outputSize.width / win.outputSize.height
 
+                    // A model starting in place of the one in use: its mark in a
+                    // ring with a spark circling it, as on the setup screen.
+                    Item {
+                        id: starting
+                        objectName: "starting"
+                        readonly property bool active: models.working || models.state === "starting"
+                        readonly property string name: models.switchingTo !== "" ? models.switchingTo : models.modelName
+                        readonly property string mark: models.logo(models.switchingTo !== "" ? models.switchingVendor : models.vendor, theme.light)
+                        anchors.centerIn: parent
+                        width: 220
+                        height: 200
+                        z: 2
+                        visible: active && !generator.busy
+                        Item {
+                            id: ring
+                            width: 120
+                            height: 120
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            Shape {
+                                anchors.fill: parent
+                                preferredRendererType: Shape.CurveRenderer
+                                ShapePath {
+                                    strokeColor: Qt.rgba(theme.foreground.r, theme.foreground.g, theme.foreground.b, 0.12)
+                                    strokeWidth: 5
+                                    fillColor: "transparent"
+                                    PathAngleArc { centerX: 60; centerY: 60; radiusX: 55; radiusY: 55; startAngle: -90; sweepAngle: 360 }
+                                }
+                            }
+                            Item {
+                                anchors.fill: parent
+                                RotationAnimation on rotation {
+                                    running: starting.visible
+                                    loops: Animation.Infinite
+                                    from: 0
+                                    to: 360
+                                    duration: 2400
+                                }
+                                Rectangle {
+                                    x: 60 - width / 2
+                                    y: 5 - height / 2
+                                    width: 9
+                                    height: 9
+                                    radius: 4.5
+                                    color: theme.accent
+                                }
+                            }
+                            Image {
+                                anchors.centerIn: parent
+                                width: 44
+                                height: 44
+                                sourceSize: Qt.size(88, 88)
+                                fillMode: Image.PreserveAspectFit
+                                source: starting.mark !== "" ? starting.mark : "qrc:/icons/model.svg"
+                            }
+                        }
+                        Label {
+                            anchors.top: ring.bottom
+                            anchors.topMargin: 16
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            color: win.muted
+                            text: qsTr("Starting %1…").arg(starting.name)
+                        }
+                    }
+
                     Item {
                         id: frame
                         anchors.centerIn: parent
                         width: Math.min(parent.width, parent.height * stage.aspect)
                         height: width / stage.aspect
                         // Empty while a new one is written, shimmering once it's asked for.
-                        visible: generator.busy || generator.image !== "" || (win.composing && models.state === "ready")
+                        visible: !starting.visible && (generator.busy || generator.image !== "" || (win.composing && models.state === "ready"))
 
-                        Rectangle {
-                            anchors.fill: parent
-                            color: win.panel
-                            radius: Math.min(4, theme.radius)
-                            visible: generator.image === ""
-                        }
                         // While a picture is being changed, it stays in the frame,
                         // faded, and the new one grows in over it as it's made.
                         Image {
@@ -345,8 +455,31 @@ ApplicationWindow {
                             fillMode: Image.PreserveAspectFit
                             asynchronous: true
                             smooth: true
-                            opacity: generator.busy && win.changing ? 0.2 + 0.8 * win.progress : 1
+                            opacity: (generator.busy && win.changing ? 0.2 + 0.8 * win.progress : 1) * arrival
                             Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
+                            // A job's first picture fades in rather than popping up.
+                            property real arrival: 1
+                            property bool awaitingFirst: false
+                            property bool wasBusy: false
+                            Connections {
+                                target: generator
+                                function onChanged() {
+                                    if (generator.busy !== shown.wasBusy)
+                                        shown.awaitingFirst = generator.busy
+                                    shown.wasBusy = generator.busy
+                                }
+                            }
+                            function fadeIn() {
+                                awaitingFirst = false
+                                arrive.restart()
+                            }
+                            onSourceChanged: if (awaitingFirst && source.toString() !== "") {
+                                arrival = 0
+                                if (status === Image.Ready)
+                                    fadeIn()
+                            }
+                            onStatusChanged: if (awaitingFirst && arrival === 0 && status !== Image.Loading) fadeIn()
+                            NumberAnimation { id: arrive; target: shown; property: "arrival"; from: 0; to: 1; duration: 900; easing.type: Easing.InOutSine }
                         }
                         Loader {
                             id: player
@@ -355,6 +488,24 @@ ApplicationWindow {
                             active: win.playerWanted
                             visible: win.showingClip
                             source: "qrc:/VideoPlayer.qml"
+                        }
+                        // How long a clip or a song has left, in the middle of the frame. An
+                        // image needs none: it comes to life before your eyes.
+                        Rectangle {
+                            objectName: "remaining"
+                            anchors.centerIn: parent
+                            visible: generator.busy && (win.videoMode || win.musicMode)
+                            width: remainingLabel.implicitWidth + 28
+                            height: remainingLabel.implicitHeight + 14
+                            radius: Math.min(height / 2, theme.radius + 6)
+                            color: Qt.rgba(theme.background.r, theme.background.g, theme.background.b, 0.78)
+                            Label {
+                                id: remainingLabel
+                                anchors.centerIn: parent
+                                color: theme.foreground
+                                font.pixelSize: 14
+                                text: win.remainingText(generator.remainingSeconds)
+                            }
                         }
                         Binding {
                             target: player.item
@@ -378,98 +529,11 @@ ApplicationWindow {
                             }
                         }
 
-                        // While it's being made, its edge says how far along it is:
-                        // a faint track, an accent line growing clockwise from
-                        // the top with each step, and a bright spark circling
-                        // all the while, so it's plainly at work even before the
-                        // first step.
-                        Shape {
-                            id: edge
-                            objectName: "working"
-                            anchors.fill: parent
-                            anchors.margins: -5
-                            visible: generator.busy
-                            preferredRendererType: Shape.CurveRenderer
-                            readonly property real perimeter: 2 * (width + height)
-                            readonly property real line: 2
-                            readonly property real spark: 3
-                            readonly property var outline: [Qt.point(width / 2, 0), Qt.point(width, 0), Qt.point(width, height),
-                                                            Qt.point(0, height), Qt.point(0, 0), Qt.point(width / 2, 0)]
-                            property real shown: win.progress
-                            Behavior on shown { NumberAnimation { duration: 500; easing.type: Easing.OutCubic } }
-                            property real travel: 0
-                            NumberAnimation on travel {
-                                running: generator.busy
-                                loops: Animation.Infinite
-                                from: 0
-                                to: 1
-                                duration: 2400
-                            }
-
-                            ShapePath {
-                                strokeColor: Qt.rgba(theme.accent.r, theme.accent.g, theme.accent.b, 0.22)
-                                strokeWidth: edge.line
-                                fillColor: "transparent"
-                                joinStyle: ShapePath.MiterJoin
-                                PathPolyline { path: edge.outline }
-                            }
-                            ShapePath {
-                                strokeColor: theme.accent
-                                strokeWidth: edge.line
-                                fillColor: "transparent"
-                                joinStyle: ShapePath.MiterJoin
-                                capStyle: ShapePath.FlatCap
-                                strokeStyle: ShapePath.DashLine
-                                // A dash as long as the share done, then a gap
-                                // as long as the whole: in units of the width.
-                                dashPattern: [Math.max(0.01, edge.perimeter * edge.shown / edge.line), edge.perimeter / edge.line]
-                                PathPolyline { path: edge.outline }
-                            }
-                            ShapePath {
-                                strokeColor: Qt.lighter(theme.accent, 1.35)
-                                strokeWidth: edge.spark
-                                fillColor: "transparent"
-                                capStyle: ShapePath.RoundCap
-                                strokeStyle: ShapePath.DashLine
-                                dashPattern: [edge.perimeter * 0.06 / edge.spark, edge.perimeter * 0.94 / edge.spark]
-                                dashOffset: edge.perimeter * (1 - edge.travel) / edge.spark
-                                PathPolyline { path: edge.outline }
-                            }
-                        }
-                        // A band of light across it while it's made, and a softer,
-                        // slower one while the empty frame waits for a prompt.
-                        Item {
-                            id: shimmer
-                            anchors.fill: parent
-                            clip: true
-                            readonly property bool waiting: !generator.busy && generator.image === ""
-                            visible: generator.busy || waiting
-                            Rectangle {
-                                width: frame.width * 0.45
-                                height: frame.height * 2
-                                y: -frame.height / 2
-                                rotation: 18
-                                gradient: Gradient {
-                                    orientation: Gradient.Horizontal
-                                    GradientStop { position: 0.0; color: "transparent" }
-                                    GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, (theme.light ? 0.28 : 0.14) * (shimmer.waiting ? 0.75 : 1)) }
-                                    GradientStop { position: 1.0; color: "transparent" }
-                                }
-                                NumberAnimation on x {
-                                    running: shimmer.visible && frame.visible
-                                    loops: Animation.Infinite
-                                    from: -frame.width * 0.6
-                                    to: frame.width * 1.1
-                                    duration: shimmer.waiting ? 2800 : 1800
-                                    easing.type: Easing.InOutSine
-                                }
-                            }
-                        }
                     }
                     Label {
                         anchors.centerIn: parent
                         width: parent.width * 0.6
-                        visible: !frame.visible
+                        visible: !frame.visible && !starting.visible
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.Wrap
                         color: win.muted
@@ -558,13 +622,68 @@ ApplicationWindow {
                 // One pill: the picture to start from, the prompt, the shape,
                 // the model, and the round button that sends it.
                 Rectangle {
+                    id: promptBar
                     Layout.fillWidth: true
                     Layout.preferredHeight: (win.choosing ? nextBar.implicitHeight : bar.implicitHeight) + 10
                     // What's next has no box: just its icons, centred.
                     color: win.choosing ? "transparent" : win.panel
                     // Rounded as the theme rounds windows, sharp where it doesn't.
                     radius: Math.min(height / 2, theme.radius)
-                    border.color: win.choosing ? "transparent" : prompt.activeFocus ? theme.accent : win.line
+                    // While something is made, the edge below takes the border's place.
+                    border.color: win.choosing || generator.busy ? "transparent" : prompt.activeFocus ? theme.accent : win.line
+
+                    // While it's being made, the bar's edge says how far along it
+                    // is: a faint track, an accent line growing clockwise with each
+                    // step, and a bright spark circling all the while.
+                    Shape {
+                        id: edge
+                        objectName: "working"
+                        anchors.fill: parent
+                        z: 1
+                        visible: generator.busy
+                        preferredRendererType: Shape.CurveRenderer
+                        readonly property real line: 2
+                        readonly property real spark: 3
+                        readonly property real corner: Math.max(0, promptBar.radius - line / 2)
+                        readonly property real perimeter: 2 * (width + height - 2 * line) - (8 - 2 * Math.PI) * corner
+                        property real shown: win.progress
+                        Behavior on shown { NumberAnimation { duration: 500; easing.type: Easing.OutCubic } }
+                        property real travel: 0
+                        NumberAnimation on travel {
+                            running: generator.busy
+                            loops: Animation.Infinite
+                            from: 0
+                            to: 1
+                            duration: 2400
+                        }
+                        ShapePath {
+                            strokeColor: Qt.rgba(theme.accent.r, theme.accent.g, theme.accent.b, 0.22)
+                            strokeWidth: edge.line
+                            fillColor: "transparent"
+                            PathRectangle { x: edge.line / 2; y: edge.line / 2; width: edge.width - edge.line; height: edge.height - edge.line; radius: edge.corner }
+                        }
+                        ShapePath {
+                            strokeColor: theme.accent
+                            strokeWidth: edge.line
+                            fillColor: "transparent"
+                            capStyle: ShapePath.FlatCap
+                            strokeStyle: ShapePath.DashLine
+                            // A dash as long as the share done, then a gap as long
+                            // as the whole: in units of the line's width.
+                            dashPattern: [Math.max(0.01, edge.perimeter * edge.shown / edge.line), edge.perimeter / edge.line]
+                            PathRectangle { x: edge.line / 2; y: edge.line / 2; width: edge.width - edge.line; height: edge.height - edge.line; radius: edge.corner }
+                        }
+                        ShapePath {
+                            strokeColor: Qt.lighter(theme.accent, 1.35)
+                            strokeWidth: edge.spark
+                            fillColor: "transparent"
+                            capStyle: ShapePath.RoundCap
+                            strokeStyle: ShapePath.DashLine
+                            dashPattern: [edge.perimeter * 0.06 / edge.spark, edge.perimeter * 0.94 / edge.spark]
+                            dashOffset: edge.perimeter * (1 - edge.travel) / edge.spark
+                            PathRectangle { x: edge.line / 2; y: edge.line / 2; width: edge.width - edge.line; height: edge.height - edge.line; radius: edge.corner }
+                        }
+                    }
 
                     // What's next, once an image is done: change it, start a new
                     // one, or use it.
@@ -610,6 +729,10 @@ ApplicationWindow {
 
                     RowLayout {
                         id: bar
+                        // While a model starts, the bar keeps its controls as they
+                        // are and greys out as a whole.
+                        enabled: !starting.active
+                        opacity: starting.active ? 0.4 : 1
                         visible: !win.choosing
                         anchors.fill: parent
                         anchors.leftMargin: 8
@@ -644,6 +767,7 @@ ApplicationWindow {
                                 // The × sits on the thumbnail's corner, as on an attachment.
                                 ToolButton {
                                     id: letGo
+                                    visible: !generator.busy
                                     width: 16
                                     height: 16
                                     padding: 0
@@ -677,6 +801,9 @@ ApplicationWindow {
                         // onto the window does too.
                         ToolButton {
                             objectName: "startFrom"
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy
+                            opacity: generator.busy ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             visible: win.canAddPicture
                             Layout.preferredWidth: 32
@@ -725,6 +852,8 @@ ApplicationWindow {
                             TextArea {
                                 id: prompt
                                 objectName: "prompt"
+                                readOnly: generator.busy
+                                opacity: generator.busy ? 0.5 : 1
                                 focus: true
                                 wrapMode: TextEdit.Wrap
                                 background: null
@@ -766,6 +895,9 @@ ApplicationWindow {
                         ToolButton {
                             id: lyricsButton
                             objectName: "lyricsChoice"
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy
+                            opacity: generator.busy ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             visible: win.musicMode
                             Layout.preferredWidth: 32
@@ -821,6 +953,9 @@ ApplicationWindow {
                         // A song's length, while a music model is in use.
                         ToolButton {
                             objectName: "songLength"
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy
+                            opacity: generator.busy ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             Layout.preferredWidth: 32
                             Layout.preferredHeight: 32
@@ -843,11 +978,42 @@ ApplicationWindow {
                             onClicked: win.songSeconds = win.songLengths[(win.songLengths.indexOf(win.songSeconds) + 1) % win.songLengths.length]
                         }
 
+                        // A clip's length, 2, 5 or 10 seconds, while a video model is in use.
+                        ToolButton {
+                            objectName: "clipLength"
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy
+                            opacity: generator.busy ? 0.4 : 1
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredWidth: 32
+                            Layout.preferredHeight: 32
+                            padding: 0
+                            topInset: 0
+                            bottomInset: 0
+                            leftInset: 0
+                            rightInset: 0
+                            background: Item {}
+                            focusPolicy: Qt.NoFocus
+                            visible: win.videoMode
+                            text: win.clipSeconds + "s"
+                            font.pixelSize: 12
+                            Material.foreground: hovered ? theme.accent : win.muted
+                            readonly property string label: qsTr("Clip length: %1 s").arg(win.clipSeconds)
+                            Accessible.name: label
+                            ToolTip.visible: hovered
+                            ToolTip.text: label
+                            ToolTip.delay: 300
+                            onClicked: win.clipSeconds = win.clipLengths[(win.clipLengths.indexOf(win.clipSeconds) + 1) % win.clipLengths.length]
+                        }
+
                         // The shape of a new image, one button that steps through
                         // square, screen and portrait; a change keeps its own.
                         ToolButton {
                             id: shape
                             objectName: "size"
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy
+                            opacity: generator.busy ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             visible: !win.changing && !win.musicMode
                             Layout.preferredWidth: 32
@@ -888,48 +1054,121 @@ ApplicationWindow {
                             }
                         }
 
-                        // The model: its state as a dot, what it's doing in the
-                        // tooltip, and with more than one set up, a click steps to
-                        // the next.
-                        ToolButton {
-                            id: modelButton
-                            objectName: "model"
-                            Layout.alignment: Qt.AlignVCenter
-                            Layout.preferredWidth: 32
-                            Layout.preferredHeight: 32
-                            padding: 0
-                            topInset: 0
-                            bottomInset: 0
-                            leftInset: 0
-                            rightInset: 0
-                            // No hover blot behind it: the icon itself answers the pointer.
-                            background: Item {}
-                            focusPolicy: Qt.NoFocus
-                            // The maker's mark, as the agents panel draws it. It pulses while a
-                            // model starts, and the tooltip says what the model is doing.
-                            readonly property string logo: models.logo(models.vendor, theme.light)
-                            readonly property bool waiting: models.state === "starting" || models.state === "installing" || models.working
-                            SequentialAnimation on opacity {
-                                running: modelButton.waiting
-                                loops: Animation.Infinite
-                                onRunningChanged: if (!running) modelButton.opacity = 1
-                                NumberAnimation { from: 1; to: 0.35; duration: 700; easing.type: Easing.InOutSine }
-                                NumberAnimation { from: 0.35; to: 1; duration: 700; easing.type: Easing.InOutSine }
+                        // The model in use, as its maker's mark. With more than one
+                        // set up, the others fan out beside it while the pointer is on
+                        // it or it has the keyboard, to pick from; with one, its
+                        // tooltip says what it's doing.
+                        FocusScope {
+                            id: picker
+                            // The others, the next one nearest the mark in use.
+                            readonly property var others: {
+                                const all = models.choices
+                                const at = all.findIndex(c => c.id === models.modelId)
+                                const rest = []
+                                for (let i = 1; i < all.length; i++)
+                                    rest.push(all[(at + i) % all.length])
+                                return rest.reverse()
                             }
-                            // A mark in its own colours; without one, a chip in the quiet colour.
-                            display: AbstractButton.IconOnly
-                            icon.source: logo !== "" ? logo : "qrc:/icons/model.svg"
-                            icon.color: logo !== "" ? "transparent" : (hovered && canStep ? theme.accent : win.muted)
-                            icon.width: 18
-                            icon.height: 18
-                            readonly property int current: models.choices.findIndex(c => c.id === models.modelId)
-                            readonly property bool canStep: models.choices.length > 1 && !models.working && !generator.busy
-                            readonly property var next: models.choices.length > 1 ? models.choices[(current + 1) % models.choices.length] : null
-                            Accessible.name: win.modelStatus
-                            ToolTip.visible: hovered
-                            ToolTip.text: win.modelStatus + (canStep ? "\n" + qsTr("Click to use %1").arg(next.name) : "")
-                            ToolTip.delay: 300
-                            onClicked: if (canStep) models.choose(next.id)
+                            readonly property bool open: others.length > 0 && enabled && (pickerHover.hovered || picker.activeFocus)
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy && !models.working
+                            opacity: generator.busy ? 0.4 : 1
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredWidth: pickerRow.width
+                            Layout.preferredHeight: 32
+                            HoverHandler { id: pickerHover }
+
+                            Row {
+                                id: pickerRow
+                                height: 32
+                                Item {
+                                    id: fan
+                                    width: picker.open ? picker.others.length * 32 : 0
+                                    height: 32
+                                    clip: true
+                                    Behavior on width { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                                    Row {
+                                        anchors.right: parent.right
+                                        Repeater {
+                                            model: picker.others
+                                            delegate: ToolButton {
+                                                id: choice
+                                                required property var modelData
+                                                readonly property string logo: models.logo(modelData.vendor || "", theme.light)
+                                                objectName: "choice-" + modelData.id
+                                                width: 32
+                                                height: 32
+                                                padding: 0
+                                                topInset: 0
+                                                bottomInset: 0
+                                                leftInset: 0
+                                                rightInset: 0
+                                                background: Item {}
+                                                focusPolicy: Qt.TabFocus
+                                                display: AbstractButton.IconOnly
+                                                icon.source: logo !== "" ? logo : "qrc:/icons/model.svg"
+                                                icon.color: logo !== "" ? "transparent" : (hovered || activeFocus ? theme.accent : win.muted)
+                                                icon.width: 18
+                                                icon.height: 18
+                                                opacity: hovered || activeFocus ? 1 : 0.6
+                                                scale: hovered || activeFocus ? 1.15 : 1
+                                                Behavior on scale { NumberAnimation { duration: 120 } }
+                                                Accessible.name: ToolTip.text
+                                                ToolTip.visible: hovered || visualFocus
+                                                ToolTip.text: (modelData.music ? qsTr("Music with %1") : modelData.video ? qsTr("Video with %1") : qsTr("Images with %1")).arg(modelData.name)
+                                                ToolTip.delay: 150
+                                                onClicked: models.choose(modelData.id)
+                                            }
+                                        }
+                                    }
+                                }
+
+                                ToolButton {
+                                    id: modelButton
+                                    objectName: "model"
+                                    width: 32
+                                    height: 32
+                                    padding: 0
+                                    topInset: 0
+                                    bottomInset: 0
+                                    leftInset: 0
+                                    rightInset: 0
+                                    // No hover blot behind it: the icon itself answers the pointer.
+                                    background: Item {}
+                                    focusPolicy: Qt.TabFocus
+                                    readonly property string logo: models.logo(models.vendor, theme.light)
+                                    // A short pulse when it switches to another running model;
+                                    // one that must start shows in the stage instead.
+                                    property string shownModel: models.modelId
+                                    Connections {
+                                        target: models
+                                        function onChanged() {
+                                            if (models.modelId !== modelButton.shownModel && models.state === "ready" && !models.working && modelButton.shownModel !== "")
+                                                switched.restart()
+                                            modelButton.shownModel = models.modelId
+                                        }
+                                    }
+                                    SequentialAnimation {
+                                        id: switched
+                                        loops: 2
+                                        NumberAnimation { target: modelButton; property: "scale"; from: 1; to: 1.25; duration: 160; easing.type: Easing.OutCubic }
+                                        NumberAnimation { target: modelButton; property: "scale"; from: 1.25; to: 1; duration: 220; easing.type: Easing.InOutSine }
+                                    }
+                                    // A mark in its own colours; without one, a chip in the quiet colour.
+                                    display: AbstractButton.IconOnly
+                                    icon.source: logo !== "" ? logo : "qrc:/icons/model.svg"
+                                    icon.color: logo !== "" ? "transparent" : win.muted
+                                    icon.width: 18
+                                    icon.height: 18
+                                    Accessible.name: win.modelStatus
+                                    // With others fanned out, their names say the rest.
+                                    ToolTip.visible: (hovered || visualFocus) && picker.others.length === 0
+                                    // What it makes once it's ready; until then, what it's doing.
+                                    ToolTip.text: models.state !== "ready" ? win.modelStatus
+                                        : (models.music ? qsTr("Music with %1") : models.video ? qsTr("Video with %1") : qsTr("Images with %1")).arg(models.modelName)
+                                    ToolTip.delay: 300
+                                }
+                            }
                         }
 
                         // Ready, a round arrow to send (a square to stop while
@@ -938,13 +1177,15 @@ ApplicationWindow {
                         Button {
                             id: action
                             objectName: "action"
-                            readonly property bool round: models.state === "ready"
+                            // The round arrow stays while a model starts: the bar keeps its
+                            // shape and greys out; words only for an offer to start or set up.
+                            readonly property bool round: models.state === "ready" || starting.active
                             // The same gap from the model's mark as between the icons.
                             Layout.leftMargin: 9
                             Layout.alignment: Qt.AlignVCenter
                             Layout.preferredWidth: round ? 34 : implicitWidth
                             Layout.preferredHeight: 34
-                            visible: ["ready", "installed", "blocked", "installable", "starting", "installing"].indexOf(models.state) >= 0
+                            visible: ["ready", "installed", "blocked", "starting", "installing"].indexOf(models.state) >= 0
                             focusPolicy: Qt.NoFocus
                             topInset: 0
                             bottomInset: 0
@@ -959,13 +1200,12 @@ ApplicationWindow {
                             ToolTip.text: text + (generator.busy ? "  Esc" : "  Enter")
                             ToolTip.delay: 400
                             enabled: models.state === "ready" ? (generator.busy || prompt.text.trim() !== "")
-                                   : ["installed", "blocked", "installable"].indexOf(models.state) >= 0 && !models.working
+                                   : ["installed", "blocked"].indexOf(models.state) >= 0 && !models.working
                             text: {
                                 switch (models.state) {
                                 case "ready": return generator.busy ? qsTr("Cancel") : win.changing ? qsTr("Change") : qsTr("Generate")
                                 case "installed": return qsTr("Start %1").arg(models.modelName)
                                 case "blocked": return qsTr("Stop %1 and start %2").arg(models.blockers.join(", ")).arg(models.modelName)
-                                case "installable": return qsTr("Install %1").arg(models.modelName)
                                 case "starting": return qsTr("Starting…")
                                 default: return qsTr("Setting up…")
                                 }
@@ -975,7 +1215,6 @@ ApplicationWindow {
                                 case "ready": generator.busy ? generator.cancel() : win.generate(); break
                                 case "installed": models.start(); break
                                 case "blocked": models.switchTo(); break
-                                case "installable": models.install(); break
                                 }
                             }
                             contentItem: Item {
@@ -1034,6 +1273,7 @@ ApplicationWindow {
                         }
                     }
                 }
+            }
             }
 
 
