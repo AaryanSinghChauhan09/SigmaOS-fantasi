@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtQuick.Shapes
 
 ApplicationWindow {
     id: win
@@ -39,6 +40,11 @@ ApplicationWindow {
     // finishes becomes the base for the next, until it's let go.
     property string baseImage: ""
     readonly property bool changing: baseImage !== ""
+    // How far along the image is being made, 0 to 1: the steps, then whole
+    // once they're done and it's finishing.
+    readonly property real progress: !generator.busy ? 0
+        : generator.stage === "decoding" || generator.stage === "saving" ? 1
+        : generator.totalSteps > 0 ? Math.min(1, generator.step / generator.totalSteps) : 0
 
     // The model's own steps and a new seed every time: what matters is said
     // in the prompt. While changing, the prompt says what to change.
@@ -159,6 +165,8 @@ ApplicationWindow {
                     // there, the size asked for while it isn't.
                     readonly property real aspect: shown.status === Image.Ready && shown.implicitHeight > 0
                                                    ? shown.implicitWidth / shown.implicitHeight
+                                                   : previous.status === Image.Ready && previous.implicitHeight > 0
+                                                   ? previous.implicitWidth / previous.implicitHeight
                                                    : win.outputSize.width / win.outputSize.height
 
                     Item {
@@ -174,6 +182,18 @@ ApplicationWindow {
                             radius: Math.min(4, theme.radius)
                             visible: generator.image === ""
                         }
+                        // While a picture is being changed, it stays in the frame,
+                        // faded, and the new one grows in over it as it's made.
+                        Image {
+                            id: previous
+                            anchors.fill: parent
+                            source: generator.busy && win.changing ? win.baseImage : ""
+                            fillMode: Image.PreserveAspectFit
+                            asynchronous: true
+                            visible: source !== ""
+                            opacity: 0.45 * (1 - win.progress)
+                            Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
+                        }
                         Image {
                             id: shown
                             objectName: "image"
@@ -182,25 +202,66 @@ ApplicationWindow {
                             fillMode: Image.PreserveAspectFit
                             asynchronous: true
                             smooth: true
+                            opacity: generator.busy && win.changing ? 0.2 + 0.8 * win.progress : 1
+                            Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
                         }
 
-                        // While it's being made, a soft glow breathes around it
-                        // and a band of light sweeps across, so it's plain the
-                        // work isn't done even before the first step shows.
-                        Rectangle {
+                        // While it's being made, its edge says how far along it is:
+                        // a faint track, an accent line growing clockwise from
+                        // the top with each step, and a bright spark circling
+                        // all the while, so it's plainly at work even before the
+                        // first step.
+                        Shape {
+                            id: edge
                             objectName: "working"
                             anchors.fill: parent
                             anchors.margins: -5
-                            color: "transparent"
-                            border.color: theme.accent
-                            border.width: 2
-                            radius: Math.min(6, theme.radius + 3)
                             visible: generator.busy
-                            SequentialAnimation on opacity {
+                            preferredRendererType: Shape.CurveRenderer
+                            readonly property real perimeter: 2 * (width + height)
+                            readonly property real line: 2
+                            readonly property real spark: 3
+                            readonly property var outline: [Qt.point(width / 2, 0), Qt.point(width, 0), Qt.point(width, height),
+                                                            Qt.point(0, height), Qt.point(0, 0), Qt.point(width / 2, 0)]
+                            property real shown: win.progress
+                            Behavior on shown { NumberAnimation { duration: 500; easing.type: Easing.OutCubic } }
+                            property real travel: 0
+                            NumberAnimation on travel {
                                 running: generator.busy
                                 loops: Animation.Infinite
-                                NumberAnimation { from: 0.25; to: 0.85; duration: 900; easing.type: Easing.InOutSine }
-                                NumberAnimation { from: 0.85; to: 0.25; duration: 900; easing.type: Easing.InOutSine }
+                                from: 0
+                                to: 1
+                                duration: 2400
+                            }
+
+                            ShapePath {
+                                strokeColor: Qt.rgba(theme.accent.r, theme.accent.g, theme.accent.b, 0.22)
+                                strokeWidth: edge.line
+                                fillColor: "transparent"
+                                joinStyle: ShapePath.MiterJoin
+                                PathPolyline { path: edge.outline }
+                            }
+                            ShapePath {
+                                strokeColor: theme.accent
+                                strokeWidth: edge.line
+                                fillColor: "transparent"
+                                joinStyle: ShapePath.MiterJoin
+                                capStyle: ShapePath.FlatCap
+                                strokeStyle: ShapePath.DashLine
+                                // A dash as long as the share done, then a gap
+                                // as long as the whole: in units of the width.
+                                dashPattern: [Math.max(0.01, edge.perimeter * edge.shown / edge.line), edge.perimeter / edge.line]
+                                PathPolyline { path: edge.outline }
+                            }
+                            ShapePath {
+                                strokeColor: Qt.lighter(theme.accent, 1.35)
+                                strokeWidth: edge.spark
+                                fillColor: "transparent"
+                                capStyle: ShapePath.RoundCap
+                                strokeStyle: ShapePath.DashLine
+                                dashPattern: [edge.perimeter * 0.06 / edge.spark, edge.perimeter * 0.94 / edge.spark]
+                                dashOffset: edge.perimeter * (1 - edge.travel) / edge.spark
+                                PathPolyline { path: edge.outline }
                             }
                         }
                         Item {
@@ -285,25 +346,6 @@ ApplicationWindow {
                     }
                 }
 
-                // How far along it is, under the image.
-                Item {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 2
-                    Rectangle {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: frame.width
-                        height: 2
-                        color: win.line
-                        visible: generator.busy && generator.totalSteps > 0
-                        Rectangle {
-                            width: parent.width * Math.min(1, generator.step / Math.max(1, generator.totalSteps))
-                            height: 2
-                            color: theme.accent
-                            Behavior on width { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
-                        }
-                    }
-                }
-
                 // ------------------------------------------------ the prompt bar
                 Rectangle {
                     Layout.fillWidth: true
@@ -348,6 +390,9 @@ ApplicationWindow {
                                 anchors.rightMargin: -7
                                 focusPolicy: Qt.NoFocus
                                 Accessible.name: qsTr("Make a new image instead")
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Make a new image instead") + "  Esc"
+                                ToolTip.delay: 300
                                 onClicked: win.baseImage = ""
                                 background: Rectangle {
                                     radius: width / 2
@@ -562,6 +607,20 @@ ApplicationWindow {
                         Material.roundedScale: theme.radius
                         text: qsTr("Try saving again")
                         onClicked: generator.retrySave()
+                    }
+                    ToolButton {
+                        objectName: "shortcuts"
+                        Layout.preferredWidth: 26
+                        Layout.preferredHeight: 26
+                        padding: 0
+                        focusPolicy: Qt.NoFocus
+                        text: "?"
+                        font.pixelSize: 13
+                        Accessible.name: qsTr("Show or hide the shortcuts")
+                        ToolTip.visible: hovered
+                        ToolTip.text: qsTr("Show or hide the shortcuts") + "  F1"
+                        ToolTip.delay: 300
+                        onClicked: help.opened ? help.close() : help.open()
                     }
                 }
             }
