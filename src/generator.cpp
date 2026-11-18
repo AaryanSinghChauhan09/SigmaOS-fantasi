@@ -76,7 +76,7 @@ int Generator::defaultSteps() const {
 
 QNetworkReply *Generator::send(const QString &method, const QString &path, const QJsonObject &body) {
     QNetworkRequest request(QUrl((m_jobOrigin.isEmpty() ? m_origin : m_jobOrigin) + path));
-    request.setRawHeader("Authorization", "Bearer " + m_key);
+    request.setRawHeader("Authorization", "Bearer " + (m_jobOrigin.isEmpty() ? m_key : m_jobKey));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setTransferTimeout(15000);
     if (method == "POST")
@@ -153,6 +153,7 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
     m_jobOrigin.clear();
     if (!baseUrl.isEmpty() && !edit && !m_models->editOrigin().isEmpty()) {
         m_jobOrigin = m_models->editOrigin();
+        m_jobKey = m_models->editKey();
         body = {};
         edit = true;
     }

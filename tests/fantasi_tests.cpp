@@ -301,6 +301,39 @@ private slots:
         QVERIFY(models.error().isEmpty());
     }
 
+    void discoveryOffersAPairedHostsSharedImageModels() {
+        QTemporaryDir dir;
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state + "/remotes");
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{
+            {"z", QJsonObject{{"kind", "image"}, {"name", "Z"}, {"unit", "active"}, {"endpoint", "http://127.0.0.1:1/v1"}}}}}}).toJson());
+        write(state + "/list.json", "[]");
+        write(state + "/key", "local-key\n");
+        write(state + "/remotes/spark.key", "spark-key\n");
+        auto shared = [](const QString &recipe, bool paired, const QString &offline) {
+            return QJsonObject{{"kind", "image"}, {"edit", true}, {"name", "Klein"}, {"unit", "active"}, {"host", "spark"},
+                               {"recipe", recipe}, {"paired", paired}, {"offline", offline},
+                               {"endpoint", "https://spark.tail.ts.net/local-ai/" + recipe + "/v1"}};
+        };
+        write(state + "/network.json", QJsonDocument(QJsonObject{{"hosts", QJsonObject{}}, {"models", QJsonObject{
+            {"spark/klein", shared("klein", true, "")},
+            {"spark/away", shared("away", true, "spark isn't reachable")},
+            {"spark/other", shared("other", false, "")}}}}).toJson());
+
+        Models models(state, state + "/key", "/bin/false");
+        // This machine's own first, then the paired host's running one.
+        QCOMPARE(models.choices().size(), 2);
+        QCOMPARE(models.choices().at(1).toMap().value("name").toString(), QString("Klein on spark"));
+        QCOMPARE(models.modelId(), QString("z"));
+        QCOMPARE(models.key(), QByteArray("local-key"));
+        // A change goes to it, the one that edits, with its host's key.
+        QCOMPARE(models.editOrigin(), QString("https://spark.tail.ts.net/local-ai/klein"));
+        QCOMPARE(models.editKey(), QByteArray("spark-key"));
+        models.choose("spark/klein");
+        QCOMPARE(models.origin(), QString("https://spark.tail.ts.net/local-ai/klein"));
+        QCOMPARE(models.key(), QByteArray("spark-key"));
+    }
+
     void logoIsTheVendorsMarkFromOmarchy() {
         QTemporaryDir dir;
         const QString assets = dir.path() + "/shell/plugins/agents/assets/";

@@ -46,6 +46,7 @@ public:
         // A running model that edits by instruction, for changing a picture
         // whichever model makes new ones.
         QString editEndpoint;
+        QString editId;
         // Who makes the model, as Omarchy names vendors: bfl, alibaba, qwen.
         QString vendor;
     };
@@ -80,7 +81,11 @@ public:
     QString origin() const;
     // The server of a running edit model, empty when none runs.
     QString editOrigin() const;
-    QByteArray key() const;
+    QByteArray key() const { return keyFor(m_found.id); }
+    // The key a model takes: the engine's own, or for a paired host's model
+    // (host/recipe), the one that host gave when pairing.
+    QByteArray keyFor(const QString &id) const;
+    QByteArray editKey() const { return keyFor(m_found.editId); }
 
     Q_INVOKABLE void start();
     Q_INVOKABLE void install();

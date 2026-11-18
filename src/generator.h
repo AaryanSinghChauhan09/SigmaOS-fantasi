@@ -104,6 +104,7 @@ private:
     // The server the job in hand runs on, when a change goes to a running
     // edit model rather than the one in use.
     QString m_jobOrigin;
+    QByteArray m_jobKey;
     QByteArray m_key;
 
     QString m_job;
