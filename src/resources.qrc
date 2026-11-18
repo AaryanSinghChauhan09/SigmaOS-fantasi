@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file alias="Main.qml">Main.qml</file>
+        <file alias="Setup.qml">Setup.qml</file>
+        <file alias="NoModel.qml">NoModel.qml</file>
         <file alias="skill.md">skill.md</file>
         <file alias="icons/change.svg">icons/change.svg</file>
         <file alias="icons/copy.svg">icons/copy.svg</file>
