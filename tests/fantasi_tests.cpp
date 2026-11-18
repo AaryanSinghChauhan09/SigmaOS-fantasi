@@ -406,6 +406,55 @@ private slots:
         QCOMPARE(found.reason, QString("needs 128 GB"));
     }
 
+    void discoveryReadsASetupInProgressAndOffersItNoChoiceYet() {
+        auto found = Models::discover(json(q("{'models': {'z': {'kind': 'image', 'name': 'Z', 'unit': 'installing', 'since_ms': 1000, 'expected_load_seconds': 4, 'error': '', 'install': {'phase': 'downloading', 'done_bytes': 300, 'total_bytes': 1000, 'rate_bytes_s': 50}}}}")), {}, true);
+        QCOMPARE(found.state, QString("installing"));
+        QCOMPARE(found.setupPhase, QString("downloading"));
+        QCOMPARE(found.doneBytes, 300);
+        QCOMPARE(found.totalBytes, 1000);
+        QCOMPARE(found.rateBytes, 50);
+        QCOMPARE(found.loadSeconds, 4.0);
+        // Still downloading, it's nothing to pick.
+        QVERIFY(found.choices.isEmpty());
+
+        found = Models::discover(json(q("{'models': {'z': {'kind': 'image', 'name': 'Z', 'unit': 'installing', 'error': 'The download stopped', 'install': {'phase': 'failed'}}}}")), {}, true);
+        QCOMPARE(found.setupPhase, QString("failed"));
+        QCOMPARE(found.reason, QString("The download stopped"));
+    }
+
+    void theFirstSetupCarriesOnThroughItsFirstStart() {
+        QTemporaryDir dir;
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        write(state + "/list.json", "[]");
+        // The engine records how a start went once one has succeeded.
+        const auto status = [&](const QString &unit, bool startedBefore = false) {
+            QJsonObject row{{"kind", "image"}, {"name", "Z"}, {"unit", unit}, {"endpoint", "http://127.0.0.1:1/v1"}};
+            row.insert("observed", startedBefore ? QJsonValue(QJsonObject{{"load_seconds", 3.1}}) : QJsonValue());
+            write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{{"z", row}}}}).toJson());
+        };
+        status("installing");
+        Models models(state, state + "/key", "/bin/true");
+        QVERIFY(models.settingUp());
+        // Its first start looks like any model's start, and stays part of the setup.
+        status("activating");
+        QTRY_COMPARE(models.state(), QString("starting"));
+        QVERIFY(models.settingUp());
+        status("active");
+        QTRY_COMPARE(models.state(), QString("ready"));
+        QVERIFY(!models.settingUp());
+        // A model set up before, starting again, is no setup.
+        status("activating", true);
+        QTRY_COMPARE(models.state(), QString("starting"));
+        QVERIFY(!models.settingUp());
+
+        // Opened during that first start, it's still the setup.
+        status("activating");
+        Models opened(state, state + "/key", "/bin/true");
+        QCOMPARE(opened.state(), QString("starting"));
+        QVERIFY(opened.settingUp());
+    }
+
     void modelsFollowTheEngineFiles() {
         QTemporaryDir dir;
         Models models(dir.path() + "/state", dir.path() + "/state/key", "/bin/true");
