@@ -302,19 +302,17 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-            // While something is made, an aurora plays over the whole of this
-            // side, from the window's edge to the history, under the image and
-            // the prompt bar; faintly while an empty frame waits for a prompt.
+            // An aurora plays over the whole of this side, from the window's edge
+            // to the history, under the image and the prompt bar: at full
+            // strength while something is made, softer the rest of the time.
             Aurora {
                 id: making
                 objectName: "making"
                 anchors.fill: parent
-                readonly property bool waiting: !generator.busy && generator.image === "" && win.composing && models.state === "ready"
-                visible: generator.busy || waiting
                 colorA: theme.colors.cyan || theme.accent
                 colorB: theme.accent
                 colorC: theme.colors.magenta || theme.accent
-                intensity: generator.busy ? 1 : 0.35
+                intensity: generator.busy ? 1 : 0.5
                 Behavior on intensity { NumberAnimation { duration: 600; easing.type: Easing.InOutSine } }
             }
 
@@ -429,8 +427,31 @@ ApplicationWindow {
                             fillMode: Image.PreserveAspectFit
                             asynchronous: true
                             smooth: true
-                            opacity: generator.busy && win.changing ? 0.2 + 0.8 * win.progress : 1
+                            opacity: (generator.busy && win.changing ? 0.2 + 0.8 * win.progress : 1) * arrival
                             Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
+                            // A job's first picture fades in rather than popping up.
+                            property real arrival: 1
+                            property bool awaitingFirst: false
+                            property bool wasBusy: false
+                            Connections {
+                                target: generator
+                                function onChanged() {
+                                    if (generator.busy !== shown.wasBusy)
+                                        shown.awaitingFirst = generator.busy
+                                    shown.wasBusy = generator.busy
+                                }
+                            }
+                            function fadeIn() {
+                                awaitingFirst = false
+                                arrive.restart()
+                            }
+                            onSourceChanged: if (awaitingFirst && source.toString() !== "") {
+                                arrival = 0
+                                if (status === Image.Ready)
+                                    fadeIn()
+                            }
+                            onStatusChanged: if (awaitingFirst && arrival === 0 && status !== Image.Loading) fadeIn()
+                            NumberAnimation { id: arrive; target: shown; property: "arrival"; from: 0; to: 1; duration: 900; easing.type: Easing.InOutSine }
                         }
                         Loader {
                             id: player
