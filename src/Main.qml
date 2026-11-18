@@ -644,6 +644,10 @@ ApplicationWindow {
 
                     RowLayout {
                         id: bar
+                        // While a model starts, the bar keeps its controls as they
+                        // are and greys out as a whole.
+                        enabled: !starting.active
+                        opacity: starting.active ? 0.4 : 1
                         visible: !win.choosing
                         anchors.fill: parent
                         anchors.leftMargin: 8
@@ -938,7 +942,9 @@ ApplicationWindow {
                         Button {
                             id: action
                             objectName: "action"
-                            readonly property bool round: models.state === "ready"
+                            // The round arrow stays while a model starts: the bar keeps its
+                            // shape and greys out; words only for an offer to start or set up.
+                            readonly property bool round: models.state === "ready" || starting.active
                             // The same gap from the model's mark as between the icons.
                             Layout.leftMargin: 9
                             Layout.alignment: Qt.AlignVCenter
