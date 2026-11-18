@@ -29,6 +29,8 @@ class Models : public QObject {
     // Every image model that's set up, as {id, name}, in the order to step
     // through them; the one in use among them.
     Q_PROPERTY(QVariantList choices READ choices NOTIFY changed)
+    // Whether a running model can make a picture four times larger.
+    Q_PROPERTY(bool upscales READ upscales NOTIFY changed)
     Q_PROPERTY(QString error READ error NOTIFY changed)
 
 public:
@@ -45,6 +47,8 @@ public:
         // A running model that edits by instruction, for changing a picture
         // whichever model makes new ones.
         QString editEndpoint;
+        // A running model whose server upscales a picture.
+        QString upscaleEndpoint;
     };
 
     // The engine's state folder, its key file, and the command that drives
@@ -64,6 +68,7 @@ public:
     QString reason() const { return m_found.reason; }
     QStringList blockers() const { return m_found.blockers; }
     QVariantList choices() const { return m_found.choices; }
+    bool upscales() const { return !m_found.upscaleEndpoint.isEmpty(); }
     bool working() const { return m_process.state() != QProcess::NotRunning || !m_queue.isEmpty(); }
     QString error() const { return m_error; }
 
@@ -71,6 +76,8 @@ public:
     QString origin() const;
     // The server of a running edit model, empty when none runs.
     QString editOrigin() const;
+    // The server of a running model that upscales, empty when none runs.
+    QString upscaleOrigin() const;
     QByteArray key() const;
 
     Q_INVOKABLE void start();

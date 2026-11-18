@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import QtQuick.Effects
 import QtQuick.Layouts
 import QtQuick.Shapes
 
@@ -40,6 +41,14 @@ ApplicationWindow {
     // finishes becomes the base for the next, until it's let go.
     property string baseImage: ""
     readonly property bool changing: baseImage !== ""
+    // A running model can make the shown image four times larger, within the
+    // server's limit.
+    readonly property bool canUpscale: models.upscales && shownFile !== "" && !generator.busy
+        && shown.implicitWidth > 0 && shown.implicitWidth <= 2048 && shown.implicitHeight <= 2048
+    function upscale() {
+        if (canUpscale)
+            generator.upscale(shownFile)
+    }
     readonly property string problem: models.error || generator.error || backend.error
     // What the model is doing, for its icon's tooltip and the empty stage.
     readonly property string modelStatus: {
@@ -114,6 +123,7 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+B"; enabled: win.shownFile !== ""; onActivated: backend.setBackground(win.shownFile) }
     Shortcut { sequence: "Ctrl+Shift+C"; enabled: win.shownFile !== ""; onActivated: backend.copy(win.shownFile) }
     Shortcut { sequence: "Ctrl+S"; enabled: win.shownFile !== ""; onActivated: backend.saveAs(win.shownFile) }
+    Shortcut { sequence: "Ctrl+U"; enabled: win.canUpscale; onActivated: win.upscale() }
     Shortcut { sequence: "Ctrl+Up"; onActivated: win.pick(historyList.currentIndex - 1) }
     Shortcut { sequence: "Ctrl+Down"; onActivated: win.pick(historyList.currentIndex + 1) }
     Shortcut {
@@ -338,7 +348,8 @@ ApplicationWindow {
                                     { icon: "change", label: qsTr("Change this image"), key: "Ctrl+E", run: () => win.changeImage() },
                                     { icon: "background", label: qsTr("Set as background"), key: "Ctrl+B", run: () => backend.setBackground(win.shownFile) },
                                     { icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
-                                    { icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
+                                    { icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) },
+                                    { icon: "upscale", label: qsTr("Upscale four times"), key: "Ctrl+U", run: () => win.upscale(), shown: win.canUpscale }
                                 ]
                                 delegate: ToolButton {
                                     required property var modelData
@@ -352,6 +363,7 @@ ApplicationWindow {
                                     ToolTip.visible: hovered
                                     ToolTip.text: modelData.label + "  " + modelData.key
                                     ToolTip.delay: 300
+                                    visible: modelData.shown !== false
                                     onClicked: modelData.run()
                                 }
                             }
@@ -414,8 +426,8 @@ ApplicationWindow {
                     Layout.fillWidth: true
                     Layout.preferredHeight: bar.implicitHeight + 10
                     color: win.panel
-                    // A pill on every theme: its shape is the design, like a circle's.
-                    radius: Math.min(height / 2, 28)
+                    // Rounded as the theme rounds windows, sharp where it doesn't.
+                    radius: Math.min(height / 2, theme.radius)
                     border.color: prompt.activeFocus ? theme.accent : win.line
 
                     RowLayout {
@@ -530,6 +542,8 @@ ApplicationWindow {
                                 background: null
                                 topPadding: 7
                                 bottomPadding: 7
+                                leftPadding: 6
+                                rightPadding: 6
                                 // Drawn here: Material floats its own placeholder up
                                 // as a label, out of this borderless bar.
                                 Label {
@@ -646,15 +660,6 @@ ApplicationWindow {
                             }
                         }
 
-                        Rectangle {
-                            Layout.preferredWidth: 1
-                            Layout.preferredHeight: 20
-                            Layout.leftMargin: 0
-                            Layout.rightMargin: 0
-                            Layout.alignment: Qt.AlignVCenter
-                            color: win.line
-                        }
-
                         // Ready, a round arrow to send (a square to stop while
                         // it's making one); otherwise, in words, what gets a
                         // model going.
@@ -672,6 +677,9 @@ ApplicationWindow {
                             leftInset: 0
                             rightInset: 0
                             padding: round ? 0 : 14
+                            // Material sets these itself, over padding.
+                            leftPadding: round ? 0 : 14
+                            rightPadding: round ? 0 : 14
                             Accessible.name: text
                             ToolTip.visible: round && hovered
                             ToolTip.text: text + (generator.busy ? "  Esc" : "  Enter")
@@ -745,7 +753,7 @@ ApplicationWindow {
                                 }
                             }
                             background: Rectangle {
-                                radius: height / 2
+                                radius: Math.min(height / 2, theme.radius)
                                 color: theme.accent
                                 opacity: action.enabled ? (action.hovered ? 0.88 : 1) : 0.35
                             }
@@ -803,16 +811,32 @@ ApplicationWindow {
                         required property string prompt
                         width: ListView.view.width
                         height: width
+                        // Its corners rounded as the theme rounds windows.
                         Image {
                             anchors.fill: parent
                             source: entry.url
                             sourceSize: Qt.size(192, 192)
                             fillMode: Image.PreserveAspectCrop
                             asynchronous: true
+                            layer.enabled: theme.radius > 0
+                            layer.effect: MultiEffect {
+                                maskEnabled: true
+                                maskSource: thumbMask
+                                maskThresholdMin: 0.5
+                                maskSpreadAtMin: 1.0
+                            }
+                        }
+                        Item {
+                            id: thumbMask
+                            anchors.fill: parent
+                            visible: false
+                            layer.enabled: true
+                            Rectangle { anchors.fill: parent; radius: theme.radius; color: "black" }
                         }
                         Rectangle {
                             anchors.fill: parent
                             color: "transparent"
+                            radius: theme.radius
                             border.color: theme.accent
                             border.width: 2
                             visible: entry.ListView.isCurrentItem
@@ -870,6 +894,7 @@ ApplicationWindow {
                     { keys: "Ctrl+B", action: qsTr("Set it as the background") },
                     { keys: "Ctrl+Shift+C", action: qsTr("Copy it") },
                     { keys: "Ctrl+S", action: qsTr("Save a copy somewhere else") },
+                    { keys: "Ctrl+U", action: qsTr("Upscale four times") },
                     { keys: "Ctrl+↑ ↓", action: qsTr("Move through the history") },
                     { keys: "Ctrl+Delete", action: qsTr("Move it to the trash") },
                     { keys: "F1", action: qsTr("Show or hide the shortcuts") },

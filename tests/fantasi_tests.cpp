@@ -429,6 +429,38 @@ private slots:
         QTRY_VERIFY(!generator.busy());
     }
 
+    void generatorUpscalesKeepingThePrompt() {
+        QTemporaryDir dir;
+        FakeServer server;
+        server.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (method == "POST" && path == "/sdcpp/v1/upscale")
+                return {200, QJsonDocument(QJsonObject{{"images", QJsonArray{QJsonObject{{"b64_json", QString::fromLatin1(png(32).toBase64())}}}}}).toJson()};
+            return {404, "{}"};
+        };
+        readyEngine(dir.path() + "/state", server.origin());
+        write(dir.path() + "/state/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{{"klein", QJsonObject{
+            {"kind", "image"}, {"name", "Klein"}, {"unit", "active"}, {"upscale", true}, {"endpoint", server.origin() + "/v1"}}}}}}).toJson());
+        QImage original(8, 8, QImage::Format_RGB32);
+        original.fill(Qt::darkBlue);
+        original.setText("parameters", "a lake\nat dusk\nSteps: 4, Seed: 42");
+        QVERIFY(original.save(dir.filePath("lake.png")));
+
+        Models models(dir.path() + "/state", dir.path() + "/state/key", "/bin/true");
+        QVERIFY(models.upscales());
+        Generator generator(&models, dir.path() + "/out");
+        QSignalSpy saved(&generator, &Generator::saved);
+        generator.upscale(QUrl::fromLocalFile(dir.filePath("lake.png")).toString());
+        QVERIFY(generator.busy());
+        QTRY_COMPARE(saved.count(), 1);
+        QCOMPARE(server.requests.last().second.value("image").toString().isEmpty(), false);
+        // A new image four times as large, which keeps the prompt it was made from.
+        const QString path = saved.first().first().toString();
+        QCOMPARE(QImage(path).size(), QSize(32, 32));
+        QCOMPARE(History::readEntry(path).prompt, History::readEntry(dir.filePath("lake.png")).prompt);
+        QVERIFY(!History::readEntry(path).prompt.isEmpty());
+        QVERIFY(QFileInfo::exists(dir.filePath("lake.png")));
+    }
+
     void generatorCancelsAndSavesNothing() {
         QTemporaryDir dir;
         FakeServer server;

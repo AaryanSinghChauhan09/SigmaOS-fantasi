@@ -1,4 +1,6 @@
 #include "generator.h"
+#include <QtEndian>
+#include "history.h"
 
 #include "models.h"
 
@@ -74,11 +76,11 @@ int Generator::defaultSteps() const {
     return m_defaults.value("sample_params").toObject().value("sample_steps").toInt(8);
 }
 
-QNetworkReply *Generator::send(const QString &method, const QString &path, const QJsonObject &body) {
+QNetworkReply *Generator::send(const QString &method, const QString &path, const QJsonObject &body, int timeout) {
     QNetworkRequest request(QUrl((m_jobOrigin.isEmpty() ? m_origin : m_jobOrigin) + path));
     request.setRawHeader("Authorization", "Bearer " + m_key);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setTransferTimeout(15000);
+    request.setTransferTimeout(timeout);
     if (method == "POST")
         return m_network.post(request, QJsonDocument(body).toJson(QJsonDocument::Compact));
     return m_network.get(request);
@@ -221,10 +223,95 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
     });
 }
 
+void Generator::upscale(const QString &url) {
+    if (busy())
+        return;
+    const QString origin = m_models->upscaleOrigin();
+    if (origin.isEmpty()) {
+        m_error = tr("No running model can upscale");
+        emit changed();
+        return;
+    }
+    const QString path = QUrl(url).isLocalFile() ? QUrl(url).toLocalFile() : url;
+    QFile file(path);
+    const QByteArray original = file.open(QIODevice::ReadOnly) ? file.readAll() : QByteArray();
+    const QSize size = QImage::fromData(original).size();
+    if (size.isEmpty()) {
+        m_error = tr("Couldn't read the image to upscale");
+        emit changed();
+        return;
+    }
+    if (size.width() > upscaleLimit || size.height() > upscaleLimit) {
+        m_error = tr("This image is already as large as it can be made");
+        emit changed();
+        return;
+    }
+
+    m_error.clear();
+    m_prompt = History::readEntry(path).prompt;
+    m_jobOrigin = origin;
+    m_upscaling = true;
+    m_cancelling = false;
+    m_stage = "upscaling";
+    m_step = 0;
+    m_totalSteps = 0;
+    m_previews.clear();
+    m_image = QUrl::fromLocalFile(path).toString();
+    m_locker = std::make_unique<QEventLoopLocker>();
+    emit changed();
+
+    // The server answers at once with the result: a large one takes a while,
+    // with nothing to report on the way.
+    m_upscaleReply = send("POST", "/sdcpp/v1/upscale", {{"image", QString::fromLatin1(original.toBase64())}}, 10 * 60 * 1000);
+    connect(m_upscaleReply, &QNetworkReply::finished, this, [this, reply = m_upscaleReply, original] {
+        reply->deleteLater();
+        m_upscaleReply = nullptr;
+        m_upscaling = false;
+        if (m_cancelling) {
+            finish();
+            return;
+        }
+        const QJsonObject answer = parse(reply);
+        const QJsonArray images = answer.value("images").toArray();
+        if (reply->error() != QNetworkReply::NoError || images.isEmpty()) {
+            const QString said = errorText(answer);
+            finish(!said.isEmpty() ? said : tr("The image model didn't answer: %1").arg(reply->errorString()));
+            return;
+        }
+        m_pending = carryParameters(original, QByteArray::fromBase64(images.first().toObject().value("b64_json").toString().toLatin1()));
+        m_stage = "saving";
+        finish(save() ? QString() : m_error);
+    });
+}
+
+QByteArray Generator::carryParameters(const QByteArray &from, const QByteArray &png) {
+    // Chunks follow the 8-byte signature: length, type, data, CRC. The
+    // chunk is copied whole, CRC and all, right after the new image's IHDR.
+    static const QByteArray signature("\x89PNG\r\n\x1a\n", 8);
+    if (!from.startsWith(signature) || !png.startsWith(signature) || png.size() < 33)
+        return png;
+    for (qsizetype at = 8; at + 12 <= from.size();) {
+        const quint32 length = qFromBigEndian<quint32>(from.constData() + at);
+        if (length > quint32(from.size() - at - 12))
+            break;
+        const QByteArray type = from.mid(at + 4, 4);
+        if ((type == "tEXt" || type == "zTXt" || type == "iTXt") && from.mid(at + 8, 11) == QByteArray("parameters\0", 11))
+            return png.left(33) + from.mid(at, 12 + length) + png.mid(33);
+        if (type == "IEND")
+            break;
+        at += 12 + length;
+    }
+    return png;
+}
+
 void Generator::cancel() {
     if (!busy() || m_cancelling)
         return;
     m_cancelling = true;
+    if (m_upscaleReply) {
+        m_upscaleReply->abort();
+        return;
+    }
     // The server stops at its next checkpoint; the job is followed until it
     // says it has, since it may finish first.
     if (!m_job.isEmpty()) {

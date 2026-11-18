@@ -65,5 +65,9 @@
   "What should change?": "What should change?",
   "Change": "Change",
   "Change it: say what should change": "Change it: say what should change",
-  "Click to use %1": "Click to use %1"
+  "Click to use %1": "Click to use %1",
+  "Upscale four times": "Upscale four times",
+  "No running model can upscale": "No running model can upscale",
+  "Couldn't read the image to upscale": "Couldn't read the image to upscale",
+  "This image is already as large as it can be made": "This image is already as large as it can be made"
 }

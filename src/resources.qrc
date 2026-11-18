@@ -7,6 +7,7 @@
         <file alias="icons/copy.svg">icons/copy.svg</file>
         <file alias="icons/save.svg">icons/save.svg</file>
         <file alias="icons/model.svg">icons/model.svg</file>
+        <file alias="icons/upscale.svg">icons/upscale.svg</file>
         <file alias="fantasi.svg">../share/fantasi.svg</file>
         <file alias="i18n/en.json">i18n/en.json</file>
         <file alias="i18n/ar.json">i18n/ar.json</file>
