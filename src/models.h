@@ -33,6 +33,8 @@ class Models : public QObject {
     Q_PROPERTY(bool canEdit READ canEdit NOTIFY changed)
     // The model in use makes clips with their sound rather than images.
     Q_PROPERTY(bool video READ video NOTIFY changed)
+    // The model in use makes songs.
+    Q_PROPERTY(bool music READ music NOTIFY changed)
     Q_PROPERTY(QString error READ error NOTIFY changed)
 
 public:
@@ -54,6 +56,8 @@ public:
         QString vendor;
         // The model in use makes clips rather than images.
         bool video = false;
+        // The model in use makes songs.
+        bool music = false;
     };
 
     // The engine's state folder, its key file, and the command that drives
@@ -76,6 +80,7 @@ public:
     // Whether a running model edits by instruction, which can take several pictures.
     bool canEdit() const { return !m_found.editEndpoint.isEmpty(); }
     bool video() const { return m_found.video; }
+    bool music() const { return m_found.music; }
     // The video model's server, when it's the one in use and running.
     QString videoOrigin() const;
     QByteArray videoKey() const { return key(); }

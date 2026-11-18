@@ -667,6 +667,140 @@ private slots:
         }
     }
 
+    void songsGoByTheirChorus() {
+        QCOMPARE(Generator::songTitle("[verse]\nBy the sea\n[Chorus - loud]\nTake me home,\nagain", "x"), QString("Take me home"));
+        QCOMPARE(Generator::songTitle("[Intro]\n\n[verse 1]\nTyping at midnight!", "x"), QString("Typing at midnight"));
+        // Without words, what was asked for, up to its first comma.
+        QCOMPARE(Generator::songTitle("[Instrumental]", "calm ambient piano, slow"), QString("calm ambient piano"));
+        QCOMPARE(Generator::songTitle("", QString(80, 'a')).size(), 48);
+        // Its shape: each bar as loud as its share of the song, against the loudest.
+        QByteArray samples(Generator::waveBars * 2 * 2, '\0');
+        samples[1] = 0x20;                    // the first bar, half as loud
+        samples[samples.size() - 1] = 0x40;   // as the last
+        const QByteArray wave = Generator::songWave(samples);
+        QCOMPARE(wave.size(), int(Generator::waveBars));
+        QCOMPARE(uchar(wave.front()), uchar(127));
+        QCOMPARE(uchar(wave.back()), uchar(255));
+        QCOMPARE(Generator::songWave({}), QByteArray(Generator::waveBars, '\0'));
+    }
+
+    void generatorWritesASongThenRendersItWithItsPoster() {
+        QTemporaryDir dir;
+        FakeServer music;
+        // Bytes that look like a part's end, but aren't the boundary.
+        const QByteArray song("an mp3 song\r\n--not the boundary\r\n\r\n");
+        music.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (method == "POST" && path == "/lm")
+                return {200, q("{'id': 'w1'}")};
+            if (path == "/job?id=w1" || path == "/job?id=r1")
+                return {200, q("{'status': 'done'}")};
+            if (path == "/job?id=w1&result=1")
+                return {200, q("[{'caption': 'A warm folk song', 'lyrics': '[verse]\\nBy the sea\\n[chorus]\\nMy dog swims', 'audio_codes': '1,2,3'}]")};
+            if (method == "POST" && path == "/synth")
+                return {200, q("{'id': 'r1'}")};
+            if (path == "/job?id=r1&result=1")
+                return {200, "--b\r\nContent-Type: audio/mpeg\r\n\r\n" + song + "\r\n--b\r\nContent-Type: application/octet-stream\r\n\r\nlatent\r\n--b--\r\n"};
+            return {404, "{}"};
+        };
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{{"ace", QJsonObject{
+            {"kind", "music"}, {"name", "ACE-Step"}, {"unit", "active"}, {"endpoint", music.origin() + "/v1"}}}}}}).toJson());
+        write(state + "/list.json", "[]");
+        write(state + "/key", "secret\n");
+
+        // A music model is a choice like an image one; in use, it makes songs.
+        Models models(state, state + "/key", "/bin/true");
+        QVERIFY(models.music());
+        QVERIFY(models.choices().first().toMap().value("music").toBool());
+        Generator generator(&models, dir.path() + "/out");
+        QSignalSpy saved(&generator, &Generator::saved);
+        generator.makeSong("a folk song about a dog", "", 30, "pt-BR");
+        QTRY_COMPARE(saved.count(), 1);
+        // Written first, in the language's plain code, then rendered as written.
+        const auto request = [&](const QString &what) {
+            const auto found = std::find_if(music.requests.begin(), music.requests.end(), [&](const auto &r) { return r.first == what; });
+            return found == music.requests.end() ? QJsonObject() : found->second;
+        };
+        QCOMPARE(request("POST /lm").value("caption").toString(), QString("a folk song about a dog"));
+        QCOMPARE(request("POST /lm").value("duration").toInt(), 30);
+        QCOMPARE(request("POST /lm").value("vocal_language").toString(), QString("pt"));
+        QCOMPARE(request("POST /synth").value("audio_codes").toString(), QString("1,2,3"));
+        // The MP3, whole, with a poster beside it that the history lists as
+        // the song, by its chorus.
+        const QString path = saved.first().first().toString();
+        QVERIFY(path.endsWith(".mp3"));
+        QFile file(path);
+        QVERIFY(file.open(QIODevice::ReadOnly));
+        QCOMPARE(file.readAll(), song);
+        const History::Entry entry = History::readEntry(path.chopped(4) + ".png");
+        QCOMPARE(entry.audio, path);
+        QCOMPARE(entry.title, QString("My dog swims"));
+        QCOMPARE(entry.wave.size(), int(Generator::waveBars));
+        QCOMPARE(entry.prompt, QString("a folk song about a dog"));
+        // An image model makes no songs.
+        readyEngine(state, music.origin());
+        QTRY_VERIFY(!models.music());
+        generator.makeSong("another");
+        QVERIFY(!generator.busy());
+        QCOMPARE(generator.error(), QString("No music model is running"));
+    }
+
+    void aMusicModelTurnsTheBarToSongs() {
+        QTemporaryDir dir;
+        Translator translator(dir.path() + "/language");
+        QCoreApplication::installTranslator(&translator);
+        Theme theme(dir.path());
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{{"ace", QJsonObject{
+            {"kind", "music"}, {"name", "ACE-Step"}, {"unit", "active"}, {"endpoint", "http://127.0.0.1:9/v1"}}}}}}).toJson());
+        write(state + "/list.json", "[]");
+        write(state + "/key", "secret\n");
+        Backend backend({state, state + "/key", "/bin/true", dir.path() + "/out", "/bin/true"});
+
+        QQmlApplicationEngine engine;
+        QStringList warnings;
+        connect(&engine, &QQmlEngine::warnings, this, [&](const QList<QQmlError> &errors) {
+            for (const auto &error : errors)
+                warnings << error.toString();
+        });
+        engine.rootContext()->setContextProperty("translator", &translator);
+        engine.rootContext()->setContextProperty("theme", &theme);
+        engine.rootContext()->setContextProperty("backend", &backend);
+        engine.load(QUrl("qrc:/Main.qml"));
+        QVERIFY(!engine.rootObjects().isEmpty());
+        auto *window = qobject_cast<QQuickWindow *>(engine.rootObjects().first());
+        QVERIFY(QTest::qWaitForWindowExposed(window));
+
+        // No picture to start from and no shape: a song has lyrics and a length.
+        QTRY_VERIFY(window->property("musicMode").toBool());
+        auto *lyricsChoice = item(window->contentItem(), "lyricsChoice");
+        auto *length = item(window->contentItem(), "songLength");
+        auto *lyricsBar = item(window->contentItem(), "lyricsBar");
+        QVERIFY(lyricsChoice && length && lyricsBar);
+        QVERIFY(lyricsChoice->isVisible() && length->isVisible());
+        QVERIFY(!item(window->contentItem(), "size")->isVisible());
+        QVERIFY(!item(window->contentItem(), "startFrom")->isVisible());
+        // The lyrics are the model's until asked for: then there's room to
+        // write them, and after that none at all.
+        QVERIFY(!lyricsBar->isVisible());
+        QCOMPARE(lyricsChoice->property("label").toString(), QString("Lyrics written for you"));
+        QMetaObject::invokeMethod(lyricsChoice, "clicked");
+        QTRY_VERIFY(lyricsBar->isVisible());
+        QCOMPARE(lyricsChoice->property("label").toString(), QString("Your own lyrics"));
+        QMetaObject::invokeMethod(lyricsChoice, "clicked");
+        QTRY_VERIFY(!lyricsBar->isVisible());
+        QCOMPARE(lyricsChoice->property("label").toString(), QString("No lyrics, only music"));
+        // A minute, then longer with each click.
+        QCOMPARE(length->property("text").toString(), QString("1:00"));
+        QMetaObject::invokeMethod(length, "clicked");
+        QCOMPARE(length->property("text").toString(), QString("2:00"));
+
+        QVERIFY2(warnings.isEmpty(), qPrintable(warnings.join('\n')));
+        QCoreApplication::removeTranslator(&translator);
+    }
+
     void generatorCancelsAndSavesNothing() {
         QTemporaryDir dir;
         FakeServer server;

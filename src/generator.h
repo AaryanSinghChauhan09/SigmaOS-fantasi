@@ -84,6 +84,21 @@ public:
     // About 0.4 megapixels in the shape of `width` by `height`, in steps of 32.
     static QSize fitVideo(int width, int height);
 
+    // Makes a song on the music model in use. Its language model writes the
+    // song out first (how it's played, and the lyrics in `language` unless
+    // they're given; `[Instrumental]` for lyrics leaves the words out), then
+    // it's rendered to an MP3 about `seconds` long.
+    Q_INVOKABLE void makeSong(const QString &prompt, const QString &lyrics = {}, int seconds = defaultSongSeconds,
+                              const QString &language = "en");
+    static constexpr int defaultSongSeconds = 60;
+    // What a song goes by in the history: its chorus's first line, else its
+    // first line, else what was asked for.
+    static QString songTitle(const QString &lyrics, const QString &prompt);
+    // A song's shape: how loud each part of it is from start to end, as
+    // `waveBars` levels from 0 to 255, out of its sound as 16-bit mono samples.
+    static QByteArray songWave(const QByteArray &samples);
+    static constexpr int waveBars = 96;
+
     Q_INVOKABLE void cancel();
     // Writes a finished image the folder refused last time.
     Q_INVOKABLE void retrySave();
@@ -98,7 +113,8 @@ signals:
     void changed();
     void defaultsChanged();
     void saved(const QString &path);
-    // A clip's poster is written beside it, a moment after the clip.
+    // A clip's poster is written beside it, a moment after the clip; a
+    // song's with it.
     void posterSaved(const QString &clip);
     void posterFailed(const QString &error);
     // A job has ended: made and saved, cancelled, or failed with `error`.
@@ -110,8 +126,13 @@ private:
     QNetworkReply *sendJob(const QString &method, const QString &path, const QJsonObject &body = {});
     // Hands the job to its server and follows it from there.
     void submit(const QString &path, const QJsonObject &body);
-    // Writes the poster a clip shows by in the history, holding its prompt.
-    void writePoster(const QString &clip, const QImage &frame, const QString &prompt);
+    // Writes the poster a clip or a song shows by in the history, holding
+    // its prompt, and a song's title.
+    void writePoster(const QString &media, const QImage &frame, const QString &prompt, const QString &title = {},
+                     const QByteArray &wave = {});
+    // The job in hand on its server: itself, or its `cancel` or `result`.
+    QString jobPath(const QString &action = {}) const;
+    void followSong(const QString &status);
     QNetworkReply *request(const QString &origin, const QByteArray &key, const QString &method, const QString &path, const QJsonObject &body);
     void fetchDefaults();
     void poll();
@@ -136,6 +157,10 @@ private:
     // The job in hand makes a clip, and the picture it starts from, if any.
     bool m_video = false;
     QImage m_firstFrame;
+    // The job in hand makes a song: written first, then rendered.
+    bool m_song = false;
+    bool m_rendering = false;
+    QString m_lyrics;
     bool m_cancelling = false;
     QString m_stage;
     int m_step = 0;

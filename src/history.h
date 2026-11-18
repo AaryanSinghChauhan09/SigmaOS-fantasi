@@ -22,8 +22,13 @@ public:
         QDateTime modified;
         // The clip a poster stands for; empty for an image.
         QString video;
+        // The song a poster stands for, and what the song goes by.
+        QString audio;
+        QString title;
+        // The song's shape: how loud it is from start to end, each 0 to 1.
+        QVariantList wave;
     };
-    enum Role { UrlRole = Qt::UserRole + 1, PathRole, PromptRole, SeedRole, SizeRole, VideoRole };
+    enum Role { UrlRole = Qt::UserRole + 1, PathRole, PromptRole, SeedRole, SizeRole, VideoRole, AudioRole, TitleRole, WaveRole };
 
     explicit History(const QString &folder, QObject *parent = nullptr);
 
@@ -37,10 +42,12 @@ public:
     static Entry readEntry(const QString &path);
     static QList<Entry> scan(const QString &folder);
 
-    // What the entry shows: its image, or a poster's clip.
+    // What the entry shows: its image, or a poster's clip or song.
     Q_INVOKABLE QString urlAt(int row) const {
-        const QString clip = data(index(row), VideoRole).toString();
-        return clip.isEmpty() ? data(index(row), UrlRole).toString() : clip;
+        for (const Role role : {VideoRole, AudioRole})
+            if (const QString media = data(index(row), role).toString(); !media.isEmpty())
+                return media;
+        return data(index(row), UrlRole).toString();
     }
     Q_INVOKABLE QString promptAt(int row) const { return data(index(row), PromptRole).toString(); }
     // Moves the image to the trash, from where it can come back.

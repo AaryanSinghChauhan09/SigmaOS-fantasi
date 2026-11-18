@@ -93,6 +93,12 @@ History::Entry History::readEntry(const QString &path) {
     const QFileInfo poster(path);
     if (pngText(path, "fantasi-video") == poster.completeBaseName() + ".webm")
         entry.video = poster.absoluteDir().filePath(poster.completeBaseName() + ".webm");
+    if (pngText(path, "fantasi-audio") == poster.completeBaseName() + ".mp3") {
+        entry.audio = poster.absoluteDir().filePath(poster.completeBaseName() + ".mp3");
+        entry.title = pngText(path, "fantasi-title");
+        for (const char level : QByteArray::fromHex(pngText(path, "fantasi-wave").toLatin1()))
+            entry.wave << uchar(level) / 255.0;
+    }
     const qsizetype settings = parameters.lastIndexOf("\nSteps: ");
     entry.prompt = (settings >= 0 ? parameters.left(settings) : parameters).trimmed();
     static const QRegularExpression seed("(?:^|, )Seed: (-?\\d+)"), size("(?:^|, )Size: (\\d+x\\d+)");
@@ -152,6 +158,12 @@ QVariant History::data(const QModelIndex &index, int role) const {
         return entry.prompt;
     case VideoRole:
         return entry.video.isEmpty() ? QString() : QUrl::fromLocalFile(entry.video).toString();
+    case AudioRole:
+        return entry.audio.isEmpty() ? QString() : QUrl::fromLocalFile(entry.audio).toString();
+    case TitleRole:
+        return entry.title;
+    case WaveRole:
+        return entry.wave;
     case SeedRole:
         return entry.seed;
     case SizeRole:
@@ -162,7 +174,8 @@ QVariant History::data(const QModelIndex &index, int role) const {
 }
 
 QHash<int, QByteArray> History::roleNames() const {
-    return {{UrlRole, "url"}, {PathRole, "path"}, {PromptRole, "prompt"}, {SeedRole, "seed"}, {SizeRole, "size"}, {VideoRole, "video"}};
+    return {{UrlRole, "url"}, {PathRole, "path"}, {PromptRole, "prompt"}, {SeedRole, "seed"}, {SizeRole, "size"}, {VideoRole, "video"},
+            {AudioRole, "audio"}, {TitleRole, "title"}, {WaveRole, "wave"}};
 }
 
 bool History::remove(int row) {
@@ -170,9 +183,10 @@ bool History::remove(int row) {
         return false;
     if (!QFile::moveToTrash(m_entries.at(row).path))
         return false;
-    // A clip goes with its poster.
-    if (const QString clip = m_entries.at(row).video; !clip.isEmpty())
-        QFile::moveToTrash(clip);
+    // A clip or a song goes with its poster.
+    for (const QString &media : {m_entries.at(row).video, m_entries.at(row).audio})
+        if (!media.isEmpty())
+            QFile::moveToTrash(media);
     beginRemoveRows({}, row, row);
     m_entries.removeAt(row);
     endRemoveRows();

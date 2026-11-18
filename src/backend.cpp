@@ -89,11 +89,11 @@ void Backend::copy(const QString &url) {
     if (!file.open(QIODevice::ReadOnly))
         return;
     auto *data = new QMimeData;
-    // A clip goes on as a file, which chats and file managers take; an image
-    // as its picture.
-    if (file.fileName().endsWith(".webm")) {
+    // A clip or a song goes on as a file, which chats and file managers
+    // take; an image as its picture.
+    if (const bool song = file.fileName().endsWith(".mp3"); song || file.fileName().endsWith(".webm")) {
         data->setUrls({QUrl::fromLocalFile(file.fileName())});
-        data->setData("video/webm", file.readAll());
+        data->setData(song ? "audio/mpeg" : "video/webm", file.readAll());
     } else {
         data->setData("image/png", file.readAll());
     }
@@ -107,9 +107,10 @@ void Backend::saveAs(const QString &url) {
     m_saving = path;
     m_error.clear();
     emit errorChanged();
-    // The picker starts in Pictures, with the image's own name.
-    const QString pictures = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-    m_picker->saveImage(QUrl::fromLocalFile(pictures + "/" + QFileInfo(path).fileName()));
+    // The picker starts in Pictures, or Music for a song, with the file's own name.
+    const QString folder = QStandardPaths::writableLocation(path.endsWith(".mp3") ? QStandardPaths::MusicLocation
+                                                                                  : QStandardPaths::PicturesLocation);
+    m_picker->saveImage(QUrl::fromLocalFile(folder + "/" + QFileInfo(path).fileName()));
 }
 
 void Backend::openPicture() {
