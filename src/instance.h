@@ -15,6 +15,9 @@ public:
 
     static QString defaultPath();
 
+    // Hands `request` to a window already open and returns true, or becomes
+    // the one window and returns false. Two launches at once take turns.
+    bool handOver(const QJsonObject &request);
     // Hands `request` to a window already open; false when none answers.
     bool forward(const QJsonObject &request) const;
     // Becomes the one window, taking over a socket left by one that crashed.

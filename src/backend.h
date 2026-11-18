@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QJsonObject>
 #include <QObject>
 #include <QProcess>
 #include <QSize>
@@ -68,6 +69,8 @@ private:
     History m_history;
     QSize m_screenSize{1344, 768};
     QString m_initialPrompt;
+    // What a later `fantasi open` asked for while an image was being made.
+    QJsonObject m_waitingOpen;
     QString m_error;
     QString m_saving;
     FilePicker *m_picker;

@@ -67,12 +67,10 @@ int main(int argc, char *argv[]) {
     // (to be looked at, or tested) stays apart from the user's.
     const bool offscreen = app.platformName() == "offscreen";
     Instance instance;
-    if (!offscreen && instance.forward({{"model", modelId}, {"prompt", initialPrompt}})) {
+    if (!offscreen && instance.handOver({{"model", modelId}, {"prompt", initialPrompt}})) {
         QProcess::startDetached("omarchy-launch-or-focus", {"^fantasi$", "true"});
         return 0;
     }
-    if (!offscreen)
-        instance.listen();
 
     if (!modelId.isEmpty())
         QSettings().setValue("model", modelId);

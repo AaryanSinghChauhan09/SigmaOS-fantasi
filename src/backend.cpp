@@ -21,6 +21,12 @@ Backend::Backend(const Places &places, FilePicker *picker, QObject *parent)
     : QObject(parent), m_models(places.engineState, places.engineKey, places.engineCommand),
       m_generator(&m_models, places.folder), m_history(m_generator.folder()),
       m_picker(picker ? picker : new PortalFilePicker(this)) {
+    connect(&m_generator, &Generator::finished, this, [this] {
+        if (m_waitingOpen.isEmpty())
+            return;
+        const QJsonObject request = std::exchange(m_waitingOpen, {});
+        open(request.value("model").toString(), request.value("prompt").toString());
+    });
     connect(m_picker, &FilePicker::failed, this, [this](const QString &message) {
         m_saving.clear();
         m_error = message;
@@ -64,6 +70,11 @@ Backend::Backend(const Places &places, FilePicker *picker, QObject *parent)
 }
 
 void Backend::open(const QString &model, const QString &prompt) {
+    // Not in the middle of an image: it is seen to once that one is done.
+    if (m_generator.busy()) {
+        m_waitingOpen = {{"model", model}, {"prompt", prompt}};
+        return;
+    }
     if (!model.isEmpty())
         m_models.choose(model);
     if (!prompt.isEmpty())

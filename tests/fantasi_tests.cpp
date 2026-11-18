@@ -343,12 +343,13 @@ private slots:
         const QString path = dir.path() + "/fantasi.sock";
         // Nothing open: the launch opens a window of its own.
         QVERIFY(!Instance(path).forward({{"model", "klein"}}));
-        // A socket a crashed window left behind is taken over.
+        // A socket a crashed window left behind is taken over: the first launch
+        // becomes the window, and the next hands over to it.
         write(path, "");
         Instance open(path);
-        QVERIFY(open.listen());
+        QVERIFY(!open.handOver({{"model", "klein"}}));
         QSignalSpy requested(&open, &Instance::requested);
-        QVERIFY(Instance(path).forward({{"model", "z-image"}, {"prompt", "a calm lake"}}));
+        QVERIFY(Instance(path).handOver({{"model", "z-image"}, {"prompt", "a calm lake"}}));
         QTRY_COMPARE(requested.count(), 1);
         const QJsonObject request = requested.first().first().toJsonObject();
         QCOMPARE(request.value("model").toString(), QString("z-image"));

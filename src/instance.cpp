@@ -1,6 +1,7 @@
 #include "instance.h"
 
 #include <QJsonDocument>
+#include <QLockFile>
 #include <QLocalSocket>
 #include <QStandardPaths>
 
@@ -21,6 +22,18 @@ Instance::Instance(const QString &path, QObject *parent) : QObject(parent), m_pa
 
 QString Instance::defaultPath() {
     return QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) + "/fantasi.sock";
+}
+
+bool Instance::handOver(const QJsonObject &request) {
+    // Held until this launch is listening, so another launch at the same
+    // moment waits, then finds this one and hands over to it.
+    QLockFile lock(m_path + ".lock");
+    lock.setStaleLockTime(5000);
+    lock.lock();
+    if (forward(request))
+        return true;
+    listen();
+    return false;
 }
 
 bool Instance::forward(const QJsonObject &request) const {
