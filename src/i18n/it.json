@@ -65,5 +65,9 @@
   "What should change?": "Cosa va cambiato?",
   "Change": "Modifica",
   "Change it: say what should change": "Modifica l'immagine: descrivi cosa va cambiato",
-  "Click to use %1": "Fai clic per usare %1"
+  "Click to use %1": "Fai clic per usare %1",
+  "Upscale four times": "Ingrandisci quattro volte",
+  "No running model can upscale": "Nessun modello in esecuzione può ingrandire",
+  "Couldn't read the image to upscale": "Impossibile leggere l'immagine da ingrandire",
+  "This image is already as large as it can be made": "Questa immagine è già grande quanto possibile"
 }

@@ -65,5 +65,9 @@
   "What should change?": "Min változtassunk?",
   "Change": "Módosítás",
   "Change it: say what should change": "Kép módosítása: írd le, min kell változtatni",
-  "Click to use %1": "Kattintson a(z) %1 használatához"
+  "Click to use %1": "Kattintson a(z) %1 használatához",
+  "Upscale four times": "Négyszeres nagyítás",
+  "No running model can upscale": "Nem fut olyan modell, amely nagyítani tud",
+  "Couldn't read the image to upscale": "Nem sikerült beolvasni a nagyítandó képet",
+  "This image is already as large as it can be made": "Ez a kép már a lehető legnagyobb"
 }

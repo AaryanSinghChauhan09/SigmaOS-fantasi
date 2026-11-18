@@ -65,5 +65,9 @@
   "What should change?": "Wat moet er veranderen?",
   "Change": "Aanpassen",
   "Change it: say what should change": "Afbeelding aanpassen: beschrijf wat er moet veranderen",
-  "Click to use %1": "Klik om %1 te gebruiken"
+  "Click to use %1": "Klik om %1 te gebruiken",
+  "Upscale four times": "Vier keer vergroten",
+  "No running model can upscale": "Er draait geen model dat kan vergroten",
+  "Couldn't read the image to upscale": "Kan de te vergroten afbeelding niet lezen",
+  "This image is already as large as it can be made": "Deze afbeelding is al zo groot als mogelijk"
 }

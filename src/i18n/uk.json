@@ -65,5 +65,9 @@
   "What should change?": "Що потрібно змінити?",
   "Change": "Змінити",
   "Change it: say what should change": "Змінити зображення: описати, що потрібно змінити",
-  "Click to use %1": "Натисніть, щоб використати %1"
+  "Click to use %1": "Натисніть, щоб використати %1",
+  "Upscale four times": "Збільшити вчетверо",
+  "No running model can upscale": "Не запущено жодної моделі, що вміє збільшувати",
+  "Couldn't read the image to upscale": "Не вдалося прочитати зображення для збільшення",
+  "This image is already as large as it can be made": "Це зображення вже максимально велике"
 }

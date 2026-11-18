@@ -65,5 +65,9 @@
   "What should change?": "Ko mainīt?",
   "Change": "Mainīt",
   "Change it: say what should change": "Mainīt attēlu: aprakstīt, ko mainīt",
-  "Click to use %1": "Noklikšķiniet, lai izmantotu %1"
+  "Click to use %1": "Noklikšķiniet, lai izmantotu %1",
+  "Upscale four times": "Palielināt četras reizes",
+  "No running model can upscale": "Nedarbojas neviens modelis, kas var palielināt",
+  "Couldn't read the image to upscale": "Neizdevās nolasīt palielināmo attēlu",
+  "This image is already as large as it can be made": "Šis attēls jau ir tik liels, cik vien iespējams"
 }

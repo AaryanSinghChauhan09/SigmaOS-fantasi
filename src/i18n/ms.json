@@ -65,5 +65,9 @@
   "What should change?": "Apakah yang perlu diubah?",
   "Change": "Ubah",
   "Change it: say what should change": "Ubah imej: nyatakan apa yang perlu diubah",
-  "Click to use %1": "Klik untuk menggunakan %1"
+  "Click to use %1": "Klik untuk menggunakan %1",
+  "Upscale four times": "Besarkan empat kali",
+  "No running model can upscale": "Tiada model berjalan yang boleh membesarkan",
+  "Couldn't read the image to upscale": "Tidak dapat membaca imej yang hendak dibesarkan",
+  "This image is already as large as it can be made": "Imej ini sudah sebesar yang mungkin"
 }

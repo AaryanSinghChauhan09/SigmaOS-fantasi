@@ -65,5 +65,9 @@
   "What should change?": "Què s'ha de canviar?",
   "Change": "Canvia",
   "Change it: say what should change": "Canvia-la: descriu què s'ha de canviar",
-  "Click to use %1": "Fes clic per usar %1"
+  "Click to use %1": "Fes clic per usar %1",
+  "Upscale four times": "Amplia quatre vegades",
+  "No running model can upscale": "No s'està executant cap model que pugui ampliar",
+  "Couldn't read the image to upscale": "No s'ha pogut llegir la imatge que s'ha d'ampliar",
+  "This image is already as large as it can be made": "Aquesta imatge ja és tan gran com pot ser"
 }

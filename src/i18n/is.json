@@ -65,5 +65,9 @@
   "What should change?": "Hverju á að breyta?",
   "Change": "Breyta",
   "Change it: say what should change": "Breyta mynd: segðu hverju á að breyta",
-  "Click to use %1": "Smelltu til að nota %1"
+  "Click to use %1": "Smelltu til að nota %1",
+  "Upscale four times": "Stækka fjórfalt",
+  "No running model can upscale": "Ekkert líkan sem getur stækkað er í gangi",
+  "Couldn't read the image to upscale": "Ekki tókst að lesa myndina sem á að stækka",
+  "This image is already as large as it can be made": "Þessi mynd er þegar eins stór og hún getur orðið"
 }

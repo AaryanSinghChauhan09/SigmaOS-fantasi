@@ -65,5 +65,9 @@
   "What should change?": "Nimani oʻzgartirish kerak?",
   "Change": "Oʻzgartirish",
   "Change it: say what should change": "Rasmni oʻzgartirish: nimani oʻzgartirish kerakligini yozing",
-  "Click to use %1": "%1 dan foydalanish uchun bosing"
+  "Click to use %1": "%1 dan foydalanish uchun bosing",
+  "Upscale four times": "Toʻrt baravar kattalashtirish",
+  "No running model can upscale": "Kattalashtira oladigan hech qanday model ishlamayapti",
+  "Couldn't read the image to upscale": "Kattalashtiriladigan rasmni oʻqib boʻlmadi",
+  "This image is already as large as it can be made": "Bu rasm allaqachon iloji boricha katta"
 }

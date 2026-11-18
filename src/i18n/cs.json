@@ -65,5 +65,9 @@
   "What should change?": "Co se má změnit?",
   "Change": "Upravit",
   "Change it: say what should change": "Upravit obrázek: popsat, co se má změnit",
-  "Click to use %1": "Kliknutím použijete %1"
+  "Click to use %1": "Kliknutím použijete %1",
+  "Upscale four times": "Zvětšit čtyřikrát",
+  "No running model can upscale": "Neběží žádný model, který umí zvětšovat",
+  "Couldn't read the image to upscale": "Obrázek ke zvětšení se nepodařilo načíst",
+  "This image is already as large as it can be made": "Tento obrázek už je tak velký, jak jen může být"
 }

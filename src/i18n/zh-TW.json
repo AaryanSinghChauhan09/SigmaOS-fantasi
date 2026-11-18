@@ -65,5 +65,9 @@
   "What should change?": "要修改什麼？",
   "Change": "修改",
   "Change it: say what should change": "修改圖片：描述要修改的內容",
-  "Click to use %1": "點按以使用 %1"
+  "Click to use %1": "點按以使用 %1",
+  "Upscale four times": "放大四倍",
+  "No running model can upscale": "沒有正在執行的模型可以放大",
+  "Couldn't read the image to upscale": "無法讀取要放大的圖片",
+  "This image is already as large as it can be made": "這張圖片已經無法再放大了"
 }

@@ -65,5 +65,9 @@
   "What should change?": "ماذا يجب أن يتغيّر؟",
   "Change": "تعديل",
   "Change it: say what should change": "تعديلها: صِف ما يجب تغييره",
-  "Click to use %1": "انقر لاستخدام %1"
+  "Click to use %1": "انقر لاستخدام %1",
+  "Upscale four times": "تكبير أربع مرات",
+  "No running model can upscale": "لا يعمل أي نموذج يمكنه التكبير",
+  "Couldn't read the image to upscale": "تعذّرت قراءة الصورة المراد تكبيرها",
+  "This image is already as large as it can be made": "هذه الصورة بأكبر حجم ممكن بالفعل"
 }

@@ -65,5 +65,9 @@
   "What should change?": "Cần sửa gì?",
   "Change": "Sửa",
   "Change it: say what should change": "Sửa ảnh: mô tả những gì cần sửa",
-  "Click to use %1": "Bấm để dùng %1"
+  "Click to use %1": "Bấm để dùng %1",
+  "Upscale four times": "Phóng to bốn lần",
+  "No running model can upscale": "Không có mô hình nào đang chạy có thể phóng to",
+  "Couldn't read the image to upscale": "Không đọc được ảnh cần phóng to",
+  "This image is already as large as it can be made": "Ảnh này đã lớn hết mức có thể"
 }

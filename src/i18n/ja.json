@@ -65,5 +65,9 @@
   "What should change?": "何を変更しますか？",
   "Change": "変更",
   "Change it: say what should change": "画像を変更: 変更内容を入力",
-  "Click to use %1": "クリックして %1 を使用"
+  "Click to use %1": "クリックして %1 を使用",
+  "Upscale four times": "4倍に拡大",
+  "No running model can upscale": "拡大できるモデルが起動していません",
+  "Couldn't read the image to upscale": "拡大する画像を読み込めませんでした",
+  "This image is already as large as it can be made": "この画像はこれ以上大きくできません"
 }

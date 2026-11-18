@@ -65,5 +65,9 @@
   "What should change?": "מה צריך לשנות?",
   "Change": "שינוי",
   "Change it: say what should change": "שינוי התמונה: תיאור של מה שצריך לשנות",
-  "Click to use %1": "יש ללחוץ כדי להשתמש ב־%1"
+  "Click to use %1": "יש ללחוץ כדי להשתמש ב־%1",
+  "Upscale four times": "הגדלה פי ארבעה",
+  "No running model can upscale": "אין מודל פעיל שיכול להגדיל",
+  "Couldn't read the image to upscale": "לא ניתן היה לקרוא את התמונה להגדלה",
+  "This image is already as large as it can be made": "התמונה הזו כבר גדולה ככל האפשר"
 }

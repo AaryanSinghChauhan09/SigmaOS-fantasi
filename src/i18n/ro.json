@@ -65,5 +65,9 @@
   "What should change?": "Ce ar trebui să se schimbe?",
   "Change": "Modifică",
   "Change it: say what should change": "Modifică imaginea: descrie ce ar trebui să se schimbe",
-  "Click to use %1": "Fă clic pentru a folosi %1"
+  "Click to use %1": "Fă clic pentru a folosi %1",
+  "Upscale four times": "Mărește de patru ori",
+  "No running model can upscale": "Nu rulează niciun model care poate mări",
+  "Couldn't read the image to upscale": "Nu s-a putut citi imaginea de mărit",
+  "This image is already as large as it can be made": "Această imagine este deja cât se poate de mare"
 }
