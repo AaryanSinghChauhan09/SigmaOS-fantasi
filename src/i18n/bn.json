@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 আপনার ক্লিপ তৈরি করছে",
   "Couldn't save the clip's poster in %1": "ক্লিপের পোস্টার %1-এ সংরক্ষণ করা যায়নি",
   "New generation": "নতুন জেনারেশন",
-  "Start a new generation": "নতুন জেনারেশন শুরু করুন"
+  "Start a new generation": "নতুন জেনারেশন শুরু করুন",
+  "%1 is making your song": "%1 আপনার গান তৈরি করছে",
+  "Describe a song": "একটি গানের বর্ণনা দিন",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "গানের কথা লিখুন, প্রতিটি অংশের ওপরে [verse] ও [chorus] দিয়ে",
+  "Lyrics written for you": "আপনার জন্য লেখা গানের কথা",
+  "Your own lyrics": "আপনার নিজের গানের কথা",
+  "No lyrics, only music": "কথা ছাড়া, শুধু সংগীত",
+  "Song length: %1": "গানের দৈর্ঘ্য: %1",
+  "Pause": "বিরতি",
+  "Play": "চালান",
+  "No music model is running": "কোনো মিউজিক মডেল চলছে না",
+  "The music model didn't answer: %1": "মিউজিক মডেল সাড়া দেয়নি: %1",
+  "The music model stopped answering: %1": "মিউজিক মডেল সাড়া দেওয়া বন্ধ করেছে: %1",
+  "The song couldn't be made": "গানটি তৈরি করা যায়নি",
+  "MP3 audio": "MP3 অডিও"
 }

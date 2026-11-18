@@ -76,5 +76,19 @@
   "%1 is making your clip": "Tá %1 ag déanamh do ghearrthóige",
   "Couldn't save the clip's poster in %1": "Níorbh fhéidir póstaer na gearrthóige a shábháil in %1",
   "New generation": "Giniúint nua",
-  "Start a new generation": "Tosaigh giniúint nua"
+  "Start a new generation": "Tosaigh giniúint nua",
+  "%1 is making your song": "Tá %1 ag déanamh d'amhráin",
+  "Describe a song": "Déan cur síos ar amhrán",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Scríobh na liricí, le [verse] agus [chorus] os cionn a gcodanna",
+  "Lyrics written for you": "Liricí scríofa duit",
+  "Your own lyrics": "Do liricí féin",
+  "No lyrics, only music": "Gan liricí, ceol amháin",
+  "Song length: %1": "Fad an amhráin: %1",
+  "Pause": "Cuir ar sos",
+  "Play": "Seinn",
+  "No music model is running": "Níl aon samhail cheoil ag rith",
+  "The music model didn't answer: %1": "Níor fhreagair an tsamhail cheoil: %1",
+  "The music model stopped answering: %1": "Stop an tsamhail cheoil ag freagairt: %1",
+  "The song couldn't be made": "Níorbh fhéidir an t-amhrán a dhéanamh",
+  "MP3 audio": "Fuaim MP3"
 }

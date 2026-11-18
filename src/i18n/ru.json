@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 создаёт ваш клип",
   "Couldn't save the clip's poster in %1": "Не удалось сохранить обложку клипа в %1",
   "New generation": "Новая генерация",
-  "Start a new generation": "Начать новую генерацию"
+  "Start a new generation": "Начать новую генерацию",
+  "%1 is making your song": "%1 создаёт вашу песню",
+  "Describe a song": "Опишите песню",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Напишите текст песни, указав [verse] и [chorus] над соответствующими частями",
+  "Lyrics written for you": "Текст, написанный за вас",
+  "Your own lyrics": "Ваш собственный текст",
+  "No lyrics, only music": "Без слов, только музыка",
+  "Song length: %1": "Длительность песни: %1",
+  "Pause": "Пауза",
+  "Play": "Воспроизвести",
+  "No music model is running": "Ни одна модель музыки не запущена",
+  "The music model didn't answer: %1": "Модель музыки не ответила: %1",
+  "The music model stopped answering: %1": "Модель музыки перестала отвечать: %1",
+  "The song couldn't be made": "Не удалось создать песню",
+  "MP3 audio": "Аудио MP3"
 }

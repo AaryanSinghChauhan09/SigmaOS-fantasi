@@ -76,5 +76,19 @@
   "%1 is making your clip": "ماڈل %1 آپ کا کلپ بنا رہا ہے",
   "Couldn't save the clip's poster in %1": "کلپ کا پوسٹر %1 میں محفوظ نہیں ہو سکا",
   "New generation": "نئی تخلیق",
-  "Start a new generation": "نئی تخلیق شروع کریں"
+  "Start a new generation": "نئی تخلیق شروع کریں",
+  "%1 is making your song": "ماڈل %1 آپ کا گانا بنا رہا ہے",
+  "Describe a song": "ایک گانا بیان کریں",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "گانے کے بول لکھیں، ہر حصے کے اوپر [verse] اور [chorus] لگا کر",
+  "Lyrics written for you": "آپ کے لیے لکھے گئے بول",
+  "Your own lyrics": "آپ کے اپنے بول",
+  "No lyrics, only music": "بول نہیں، صرف موسیقی",
+  "Song length: %1": "گانے کی لمبائی: %1",
+  "Pause": "وقفہ",
+  "Play": "چلائیں",
+  "No music model is running": "کوئی موسیقی ماڈل نہیں چل رہا",
+  "The music model didn't answer: %1": "موسیقی ماڈل نے جواب نہیں دیا: %1",
+  "The music model stopped answering: %1": "موسیقی ماڈل نے جواب دینا بند کر دیا: %1",
+  "The song couldn't be made": "گانا نہیں بن سکا",
+  "MP3 audio": "MP3 آڈیو"
 }

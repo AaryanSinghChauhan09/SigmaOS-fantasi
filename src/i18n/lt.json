@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 kuria jūsų klipą",
   "Couldn't save the clip's poster in %1": "Nepavyko išsaugoti klipo viršelio aplanke %1",
   "New generation": "Naujas generavimas",
-  "Start a new generation": "Pradėti naują generavimą"
+  "Start a new generation": "Pradėti naują generavimą",
+  "%1 is making your song": "%1 kuria jūsų dainą",
+  "Describe a song": "Aprašykite dainą",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Parašykite žodžius, virš atitinkamų dalių nurodydami [verse] ir [chorus]",
+  "Lyrics written for you": "Žodžiai parašomi už jus",
+  "Your own lyrics": "Jūsų pačių žodžiai",
+  "No lyrics, only music": "Be žodžių, tik muzika",
+  "Song length: %1": "Dainos trukmė: %1",
+  "Pause": "Pristabdyti",
+  "Play": "Leisti",
+  "No music model is running": "Neveikia joks muzikos modelis",
+  "The music model didn't answer: %1": "Muzikos modelis neatsakė: %1",
+  "The music model stopped answering: %1": "Muzikos modelis nustojo atsakinėti: %1",
+  "The song couldn't be made": "Nepavyko sukurti dainos",
+  "MP3 audio": "MP3 garso įrašas"
 }

@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 vytváří váš klip",
   "Couldn't save the clip's poster in %1": "Titulní obrázek klipu se nepodařilo uložit do %1",
   "New generation": "Nové generování",
-  "Start a new generation": "Začít nové generování"
+  "Start a new generation": "Začít nové generování",
+  "%1 is making your song": "%1 vytváří vaši píseň",
+  "Describe a song": "Popište píseň",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Napište text, s [verse] a [chorus] nad příslušnými částmi",
+  "Lyrics written for you": "Text napsaný za vás",
+  "Your own lyrics": "Váš vlastní text",
+  "No lyrics, only music": "Bez textu, jen hudba",
+  "Song length: %1": "Délka písně: %1",
+  "Pause": "Pozastavit",
+  "Play": "Přehrát",
+  "No music model is running": "Neběží žádný model pro hudbu",
+  "The music model didn't answer: %1": "Model pro hudbu neodpověděl: %1",
+  "The music model stopped answering: %1": "Model pro hudbu přestal odpovídat: %1",
+  "The song couldn't be made": "Píseň se nepodařilo vytvořit",
+  "MP3 audio": "Zvuk MP3"
 }

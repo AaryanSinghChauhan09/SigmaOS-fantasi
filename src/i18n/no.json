@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 lager klippet ditt",
   "Couldn't save the clip's poster in %1": "Kunne ikke lagre forsidebildet til klippet i %1",
   "New generation": "Ny generering",
-  "Start a new generation": "Start en ny generering"
+  "Start a new generation": "Start en ny generering",
+  "%1 is making your song": "%1 lager sangen din",
+  "Describe a song": "Beskriv en sang",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Skriv teksten, med [verse] og [chorus] over de ulike delene",
+  "Lyrics written for you": "Tekst skrevet for deg",
+  "Your own lyrics": "Din egen tekst",
+  "No lyrics, only music": "Ingen tekst, bare musikk",
+  "Song length: %1": "Sanglengde: %1",
+  "Pause": "Pause",
+  "Play": "Spill av",
+  "No music model is running": "Ingen musikkmodell kjører",
+  "The music model didn't answer: %1": "Musikkmodellen svarte ikke: %1",
+  "The music model stopped answering: %1": "Musikkmodellen sluttet å svare: %1",
+  "The song couldn't be made": "Sangen kunne ikke lages",
+  "MP3 audio": "MP3-lyd"
 }

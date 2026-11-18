@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 ඔබේ ක්ලිපය සාදමින් සිටී",
   "Couldn't save the clip's poster in %1": "ක්ලිපයේ පෝස්ටරය %1 තුළ සුරැකිය නොහැකි විය",
   "New generation": "නව උත්පාදනය",
-  "Start a new generation": "නව උත්පාදනයක් අරඹන්න"
+  "Start a new generation": "නව උත්පාදනයක් අරඹන්න",
+  "%1 is making your song": "%1 ඔබේ ගීතය සාදමින් සිටී",
+  "Describe a song": "ගීතයක් විස්තර කරන්න",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "පද රචනය ලියන්න, ඒ ඒ කොටසට ඉහළින් [verse] සහ [chorus] යොදන්න",
+  "Lyrics written for you": "ඔබ වෙනුවෙන් ලියූ පද රචනය",
+  "Your own lyrics": "ඔබේම පද රචනය",
+  "No lyrics, only music": "පද රචනයක් නැත, සංගීතය පමණි",
+  "Song length: %1": "ගීතයේ දිග: %1",
+  "Pause": "විරාම කරන්න",
+  "Play": "වාදනය කරන්න",
+  "No music model is running": "කිසිදු සංගීත මාදිලියක් ධාවනය නොවේ",
+  "The music model didn't answer: %1": "සංගීත මාදිලිය පිළිතුරු දුන්නේ නැත: %1",
+  "The music model stopped answering: %1": "සංගීත මාදිලිය පිළිතුරු දීම නැවැත්වීය: %1",
+  "The song couldn't be made": "ගීතය සෑදිය නොහැකි විය",
+  "MP3 audio": "MP3 ශ්‍රව්‍යය"
 }

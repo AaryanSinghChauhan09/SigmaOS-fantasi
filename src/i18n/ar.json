@@ -76,5 +76,19 @@
   "%1 is making your clip": "النموذج %1 يصنع مقطعك",
   "Couldn't save the clip's poster in %1": "تعذّر حفظ صورة غلاف المقطع في %1",
   "New generation": "توليد جديد",
-  "Start a new generation": "بدء توليد جديد"
+  "Start a new generation": "بدء توليد جديد",
+  "%1 is making your song": "النموذج %1 يصنع أغنيتك",
+  "Describe a song": "صف أغنية",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "اكتب كلمات الأغنية، وضع [verse] و[chorus] فوق كل مقطع",
+  "Lyrics written for you": "كلمات تُكتب لك",
+  "Your own lyrics": "كلماتك أنت",
+  "No lyrics, only music": "بلا كلمات، موسيقى فقط",
+  "Song length: %1": "مدة الأغنية: %1",
+  "Pause": "إيقاف مؤقت",
+  "Play": "تشغيل",
+  "No music model is running": "لا يعمل أي نموذج موسيقى",
+  "The music model didn't answer: %1": "لم يستجب نموذج الموسيقى: %1",
+  "The music model stopped answering: %1": "توقف نموذج الموسيقى عن الاستجابة: %1",
+  "The song couldn't be made": "تعذّر إنشاء الأغنية",
+  "MP3 audio": "صوت MP3"
 }

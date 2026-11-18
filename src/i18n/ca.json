@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 està creant el teu clip",
   "Couldn't save the clip's poster in %1": "No s'ha pogut desar la portada del clip a %1",
   "New generation": "Generació nova",
-  "Start a new generation": "Comença una generació nova"
+  "Start a new generation": "Comença una generació nova",
+  "%1 is making your song": "%1 està creant la teva cançó",
+  "Describe a song": "Descriu una cançó",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Escriu la lletra, amb [verse] i [chorus] damunt de cada part",
+  "Lyrics written for you": "Lletra escrita per a tu",
+  "Your own lyrics": "La teva pròpia lletra",
+  "No lyrics, only music": "Sense lletra, només música",
+  "Song length: %1": "Durada de la cançó: %1",
+  "Pause": "Pausa",
+  "Play": "Reprodueix",
+  "No music model is running": "No s'està executant cap model de música",
+  "The music model didn't answer: %1": "El model de música no ha respost: %1",
+  "The music model stopped answering: %1": "El model de música ha deixat de respondre: %1",
+  "The song couldn't be made": "No s'ha pogut crear la cançó",
+  "MP3 audio": "Àudio MP3"
 }

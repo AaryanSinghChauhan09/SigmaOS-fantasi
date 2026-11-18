@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 sedang membuat klip anda",
   "Couldn't save the clip's poster in %1": "Tidak dapat menyimpan poster klip dalam %1",
   "New generation": "Penjanaan baharu",
-  "Start a new generation": "Mulakan penjanaan baharu"
+  "Start a new generation": "Mulakan penjanaan baharu",
+  "%1 is making your song": "%1 sedang membuat lagu anda",
+  "Describe a song": "Huraikan lagu",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Tulis lirik, dengan [verse] dan [chorus] di atas bahagian masing-masing",
+  "Lyrics written for you": "Lirik ditulis untuk anda",
+  "Your own lyrics": "Lirik anda sendiri",
+  "No lyrics, only music": "Tiada lirik, muzik sahaja",
+  "Song length: %1": "Tempoh lagu: %1",
+  "Pause": "Jeda",
+  "Play": "Main",
+  "No music model is running": "Tiada model muzik yang berjalan",
+  "The music model didn't answer: %1": "Model muzik tidak menjawab: %1",
+  "The music model stopped answering: %1": "Model muzik berhenti menjawab: %1",
+  "The song couldn't be made": "Lagu tidak dapat dibuat",
+  "MP3 audio": "Audio MP3"
 }

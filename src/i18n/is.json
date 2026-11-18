@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 er að búa til myndskeiðið þitt",
   "Couldn't save the clip's poster in %1": "Ekki tókst að vista forsíðumynd myndskeiðsins í %1",
   "New generation": "Ný myndun",
-  "Start a new generation": "Byrja á nýrri myndun"
+  "Start a new generation": "Byrja á nýrri myndun",
+  "%1 is making your song": "%1 er að búa til lagið þitt",
+  "Describe a song": "Lýstu lagi",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Skrifaðu textann, með [verse] og [chorus] fyrir ofan hvern hluta",
+  "Lyrics written for you": "Texti saminn fyrir þig",
+  "Your own lyrics": "Þinn eigin texti",
+  "No lyrics, only music": "Enginn texti, aðeins tónlist",
+  "Song length: %1": "Lengd lags: %1",
+  "Pause": "Gera hlé",
+  "Play": "Spila",
+  "No music model is running": "Ekkert tónlistarlíkan er í gangi",
+  "The music model didn't answer: %1": "Tónlistarlíkanið svaraði ekki: %1",
+  "The music model stopped answering: %1": "Tónlistarlíkanið hætti að svara: %1",
+  "The song couldn't be made": "Ekki tókst að búa til lagið",
+  "MP3 audio": "MP3-hljóð"
 }

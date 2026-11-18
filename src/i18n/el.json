@@ -76,5 +76,19 @@
   "%1 is making your clip": "Το %1 δημιουργεί το κλιπ σας",
   "Couldn't save the clip's poster in %1": "Δεν ήταν δυνατή η αποθήκευση της εικόνας εξωφύλλου του κλιπ στο %1",
   "New generation": "Νέα δημιουργία",
-  "Start a new generation": "Έναρξη νέας δημιουργίας"
+  "Start a new generation": "Έναρξη νέας δημιουργίας",
+  "%1 is making your song": "Το %1 δημιουργεί το τραγούδι σας",
+  "Describe a song": "Περιγράψτε ένα τραγούδι",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Γράψτε τους στίχους, με [verse] και [chorus] πάνω από τα αντίστοιχα μέρη",
+  "Lyrics written for you": "Στίχοι γραμμένοι για εσάς",
+  "Your own lyrics": "Οι δικοί σας στίχοι",
+  "No lyrics, only music": "Χωρίς στίχους, μόνο μουσική",
+  "Song length: %1": "Διάρκεια τραγουδιού: %1",
+  "Pause": "Παύση",
+  "Play": "Αναπαραγωγή",
+  "No music model is running": "Δεν εκτελείται κανένα μοντέλο μουσικής",
+  "The music model didn't answer: %1": "Το μοντέλο μουσικής δεν απάντησε: %1",
+  "The music model stopped answering: %1": "Το μοντέλο μουσικής σταμάτησε να απαντά: %1",
+  "The song couldn't be made": "Δεν ήταν δυνατή η δημιουργία του τραγουδιού",
+  "MP3 audio": "Ήχος MP3"
 }

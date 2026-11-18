@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 klibinizi oluşturuyor",
   "Couldn't save the clip's poster in %1": "Klibin kapak görseli şuraya kaydedilemedi: %1",
   "New generation": "Yeni üretim",
-  "Start a new generation": "Yeni üretim başlat"
+  "Start a new generation": "Yeni üretim başlat",
+  "%1 is making your song": "%1 şarkınızı oluşturuyor",
+  "Describe a song": "Bir şarkı tarif edin",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Şarkı sözlerini yazın; bölümlerin üstüne [verse] ve [chorus] ekleyin",
+  "Lyrics written for you": "Sözler sizin için yazılır",
+  "Your own lyrics": "Kendi sözleriniz",
+  "No lyrics, only music": "Söz yok, yalnızca müzik",
+  "Song length: %1": "Şarkı süresi: %1",
+  "Pause": "Duraklat",
+  "Play": "Çal",
+  "No music model is running": "Çalışan bir müzik modeli yok",
+  "The music model didn't answer: %1": "Müzik modeli yanıt vermedi: %1",
+  "The music model stopped answering: %1": "Müzik modeli yanıt vermeyi bıraktı: %1",
+  "The song couldn't be made": "Şarkı oluşturulamadı",
+  "MP3 audio": "MP3 sesi"
 }

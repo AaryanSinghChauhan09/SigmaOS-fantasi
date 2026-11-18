@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 îți creează clipul",
   "Couldn't save the clip's poster in %1": "Nu s-a putut salva coperta clipului în %1",
   "New generation": "Generare nouă",
-  "Start a new generation": "Începe o generare nouă"
+  "Start a new generation": "Începe o generare nouă",
+  "%1 is making your song": "%1 îți creează melodia",
+  "Describe a song": "Descrie o melodie",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Scrie versurile, cu [verse] și [chorus] deasupra părților lor",
+  "Lyrics written for you": "Versuri scrise pentru tine",
+  "Your own lyrics": "Propriile tale versuri",
+  "No lyrics, only music": "Fără versuri, doar muzică",
+  "Song length: %1": "Durata melodiei: %1",
+  "Pause": "Pauză",
+  "Play": "Redă",
+  "No music model is running": "Niciun model de muzică nu rulează",
+  "The music model didn't answer: %1": "Modelul de muzică nu a răspuns: %1",
+  "The music model stopped answering: %1": "Modelul de muzică a încetat să răspundă: %1",
+  "The song couldn't be made": "Melodia nu a putut fi creată",
+  "MP3 audio": "Audio MP3"
 }

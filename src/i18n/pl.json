@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 tworzy twój klip",
   "Couldn't save the clip's poster in %1": "Nie udało się zapisać okładki klipu w %1",
   "New generation": "Nowe generowanie",
-  "Start a new generation": "Zacznij nowe generowanie"
+  "Start a new generation": "Zacznij nowe generowanie",
+  "%1 is making your song": "%1 tworzy twoją piosenkę",
+  "Describe a song": "Opisz piosenkę",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Napisz tekst, z [verse] i [chorus] nad odpowiednimi częściami",
+  "Lyrics written for you": "Tekst napisany za ciebie",
+  "Your own lyrics": "Twój własny tekst",
+  "No lyrics, only music": "Bez tekstu, sama muzyka",
+  "Song length: %1": "Długość piosenki: %1",
+  "Pause": "Wstrzymaj",
+  "Play": "Odtwórz",
+  "No music model is running": "Żaden model muzyki nie działa",
+  "The music model didn't answer: %1": "Model muzyki nie odpowiedział: %1",
+  "The music model stopped answering: %1": "Model muzyki przestał odpowiadać: %1",
+  "The song couldn't be made": "Nie udało się utworzyć piosenki",
+  "MP3 audio": "Dźwięk MP3"
 }

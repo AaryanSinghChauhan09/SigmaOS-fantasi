@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 izrađuje vaš isječak",
   "Couldn't save the clip's poster in %1": "Naslovna slika isječka nije se mogla spremiti u %1",
   "New generation": "Novo generiranje",
-  "Start a new generation": "Započni novo generiranje"
+  "Start a new generation": "Započni novo generiranje",
+  "%1 is making your song": "%1 izrađuje vašu pjesmu",
+  "Describe a song": "Opišite pjesmu",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Napišite tekst, s [verse] i [chorus] iznad pripadajućih dijelova",
+  "Lyrics written for you": "Tekst napisan za vas",
+  "Your own lyrics": "Vaš vlastiti tekst",
+  "No lyrics, only music": "Bez teksta, samo glazba",
+  "Song length: %1": "Trajanje pjesme: %1",
+  "Pause": "Pauziraj",
+  "Play": "Reproduciraj",
+  "No music model is running": "Nijedan model za glazbu nije pokrenut",
+  "The music model didn't answer: %1": "Model za glazbu nije odgovorio: %1",
+  "The music model stopped answering: %1": "Model za glazbu prestao je odgovarati: %1",
+  "The song couldn't be made": "Pjesma se nije mogla izraditi",
+  "MP3 audio": "MP3 zvuk"
 }

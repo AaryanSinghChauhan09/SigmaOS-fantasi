@@ -76,5 +76,19 @@
   "%1 is making your clip": "המודל %1 יוצר את הקליפ שלך",
   "Couldn't save the clip's poster in %1": "לא ניתן היה לשמור את תמונת השער של הקליפ בתיקייה %1",
   "New generation": "יצירה חדשה",
-  "Start a new generation": "התחלת יצירה חדשה"
+  "Start a new generation": "התחלת יצירה חדשה",
+  "%1 is making your song": "המודל %1 יוצר את השיר שלך",
+  "Describe a song": "תארו שיר",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "כתבו את המילים, עם [verse] ו-[chorus] מעל החלקים שלהם",
+  "Lyrics written for you": "מילים שנכתבות עבורך",
+  "Your own lyrics": "מילים משלך",
+  "No lyrics, only music": "בלי מילים, רק מוזיקה",
+  "Song length: %1": "אורך השיר: %1",
+  "Pause": "השהיה",
+  "Play": "הפעלה",
+  "No music model is running": "אין מודל מוזיקה פעיל",
+  "The music model didn't answer: %1": "מודל המוזיקה לא ענה: %1",
+  "The music model stopped answering: %1": "מודל המוזיקה הפסיק לענות: %1",
+  "The song couldn't be made": "לא ניתן היה ליצור את השיר",
+  "MP3 audio": "שמע MP3"
 }

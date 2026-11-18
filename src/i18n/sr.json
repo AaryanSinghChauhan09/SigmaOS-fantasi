@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 прави ваш снимак",
   "Couldn't save the clip's poster in %1": "Насловна слика снимка није могла да се сачува у %1",
   "New generation": "Ново генерисање",
-  "Start a new generation": "Започни ново генерисање"
+  "Start a new generation": "Започни ново генерисање",
+  "%1 is making your song": "%1 прави вашу песму",
+  "Describe a song": "Опишите песму",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Напишите текст, са [verse] и [chorus] изнад одговарајућих делова",
+  "Lyrics written for you": "Текст написан за вас",
+  "Your own lyrics": "Ваш сопствени текст",
+  "No lyrics, only music": "Без текста, само музика",
+  "Song length: %1": "Трајање песме: %1",
+  "Pause": "Паузирај",
+  "Play": "Пусти",
+  "No music model is running": "Ниједан модел за музику није покренут",
+  "The music model didn't answer: %1": "Модел за музику није одговорио: %1",
+  "The music model stopped answering: %1": "Модел за музику је престао да одговара: %1",
+  "The song couldn't be made": "Песма није могла да се направи",
+  "MP3 audio": "MP3 звук"
 }

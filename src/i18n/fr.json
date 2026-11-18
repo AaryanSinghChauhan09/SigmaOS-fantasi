@@ -76,5 +76,19 @@
   "%1 is making your clip": "%1 crée votre clip",
   "Couldn't save the clip's poster in %1": "Impossible d'enregistrer l'affiche du clip dans %1",
   "New generation": "Nouvelle génération",
-  "Start a new generation": "Commencer une nouvelle génération"
+  "Start a new generation": "Commencer une nouvelle génération",
+  "%1 is making your song": "%1 crée votre chanson",
+  "Describe a song": "Décrivez une chanson",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Écrivez les paroles, avec [verse] et [chorus] au-dessus de chaque partie",
+  "Lyrics written for you": "Paroles écrites pour vous",
+  "Your own lyrics": "Vos propres paroles",
+  "No lyrics, only music": "Pas de paroles, seulement de la musique",
+  "Song length: %1": "Durée de la chanson : %1",
+  "Pause": "Pause",
+  "Play": "Lecture",
+  "No music model is running": "Aucun modèle de musique ne tourne",
+  "The music model didn't answer: %1": "Le modèle de musique n'a pas répondu : %1",
+  "The music model stopped answering: %1": "Le modèle de musique a cessé de répondre : %1",
+  "The song couldn't be made": "La chanson n'a pas pu être créée",
+  "MP3 audio": "Audio MP3"
 }
