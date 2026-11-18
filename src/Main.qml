@@ -82,6 +82,7 @@ ApplicationWindow {
     // What was last sent, to tell it from what is typed while it's made.
     property string sentPrompt
     property var sentPictures: []
+    property bool sentVideo: false
     // How far along the image is being made, 0 to 1: the steps, then whole
     // once they're done and it's finishing.
     readonly property real progress: !generator.busy ? 0
@@ -95,6 +96,7 @@ ApplicationWindow {
             return
         sentPrompt = prompt.text
         sentPictures = baseImages
+        sentVideo = videoMode
         if (videoMode)
             generator.makeVideo(prompt.text, outputSize.width, outputSize.height, baseImages.length > 0 ? baseImages[0] : "")
         else
@@ -104,12 +106,16 @@ ApplicationWindow {
     function repeat() {
         if (models.state !== "ready" || generator.busy || sentPrompt.trim() === "")
             return
-        generator.generate(sentPrompt, outputSize.width, outputSize.height, 0, -1, sentPictures, models.edits)
+        // A clip again as a clip, while the model in use still makes them.
+        if (sentVideo && videoMode)
+            generator.makeVideo(sentPrompt, outputSize.width, outputSize.height, sentPictures.length > 0 ? sentPictures[0] : "")
+        else if (!sentVideo && !videoMode)
+            generator.generate(sentPrompt, outputSize.width, outputSize.height, 0, -1, sentPictures, models.edits)
     }
     // Makes the shown image the one to change, with an empty prompt for
     // what should change.
     function changeImage() {
-        if (shownFile === "" || generator.busy)
+        if (shownFile === "" || showingClip || generator.busy)
             return
         composing = true
         baseImages = [shownFile]
@@ -171,7 +177,7 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+Return"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+Enter"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+R"; enabled: models.state === "ready" && !generator.busy; onActivated: win.canGenerate ? win.generate() : win.repeat() }
-    Shortcut { sequence: "Ctrl+E"; enabled: win.shownFile !== "" && !generator.busy; onActivated: win.changeImage() }
+    Shortcut { sequence: "Ctrl+E"; enabled: win.shownFile !== "" && !win.showingClip && !generator.busy; onActivated: win.changeImage() }
     Shortcut { sequence: "Ctrl+O"; enabled: !generator.busy; onActivated: backend.openPicture() }
     // Esc stops an image being made, or else goes back to the image shown.
     Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }

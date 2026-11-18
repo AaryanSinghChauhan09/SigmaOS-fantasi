@@ -125,6 +125,19 @@ int runCli(const QStringList &arguments) {
         return 1;
     }
 
+    // The running model of the kind asked for: a video model for --video, an
+    // image model otherwise, whichever is the one chosen in the window.
+    const bool video = parser.isSet("video");
+    if (models->video() != video) {
+        for (const QVariant &choice : models->choices()) {
+            const QVariantMap row = choice.toMap();
+            if (row.value("video").toBool() == video && row.value("running").toBool()) {
+                models->choose(row.value("id").toString());
+                break;
+            }
+        }
+    }
+
     int code = 1;
     QString path;
     QObject::connect(generator, &Generator::saved, [&path](const QString &saved) { path = saved; });
@@ -134,7 +147,14 @@ int runCli(const QStringList &arguments) {
         QCoreApplication::quit();
     };
     // A clip is done once its poster is beside it.
-    QObject::connect(generator, &Generator::posterSaved, [&](const QString &) { done(); });
+    QObject::connect(generator, &Generator::posterSaved, [&](const QString &clip) {
+        path = clip;
+        done();
+    });
+    QObject::connect(generator, &Generator::posterFailed, [&](const QString &error) {
+        print(stderr, "Error: " + error);
+        QCoreApplication::quit();
+    });
     QObject::connect(generator, &Generator::finished, [&](const QString &error) {
         if (!error.isEmpty() || path.isEmpty()) {
             print(stderr, "Error: " + (error.isEmpty() ? QString("the image was cancelled") : error));
@@ -153,7 +173,7 @@ int runCli(const QStringList &arguments) {
         QStringList from;
         for (const QString &path : parser.values("from"))
             from << QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath()).toString();
-        if (parser.isSet("video"))
+        if (video)
             generator->makeVideo(prompt, parser.value("width").toInt(), parser.value("height").toInt(), from.value(0));
         else
             generator->generate(prompt, parser.value("width").toInt(), parser.value("height").toInt(),

@@ -657,6 +657,14 @@ private slots:
         const History::Entry entry = History::readEntry(path.chopped(5) + ".png");
         QCOMPARE(entry.video, path);
         QCOMPARE(entry.prompt, QString("snow falls"));
+        // A poster naming anything but its own clip isn't one, so deleting it
+        // trashes nothing else.
+        for (const char *named : {"..", "cabin.png", "other.webm"}) {
+            QImage poster(8, 8, QImage::Format_RGB32);
+            poster.setText("fantasi-video", named);
+            QVERIFY(poster.save(dir.filePath("forged.png")));
+            QVERIFY2(History::readEntry(dir.filePath("forged.png")).video.isEmpty(), named);
+        }
     }
 
     void generatorCancelsAndSavesNothing() {

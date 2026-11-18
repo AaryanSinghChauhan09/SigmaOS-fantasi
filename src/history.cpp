@@ -89,8 +89,10 @@ History::Entry History::readEntry(const QString &path) {
     entry.modified = QFileInfo(path).lastModified();
     const QString parameters = pngText(path, "parameters");
     // A clip's poster names the clip beside it.
-    if (const QString clip = pngText(path, "fantasi-video"); !clip.isEmpty() && !clip.contains('/'))
-        entry.video = QFileInfo(path).absoluteDir().filePath(clip);
+    // Only its own: the clip of the same name beside it.
+    const QFileInfo poster(path);
+    if (pngText(path, "fantasi-video") == poster.completeBaseName() + ".webm")
+        entry.video = poster.absoluteDir().filePath(poster.completeBaseName() + ".webm");
     const qsizetype settings = parameters.lastIndexOf("\nSteps: ");
     entry.prompt = (settings >= 0 ? parameters.left(settings) : parameters).trimmed();
     static const QRegularExpression seed("(?:^|, )Seed: (-?\\d+)"), size("(?:^|, )Size: (\\d+x\\d+)");

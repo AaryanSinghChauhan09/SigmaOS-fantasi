@@ -327,7 +327,6 @@ void Generator::makeVideo(const QString &prompt, int width, int height, const QS
         for (const QJsonValue &lora : parse(reply).value("loras").toArray())
             loras << QJsonObject{{"path", lora.toObject().value("path").toString()}, {"multiplier", 1.0}};
         body.insert("lora", loras);
-        m_submitting = false;
         if (m_cancelling) {
             finish();
             return;
@@ -486,9 +485,13 @@ void Generator::writePoster(const QString &clip, const QImage &frame, const QStr
     poster.setText("fantasi-video", QFileInfo(clip).fileName());
     QSaveFile file(clip.chopped(5) + ".png");
     file.setDirectWriteFallback(false);
-    if (file.open(QIODevice::WriteOnly) && poster.save(&file, "PNG"))
-        file.commit();
-    emit posterSaved(clip);
+    if (file.open(QIODevice::WriteOnly) && poster.save(&file, "PNG") && file.commit()) {
+        emit posterSaved(clip);
+    } else {
+        m_error = tr("Couldn't save the clip's poster in %1").arg(m_folder);
+        emit changed();
+        emit posterFailed(m_error);
+    }
 }
 
 void Generator::retrySave() {

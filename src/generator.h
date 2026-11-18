@@ -100,6 +100,7 @@ signals:
     void saved(const QString &path);
     // A clip's poster is written beside it, a moment after the clip.
     void posterSaved(const QString &clip);
+    void posterFailed(const QString &error);
     // A job has ended: made and saved, cancelled, or failed with `error`.
     void finished(const QString &error);
 

@@ -109,7 +109,8 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
     });
     for (const QJsonObject &row : images)
         found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())},
-                                     {"running", row.value("unit").toString() == "active"}};
+                                     {"running", row.value("unit").toString() == "active"},
+                                     {"video", row.value("kind").toString() == "video"}};
     for (const QJsonObject &row : images)
         if (row.value("unit").toString() == "active" && row.value("edit").toBool() && found.editEndpoint.isEmpty()) {
             found.editEndpoint = row.value("endpoint").toString();
