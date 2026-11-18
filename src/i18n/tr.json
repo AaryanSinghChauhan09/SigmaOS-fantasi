@@ -60,8 +60,6 @@
   "Change it: say what should change": "Görseli değiştir: neyin değişeceğini yaz",
   "Click to use %1": "%1 modelini kullanmak için tıkla",
   "Change it": "Görseli değiştir",
-  "New image": "Yeni görsel",
-  "Start a new image": "Yeni görsel başlat",
   "Screen, square or portrait": "Ekran, kare veya dikey",
   "%1 on %2": "%2 üzerinde %1",
   "Show or hide the history": "Geçmişi göster veya gizle",
@@ -69,5 +67,14 @@
   "Combining this picture": "Bu görsel birleştiriliyor",
   "How should they come together?": "Nasıl bir araya gelsinler?",
   "Let this picture go": "Bu görseli bırak",
-  "Only a model that edits can combine pictures": "Görselleri yalnızca düzenleyen bir model birleştirebilir"
+  "Only a model that edits can combine pictures": "Görselleri yalnızca düzenleyen bir model birleştirebilir",
+  "Animate it": "Görseli canlandır",
+  "How should it move?": "Nasıl hareket etsin?",
+  "Describe a clip": "Bir klip tarif edin",
+  "No video model is running": "Çalışan bir video modeli yok",
+  "WebM video": "WebM videosu",
+  "%1 is making your clip": "%1 klibinizi oluşturuyor",
+  "Couldn't save the clip's poster in %1": "Klibin kapak görseli şuraya kaydedilemedi: %1",
+  "New generation": "Yeni üretim",
+  "Start a new generation": "Yeni üretim başlat"
 }

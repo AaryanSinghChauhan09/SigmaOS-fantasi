@@ -60,8 +60,6 @@
   "Change it: say what should change": "Athraigh í: abair cad ba cheart a athrú",
   "Click to use %1": "Cliceáil chun %1 a úsáid",
   "Change it": "Athraigh í",
-  "New image": "Íomhá nua",
-  "Start a new image": "Tosaigh íomhá nua",
   "Screen, square or portrait": "Scáileán, cearnóg nó portráid",
   "%1 on %2": "%1 ar %2",
   "Show or hide the history": "Taispeáin nó folaigh an stair",
@@ -69,5 +67,14 @@
   "Combining this picture": "Ag cumasc an phictiúir seo",
   "How should they come together?": "Conas ar cheart dóibh teacht le chéile?",
   "Let this picture go": "Lig don phictiúr seo imeacht",
-  "Only a model that edits can combine pictures": "Ní féidir ach le samhail a chuireann in eagar pictiúir a chumasc"
+  "Only a model that edits can combine pictures": "Ní féidir ach le samhail a chuireann in eagar pictiúir a chumasc",
+  "Animate it": "Beochan í",
+  "How should it move?": "Conas ba cheart di bogadh?",
+  "Describe a clip": "Déan cur síos ar ghearrthóg",
+  "No video model is running": "Níl aon samhail físe ag rith",
+  "WebM video": "Físeán WebM",
+  "%1 is making your clip": "Tá %1 ag déanamh do ghearrthóige",
+  "Couldn't save the clip's poster in %1": "Níorbh fhéidir póstaer na gearrthóige a shábháil in %1",
+  "New generation": "Giniúint nua",
+  "Start a new generation": "Tosaigh giniúint nua"
 }

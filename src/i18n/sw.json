@@ -60,8 +60,6 @@
   "Change it: say what should change": "Badilisha picha: eleza nini kibadilishwe",
   "Click to use %1": "Bofya ili kutumia %1",
   "Change it": "Badilisha picha",
-  "New image": "Picha mpya",
-  "Start a new image": "Anza picha mpya",
   "Screen, square or portrait": "Skrini, mraba au wima",
   "%1 on %2": "%1 kwenye %2",
   "Show or hide the history": "Onyesha au ficha historia",
@@ -69,5 +67,14 @@
   "Combining this picture": "Inaunganisha picha hii",
   "How should they come together?": "Zinapaswa kuungana vipi?",
   "Let this picture go": "Iachilie picha hii",
-  "Only a model that edits can combine pictures": "Ni modeli inayohariri tu inayoweza kuunganisha picha"
+  "Only a model that edits can combine pictures": "Ni modeli inayohariri tu inayoweza kuunganisha picha",
+  "Animate it": "Huisha picha",
+  "How should it move?": "Inapaswa kusogea vipi?",
+  "Describe a clip": "Eleza klipu",
+  "No video model is running": "Hakuna modeli ya video inayofanya kazi",
+  "WebM video": "Video ya WebM",
+  "%1 is making your clip": "%1 inatengeneza klipu yako",
+  "Couldn't save the clip's poster in %1": "Haikuweza kuhifadhi picha ya jalada ya klipu katika %1",
+  "New generation": "Uundaji mpya",
+  "Start a new generation": "Anza uundaji mpya"
 }

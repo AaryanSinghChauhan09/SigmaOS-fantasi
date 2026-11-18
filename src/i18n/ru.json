@@ -60,8 +60,6 @@
   "Change it: say what should change": "Изменить изображение: описать, что нужно изменить",
   "Click to use %1": "Нажмите, чтобы использовать %1",
   "Change it": "Изменить изображение",
-  "New image": "Новое изображение",
-  "Start a new image": "Начать новое изображение",
   "Screen, square or portrait": "Экран, квадрат или портрет",
   "%1 on %2": "%1 на %2",
   "Show or hide the history": "Показать или скрыть историю",
@@ -69,5 +67,14 @@
   "Combining this picture": "Объединение этого изображения",
   "How should they come together?": "Как их соединить?",
   "Let this picture go": "Отпустить это изображение",
-  "Only a model that edits can combine pictures": "Объединять изображения может только модель, которая редактирует"
+  "Only a model that edits can combine pictures": "Объединять изображения может только модель, которая редактирует",
+  "Animate it": "Оживить изображение",
+  "How should it move?": "Как оно должно двигаться?",
+  "Describe a clip": "Опишите клип",
+  "No video model is running": "Ни одна модель видео не запущена",
+  "WebM video": "Видео WebM",
+  "%1 is making your clip": "%1 создаёт ваш клип",
+  "Couldn't save the clip's poster in %1": "Не удалось сохранить обложку клипа в %1",
+  "New generation": "Новая генерация",
+  "Start a new generation": "Начать новую генерацию"
 }

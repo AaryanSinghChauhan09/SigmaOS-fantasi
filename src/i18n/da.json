@@ -60,8 +60,6 @@
   "Change it: say what should change": "Ændr det: sig, hvad der skal ændres",
   "Click to use %1": "Klik for at bruge %1",
   "Change it": "Ændr det",
-  "New image": "Nyt billede",
-  "Start a new image": "Start et nyt billede",
   "Screen, square or portrait": "Skærm, kvadrat eller portræt",
   "%1 on %2": "%1 på %2",
   "Show or hide the history": "Vis eller skjul historikken",
@@ -69,5 +67,14 @@
   "Combining this picture": "Kombinerer dette billede",
   "How should they come together?": "Hvordan skal de smelte sammen?",
   "Let this picture go": "Giv slip på dette billede",
-  "Only a model that edits can combine pictures": "Kun en model, der redigerer, kan kombinere billeder"
+  "Only a model that edits can combine pictures": "Kun en model, der redigerer, kan kombinere billeder",
+  "Animate it": "Animer det",
+  "How should it move?": "Hvordan skal det bevæge sig?",
+  "Describe a clip": "Beskriv et klip",
+  "No video model is running": "Ingen videomodel kører",
+  "WebM video": "WebM-video",
+  "%1 is making your clip": "%1 laver dit klip",
+  "Couldn't save the clip's poster in %1": "Kunne ikke gemme klippets forsidebillede i %1",
+  "New generation": "Ny generering",
+  "Start a new generation": "Start en ny generering"
 }

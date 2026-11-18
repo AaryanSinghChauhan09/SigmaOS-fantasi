@@ -60,8 +60,6 @@
   "Change it: say what should change": "Sửa ảnh: mô tả những gì cần sửa",
   "Click to use %1": "Bấm để dùng %1",
   "Change it": "Sửa ảnh",
-  "New image": "Ảnh mới",
-  "Start a new image": "Bắt đầu ảnh mới",
   "Screen, square or portrait": "Màn hình, vuông hoặc dọc",
   "%1 on %2": "%1 trên %2",
   "Show or hide the history": "Hiện hoặc ẩn lịch sử",
@@ -69,5 +67,14 @@
   "Combining this picture": "Đang kết hợp ảnh này",
   "How should they come together?": "Chúng nên kết hợp thế nào?",
   "Let this picture go": "Bỏ ảnh này",
-  "Only a model that edits can combine pictures": "Chỉ mô hình có thể sửa ảnh mới kết hợp được ảnh"
+  "Only a model that edits can combine pictures": "Chỉ mô hình có thể sửa ảnh mới kết hợp được ảnh",
+  "Animate it": "Tạo chuyển động",
+  "How should it move?": "Ảnh nên chuyển động thế nào?",
+  "Describe a clip": "Mô tả một đoạn clip",
+  "No video model is running": "Không có mô hình tạo video nào đang chạy",
+  "WebM video": "Video WebM",
+  "%1 is making your clip": "%1 đang tạo clip của bạn",
+  "Couldn't save the clip's poster in %1": "Không lưu được ảnh bìa của clip vào %1",
+  "New generation": "Lượt tạo mới",
+  "Start a new generation": "Bắt đầu lượt tạo mới"
 }

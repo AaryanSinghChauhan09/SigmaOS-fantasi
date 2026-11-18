@@ -60,8 +60,6 @@
   "Change it: say what should change": "Kép módosítása: írd le, min kell változtatni",
   "Click to use %1": "Kattintson a(z) %1 használatához",
   "Change it": "Kép módosítása",
-  "New image": "Új kép",
-  "Start a new image": "Új kép indítása",
   "Screen, square or portrait": "Képernyő, négyzet vagy álló",
   "%1 on %2": "%1 ezen: %2",
   "Show or hide the history": "Előzmények megjelenítése vagy elrejtése",
@@ -69,5 +67,14 @@
   "Combining this picture": "Ezt a képet egyesíted",
   "How should they come together?": "Hogyan álljanak össze?",
   "Let this picture go": "Engedd el ezt a képet",
-  "Only a model that edits can combine pictures": "Képeket csak szerkesztő modell tud egyesíteni"
+  "Only a model that edits can combine pictures": "Képeket csak szerkesztő modell tud egyesíteni",
+  "Animate it": "Kép animálása",
+  "How should it move?": "Hogyan mozogjon?",
+  "Describe a clip": "Írj le egy klipet",
+  "No video model is running": "Nem fut videómodell",
+  "WebM video": "WebM-videó",
+  "%1 is making your clip": "%1 készíti a klipedet",
+  "Couldn't save the clip's poster in %1": "Nem sikerült menteni a klip borítóképét ide: %1",
+  "New generation": "Új generálás",
+  "Start a new generation": "Új generálás indítása"
 }

@@ -60,8 +60,6 @@
   "Change it: say what should change": "Canvia-la: descriu què s'ha de canviar",
   "Click to use %1": "Fes clic per usar %1",
   "Change it": "Canvia-la",
-  "New image": "Imatge nova",
-  "Start a new image": "Comença una imatge nova",
   "Screen, square or portrait": "Pantalla, quadrat o vertical",
   "%1 on %2": "%1 a %2",
   "Show or hide the history": "Mostra o amaga l'historial",
@@ -69,5 +67,14 @@
   "Combining this picture": "S'està combinant aquesta imatge",
   "How should they come together?": "Com s'han d'ajuntar?",
   "Let this picture go": "Deixa anar aquesta imatge",
-  "Only a model that edits can combine pictures": "Només un model que edita pot combinar imatges"
+  "Only a model that edits can combine pictures": "Només un model que edita pot combinar imatges",
+  "Animate it": "Anima-la",
+  "How should it move?": "Com s'ha de moure?",
+  "Describe a clip": "Descriu un clip",
+  "No video model is running": "No s'està executant cap model de vídeo",
+  "WebM video": "Vídeo WebM",
+  "%1 is making your clip": "%1 està creant el teu clip",
+  "Couldn't save the clip's poster in %1": "No s'ha pogut desar la portada del clip a %1",
+  "New generation": "Generació nova",
+  "Start a new generation": "Comença una generació nova"
 }

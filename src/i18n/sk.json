@@ -60,8 +60,6 @@
   "Change it: say what should change": "Upraviť obrázok: opísať, čo sa má zmeniť",
   "Click to use %1": "Kliknutím použijete %1",
   "Change it": "Upraviť obrázok",
-  "New image": "Nový obrázok",
-  "Start a new image": "Začať nový obrázok",
   "Screen, square or portrait": "Obrazovka, štvorec alebo na výšku",
   "%1 on %2": "%1 na %2",
   "Show or hide the history": "Zobraziť alebo skryť históriu",
@@ -69,5 +67,14 @@
   "Combining this picture": "Spájanie tohto obrázka",
   "How should they come together?": "Ako sa majú spojiť?",
   "Let this picture go": "Pustiť tento obrázok",
-  "Only a model that edits can combine pictures": "Obrázky dokáže spojiť len model, ktorý upravuje"
+  "Only a model that edits can combine pictures": "Obrázky dokáže spojiť len model, ktorý upravuje",
+  "Animate it": "Rozpohybovať obrázok",
+  "How should it move?": "Ako sa má hýbať?",
+  "Describe a clip": "Opíšte klip",
+  "No video model is running": "Nebeží žiadny model na video",
+  "WebM video": "Video WebM",
+  "%1 is making your clip": "%1 vytvára váš klip",
+  "Couldn't save the clip's poster in %1": "Titulný obrázok klipu sa nepodarilo uložiť do %1",
+  "New generation": "Nové generovanie",
+  "Start a new generation": "Začať nové generovanie"
 }

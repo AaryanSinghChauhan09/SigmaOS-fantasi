@@ -60,8 +60,6 @@
   "Change it: say what should change": "تغییر تصویر: بنویسید چه چیزی باید تغییر کند",
   "Click to use %1": "برای استفاده از %1 کلیک کنید",
   "Change it": "تغییر تصویر",
-  "New image": "تصویر جدید",
-  "Start a new image": "شروع تصویر جدید",
   "Screen, square or portrait": "صفحه‌نمایش، مربع یا عمودی",
   "%1 on %2": "%1 روی %2",
   "Show or hide the history": "نمایش یا پنهان کردن تاریخچه",
@@ -69,5 +67,14 @@
   "Combining this picture": "در حال ترکیب این تصویر",
   "How should they come together?": "چطور باید با هم ترکیب شوند؟",
   "Let this picture go": "رها کردن این تصویر",
-  "Only a model that edits can combine pictures": "فقط مدلی که ویرایش می‌کند می‌تواند تصاویر را ترکیب کند"
+  "Only a model that edits can combine pictures": "فقط مدلی که ویرایش می‌کند می‌تواند تصاویر را ترکیب کند",
+  "Animate it": "متحرک کردن تصویر",
+  "How should it move?": "چگونه باید حرکت کند؟",
+  "Describe a clip": "یک کلیپ را توصیف کنید",
+  "No video model is running": "هیچ مدل ویدیویی در حال اجرا نیست",
+  "WebM video": "ویدیوی WebM",
+  "%1 is making your clip": "مدل %1 در حال ساختن کلیپ شماست",
+  "Couldn't save the clip's poster in %1": "ذخیرهٔ تصویر کاور کلیپ در %1 ممکن نشد",
+  "New generation": "تولید جدید",
+  "Start a new generation": "شروع تولید جدید"
 }

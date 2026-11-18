@@ -60,8 +60,6 @@
   "Change it: say what should change": "تعديلها: صِف ما يجب تغييره",
   "Click to use %1": "انقر لاستخدام %1",
   "Change it": "تعديلها",
-  "New image": "صورة جديدة",
-  "Start a new image": "بدء صورة جديدة",
   "Screen, square or portrait": "شاشة أو مربع أو عمودي",
   "%1 on %2": "%1 على %2",
   "Show or hide the history": "إظهار السجل أو إخفاؤه",
@@ -69,5 +67,14 @@
   "Combining this picture": "جارٍ دمج هذه الصورة",
   "How should they come together?": "كيف يجب أن تجتمع؟",
   "Let this picture go": "التخلّي عن هذه الصورة",
-  "Only a model that edits can combine pictures": "لا يمكن دمج الصور إلا بنموذج يعدّل"
+  "Only a model that edits can combine pictures": "لا يمكن دمج الصور إلا بنموذج يعدّل",
+  "Animate it": "حرّكها",
+  "How should it move?": "كيف يجب أن تتحرك؟",
+  "Describe a clip": "صف مقطعًا",
+  "No video model is running": "لا يعمل أي نموذج فيديو",
+  "WebM video": "فيديو WebM",
+  "%1 is making your clip": "النموذج %1 يصنع مقطعك",
+  "Couldn't save the clip's poster in %1": "تعذّر حفظ صورة غلاف المقطع في %1",
+  "New generation": "توليد جديد",
+  "Start a new generation": "بدء توليد جديد"
 }

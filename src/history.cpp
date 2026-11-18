@@ -37,10 +37,10 @@ QByteArray inflate(const QByteArray &stream) {
     return qUncompress(sized + stream);
 }
 
-// A PNG's `parameters` text, read from its chunks up to the pixels. Qt's own
-// reader turns the text's newlines into spaces, and the newline is what
+// A PNG's text under `keyword`, read from its chunks up to the pixels. Qt's
+// own reader turns the text's newlines into spaces, and the newline is what
 // separates the prompt from the settings after it.
-QString pngParameters(const QString &path) {
+QString pngText(const QString &path, const QByteArray &keyword) {
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly) || file.read(8) != QByteArray("\x89PNG\r\n\x1a\n", 8))
         return {};
@@ -60,7 +60,7 @@ QString pngParameters(const QString &path) {
         const QByteArray body = file.read(length);
         file.skip(4);
         const qsizetype end = body.indexOf('\0');
-        if (end < 0 || body.left(end) != "parameters")
+        if (end < 0 || body.left(end) != keyword)
             continue;
         // stable-diffusion.cpp writes plain tEXt, in UTF-8 whatever the
         // standard says; other writers compress a long text.
@@ -87,7 +87,12 @@ History::Entry History::readEntry(const QString &path) {
     Entry entry;
     entry.path = path;
     entry.modified = QFileInfo(path).lastModified();
-    const QString parameters = pngParameters(path);
+    const QString parameters = pngText(path, "parameters");
+    // A clip's poster names the clip beside it.
+    // Only its own: the clip of the same name beside it.
+    const QFileInfo poster(path);
+    if (pngText(path, "fantasi-video") == poster.completeBaseName() + ".webm")
+        entry.video = poster.absoluteDir().filePath(poster.completeBaseName() + ".webm");
     const qsizetype settings = parameters.lastIndexOf("\nSteps: ");
     entry.prompt = (settings >= 0 ? parameters.left(settings) : parameters).trimmed();
     static const QRegularExpression seed("(?:^|, )Seed: (-?\\d+)"), size("(?:^|, )Size: (\\d+x\\d+)");
@@ -145,6 +150,8 @@ QVariant History::data(const QModelIndex &index, int role) const {
         return entry.path;
     case PromptRole:
         return entry.prompt;
+    case VideoRole:
+        return entry.video.isEmpty() ? QString() : QUrl::fromLocalFile(entry.video).toString();
     case SeedRole:
         return entry.seed;
     case SizeRole:
@@ -155,7 +162,7 @@ QVariant History::data(const QModelIndex &index, int role) const {
 }
 
 QHash<int, QByteArray> History::roleNames() const {
-    return {{UrlRole, "url"}, {PathRole, "path"}, {PromptRole, "prompt"}, {SeedRole, "seed"}, {SizeRole, "size"}};
+    return {{UrlRole, "url"}, {PathRole, "path"}, {PromptRole, "prompt"}, {SeedRole, "seed"}, {SizeRole, "size"}, {VideoRole, "video"}};
 }
 
 bool History::remove(int row) {
@@ -163,6 +170,9 @@ bool History::remove(int row) {
         return false;
     if (!QFile::moveToTrash(m_entries.at(row).path))
         return false;
+    // A clip goes with its poster.
+    if (const QString clip = m_entries.at(row).video; !clip.isEmpty())
+        QFile::moveToTrash(clip);
     beginRemoveRows({}, row, row);
     m_entries.removeAt(row);
     endRemoveRows();

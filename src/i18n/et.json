@@ -60,8 +60,6 @@
   "Change it: say what should change": "Muuda pilti: kirjelda, mida muuta",
   "Click to use %1": "Klõpsa, et kasutada mudelit %1",
   "Change it": "Muuda pilti",
-  "New image": "Uus pilt",
-  "Start a new image": "Alusta uut pilti",
   "Screen, square or portrait": "Ekraan, ruut või püstpaigutus",
   "%1 on %2": "%1 masinas %2",
   "Show or hide the history": "Näita või peida ajalugu",
@@ -69,5 +67,14 @@
   "Combining this picture": "Selle pildi kombineerimine",
   "How should they come together?": "Kuidas need peaksid kokku tulema?",
   "Let this picture go": "Lase sellest pildist lahti",
-  "Only a model that edits can combine pictures": "Pilte saab kombineerida ainult muutmist toetav mudel"
+  "Only a model that edits can combine pictures": "Pilte saab kombineerida ainult muutmist toetav mudel",
+  "Animate it": "Animeeri pilti",
+  "How should it move?": "Kuidas see peaks liikuma?",
+  "Describe a clip": "Kirjelda klippi",
+  "No video model is running": "Ükski videomudel ei tööta",
+  "WebM video": "WebM-video",
+  "%1 is making your clip": "%1 teeb sinu klippi",
+  "Couldn't save the clip's poster in %1": "Klipi kaanepilti ei õnnestunud salvestada kausta %1",
+  "New generation": "Uus genereerimine",
+  "Start a new generation": "Alusta uut genereerimist"
 }

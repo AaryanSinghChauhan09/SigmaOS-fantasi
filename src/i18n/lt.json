@@ -60,8 +60,6 @@
   "Change it: say what should change": "Keisti vaizdą: aprašyti, ką pakeisti",
   "Click to use %1": "Spustelėkite, kad naudotumėte %1",
   "Change it": "Keisti vaizdą",
-  "New image": "Naujas vaizdas",
-  "Start a new image": "Pradėti naują vaizdą",
   "Screen, square or portrait": "Ekranas, kvadratas arba portretas",
   "%1 on %2": "%1 kompiuteryje %2",
   "Show or hide the history": "Rodyti arba slėpti istoriją",
@@ -69,5 +67,14 @@
   "Combining this picture": "Sujungiamas šis vaizdas",
   "How should they come together?": "Kaip juos sujungti?",
   "Let this picture go": "Paleisti šį vaizdą",
-  "Only a model that edits can combine pictures": "Paveikslėlius gali sujungti tik redaguojantis modelis"
+  "Only a model that edits can combine pictures": "Paveikslėlius gali sujungti tik redaguojantis modelis",
+  "Animate it": "Animuoti vaizdą",
+  "How should it move?": "Kaip jis turi judėti?",
+  "Describe a clip": "Aprašykite klipą",
+  "No video model is running": "Neveikia joks vaizdo įrašų modelis",
+  "WebM video": "WebM vaizdo įrašas",
+  "%1 is making your clip": "%1 kuria jūsų klipą",
+  "Couldn't save the clip's poster in %1": "Nepavyko išsaugoti klipo viršelio aplanke %1",
+  "New generation": "Naujas generavimas",
+  "Start a new generation": "Pradėti naują generavimą"
 }
