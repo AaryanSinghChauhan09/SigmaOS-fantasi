@@ -75,5 +75,6 @@
   "Describe a clip": "Descrivi una clip",
   "No video model is running": "Nessun modello video in esecuzione",
   "WebM video": "Video WebM",
-  "%1 is making your clip": "%1 sta creando la tua clip"
+  "%1 is making your clip": "%1 sta creando la tua clip",
+  "Couldn't save the clip's poster in %1": "Impossibile salvare la copertina della clip in %1"
 }

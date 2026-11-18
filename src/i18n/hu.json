@@ -75,5 +75,6 @@
   "Describe a clip": "Írj le egy klipet",
   "No video model is running": "Nem fut videómodell",
   "WebM video": "WebM-videó",
-  "%1 is making your clip": "%1 készíti a klipedet"
+  "%1 is making your clip": "%1 készíti a klipedet",
+  "Couldn't save the clip's poster in %1": "Nem sikerült menteni a klip borítóképét ide: %1"
 }

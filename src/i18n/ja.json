@@ -75,5 +75,6 @@
   "Describe a clip": "クリップの説明を入力",
   "No video model is running": "動画モデルが起動していません",
   "WebM video": "WebM 動画",
-  "%1 is making your clip": "%1 がクリップを作成中"
+  "%1 is making your clip": "%1 がクリップを作成中",
+  "Couldn't save the clip's poster in %1": "%1 にクリップのポスター画像を保存できませんでした"
 }

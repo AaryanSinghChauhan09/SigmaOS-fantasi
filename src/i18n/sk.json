@@ -75,5 +75,6 @@
   "Describe a clip": "Opíšte klip",
   "No video model is running": "Nebeží žiadny model na video",
   "WebM video": "Video WebM",
-  "%1 is making your clip": "%1 vytvára váš klip"
+  "%1 is making your clip": "%1 vytvára váš klip",
+  "Couldn't save the clip's poster in %1": "Titulný obrázok klipu sa nepodarilo uložiť do %1"
 }

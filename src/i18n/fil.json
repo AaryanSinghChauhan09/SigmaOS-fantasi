@@ -75,5 +75,6 @@
   "Describe a clip": "Ilarawan ang isang clip",
   "No video model is running": "Walang tumatakbong video model",
   "WebM video": "WebM na video",
-  "%1 is making your clip": "Ginagawa ng %1 ang clip mo"
+  "%1 is making your clip": "Ginagawa ng %1 ang clip mo",
+  "Couldn't save the clip's poster in %1": "Hindi ma-save ang poster ng clip sa %1"
 }

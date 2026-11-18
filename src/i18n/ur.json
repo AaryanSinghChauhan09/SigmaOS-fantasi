@@ -75,5 +75,6 @@
   "Describe a clip": "ایک کلپ بیان کریں",
   "No video model is running": "کوئی ویڈیو ماڈل نہیں چل رہا",
   "WebM video": "WebM ویڈیو",
-  "%1 is making your clip": "ماڈل %1 آپ کا کلپ بنا رہا ہے"
+  "%1 is making your clip": "ماڈل %1 آپ کا کلپ بنا رہا ہے",
+  "Couldn't save the clip's poster in %1": "کلپ کا پوسٹر %1 میں محفوظ نہیں ہو سکا"
 }

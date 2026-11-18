@@ -75,5 +75,6 @@
   "Describe a clip": "Aprakstiet klipu",
   "No video model is running": "Nedarbojas neviens video modelis",
   "WebM video": "WebM video",
-  "%1 is making your clip": "%1 veido jūsu klipu"
+  "%1 is making your clip": "%1 veido jūsu klipu",
+  "Couldn't save the clip's poster in %1": "Neizdevās saglabāt klipa vāka attēlu mapē %1"
 }

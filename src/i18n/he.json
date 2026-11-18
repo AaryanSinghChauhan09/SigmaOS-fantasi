@@ -75,5 +75,6 @@
   "Describe a clip": "תארו קליפ",
   "No video model is running": "אין מודל וידאו פעיל",
   "WebM video": "סרטון WebM",
-  "%1 is making your clip": "המודל %1 יוצר את הקליפ שלך"
+  "%1 is making your clip": "המודל %1 יוצר את הקליפ שלך",
+  "Couldn't save the clip's poster in %1": "לא ניתן היה לשמור את תמונת השער של הקליפ בתיקייה %1"
 }

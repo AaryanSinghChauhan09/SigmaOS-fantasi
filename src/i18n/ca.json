@@ -75,5 +75,6 @@
   "Describe a clip": "Descriu un clip",
   "No video model is running": "No s'està executant cap model de vídeo",
   "WebM video": "Vídeo WebM",
-  "%1 is making your clip": "%1 està creant el teu clip"
+  "%1 is making your clip": "%1 està creant el teu clip",
+  "Couldn't save the clip's poster in %1": "No s'ha pogut desar la portada del clip a %1"
 }

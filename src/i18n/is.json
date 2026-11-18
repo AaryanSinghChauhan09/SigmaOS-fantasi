@@ -75,5 +75,6 @@
   "Describe a clip": "Lýstu myndskeiði",
   "No video model is running": "Ekkert myndbandslíkan er í gangi",
   "WebM video": "WebM-myndband",
-  "%1 is making your clip": "%1 er að búa til myndskeiðið þitt"
+  "%1 is making your clip": "%1 er að búa til myndskeiðið þitt",
+  "Couldn't save the clip's poster in %1": "Ekki tókst að vista forsíðumynd myndskeiðsins í %1"
 }

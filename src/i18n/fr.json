@@ -75,5 +75,6 @@
   "Describe a clip": "Décrivez un clip",
   "No video model is running": "Aucun modèle vidéo ne tourne",
   "WebM video": "Vidéo WebM",
-  "%1 is making your clip": "%1 crée votre clip"
+  "%1 is making your clip": "%1 crée votre clip",
+  "Couldn't save the clip's poster in %1": "Impossible d'enregistrer l'affiche du clip dans %1"
 }

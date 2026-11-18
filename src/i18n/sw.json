@@ -75,5 +75,6 @@
   "Describe a clip": "Eleza klipu",
   "No video model is running": "Hakuna modeli ya video inayofanya kazi",
   "WebM video": "Video ya WebM",
-  "%1 is making your clip": "%1 inatengeneza klipu yako"
+  "%1 is making your clip": "%1 inatengeneza klipu yako",
+  "Couldn't save the clip's poster in %1": "Haikuweza kuhifadhi picha ya jalada ya klipu katika %1"
 }

@@ -75,5 +75,6 @@
   "Describe a clip": "Kirjelda klippi",
   "No video model is running": "Ükski videomudel ei tööta",
   "WebM video": "WebM-video",
-  "%1 is making your clip": "%1 teeb sinu klippi"
+  "%1 is making your clip": "%1 teeb sinu klippi",
+  "Couldn't save the clip's poster in %1": "Klipi kaanepilti ei õnnestunud salvestada kausta %1"
 }

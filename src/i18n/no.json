@@ -75,5 +75,6 @@
   "Describe a clip": "Beskriv et klipp",
   "No video model is running": "Ingen videomodell kjører",
   "WebM video": "WebM-video",
-  "%1 is making your clip": "%1 lager klippet ditt"
+  "%1 is making your clip": "%1 lager klippet ditt",
+  "Couldn't save the clip's poster in %1": "Kunne ikke lagre forsidebildet til klippet i %1"
 }

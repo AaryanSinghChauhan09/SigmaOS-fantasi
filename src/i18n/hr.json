@@ -75,5 +75,6 @@
   "Describe a clip": "Opišite isječak",
   "No video model is running": "Nijedan model za video nije pokrenut",
   "WebM video": "WebM video",
-  "%1 is making your clip": "%1 izrađuje vaš isječak"
+  "%1 is making your clip": "%1 izrađuje vaš isječak",
+  "Couldn't save the clip's poster in %1": "Naslovna slika isječka nije se mogla spremiti u %1"
 }

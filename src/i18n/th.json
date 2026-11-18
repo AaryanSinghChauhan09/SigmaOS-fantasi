@@ -75,5 +75,6 @@
   "Describe a clip": "อธิบายคลิปที่ต้องการ",
   "No video model is running": "ไม่มีโมเดลวิดีโอที่ทำงานอยู่",
   "WebM video": "วิดีโอ WebM",
-  "%1 is making your clip": "%1 กำลังสร้างคลิปของคุณ"
+  "%1 is making your clip": "%1 กำลังสร้างคลิปของคุณ",
+  "Couldn't save the clip's poster in %1": "บันทึกภาพปกของคลิปใน %1 ไม่ได้"
 }

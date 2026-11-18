@@ -75,5 +75,6 @@
   "Describe a clip": "Kuvaile leike",
   "No video model is running": "Videomalli ei ole käynnissä",
   "WebM video": "WebM-video",
-  "%1 is making your clip": "%1 tekee leikettäsi"
+  "%1 is making your clip": "%1 tekee leikettäsi",
+  "Couldn't save the clip's poster in %1": "Leikkeen kansikuvaa ei voitu tallentaa kansioon %1"
 }

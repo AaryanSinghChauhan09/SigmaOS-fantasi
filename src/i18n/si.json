@@ -75,5 +75,6 @@
   "Describe a clip": "ක්ලිපයක් විස්තර කරන්න",
   "No video model is running": "කිසිදු වීඩියෝ මාදිලියක් ධාවනය නොවේ",
   "WebM video": "WebM වීඩියෝව",
-  "%1 is making your clip": "%1 ඔබේ ක්ලිපය සාදමින් සිටී"
+  "%1 is making your clip": "%1 ඔබේ ක්ලිපය සාදමින් සිටී",
+  "Couldn't save the clip's poster in %1": "ක්ලිපයේ පෝස්ටරය %1 තුළ සුරැකිය නොහැකි විය"
 }
