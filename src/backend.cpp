@@ -6,14 +6,38 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QFileInfo>
 #include <QMimeData>
+#include <QSaveFile>
 #include <QStandardPaths>
 #include <QUrl>
 #include <cmath>
+#include <utility>
 
-Backend::Backend(const Places &places, QObject *parent)
+#include "portalfilepicker.h"
+
+Backend::Backend(const Places &places, FilePicker *picker, QObject *parent)
     : QObject(parent), m_models(places.engineState, places.engineKey, places.engineCommand),
-      m_generator(&m_models, places.folder), m_history(m_generator.folder()) {
+      m_generator(&m_models, places.folder), m_history(m_generator.folder()),
+      m_picker(picker ? picker : new PortalFilePicker(this)) {
+    connect(m_picker, &FilePicker::failed, this, [this](const QString &message) {
+        m_saving.clear();
+        m_error = message;
+        emit errorChanged();
+    });
+    connect(m_picker, &FilePicker::saveSelected, this, [this](const QUrl &target) {
+        const QString source = std::exchange(m_saving, {});
+        QFile in(source);
+        QSaveFile out(target.toLocalFile());
+        // Never truncate the file in place when its folder takes no
+        // temporary file: the save fails instead.
+        out.setDirectWriteFallback(false);
+        const bool written = in.open(QIODevice::ReadOnly) && out.open(QIODevice::WriteOnly)
+                          && out.write(in.readAll()) == in.size() && out.commit();
+        m_error = written ? QString() : tr("Couldn't save the image as %1").arg(target.toLocalFile());
+        emit errorChanged();
+    });
+
     const QString hyprctl = !places.hyprctl.isEmpty() ? places.hyprctl
                           : !qEnvironmentVariableIsEmpty("HYPRLAND_INSTANCE_SIGNATURE")
                               ? QStandardPaths::findExecutable("hyprctl")
@@ -57,4 +81,16 @@ void Backend::copy(const QString &url) {
     auto *data = new QMimeData;
     data->setData("image/png", file.readAll());
     QGuiApplication::clipboard()->setMimeData(data);
+}
+
+void Backend::saveAs(const QString &url) {
+    const QString path = QUrl(url).toLocalFile();
+    if (path.isEmpty())
+        return;
+    m_saving = path;
+    m_error.clear();
+    emit errorChanged();
+    // The picker starts in Pictures, with the image's own name.
+    const QString pictures = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    m_picker->saveImage(QUrl::fromLocalFile(pictures + "/" + QFileInfo(path).fileName()));
 }

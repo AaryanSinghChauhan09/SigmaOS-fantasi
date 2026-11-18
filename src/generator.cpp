@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QImageReader>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QNetworkReply>
@@ -93,7 +94,7 @@ void Generator::fetchDefaults() {
     });
 }
 
-void Generator::generate(const QString &prompt, int width, int height, int steps, qint64 seed) {
+void Generator::generate(const QString &prompt, int width, int height, int steps, qint64 seed, const QString &baseUrl) {
     if (busy() || prompt.trimmed().isEmpty())
         return;
     if (m_origin.isEmpty()) {
@@ -104,6 +105,20 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
 
     // The model's defaults, with what the window sets on top.
     QJsonObject body = m_defaults;
+    if (!baseUrl.isEmpty()) {
+        const QString path = QUrl(baseUrl).isLocalFile() ? QUrl(baseUrl).toLocalFile() : baseUrl;
+        QFile base(path);
+        const QSize size = QImageReader(path).size();
+        if (!base.open(QIODevice::ReadOnly) || !size.isValid()) {
+            m_error = tr("Couldn't read the image to start from");
+            emit changed();
+            return;
+        }
+        body.insert("init_image", QString::fromLatin1(base.readAll().toBase64()));
+        body.insert("strength", baseStrength);
+        width = size.width();
+        height = size.height();
+    }
     QJsonObject sample = body.value("sample_params").toObject();
     if (steps > 0)
         sample.insert("sample_steps", steps);

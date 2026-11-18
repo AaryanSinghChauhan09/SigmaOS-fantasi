@@ -235,6 +235,17 @@ QByteArray png(int size = 8) {
     return bytes;
 }
 
+// A save dialog that answers with `answer` at once.
+class FakePicker : public FilePicker {
+public:
+    QUrl answer;
+    QUrl suggested;
+    void saveImage(const QUrl &suggestedUrl) override {
+        suggested = suggestedUrl;
+        emit saveSelected(answer);
+    }
+};
+
 } // namespace
 
 class FantasiTests : public QObject {
@@ -366,6 +377,35 @@ private slots:
         QCOMPARE(QDir(dir.path() + "/out").entryList(QDir::Files | QDir::Hidden).size(), 1);
     }
 
+    void generatorStartsFromABaseImageAtItsSize() {
+        QTemporaryDir dir;
+        FakeServer server;
+        server.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (method == "POST" && path == "/sdcpp/v1/img_gen")
+                return {202, q("{'id': 'job4'}")};
+            if (path == "/sdcpp/v1/jobs/job4")
+                return {200, q("{'status': 'cancelled'}")};
+            return {404, "{}"};
+        };
+        readyEngine(dir.path() + "/state", server.origin());
+        QImage base(640, 384, QImage::Format_RGB32);
+        base.fill(Qt::darkBlue);
+        QVERIFY(base.save(dir.filePath("base.png")));
+
+        Models models(dir.path() + "/state", dir.path() + "/state/key", "/bin/true");
+        Generator generator(&models, dir.path() + "/out");
+        generator.generate("the same, with snow", 1024, 1024, 0, -1, QUrl::fromLocalFile(dir.filePath("base.png")).toString());
+        QTRY_VERIFY(!server.requests.isEmpty() && server.requests.last().first == "POST /sdcpp/v1/img_gen");
+        const QJsonObject body = server.requests.last().second;
+        QFile file(dir.filePath("base.png"));
+        QVERIFY(file.open(QIODevice::ReadOnly));
+        QCOMPARE(body.value("init_image").toString(), QString::fromLatin1(file.readAll().toBase64()));
+        QCOMPARE(body.value("strength").toDouble(), Generator::baseStrength);
+        QCOMPARE(body.value("width").toInt(), 640);
+        QCOMPARE(body.value("height").toInt(), 384);
+        QTRY_VERIFY(!generator.busy());
+    }
+
     void generatorCancelsAndSavesNothing() {
         QTemporaryDir dir;
         FakeServer server;
@@ -431,6 +471,28 @@ private slots:
         QCOMPARE(entries.at(1).prompt, QString("a lake\nat dusk"));
         QCOMPARE(entries.at(1).seed, 42);
         QCOMPARE(entries.at(1).size, QString("1024x768"));
+    }
+
+    void saveAsCopiesTheImageWhereThePickerSays() {
+        QTemporaryDir dir;
+        QVERIFY(write(dir.filePath("made.png"), png()));
+        auto *picker = new FakePicker;
+        Backend backend({dir.path() + "/state", {}, "/bin/true", dir.path() + "/out", "/bin/true"}, picker);
+        picker->setParent(&backend);
+
+        picker->answer = QUrl::fromLocalFile(dir.filePath("copy.png"));
+        backend.saveAs(QUrl::fromLocalFile(dir.filePath("made.png")).toString());
+        QVERIFY(picker->suggested.toLocalFile().endsWith("/made.png"));
+        QVERIFY(backend.error().isEmpty());
+        QFile copy(dir.filePath("copy.png"));
+        QVERIFY(copy.open(QIODevice::ReadOnly));
+        QCOMPARE(copy.readAll(), png());
+
+        // A folder that isn't there: said so, and nothing half-written.
+        picker->answer = QUrl::fromLocalFile(dir.filePath("missing/copy.png"));
+        backend.saveAs(QUrl::fromLocalFile(dir.filePath("made.png")).toString());
+        QVERIFY(backend.error().startsWith("Couldn't save the image as"));
+        QVERIFY(!QFileInfo::exists(dir.filePath("missing")));
     }
 
     void screenSizeIsAMegapixelInTheMonitorsShape() {

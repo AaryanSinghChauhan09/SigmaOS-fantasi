@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Fantasi
-Comment=One line on what it does
+Comment=Make images with a local model
 Exec=fantasi %f
 Icon=fantasi
 Terminal=false

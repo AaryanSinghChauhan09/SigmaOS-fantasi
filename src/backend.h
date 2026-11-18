@@ -4,6 +4,7 @@
 #include <QProcess>
 #include <QSize>
 
+#include "filepicker.h"
 #include "generator.h"
 #include "history.h"
 #include "models.h"
@@ -19,6 +20,8 @@ class Backend : public QObject {
     Q_PROPERTY(QSize screenSize READ screenSize NOTIFY screenSizeChanged)
     // The prompt `fantasi open` was given.
     Q_PROPERTY(QString initialPrompt MEMBER m_initialPrompt CONSTANT)
+    // Why the last thing done with an image (Save as) didn't happen.
+    Q_PROPERTY(QString error READ error NOTIFY errorChanged)
 
 public:
     // Where things live; an empty one is the user's own.
@@ -30,7 +33,8 @@ public:
         QString hyprctl;
     };
 
-    explicit Backend(const Places &places = {}, QObject *parent = nullptr);
+    // The picker asks where Save as writes; without one, the desktop portal's.
+    explicit Backend(const Places &places = {}, FilePicker *picker = nullptr, QObject *parent = nullptr);
 
     Models *models() { return &m_models; }
     Generator *generator() { return &m_generator; }
@@ -43,11 +47,16 @@ public:
 
     void setInitialPrompt(const QString &prompt) { m_initialPrompt = prompt; }
 
+    QString error() const { return m_error; }
+
     Q_INVOKABLE void setBackground(const QString &url);
     Q_INVOKABLE void copy(const QString &url);
+    // Asks where, then writes a copy of the image there.
+    Q_INVOKABLE void saveAs(const QString &url);
 
 signals:
     void screenSizeChanged();
+    void errorChanged();
 
 private:
     Models m_models;
@@ -55,5 +64,8 @@ private:
     History m_history;
     QSize m_screenSize{1344, 768};
     QString m_initialPrompt;
+    QString m_error;
+    QString m_saving;
+    FilePicker *m_picker;
     QProcess m_monitors;
 };

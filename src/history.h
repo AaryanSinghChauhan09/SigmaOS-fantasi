@@ -36,6 +36,7 @@ public:
     static QList<Entry> scan(const QString &folder);
 
     Q_INVOKABLE QString urlAt(int row) const { return data(index(row), UrlRole).toString(); }
+    Q_INVOKABLE QString promptAt(int row) const { return data(index(row), PromptRole).toString(); }
     // Moves the image to the trash, from where it can come back.
     Q_INVOKABLE bool remove(int row);
 

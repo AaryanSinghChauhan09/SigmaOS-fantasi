@@ -47,8 +47,14 @@ public:
     QString folder() const { return m_folder; }
 
     // A seed below zero asks the server for a random one; steps of zero take
-    // the model's own default.
-    Q_INVOKABLE void generate(const QString &prompt, int width, int height, int steps, qint64 seed);
+    // the model's own default. With a base image, the new one starts from it,
+    // at its size, keeping its composition while the prompt changes it.
+    Q_INVOKABLE void generate(const QString &prompt, int width, int height, int steps = 0, qint64 seed = -1,
+                              const QString &baseUrl = {});
+
+    // How far a new image may move from its base: far enough that a change
+    // asked for shows, near enough that the picture stays the same picture.
+    static constexpr double baseStrength = 0.7;
     Q_INVOKABLE void cancel();
     // Writes a finished image the folder refused last time.
     Q_INVOKABLE void retrySave();

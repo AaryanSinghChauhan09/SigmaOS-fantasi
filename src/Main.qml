@@ -35,22 +35,28 @@ ApplicationWindow {
     // The file in the center, when it is one rather than a preview.
     readonly property string shownFile: generator.image.startsWith("file:") ? generator.image : ""
     readonly property bool canGenerate: models.state === "ready" && !generator.busy && prompt.text.trim() !== ""
+    // The image the next one starts from, while changing one; it stays the
+    // base turn after turn until another is picked or it's let go.
+    property string baseImage: ""
 
-    // The theme's own colors, said in the prompt when asked for.
-    readonly property var themePalette: ["background", "selection", "blue", "accent", "foreground"].map(key => theme.colors[key] || (key === "accent" ? theme.accent : theme.foreground))
-    function promptText() {
-        if (!themeColors.checked)
-            return prompt.text
-        // English, whatever the language: the model reads English best.
-        return prompt.text.trim() + ". Use the color palette " + themePalette.map(c => c.toString()).join(", ")
+    // The model's own steps and a new seed every time: what matters is said
+    // in the prompt.
+    function generate() {
+        if (canGenerate)
+            generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImage)
     }
-    function generate(seed) {
-        if (!canGenerate)
+    // Makes the shown image the base for the next, with its prompt to edit.
+    function changeImage() {
+        if (shownFile === "" || generator.busy)
             return
-        const fixed = seedField.text.trim() === "" ? -1 : Number(seedField.text)
-        generator.generate(promptText(), outputSize.width, outputSize.height, steps.value, seed !== undefined ? seed : fixed)
+        baseImage = shownFile
+        const said = historyList.currentIndex >= 0 ? history.promptAt(historyList.currentIndex) : ""
+        if (said !== "")
+            prompt.text = said
+        prompt.forceActiveFocus()
+        prompt.cursorPosition = prompt.length
     }
-    // Shows a history image, and takes its prompt and seed into the panel.
+    // Shows a history image in the center.
     function pick(index) {
         if (index < 0 || index >= history.count || generator.busy)
             return
@@ -63,13 +69,17 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+Q"; onActivated: Qt.quit() }
     Shortcut { sequence: "Ctrl+Return"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+Enter"; enabled: win.canGenerate; onActivated: win.generate() }
-    Shortcut { sequence: "Ctrl+R"; enabled: win.canGenerate; onActivated: win.generate(-1) }
+    Shortcut { sequence: "Ctrl+R"; enabled: win.canGenerate; onActivated: win.generate() }
+    Shortcut { sequence: "Ctrl+E"; enabled: win.shownFile !== "" && !generator.busy; onActivated: win.changeImage() }
+    // Esc stops an image being made, or else lets go of the base image.
     Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }
+    Shortcut { sequence: "Escape"; enabled: !generator.busy && win.baseImage !== ""; onActivated: win.baseImage = "" }
     Shortcut { sequence: "Ctrl+1"; onActivated: win.sizeChoice = 0 }
     Shortcut { sequence: "Ctrl+2"; onActivated: win.sizeChoice = 1 }
     Shortcut { sequence: "Ctrl+3"; onActivated: win.sizeChoice = 2 }
     Shortcut { sequence: "Ctrl+B"; enabled: win.shownFile !== ""; onActivated: backend.setBackground(win.shownFile) }
     Shortcut { sequence: "Ctrl+Shift+C"; enabled: win.shownFile !== ""; onActivated: backend.copy(win.shownFile) }
+    Shortcut { sequence: "Ctrl+S"; enabled: win.shownFile !== ""; onActivated: backend.saveAs(win.shownFile) }
     Shortcut { sequence: "Ctrl+Up"; onActivated: win.pick(historyList.currentIndex - 1) }
     Shortcut { sequence: "Ctrl+Down"; onActivated: win.pick(historyList.currentIndex + 1) }
     Shortcut {
@@ -113,32 +123,66 @@ ApplicationWindow {
 
                     Label { text: "Fantasi"; font.pixelSize: 16; font.bold: true }
 
-                    ColumnLayout {
+                    // The image the next one starts from, while changing one.
+                    Rectangle {
+                        objectName: "base"
                         Layout.fillWidth: true
-                        spacing: 6
-                        ScrollView {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 132
-                            TextArea {
-                                id: prompt
-                                objectName: "prompt"
-                                focus: true
-                                wrapMode: TextEdit.Wrap
-                                placeholderText: qsTr("Describe an image")
-                                Material.roundedScale: theme.radius
-                                Keys.onReturnPressed: event => {
-                                    if (event.modifiers & Qt.ControlModifier)
-                                        win.generate()
-                                    else
-                                        event.accepted = false
-                                }
+                        Layout.preferredHeight: 56
+                        visible: win.baseImage !== ""
+                        color: "transparent"
+                        border.color: win.line
+                        radius: Math.min(4, theme.radius)
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.margins: 8
+                            spacing: 10
+                            Image {
+                                Layout.preferredWidth: 40
+                                Layout.preferredHeight: 40
+                                source: win.baseImage
+                                sourceSize: Qt.size(80, 80)
+                                fillMode: Image.PreserveAspectCrop
+                                asynchronous: true
+                            }
+                            Label {
+                                Layout.fillWidth: true
+                                text: qsTr("Changing this image")
+                                elide: Text.ElideRight
+                            }
+                            ToolButton {
+                                text: "×"
+                                focusPolicy: Qt.NoFocus
+                                Accessible.name: qsTr("Make a new image instead")
+                                onClicked: win.baseImage = ""
                             }
                         }
                     }
 
+                    ScrollView {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 132
+                        TextArea {
+                            id: prompt
+                            objectName: "prompt"
+                            focus: true
+                            wrapMode: TextEdit.Wrap
+                            placeholderText: win.baseImage !== "" ? qsTr("Describe the new image")
+                                                                  : qsTr("Describe an image")
+                            Material.roundedScale: theme.radius
+                            Keys.onReturnPressed: event => {
+                                if (event.modifiers & Qt.ControlModifier)
+                                    win.generate()
+                                else
+                                    event.accepted = false
+                            }
+                        }
+                    }
+
+                    // A change keeps its base image's size, so there's no size to pick.
                     ColumnLayout {
                         Layout.fillWidth: true
                         spacing: 6
+                        visible: win.baseImage === ""
                         Label { text: qsTr("Size"); color: win.muted; font.pixelSize: 12 }
                         RowLayout {
                             Layout.fillWidth: true
@@ -175,64 +219,6 @@ ApplicationWindow {
                         }
                     }
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: 12
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: 6
-                            Label { text: qsTr("Steps"); color: win.muted; font.pixelSize: 12 }
-                            SpinBox {
-                                id: steps
-                                Layout.fillWidth: true
-                                from: 1
-                                to: 60
-                                value: generator.defaultSteps
-                                editable: true
-                                Material.roundedScale: theme.radius
-                            }
-                        }
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: 6
-                            Label { text: qsTr("Seed"); color: win.muted; font.pixelSize: 12 }
-                            TextField {
-                                id: seedField
-                                Layout.fillWidth: true
-                                placeholderText: qsTr("Random")
-                                validator: RegularExpressionValidator { regularExpression: /[0-9]{0,18}/ }
-                                Material.roundedScale: theme.radius
-                            }
-                        }
-                    }
-
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        spacing: 4
-                        CheckBox {
-                            id: themeColors
-                            objectName: "themeColors"
-                            text: qsTr("Use the theme's colors")
-                            leftPadding: 0
-                            focusPolicy: Qt.NoFocus
-                        }
-                        Row {
-                            spacing: 4
-                            opacity: themeColors.checked ? 1 : 0.4
-                            Repeater {
-                                model: win.themePalette
-                                delegate: Rectangle {
-                                    required property color modelData
-                                    width: 22
-                                    height: 22
-                                    color: modelData
-                                    border.color: win.line
-                                    radius: Math.min(4, theme.radius)
-                                }
-                            }
-                        }
-                    }
-
                     Item { Layout.fillHeight: true }
 
                     // What the model can do now, and the one thing to press.
@@ -264,7 +250,7 @@ ApplicationWindow {
                         wrapMode: Text.Wrap
                         color: theme.colors.red
                         font.pixelSize: 12
-                        text: models.error || generator.error
+                        text: models.error || generator.error || backend.error
                     }
                     Button {
                         id: action
@@ -393,15 +379,20 @@ ApplicationWindow {
                     }
                 }
 
-                RowLayout {
-                    Layout.alignment: Qt.AlignHCenter
-                    spacing: 8
+                // What to do with the image. A Flow wraps when the column is
+                // narrow, where a row would push the history out of the window.
+                Flow {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: implicitHeight
+                    spacing: 4
                     visible: win.shownFile !== "" || generator.unsaved
                     Repeater {
                         model: [
+                            { label: qsTr("Change this image"), key: "Ctrl+E", run: () => win.changeImage(), show: win.shownFile !== "" },
                             { label: qsTr("Set as background"), key: "Ctrl+B", run: () => backend.setBackground(win.shownFile), show: win.shownFile !== "" },
                             { label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile), show: win.shownFile !== "" },
-                            { label: qsTr("Again"), key: "Ctrl+R", run: () => win.generate(-1), show: win.shownFile !== "" },
+                            { label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile), show: win.shownFile !== "" },
+                            { label: qsTr("Again"), key: "Ctrl+R", run: () => win.generate(), show: win.shownFile !== "" },
                             { label: qsTr("Try saving again"), key: "", run: () => generator.retrySave(), show: generator.unsaved }
                         ]
                         delegate: Button {
@@ -410,7 +401,11 @@ ApplicationWindow {
                             flat: true
                             focusPolicy: Qt.NoFocus
                             Material.roundedScale: theme.radius
-                            text: modelData.key ? modelData.label + "  " + modelData.key : modelData.label
+                            text: modelData.label
+                            // The key is in the tooltip and on F1.
+                            ToolTip.visible: hovered && modelData.key !== ""
+                            ToolTip.text: modelData.key
+                            ToolTip.delay: 600
                             onClicked: modelData.run()
                         }
                     }
@@ -445,7 +440,6 @@ ApplicationWindow {
                         required property int index
                         required property string url
                         required property string prompt
-                        required property var seed
                         width: ListView.view.width
                         height: width
                         Image {
@@ -465,11 +459,10 @@ ApplicationWindow {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: win.pick(entry.index)
-                            // Takes the image's prompt and seed back into the panel.
+                            // Takes the image's prompt back into the panel.
                             onDoubleClicked: {
                                 win.pick(entry.index)
                                 prompt.text = entry.prompt
-                                seedField.text = entry.seed >= 0 ? String(entry.seed) : ""
                             }
                         }
                     }
@@ -507,11 +500,13 @@ ApplicationWindow {
             Repeater {
                 model: [
                     { keys: "Ctrl+Enter", action: qsTr("Make the image") },
-                    { keys: "Esc", action: qsTr("Stop making it") },
-                    { keys: "Ctrl+R", action: qsTr("Make another with a new seed") },
+                    { keys: "Esc", action: qsTr("Stop making it, or go back to a new image") },
+                    { keys: "Ctrl+R", action: qsTr("Make another like it") },
+                    { keys: "Ctrl+E", action: qsTr("Change it: the next image starts from it") },
                     { keys: "Ctrl+1 2 3", action: qsTr("Square, screen or portrait") },
                     { keys: "Ctrl+B", action: qsTr("Set it as the background") },
                     { keys: "Ctrl+Shift+C", action: qsTr("Copy it") },
+                    { keys: "Ctrl+S", action: qsTr("Save a copy somewhere else") },
                     { keys: "Ctrl+↑ ↓", action: qsTr("Move through the history") },
                     { keys: "Ctrl+Delete", action: qsTr("Move it to the trash") },
                     { keys: "F1", action: qsTr("Show or hide the shortcuts") },

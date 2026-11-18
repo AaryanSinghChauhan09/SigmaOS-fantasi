@@ -4,9 +4,14 @@
 
 #include <QCommandLineParser>
 #include <QCoreApplication>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QSaveFile>
 #include <QTimer>
+#include <QUrl>
 #include <cstdio>
 
 namespace {
@@ -20,13 +25,55 @@ const char *usage = "Usage:\n"
                     "  fantasi                      Open the window\n"
                     "  fantasi open [prompt]        Open the window with a prompt\n"
                     "  fantasi generate <prompt>    Make an image, print where it's saved\n"
-                    "      --width <px> --height <px> --steps <n> --seed <n> --json\n";
+                    "      --from <image> --width <px> --height <px> --steps <n> --seed <n> --json\n"
+                    "  fantasi skill [install]      Print the agent skill, or install it\n";
+
+// As Hype does: one shared copy agents find in ~/.agents/skills, linked into
+// Claude Code's skills when it is installed.
+int skill(const QString &action) {
+    QFile bundled(":/skill.md");
+    if (!bundled.open(QIODevice::ReadOnly))
+        return 1;
+    const QByteArray text = bundled.readAll();
+    if (action.isEmpty()) {
+        std::fputs(text.constData(), stdout);
+        return 0;
+    }
+    if (action != "install") {
+        print(stderr, "Error: use fantasi skill to print the skill, or fantasi skill install.");
+        return 1;
+    }
+    const QDir home = QDir::home();
+    const QString directory = home.filePath(".agents/skills/fantasi");
+    QSaveFile file(directory + "/SKILL.md");
+    if (!QDir().mkpath(directory) || !file.open(QIODevice::WriteOnly) || file.write(text) < 0 || !file.commit()) {
+        print(stderr, "Error: couldn't write " + file.fileName());
+        return 1;
+    }
+    print(stdout, "Installed " + file.fileName());
+    if (!home.exists(".claude"))
+        return 0;
+    const QString link = home.filePath(".claude/skills/fantasi");
+    const QFileInfo existing(link);
+    if (existing.isSymLink())
+        QFile::remove(link);
+    else if (existing.exists()) {
+        print(stderr, "Error: " + link + " exists and is not a link; leaving it alone.");
+        return 1;
+    }
+    if (!home.mkpath(".claude/skills") || !QFile::link("../../.agents/skills/fantasi", link)) {
+        print(stderr, "Error: couldn't link " + link);
+        return 1;
+    }
+    print(stdout, "Linked " + link);
+    return 0;
+}
 
 } // namespace
 
 bool isCliCommand(const char *argument) {
     const QByteArray command(argument);
-    return command == "generate" || command == "--help" || command == "-h" || command == "--version"
+    return command == "generate" || command == "skill" || command == "--help" || command == "-h" || command == "--version"
         || command == "-v";
 }
 
@@ -36,6 +83,8 @@ int runCli(const QStringList &arguments) {
         print(stdout, "fantasi " + QCoreApplication::applicationVersion());
         return 0;
     }
+    if (command == "skill")
+        return skill(arguments.value(2));
     if (command != "generate") {
         print(stdout, usage);
         return 0;
@@ -47,6 +96,7 @@ int runCli(const QStringList &arguments) {
     parser.addOption({"height", "Height in pixels", "px", "1024"});
     parser.addOption({"steps", "Sampling steps; the model's own when left out", "n", "0"});
     parser.addOption({"seed", "Seed; a random one when left out", "n", "-1"});
+    parser.addOption({"from", "Start from this image, keeping its size and composition", "image"});
     parser.addOption({"json", "Print the result as JSON"});
     // The parser takes its first argument as the program's name: here,
     // `generate`, which leaves the prompt as the positional arguments.
@@ -93,8 +143,10 @@ int runCli(const QStringList &arguments) {
         if (started)
             return;
         started = true;
+        const QString from = parser.value("from");
         generator->generate(prompt, parser.value("width").toInt(), parser.value("height").toInt(),
-                            parser.value("steps").toInt(), parser.value("seed").toLongLong());
+                            parser.value("steps").toInt(), parser.value("seed").toLongLong(),
+                            from.isEmpty() ? QString() : QUrl::fromLocalFile(QFileInfo(from).absoluteFilePath()).toString());
         if (!generator->busy()) {
             print(stderr, "Error: " + generator->error());
             QCoreApplication::exit(1);
