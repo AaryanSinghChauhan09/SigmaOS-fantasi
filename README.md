@@ -29,7 +29,8 @@ The prompt has the keyboard most of the time, so the shortcuts take Ctrl.
 | Ctrl+N | Start a new image |
 | Ctrl+O | Start from a picture of your own |
 | Ctrl+1, 2, 3 | Screen, square or portrait |
-| Ctrl+B | Set it as the background |
+| Ctrl+Shift+B | Set it as the background |
+| Ctrl+B | Show or hide the history |
 | Ctrl+Shift+C | Copy it |
 | Ctrl+S | Save a copy somewhere else |
 | Ctrl+Up, Ctrl+Down | Move through the history |

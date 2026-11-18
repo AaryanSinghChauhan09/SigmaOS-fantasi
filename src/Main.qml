@@ -1,3 +1,4 @@
+import QtCore
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
@@ -146,7 +147,14 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+1"; onActivated: win.sizeChoice = 0 }
     Shortcut { sequence: "Ctrl+2"; onActivated: win.sizeChoice = 1 }
     Shortcut { sequence: "Ctrl+3"; onActivated: win.sizeChoice = 2 }
-    Shortcut { sequence: "Ctrl+B"; enabled: win.shownFile !== ""; onActivated: backend.setBackground(win.shownFile) }
+    Shortcut { sequence: "Ctrl+Shift+B"; enabled: win.shownFile !== ""; onActivated: backend.setBackground(win.shownFile) }
+    Shortcut { sequence: "Ctrl+B"; onActivated: layout.historyShown = !layout.historyShown }
+    // Whether the history sidebar is shown, kept between runs.
+    Settings {
+        id: layout
+        category: "window"
+        property bool historyShown: true
+    }
     Shortcut { sequence: "Ctrl+Shift+C"; enabled: win.shownFile !== ""; onActivated: backend.copy(win.shownFile) }
     Shortcut { sequence: "Ctrl+S"; enabled: win.shownFile !== ""; onActivated: backend.saveAs(win.shownFile) }
     Shortcut { sequence: "Ctrl+Up"; onActivated: win.pick(historyList.currentIndex - 1) }
@@ -433,7 +441,7 @@ ApplicationWindow {
                             model: [
                                 { name: "changeIt", icon: "change", label: qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage() },
                                 { name: "newImage", icon: "new", label: qsTr("New image"), key: "Ctrl+N", run: () => win.newImage() },
-                                { name: "background", icon: "background", label: qsTr("Set as background"), key: "Ctrl+B", run: () => backend.setBackground(win.shownFile) },
+                                { name: "background", icon: "background", label: qsTr("Set as background"), key: "Ctrl+Shift+B", run: () => backend.setBackground(win.shownFile) },
                                 { name: "copy", icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
                                 { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
                             ]
@@ -800,8 +808,11 @@ ApplicationWindow {
 
             // ----------------------------------------------------------- history
             // A rail of its own width and its own background: its list fills
-            // the column, which would otherwise take the image's space.
+            // the column, which would otherwise take the image's space. Only
+            // once there's an image to list, and Ctrl+B hides it.
             Rectangle {
+                objectName: "rail"
+                visible: history.count > 0 && layout.historyShown
                 Layout.preferredWidth: 152
                 Layout.maximumWidth: 152
                 Layout.fillWidth: false
@@ -812,25 +823,6 @@ ApplicationWindow {
                     anchors.margins: 14
                     spacing: 10
 
-                    // The rail's heading, with the shortcuts' small ? beside it.
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Label { Layout.fillWidth: true; text: qsTr("History"); color: win.muted; font.pixelSize: 12 }
-                        Label {
-                            objectName: "shortcuts"
-                            text: "?"
-                            font.pixelSize: 12
-                            font.bold: true
-                            color: shortcutsHover.hovered ? theme.accent : win.muted
-                            Accessible.role: Accessible.Button
-                            Accessible.name: qsTr("Show or hide the shortcuts")
-                            ToolTip.visible: shortcutsHover.hovered
-                            ToolTip.text: qsTr("Show or hide the shortcuts") + "  F1"
-                            ToolTip.delay: 300
-                            HoverHandler { id: shortcutsHover; cursorShape: Qt.PointingHandCursor }
-                            TapHandler { onTapped: help.opened ? help.close() : help.open() }
-                        }
-                    }
                     ListView {
                         id: historyList
                         objectName: "history"
@@ -889,14 +881,6 @@ ApplicationWindow {
                             }
                         }
                     }
-                    Label {
-                        Layout.fillWidth: true
-                        visible: history.count === 0
-                        wrapMode: Text.Wrap
-                        color: win.muted
-                        font.pixelSize: 12
-                        text: qsTr("Your images appear here")
-                    }
                 }
             }
         }
@@ -929,7 +913,8 @@ ApplicationWindow {
                     { keys: "Ctrl+N", action: qsTr("Start a new image") },
                     { keys: "Ctrl+O", action: qsTr("Start from a picture of your own") },
                     { keys: "Ctrl+1 2 3", action: qsTr("Screen, square or portrait") },
-                    { keys: "Ctrl+B", action: qsTr("Set it as the background") },
+                    { keys: "Ctrl+Shift+B", action: qsTr("Set it as the background") },
+                    { keys: "Ctrl+B", action: qsTr("Show or hide the history") },
                     { keys: "Ctrl+Shift+C", action: qsTr("Copy it") },
                     { keys: "Ctrl+S", action: qsTr("Save a copy somewhere else") },
                     { keys: "Ctrl+↑ ↓", action: qsTr("Move through the history") },

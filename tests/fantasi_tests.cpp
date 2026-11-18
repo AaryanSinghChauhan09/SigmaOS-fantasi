@@ -262,6 +262,9 @@ private slots:
         qputenv("QT_QUICK_CONTROLS_HOVER_ENABLED", "1");
         // The model used last is remembered in settings; never the user's own.
         QStandardPaths::setTestModeEnabled(true);
+        // As main() names the app, which is where its settings live.
+        QCoreApplication::setOrganizationName("fantasi");
+        QCoreApplication::setApplicationName("fantasi");
     }
 
     void discoveryWithoutTheEngine() {
@@ -884,6 +887,14 @@ private slots:
         auto *prompt = item(window->contentItem(), "prompt");
         QVERIFY(nextBar && prompt);
         QTRY_VERIFY(backend.history()->count() == 1);
+        // The history shows once there's an image, and Ctrl+B hides and shows it.
+        auto *rail = item(window->contentItem(), "rail");
+        QVERIFY(rail);
+        QTRY_VERIFY(rail->isVisible());
+        QTest::keyClick(window, Qt::Key_B, Qt::ControlModifier);
+        QTRY_VERIFY(!rail->isVisible());
+        QTest::keyClick(window, Qt::Key_B, Qt::ControlModifier);
+        QTRY_VERIFY(rail->isVisible());
         QTest::keyClick(window, Qt::Key_Down, Qt::ControlModifier);
         QTRY_VERIFY(nextBar->isVisible());
         QVERIFY(!prompt->isVisible());
