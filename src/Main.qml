@@ -939,9 +939,9 @@ ApplicationWindow {
                                                 opacity: hovered || activeFocus ? 1 : 0.6
                                                 scale: hovered || activeFocus ? 1.15 : 1
                                                 Behavior on scale { NumberAnimation { duration: 120 } }
-                                                Accessible.name: modelData.name
+                                                Accessible.name: ToolTip.text
                                                 ToolTip.visible: hovered || visualFocus
-                                                ToolTip.text: modelData.name
+                                                ToolTip.text: modelData.video ? qsTr("Video with %1").arg(modelData.name) : qsTr("Images with %1").arg(modelData.name)
                                                 ToolTip.delay: 150
                                                 onClicked: models.choose(modelData.id)
                                             }
@@ -989,7 +989,9 @@ ApplicationWindow {
                                     Accessible.name: win.modelStatus
                                     // With others fanned out, their names say the rest.
                                     ToolTip.visible: (hovered || visualFocus) && picker.others.length === 0
-                                    ToolTip.text: win.modelStatus
+                                    // What it makes once it's ready; until then, what it's doing.
+                                    ToolTip.text: models.state !== "ready" ? win.modelStatus
+                                        : models.video ? qsTr("Video with %1").arg(models.modelName) : qsTr("Images with %1").arg(models.modelName)
                                     ToolTip.delay: 300
                                 }
                             }

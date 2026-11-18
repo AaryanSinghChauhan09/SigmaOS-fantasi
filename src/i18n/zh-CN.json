@@ -77,5 +77,7 @@
   "Working out how long this takes…": "正在估算所需时间…",
   "Almost done": "即将完成",
   "About %1 s left": "大约还剩 %1 秒",
-  "About %1 min left": "大约还剩 %1 分钟"
+  "About %1 min left": "大约还剩 %1 分钟",
+  "Images with %1": "使用 %1 生成图片",
+  "Video with %1": "使用 %1 生成视频"
 }

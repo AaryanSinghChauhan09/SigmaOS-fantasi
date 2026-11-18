@@ -77,5 +77,7 @@
   "Working out how long this takes…": "กำลังประเมินว่าจะใช้เวลานานเท่าใด…",
   "Almost done": "ใกล้เสร็จแล้ว",
   "About %1 s left": "เหลืออีกประมาณ %1 วิ",
-  "About %1 min left": "เหลืออีกประมาณ %1 นาที"
+  "About %1 min left": "เหลืออีกประมาณ %1 นาที",
+  "Images with %1": "ภาพด้วย %1",
+  "Video with %1": "วิดีโอด้วย %1"
 }

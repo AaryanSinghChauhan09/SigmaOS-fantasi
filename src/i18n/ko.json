@@ -77,5 +77,7 @@
   "Working out how long this takes…": "소요 시간을 계산하는 중…",
   "Almost done": "거의 완료",
   "About %1 s left": "약 %1초 남음",
-  "About %1 min left": "약 %1분 남음"
+  "About %1 min left": "약 %1분 남음",
+  "Images with %1": "%1(으)로 이미지",
+  "Video with %1": "%1(으)로 동영상"
 }

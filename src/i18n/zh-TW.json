@@ -77,5 +77,7 @@
   "Working out how long this takes…": "正在估算所需時間…",
   "Almost done": "即將完成",
   "About %1 s left": "大約還剩 %1 秒",
-  "About %1 min left": "大約還剩 %1 分鐘"
+  "About %1 min left": "大約還剩 %1 分鐘",
+  "Images with %1": "使用 %1 產生圖片",
+  "Video with %1": "使用 %1 產生影片"
 }

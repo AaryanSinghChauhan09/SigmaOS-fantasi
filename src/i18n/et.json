@@ -77,5 +77,7 @@
   "Working out how long this takes…": "Arvutan, kui kaua see aega võtab…",
   "Almost done": "Peaaegu valmis",
   "About %1 s left": "Jäänud umbes %1 s",
-  "About %1 min left": "Jäänud umbes %1 min"
+  "About %1 min left": "Jäänud umbes %1 min",
+  "Images with %1": "Pildid mudeliga %1",
+  "Video with %1": "Video mudeliga %1"
 }

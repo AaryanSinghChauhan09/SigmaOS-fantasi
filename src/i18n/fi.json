@@ -77,5 +77,7 @@
   "Working out how long this takes…": "Arvioidaan, kauanko tämä kestää…",
   "Almost done": "Melkein valmis",
   "About %1 s left": "Noin %1 s jäljellä",
-  "About %1 min left": "Noin %1 min jäljellä"
+  "About %1 min left": "Noin %1 min jäljellä",
+  "Images with %1": "Kuvia mallilla %1",
+  "Video with %1": "Videota mallilla %1"
 }

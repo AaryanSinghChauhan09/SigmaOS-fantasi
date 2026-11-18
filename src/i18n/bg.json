@@ -77,5 +77,7 @@
   "Working out how long this takes…": "Изчислява се колко ще отнеме…",
   "Almost done": "Почти готово",
   "About %1 s left": "Остават около %1 с",
-  "About %1 min left": "Остават около %1 мин"
+  "About %1 min left": "Остават около %1 мин",
+  "Images with %1": "Изображения с %1",
+  "Video with %1": "Видео с %1"
 }
