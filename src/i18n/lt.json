@@ -46,7 +46,6 @@
   "The XDG desktop portal file chooser is not available.": "XDG darbalaukio portalo failų parinkiklis nepasiekiamas.",
   "The portal file picker failed: %1": "Portalo failų parinkiklio klaida: %1",
   "Changing this image": "Keičiamas šis vaizdas",
-  "Make a new image instead": "Vietoj to kurti naują vaizdą",
   "Stop making it, or go back to a new image": "Nutraukti kūrimą arba grįžti prie naujo vaizdo",
   "Make another like it": "Sukurti dar vieną panašų",
   "Couldn't read the image to start from": "Nepavyko nuskaityti pradinio vaizdo",

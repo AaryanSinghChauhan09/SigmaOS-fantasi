@@ -479,7 +479,7 @@ private slots:
 
         Models models(dir.path() + "/state", dir.path() + "/state/key", "/bin/true");
         Generator generator(&models, dir.path() + "/out");
-        generator.generate("the same, with snow", 1024, 1024, 0, -1, QUrl::fromLocalFile(dir.filePath("base.png")).toString());
+        generator.generate("the same, with snow", 1024, 1024, 0, -1, QStringList{QUrl::fromLocalFile(dir.filePath("base.png")).toString()});
         QTRY_VERIFY(!server.requests.isEmpty() && server.requests.last().first == "POST /sdcpp/v1/img_gen");
         const QJsonObject body = server.requests.last().second;
         QFile file(dir.filePath("base.png"));
@@ -493,13 +493,94 @@ private slots:
         QTRY_VERIFY(!generator.busy());
 
         // An edit model gets the image as a reference and the prompt as the change.
-        generator.generate("include a red balloon", 1024, 1024, 0, -1, QUrl::fromLocalFile(dir.filePath("base.png")).toString(), true);
+        generator.generate("include a red balloon", 1024, 1024, 0, -1, QStringList{QUrl::fromLocalFile(dir.filePath("base.png")).toString()}, true);
         QTRY_VERIFY(std::count_if(server.requests.begin(), server.requests.end(), [](const auto &r) { return r.first == "POST /sdcpp/v1/img_gen"; }) == 2);
         const QJsonObject edit = server.requests.last().second;
         QCOMPARE(edit.value("ref_images").toArray(), QJsonArray{sent});
         QVERIFY(!edit.contains("init_image") && !edit.contains("strength"));
         QCOMPARE(edit.value("width").toInt(), 1344);
         QTRY_VERIFY(!generator.busy());
+    }
+
+    void generatorCombinesPicturesOnlyWithAnEditModel() {
+        QTemporaryDir dir;
+        FakeServer server;
+        server.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (method == "POST" && path == "/sdcpp/v1/img_gen")
+                return {202, q("{'id': 'job5'}")};
+            if (path == "/sdcpp/v1/jobs/job5")
+                return {200, q("{'status': 'cancelled'}")};
+            return {404, "{}"};
+        };
+        readyEngine(dir.path() + "/state", server.origin());
+        QStringList pictures;
+        for (const char *name : {"cabin.png", "lighthouse.png"}) {
+            write(dir.filePath(name), png(64));
+            pictures << QUrl::fromLocalFile(dir.filePath(name)).toString();
+        }
+        Models models(dir.path() + "/state", dir.path() + "/state/key", "/bin/true");
+        Generator generator(&models, dir.path() + "/out");
+        // A model that only redraws can't combine them.
+        generator.generate("the cabin beside the lighthouse", 1024, 1024, 0, -1, pictures, false);
+        QVERIFY(!generator.busy());
+        QCOMPARE(generator.error(), QString("Only a model that edits can combine pictures"));
+        // One that edits gets them all as references.
+        generator.generate("the cabin beside the lighthouse", 1024, 1024, 0, -1, pictures, true);
+        QTRY_VERIFY(!server.requests.isEmpty() && server.requests.last().first == "POST /sdcpp/v1/img_gen");
+        QCOMPARE(server.requests.last().second.value("ref_images").toArray().size(), 2);
+        QTRY_VERIFY(!generator.busy());
+    }
+
+    void generatorSendsAChangeToTheEditModelAndTheNextImageBack() {
+        QTemporaryDir dir;
+        FakeServer chosen, editor;
+        bool cancelled = false;
+        chosen.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (path == "/sdcpp/v1/capabilities")
+                return {200, "{}"};
+            if (method == "POST" && path == "/sdcpp/v1/img_gen")
+                return {202, q("{'id': 'new1'}")};
+            if (path == "/sdcpp/v1/jobs/new1")
+                return {200, q("{'status': 'cancelled'}")};
+            return {404, "{}"};
+        };
+        editor.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (method == "POST" && path == "/sdcpp/v1/img_gen")
+                return {202, q("{'id': 'edit1'}")};
+            if (method == "POST" && path == "/sdcpp/v1/jobs/edit1/cancel") {
+                cancelled = true;
+                return {200, "{}"};
+            }
+            if (path == "/sdcpp/v1/jobs/edit1")
+                return {200, cancelled ? q("{'status': 'cancelled'}") : q("{'status': 'generating'}")};
+            return {404, "{}"};
+        };
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{
+            {"a", QJsonObject{{"kind", "image"}, {"name", "A"}, {"unit", "active"}, {"endpoint", chosen.origin() + "/v1"}}},
+            {"b", QJsonObject{{"kind", "image"}, {"name", "B"}, {"unit", "active"}, {"edit", true}, {"endpoint", editor.origin() + "/v1"}}}}}}).toJson());
+        write(state + "/list.json", "[]");
+        write(state + "/key", "secret\n");
+        write(dir.filePath("base.png"), png(64));
+
+        Models models(state, state + "/key", "/bin/true");
+        QCOMPARE(models.modelId(), QString("a"));
+        Generator generator(&models, dir.path() + "/out");
+        // The change goes to the model that edits, and so does its polling and cancelling.
+        generator.generate("make it night", 1024, 1024, 0, -1, QStringList{QUrl::fromLocalFile(dir.filePath("base.png")).toString()}, false);
+        QTRY_VERIFY(!editor.requests.isEmpty() && editor.requests.first().first == "POST /sdcpp/v1/img_gen");
+        QVERIFY(editor.requests.first().second.contains("ref_images"));
+        QTRY_VERIFY(std::any_of(editor.requests.begin(), editor.requests.end(), [](const auto &r) { return r.first == "GET /sdcpp/v1/jobs/edit1"; }));
+        generator.cancel();
+        QTRY_VERIFY(cancelled);
+        QTRY_VERIFY(!generator.busy());
+        // The next new image goes back to the chosen model; only it is asked for settings.
+        generator.generate("a calm lake", 1024, 1024);
+        QTRY_VERIFY(std::any_of(chosen.requests.begin(), chosen.requests.end(), [](const auto &r) { return r.first == "POST /sdcpp/v1/img_gen"; }));
+        QTRY_VERIFY(!generator.busy());
+        QVERIFY(std::none_of(editor.requests.begin(), editor.requests.end(), [](const auto &r) { return r.first.contains("capabilities"); }));
+        QCOMPARE(std::count_if(editor.requests.begin(), editor.requests.end(), [](const auto &r) { return r.first == "POST /sdcpp/v1/img_gen"; }), 1);
     }
 
     void generatorCancelsAndSavesNothing() {
@@ -901,6 +982,8 @@ private slots:
         QTest::keyClick(window, Qt::Key_N, Qt::ControlModifier);
         QTRY_VERIFY(prompt->isVisible());
         QVERIFY(!nextBar->isVisible());
+        // A second Ctrl+N keeps the image Esc goes back to.
+        QTest::keyClick(window, Qt::Key_N, Qt::ControlModifier);
         QCOMPARE(prompt->property("text").toString(), QString());
         QCOMPARE(backend.generator()->image(), QString());
         QTest::keyClick(window, Qt::Key_Escape);

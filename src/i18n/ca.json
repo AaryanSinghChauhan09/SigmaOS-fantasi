@@ -46,7 +46,6 @@
   "The XDG desktop portal file chooser is not available.": "El selector de fitxers del portal d'escriptori XDG no està disponible.",
   "The portal file picker failed: %1": "Ha fallat el selector de fitxers del portal: %1",
   "Changing this image": "S'està canviant aquesta imatge",
-  "Make a new image instead": "Crea una imatge nova",
   "Stop making it, or go back to a new image": "Deixa de crear-la o torna a una imatge nova",
   "Make another like it": "Crea'n una altra de semblant",
   "Couldn't read the image to start from": "No s'ha pogut llegir la imatge de partida",

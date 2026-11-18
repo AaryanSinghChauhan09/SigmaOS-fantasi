@@ -240,6 +240,7 @@ void Models::choose(const QString &id) {
     for (const QVariant &choice : m_found.choices) {
         const QVariantMap row = choice.toMap();
         if (row.value("id").toString() == id && row.value("running").toBool()) {
+            m_error.clear();
             QSettings().setValue("model", id);
             reload();
             return;

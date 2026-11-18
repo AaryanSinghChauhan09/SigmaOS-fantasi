@@ -46,7 +46,6 @@
   "The XDG desktop portal file chooser is not available.": "XDG töölauaportaali failivalija pole saadaval.",
   "The portal file picker failed: %1": "Portaali failivalija ebaõnnestus: %1",
   "Changing this image": "Selle pildi muutmine",
-  "Make a new image instead": "Tee hoopis uus pilt",
   "Stop making it, or go back to a new image": "Lõpeta tegemine või mine tagasi uue pildi juurde",
   "Make another like it": "Tee veel üks samasugune",
   "Couldn't read the image to start from": "Lähtepilti ei õnnestunud lugeda",

@@ -42,8 +42,11 @@ ApplicationWindow {
     readonly property bool canGenerate: models.state === "ready" && !generator.busy && prompt.text.trim() !== ""
     // The image the next one changes, while changing one. Each change that
     // finishes becomes the base for the next, until it's let go.
-    property string baseImage: ""
-    readonly property bool changing: baseImage !== ""
+    // The pictures the next one changes or combines, while changing: one, or
+    // with a model that edits, up to four.
+    property var baseImages: []
+    readonly property bool changing: baseImages.length > 0
+    readonly property bool canAddPicture: !changing || (models.canEdit && baseImages.length < 4)
     // Writing a prompt, or looking at a finished image and choosing what's
     // next: change it, make a new one, or use it.
     property bool composing: true
@@ -68,6 +71,7 @@ ApplicationWindow {
     }
     // What was last sent, to tell it from what is typed while it's made.
     property string sentPrompt
+    property var sentPictures: []
     // How far along the image is being made, 0 to 1: the steps, then whole
     // once they're done and it's finishing.
     readonly property real progress: !generator.busy ? 0
@@ -80,7 +84,14 @@ ApplicationWindow {
         if (!canGenerate)
             return
         sentPrompt = prompt.text
-        generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImage, models.edits)
+        sentPictures = baseImages
+        generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImages, models.edits)
+    }
+    // Makes another like the last one asked for, though the prompt has cleared.
+    function repeat() {
+        if (models.state !== "ready" || generator.busy || sentPrompt.trim() === "")
+            return
+        generator.generate(sentPrompt, outputSize.width, outputSize.height, 0, -1, sentPictures, models.edits)
     }
     // Makes the shown image the one to change, with an empty prompt for
     // what should change.
@@ -88,16 +99,20 @@ ApplicationWindow {
         if (shownFile === "" || generator.busy)
             return
         composing = true
-        baseImage = shownFile
+        baseImages = [shownFile]
         prompt.text = ""
         prompt.forceActiveFocus()
     }
-    // A picture of the user's own becomes the one to change.
+    // A picture of the user's own becomes the one to change, or with a model
+    // that edits, one more to combine.
     function startFrom(url) {
         if (generator.busy)
             return
         composing = true
-        baseImage = url
+        if (changing && canAddPicture)
+            baseImages = baseImages.indexOf(url) < 0 ? baseImages.concat([url]) : baseImages
+        else
+            baseImages = [url]
         prompt.forceActiveFocus()
         prompt.cursorPosition = prompt.length
     }
@@ -107,17 +122,19 @@ ApplicationWindow {
             return
         historyList.currentIndex = index
         generator.show(history.urlAt(index))
-        baseImage = ""
+        baseImages = []
         composing = false
     }
     // An empty frame and an empty prompt for a new image.
     function newImage() {
         if (generator.busy)
             return
-        returnIndex = historyList.currentIndex
+        // A second Ctrl+N keeps the image the first one left.
+        if (historyList.currentIndex >= 0)
+            returnIndex = historyList.currentIndex
         historyList.currentIndex = -1
         generator.show("")
-        baseImage = ""
+        baseImages = []
         prompt.text = ""
         composing = true
         prompt.forceActiveFocus()
@@ -125,7 +142,7 @@ ApplicationWindow {
     // Back from writing to the image that was shown, if there was one.
     function backToImage() {
         if (changing) {
-            baseImage = ""
+            baseImages = []
             composing = false
         } else if (prompt.text === "" && returnIndex >= 0) {
             pick(returnIndex)
@@ -137,7 +154,7 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+Q"; onActivated: Qt.quit() }
     Shortcut { sequence: "Ctrl+Return"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+Enter"; enabled: win.canGenerate; onActivated: win.generate() }
-    Shortcut { sequence: "Ctrl+R"; enabled: win.canGenerate; onActivated: win.generate() }
+    Shortcut { sequence: "Ctrl+R"; enabled: models.state === "ready" && !generator.busy; onActivated: win.canGenerate ? win.generate() : win.repeat() }
     Shortcut { sequence: "Ctrl+E"; enabled: win.shownFile !== "" && !generator.busy; onActivated: win.changeImage() }
     Shortcut { sequence: "Ctrl+O"; enabled: !generator.busy; onActivated: backend.openPicture() }
     // Esc stops an image being made, or else goes back to the image shown.
@@ -182,9 +199,9 @@ ApplicationWindow {
                 // The next one is already being typed: a change goes on
                 // from the image just made.
                 if (win.changing)
-                    win.baseImage = generator.image
+                    win.baseImages = [generator.image]
             } else {
-                win.baseImage = ""
+                win.baseImages = []
                 prompt.text = ""
                 win.composing = false
             }
@@ -257,7 +274,7 @@ ApplicationWindow {
                         Image {
                             id: previous
                             anchors.fill: parent
-                            source: generator.busy && win.changing ? win.baseImage : ""
+                            source: generator.busy && win.changing ? win.baseImages[0] : ""
                             fillMode: Image.PreserveAspectFit
                             asynchronous: true
                             visible: source !== ""
@@ -478,52 +495,57 @@ ApplicationWindow {
                         anchors.bottomMargin: 5
                         spacing: 4
 
-                        // The image being changed, like an attachment: its
-                        // thumbnail, with a × to go back to a new image.
-                        Item {
-                            objectName: "base"
-                            // The row's own height, so changing doesn't make the bar taller.
-                            Layout.preferredWidth: 34
-                            Layout.preferredHeight: 34
-                            Layout.alignment: Qt.AlignVCenter
-                            visible: win.changing
-                            Image {
-                                anchors.fill: parent
-                                source: win.baseImage
-                                sourceSize: Qt.size(68, 68)
-                                fillMode: Image.PreserveAspectCrop
-                                asynchronous: true
-                            }
-                            ToolTip.visible: baseHover.hovered
-                            ToolTip.text: qsTr("Changing this image")
-                            HoverHandler { id: baseHover }
-                            // The × sits on the thumbnail's corner, as on an attachment.
-                            ToolButton {
-                                id: letGo
-                                width: 16
-                                height: 16
-                                padding: 0
-                                anchors.top: parent.top
-                                anchors.right: parent.right
-                                anchors.topMargin: -5
-                                anchors.rightMargin: -5
-                                focusPolicy: Qt.NoFocus
-                                Accessible.name: qsTr("Make a new image instead")
-                                ToolTip.visible: hovered
-                                ToolTip.text: qsTr("Make a new image instead") + "  Esc"
-                                ToolTip.delay: 300
-                                onClicked: win.baseImage = ""
-                                background: Rectangle {
-                                    radius: width / 2
-                                    color: letGo.hovered ? theme.colors.selection : theme.background
-                                    border.color: win.line
+                        // The pictures being changed, like attachments: a thumbnail
+                        // each, with a × to let it go.
+                        Repeater {
+                            model: win.baseImages
+                            delegate: Item {
+                                id: attachment
+                                required property string modelData
+                                required property int index
+                                objectName: "base" + index
+                                // The row's own height, so changing doesn't make the bar taller.
+                                Layout.preferredWidth: 34
+                                Layout.preferredHeight: 34
+                                Layout.alignment: Qt.AlignVCenter
+                                Image {
+                                    anchors.fill: parent
+                                    source: attachment.modelData
+                                    sourceSize: Qt.size(68, 68)
+                                    fillMode: Image.PreserveAspectCrop
+                                    asynchronous: true
                                 }
-                                contentItem: Label {
-                                    text: "×"
-                                    color: theme.foreground
-                                    font.pixelSize: 12
-                                    horizontalAlignment: Text.AlignHCenter
-                                    verticalAlignment: Text.AlignVCenter
+                                ToolTip.visible: baseHover.hovered
+                                ToolTip.text: win.baseImages.length > 1 ? qsTr("Combining this picture") : qsTr("Changing this image")
+                                HoverHandler { id: baseHover }
+                                // The × sits on the thumbnail's corner, as on an attachment.
+                                ToolButton {
+                                    id: letGo
+                                    width: 16
+                                    height: 16
+                                    padding: 0
+                                    anchors.top: parent.top
+                                    anchors.right: parent.right
+                                    anchors.topMargin: -5
+                                    anchors.rightMargin: -5
+                                    focusPolicy: Qt.NoFocus
+                                    Accessible.name: qsTr("Let this picture go")
+                                    ToolTip.visible: hovered
+                                    ToolTip.text: qsTr("Let this picture go")
+                                    ToolTip.delay: 300
+                                    onClicked: win.baseImages = win.baseImages.filter((_, i) => i !== attachment.index)
+                                    background: Rectangle {
+                                        radius: width / 2
+                                        color: letGo.hovered ? theme.colors.selection : theme.background
+                                        border.color: win.line
+                                    }
+                                    contentItem: Label {
+                                        text: "×"
+                                        color: theme.foreground
+                                        font.pixelSize: 12
+                                        horizontalAlignment: Text.AlignHCenter
+                                        verticalAlignment: Text.AlignVCenter
+                                    }
                                 }
                             }
                         }
@@ -533,7 +555,7 @@ ApplicationWindow {
                         ToolButton {
                             objectName: "startFrom"
                             Layout.alignment: Qt.AlignVCenter
-                            visible: !win.changing
+                            visible: win.canAddPicture
                             Layout.preferredWidth: 32
                             Layout.preferredHeight: 32
                             padding: 0
@@ -544,9 +566,10 @@ ApplicationWindow {
                             // No hover blot behind it: the icon itself answers the pointer.
                             background: Item {}
                             focusPolicy: Qt.NoFocus
-                            Accessible.name: qsTr("Start from a picture…")
+                            readonly property string label: win.changing ? qsTr("Add a picture to combine…") : qsTr("Start from a picture…")
+                            Accessible.name: label
                             ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Start from a picture…") + "  Ctrl+O"
+                            ToolTip.text: label + "  Ctrl+O"
                             ToolTip.delay: 400
                             onClicked: backend.openPicture()
                             // A picture frame with a plus.
@@ -594,7 +617,8 @@ ApplicationWindow {
                                     visible: prompt.length === 0 && prompt.preeditText === ""
                                     color: win.muted
                                     font: prompt.font
-                                    text: win.changing ? qsTr("What should change?") : qsTr("Describe an image")
+                                    text: win.baseImages.length > 1 ? qsTr("How should they come together?")
+                                          : win.changing ? qsTr("What should change?") : qsTr("Describe an image")
                                 }
                                 // Enter sends the prompt; Shift+Enter is a new line.
                                 Keys.onReturnPressed: event => {
@@ -875,8 +899,9 @@ ApplicationWindow {
                                 // Takes the image's prompt back into the bar.
                                 onDoubleClicked: {
                                     win.pick(entry.index)
-                                    win.baseImage = ""
+                                    win.composing = true
                                     prompt.text = entry.prompt
+                                    prompt.forceActiveFocus()
                                 }
                             }
                         }

@@ -30,6 +30,7 @@ class Models : public QObject {
     // through them; the one in use among them.
     Q_PROPERTY(QVariantList choices READ choices NOTIFY changed)
     Q_PROPERTY(QString vendor READ vendor NOTIFY changed)
+    Q_PROPERTY(bool canEdit READ canEdit NOTIFY changed)
     Q_PROPERTY(QString error READ error NOTIFY changed)
 
 public:
@@ -68,6 +69,8 @@ public:
     QString reason() const { return m_found.reason; }
     QStringList blockers() const { return m_found.blockers; }
     QVariantList choices() const { return m_found.choices; }
+    // Whether a running model edits by instruction, which can take several pictures.
+    bool canEdit() const { return !m_found.editEndpoint.isEmpty(); }
     QString vendor() const { return m_found.vendor; }
 
     // The vendor's mark as the agents panel draws it, from Omarchy's own

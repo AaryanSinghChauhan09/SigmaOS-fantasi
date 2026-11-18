@@ -46,7 +46,6 @@
   "The XDG desktop portal file chooser is not available.": "XDG-työpöytäportaalin tiedostonvalitsin ei ole käytettävissä.",
   "The portal file picker failed: %1": "Portaalin tiedostonvalitsin epäonnistui: %1",
   "Changing this image": "Muutetaan tätä kuvaa",
-  "Make a new image instead": "Tee sen sijaan uusi kuva",
   "Stop making it, or go back to a new image": "Lopeta tekeminen tai palaa uuteen kuvaan",
   "Make another like it": "Tee toinen samanlainen",
   "Couldn't read the image to start from": "Lähtökuvaa ei voitu lukea",

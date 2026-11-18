@@ -75,13 +75,22 @@ int Generator::defaultSteps() const {
 }
 
 QNetworkReply *Generator::send(const QString &method, const QString &path, const QJsonObject &body) {
-    QNetworkRequest request(QUrl((m_jobOrigin.isEmpty() ? m_origin : m_jobOrigin) + path));
-    request.setRawHeader("Authorization", "Bearer " + (m_jobOrigin.isEmpty() ? m_key : m_jobKey));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setTransferTimeout(15000);
+    return request(m_origin, m_key, method, path, body);
+}
+
+QNetworkReply *Generator::sendJob(const QString &method, const QString &path, const QJsonObject &body) {
+    return m_jobOrigin.isEmpty() ? send(method, path, body) : request(m_jobOrigin, m_jobKey, method, path, body);
+}
+
+QNetworkReply *Generator::request(const QString &origin, const QByteArray &key, const QString &method, const QString &path,
+                                  const QJsonObject &body) {
+    QNetworkRequest outgoing(QUrl(origin + path));
+    outgoing.setRawHeader("Authorization", "Bearer " + key);
+    outgoing.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    outgoing.setTransferTimeout(15000);
     if (method == "POST")
-        return m_network.post(request, QJsonDocument(body).toJson(QJsonDocument::Compact));
-    return m_network.get(request);
+        return m_network.post(outgoing, QJsonDocument(body).toJson(QJsonDocument::Compact));
+    return m_network.get(outgoing);
 }
 
 void Generator::fetchDefaults() {
@@ -137,7 +146,7 @@ Generator::Base Generator::prepareBase(const QString &path) {
     return {png, target};
 }
 
-void Generator::generate(const QString &prompt, int width, int height, int steps, qint64 seed, const QString &baseUrl, bool edit) {
+void Generator::generate(const QString &prompt, int width, int height, int steps, qint64 seed, const QStringList &baseUrls, bool edit) {
     if (busy() || prompt.trimmed().isEmpty())
         return;
     if (m_origin.isEmpty()) {
@@ -150,34 +159,47 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
     // to a running edit model when the one in use isn't one, with that
     // server's own defaults.
     QJsonObject body = m_defaults;
-    m_jobOrigin.clear();
-    if (!baseUrl.isEmpty() && !edit && !m_models->editOrigin().isEmpty()) {
-        m_jobOrigin = m_models->editOrigin();
-        m_jobKey = m_models->editKey();
+    QString jobOrigin;
+    if (!baseUrls.isEmpty() && !edit && !m_models->editOrigin().isEmpty()) {
+        jobOrigin = m_models->editOrigin();
         body = {};
         edit = true;
     }
-    if (!baseUrl.isEmpty()) {
-        const QString path = QUrl(baseUrl).isLocalFile() ? QUrl(baseUrl).toLocalFile() : baseUrl;
-        const Base base = prepareBase(path);
-        if (base.png.isEmpty()) {
-            m_error = tr("Couldn't read the image to start from");
-            emit changed();
-            return;
+    if (baseUrls.size() > 1 && !edit) {
+        m_error = tr("Only a model that edits can combine pictures");
+        emit changed();
+        return;
+    }
+    if (!baseUrls.isEmpty()) {
+        QJsonArray pictures;
+        QSize size;
+        for (const QString &url : baseUrls.mid(0, maxBases)) {
+            const Base base = prepareBase(QUrl(url).isLocalFile() ? QUrl(url).toLocalFile() : url);
+            if (base.png.isEmpty()) {
+                m_error = tr("Couldn't read the image to start from");
+                emit changed();
+                return;
+            }
+            pictures << QString::fromLatin1(base.png.toBase64());
+            if (size.isEmpty())
+                size = base.size;
         }
         if (edit) {
-            body.insert("ref_images", QJsonArray{QString::fromLatin1(base.png.toBase64())});
+            body.insert("ref_images", pictures);
         } else {
-            body.insert("init_image", QString::fromLatin1(base.png.toBase64()));
+            body.insert("init_image", pictures.first());
             body.insert("strength", baseStrength);
         }
-        width = base.size.width();
-        height = base.size.height();
+        width = size.width();
+        height = size.height();
     }
     QJsonObject sample = body.value("sample_params").toObject();
     if (steps > 0)
         sample.insert("sample_steps", steps);
     body.insert("sample_params", sample);
+    // Only now, with the pictures read, does the job go to the edit model.
+    m_jobOrigin = jobOrigin;
+    m_jobKey = jobOrigin.isEmpty() ? QByteArray() : m_models->editKey();
     body.insert("prompt", prompt.trimmed());
     body.insert("width", width);
     body.insert("height", height);
@@ -203,7 +225,7 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
     m_locker = std::make_unique<QEventLoopLocker>();
     emit changed();
 
-    QNetworkReply *reply = send("POST", "/sdcpp/v1/img_gen", body);
+    QNetworkReply *reply = sendJob("POST", "/sdcpp/v1/img_gen", body);
     connect(reply, &QNetworkReply::finished, this, [this, reply] {
         reply->deleteLater();
         const QJsonObject answer = parse(reply);
@@ -216,7 +238,7 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
         m_job = answer.value("id").toString();
         // Cancelled while the job was being submitted.
         if (m_cancelling)
-            send("POST", "/sdcpp/v1/jobs/" + m_job + "/cancel")->deleteLater();
+            sendJob("POST", "/sdcpp/v1/jobs/" + m_job + "/cancel")->deleteLater();
         emit changed();
         m_poll.start();
     });
@@ -229,7 +251,7 @@ void Generator::cancel() {
     // The server stops at its next checkpoint; the job is followed until it
     // says it has, since it may finish first.
     if (!m_job.isEmpty()) {
-        QNetworkReply *reply = send("POST", "/sdcpp/v1/jobs/" + m_job + "/cancel");
+        QNetworkReply *reply = sendJob("POST", "/sdcpp/v1/jobs/" + m_job + "/cancel");
         connect(reply, &QNetworkReply::finished, reply, &QObject::deleteLater);
     }
     emit changed();
@@ -238,7 +260,7 @@ void Generator::cancel() {
 void Generator::poll() {
     if (m_job.isEmpty())
         return;
-    QNetworkReply *reply = send("GET", "/sdcpp/v1/jobs/" + m_job);
+    QNetworkReply *reply = sendJob("GET", "/sdcpp/v1/jobs/" + m_job);
     connect(reply, &QNetworkReply::finished, this, [this, reply] {
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError) {

@@ -48,6 +48,7 @@ fantasi open "a calm lake at dusk"       # open it with a prompt
 fantasi open --model flux2-klein-4b-sdcpp  # open it on that model, when it runs
 fantasi generate "a calm lake at dusk" --width 1344 --height 768 --json
 fantasi generate "the same lake under snow" --from ~/Pictures/Generated/lake.png
+fantasi generate "the cabin from the first beside the lighthouse from the second" --from cabin.png --from lighthouse.png
 fantasi skill install                    # teach your coding agents to make images
 ```
 

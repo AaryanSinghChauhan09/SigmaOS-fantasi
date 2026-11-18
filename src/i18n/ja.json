@@ -46,7 +46,6 @@
   "The XDG desktop portal file chooser is not available.": "XDG デスクトップポータルのファイル選択ダイアログを利用できません。",
   "The portal file picker failed: %1": "ポータルのファイル選択ダイアログでエラーが発生しました: %1",
   "Changing this image": "この画像を変更中",
-  "Make a new image instead": "新しい画像を作成",
   "Stop making it, or go back to a new image": "作成を中止、または新しい画像に戻る",
   "Make another like it": "似た画像をもう一枚作成",
   "Couldn't read the image to start from": "元にする画像を読み込めませんでした",

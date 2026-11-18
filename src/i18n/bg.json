@@ -46,7 +46,6 @@
   "The XDG desktop portal file chooser is not available.": "Диалогът за избор на файлове на XDG портала не е наличен.",
   "The portal file picker failed: %1": "Грешка в диалога за избор на файлове на портала: %1",
   "Changing this image": "Промяна на това изображение",
-  "Make a new image instead": "Вместо това създай ново изображение",
   "Stop making it, or go back to a new image": "Спри създаването или се върни към ново изображение",
   "Make another like it": "Създай още едно подобно",
   "Couldn't read the image to start from": "Изходното изображение не можа да бъде прочетено",

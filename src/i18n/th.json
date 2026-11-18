@@ -46,7 +46,6 @@
   "The XDG desktop portal file chooser is not available.": "ใช้ตัวเลือกไฟล์ของ XDG desktop portal ไม่ได้",
   "The portal file picker failed: %1": "ตัวเลือกไฟล์ของพอร์ทัลล้มเหลว: %1",
   "Changing this image": "กำลังแก้ไขภาพนี้",
-  "Make a new image instead": "สร้างภาพใหม่แทน",
   "Stop making it, or go back to a new image": "หยุดสร้าง หรือกลับไปสร้างภาพใหม่",
   "Make another like it": "สร้างอีกภาพแบบเดียวกัน",
   "Couldn't read the image to start from": "อ่านภาพตั้งต้นไม่ได้",

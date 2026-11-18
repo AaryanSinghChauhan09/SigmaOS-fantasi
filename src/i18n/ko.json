@@ -46,7 +46,6 @@
   "The XDG desktop portal file chooser is not available.": "XDG 데스크톱 포털 파일 선택기를 사용할 수 없습니다.",
   "The portal file picker failed: %1": "포털 파일 선택기 오류: %1",
   "Changing this image": "이 이미지를 변경하는 중",
-  "Make a new image instead": "대신 새 이미지 만들기",
   "Stop making it, or go back to a new image": "만들기 중지 또는 새 이미지로 돌아가기",
   "Make another like it": "비슷한 이미지 하나 더 만들기",
   "Couldn't read the image to start from": "시작 이미지를 읽을 수 없습니다",

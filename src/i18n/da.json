@@ -46,7 +46,6 @@
   "The XDG desktop portal file chooser is not available.": "Skrivebordsportalens filvælger er ikke tilgængelig.",
   "The portal file picker failed: %1": "Portalens filvælger fejlede: %1",
   "Changing this image": "Ændrer dette billede",
-  "Make a new image instead": "Lav et nyt billede i stedet",
   "Stop making it, or go back to a new image": "Stop med at lave det, eller gå tilbage til et nyt billede",
   "Make another like it": "Lav et til af samme slags",
   "Couldn't read the image to start from": "Kunne ikke læse billedet, der skal tages udgangspunkt i",

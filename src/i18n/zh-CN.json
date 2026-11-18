@@ -46,7 +46,6 @@
   "The XDG desktop portal file chooser is not available.": "XDG 桌面门户文件选择器不可用。",
   "The portal file picker failed: %1": "门户文件选择器出错：%1",
   "Changing this image": "正在修改这张图片",
-  "Make a new image instead": "改为生成新图片",
   "Stop making it, or go back to a new image": "停止生成，或返回新图片",
   "Make another like it": "再生成一张类似的",
   "Couldn't read the image to start from": "无法读取作为起点的图片",
