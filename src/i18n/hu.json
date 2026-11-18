@@ -55,7 +55,6 @@
   "What should change?": "Min változtassunk?",
   "Change": "Módosítás",
   "Change it: say what should change": "Kép módosítása: írd le, min kell változtatni",
-  "Click to use %1": "Kattintson a(z) %1 használatához",
   "Change it": "Kép módosítása",
   "Screen, square or portrait": "Képernyő, négyzet vagy álló",
   "%1 on %2": "%1 ezen: %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 készíti a klipedet",
   "Couldn't save the clip's poster in %1": "Nem sikerült menteni a klip borítóképét ide: %1",
   "New generation": "Új generálás",
-  "Start a new generation": "Új generálás indítása"
+  "Start a new generation": "Új generálás indítása",
+  "Clip length: %1 s": "Klip hossza: %1 mp",
+  "Working out how long this takes…": "Kiszámítjuk, mennyi ideig tart…",
+  "Almost done": "Mindjárt kész",
+  "About %1 s left": "Kb. %1 mp van hátra",
+  "About %1 min left": "Kb. %1 perc van hátra",
+  "Images with %1": "Képek ezzel: %1",
+  "Video with %1": "Videó ezzel: %1"
 }

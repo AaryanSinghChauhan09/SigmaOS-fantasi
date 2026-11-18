@@ -55,7 +55,6 @@
   "What should change?": "Ano ang dapat baguhin?",
   "Change": "Baguhin",
   "Change it: say what should change": "Baguhin ito: sabihin kung ano ang dapat baguhin",
-  "Click to use %1": "I-click para gamitin ang %1",
   "Change it": "Baguhin ito",
   "Screen, square or portrait": "Screen, parisukat o patayo",
   "%1 on %2": "%1 sa %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "Ginagawa ng %1 ang clip mo",
   "Couldn't save the clip's poster in %1": "Hindi ma-save ang poster ng clip sa %1",
   "New generation": "Bagong generation",
-  "Start a new generation": "Magsimula ng bagong generation"
+  "Start a new generation": "Magsimula ng bagong generation",
+  "Clip length: %1 s": "Haba ng clip: %1 s",
+  "Working out how long this takes…": "Tinatantiya kung gaano ito katagal…",
+  "Almost done": "Halos tapos na",
+  "About %1 s left": "Mga %1 s na lang",
+  "About %1 min left": "Mga %1 min na lang",
+  "Images with %1": "Mga larawan gamit ang %1",
+  "Video with %1": "Video gamit ang %1"
 }

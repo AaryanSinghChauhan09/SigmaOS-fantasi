@@ -55,7 +55,6 @@
   "What should change?": "何を変更しますか？",
   "Change": "変更",
   "Change it: say what should change": "画像を変更: 変更内容を入力",
-  "Click to use %1": "クリックして %1 を使用",
   "Change it": "画像を変更",
   "Screen, square or portrait": "画面、正方形、縦長",
   "%1 on %2": "%2 の %1",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 がクリップを作成中",
   "Couldn't save the clip's poster in %1": "%1 にクリップのポスター画像を保存できませんでした",
   "New generation": "新しい生成",
-  "Start a new generation": "新しい生成を始める"
+  "Start a new generation": "新しい生成を始める",
+  "Clip length: %1 s": "クリップの長さ: %1 秒",
+  "Working out how long this takes…": "所要時間を見積もっています…",
+  "Almost done": "まもなく完了",
+  "About %1 s left": "残り約 %1 秒",
+  "About %1 min left": "残り約 %1 分",
+  "Images with %1": "%1 で画像",
+  "Video with %1": "%1 で動画"
 }

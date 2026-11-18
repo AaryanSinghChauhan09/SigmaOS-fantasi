@@ -55,7 +55,6 @@
   "What should change?": "எதை மாற்ற வேண்டும்?",
   "Change": "மாற்று",
   "Change it: say what should change": "படத்தை மாற்று: எதை மாற்ற வேண்டும் என்று சொல்",
-  "Click to use %1": "%1 ஐப் பயன்படுத்த கிளிக் செய்",
   "Change it": "படத்தை மாற்று",
   "Screen, square or portrait": "திரை, சதுரம் அல்லது நீளவாக்கு",
   "%1 on %2": "%2 இல் %1",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 உங்கள் கிளிப்பை உருவாக்குகிறது",
   "Couldn't save the clip's poster in %1": "கிளிப்பின் போஸ்டரை %1 இல் சேமிக்க முடியவில்லை",
   "New generation": "புதிய உருவாக்கம்",
-  "Start a new generation": "புதிய உருவாக்கத்தைத் தொடங்கு"
+  "Start a new generation": "புதிய உருவாக்கத்தைத் தொடங்கு",
+  "Clip length: %1 s": "கிளிப் நீளம்: %1 வி.",
+  "Working out how long this takes…": "எவ்வளவு நேரம் ஆகும் எனக் கணக்கிடுகிறது…",
+  "Almost done": "கிட்டத்தட்ட முடிந்தது",
+  "About %1 s left": "சுமார் %1 வி. மீதமுள்ளது",
+  "About %1 min left": "சுமார் %1 நி. மீதமுள்ளது",
+  "Images with %1": "%1 மூலம் படங்கள்",
+  "Video with %1": "%1 மூலம் வீடியோ"
 }

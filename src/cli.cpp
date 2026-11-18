@@ -26,7 +26,7 @@ const char *usage = "Usage:\n"
                     "  fantasi open [prompt] [--model <id>]\n"
                     "                               Open the window with a prompt, and a model\n"
                     "  fantasi generate <prompt>    Make an image, print where it's saved\n"
-                    "      --from <image> --width <px> --height <px> --steps <n> --seed <n> --video --json\n"
+                    "      --from <image> --width <px> --height <px> --steps <n> --seed <n> --video --seconds <n> --json\n"
                     "  fantasi skill [install]      Print the agent skill, or install it\n";
 
 // As Hype does: one shared copy agents find in ~/.agents/skills, linked into
@@ -99,6 +99,7 @@ int runCli(const QStringList &arguments) {
     parser.addOption({"seed", "Seed; a random one when left out", "n", "-1"});
     parser.addOption({"from", "Change this picture: the prompt says what to change. Give it again to combine pictures, with a model that edits", "image"});
     parser.addOption({"video", "Make a clip with its sound on the running video model; --from is its first frame"});
+    parser.addOption({"seconds", "How long a clip is: 2, 5 or 10", "n", "5"});
     parser.addOption({"json", "Print the result as JSON"});
     // The parser takes its first argument as the program's name: here,
     // `generate`, which leaves the prompt as the positional arguments.
@@ -128,6 +129,12 @@ int runCli(const QStringList &arguments) {
     // The running model of the kind asked for: a video model for --video, an
     // image model otherwise, whichever is the one chosen in the window.
     const bool video = parser.isSet("video");
+    // A clip is 2, 5 or 10 seconds: anything else is refused before minutes go into it.
+    const int seconds = parser.value("seconds").toInt();
+    if (video && seconds != 2 && seconds != 5 && seconds != 10) {
+        print(stderr, "Error: --seconds takes 2, 5 or 10");
+        return 1;
+    }
 
     int code = 1;
     QString path;
@@ -181,7 +188,7 @@ int runCli(const QStringList &arguments) {
             return;
         }
         if (video)
-            generator->makeVideo(prompt, parser.value("width").toInt(), parser.value("height").toInt(), from.value(0));
+            generator->makeVideo(prompt, parser.value("width").toInt(), parser.value("height").toInt(), from.value(0), seconds);
         else
             generator->generate(prompt, parser.value("width").toInt(), parser.value("height").toInt(),
                                 parser.value("steps").toInt(), parser.value("seed").toLongLong(), from, models->edits());

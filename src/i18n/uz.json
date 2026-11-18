@@ -55,7 +55,6 @@
   "What should change?": "Nimani oʻzgartirish kerak?",
   "Change": "Oʻzgartirish",
   "Change it: say what should change": "Rasmni oʻzgartirish: nimani oʻzgartirish kerakligini yozing",
-  "Click to use %1": "%1 dan foydalanish uchun bosing",
   "Change it": "Rasmni oʻzgartirish",
   "Screen, square or portrait": "Ekran, kvadrat yoki portret",
   "%1 on %2": "%2 dagi %1",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 klipingizni yaratmoqda",
   "Couldn't save the clip's poster in %1": "Klip muqovasini %1 ga saqlab boʻlmadi",
   "New generation": "Yangi generatsiya",
-  "Start a new generation": "Yangi generatsiya boshlash"
+  "Start a new generation": "Yangi generatsiya boshlash",
+  "Clip length: %1 s": "Klip uzunligi: %1 s",
+  "Working out how long this takes…": "Qancha vaqt ketishi hisoblanmoqda…",
+  "Almost done": "Deyarli tayyor",
+  "About %1 s left": "Taxminan %1 s qoldi",
+  "About %1 min left": "Taxminan %1 daq qoldi",
+  "Images with %1": "%1 bilan rasmlar",
+  "Video with %1": "%1 bilan video"
 }

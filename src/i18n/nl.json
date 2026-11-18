@@ -55,7 +55,6 @@
   "What should change?": "Wat moet er veranderen?",
   "Change": "Aanpassen",
   "Change it: say what should change": "Afbeelding aanpassen: beschrijf wat er moet veranderen",
-  "Click to use %1": "Klik om %1 te gebruiken",
   "Change it": "Afbeelding aanpassen",
   "Screen, square or portrait": "Scherm, vierkant of staand",
   "%1 on %2": "%1 op %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 maakt je clip",
   "Couldn't save the clip's poster in %1": "Kan de posterafbeelding van de clip niet opslaan in %1",
   "New generation": "Nieuwe generatie",
-  "Start a new generation": "Nieuwe generatie beginnen"
+  "Start a new generation": "Nieuwe generatie beginnen",
+  "Clip length: %1 s": "Cliplengte: %1 s",
+  "Working out how long this takes…": "Inschatten hoe lang dit duurt…",
+  "Almost done": "Bijna klaar",
+  "About %1 s left": "Nog ongeveer %1 s",
+  "About %1 min left": "Nog ongeveer %1 min",
+  "Images with %1": "Afbeeldingen met %1",
+  "Video with %1": "Video met %1"
 }

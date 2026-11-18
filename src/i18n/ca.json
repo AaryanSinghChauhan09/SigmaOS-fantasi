@@ -55,7 +55,6 @@
   "What should change?": "Què s'ha de canviar?",
   "Change": "Canvia",
   "Change it: say what should change": "Canvia-la: descriu què s'ha de canviar",
-  "Click to use %1": "Fes clic per usar %1",
   "Change it": "Canvia-la",
   "Screen, square or portrait": "Pantalla, quadrat o vertical",
   "%1 on %2": "%1 a %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 està creant el teu clip",
   "Couldn't save the clip's poster in %1": "No s'ha pogut desar la portada del clip a %1",
   "New generation": "Generació nova",
-  "Start a new generation": "Comença una generació nova"
+  "Start a new generation": "Comença una generació nova",
+  "Clip length: %1 s": "Durada del clip: %1 s",
+  "Working out how long this takes…": "Calculant quant trigarà…",
+  "Almost done": "Gairebé fet",
+  "About %1 s left": "Queden uns %1 s",
+  "About %1 min left": "Queden uns %1 min",
+  "Images with %1": "Imatges amb %1",
+  "Video with %1": "Vídeo amb %1"
 }

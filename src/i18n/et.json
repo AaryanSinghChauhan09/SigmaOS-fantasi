@@ -55,7 +55,6 @@
   "What should change?": "Mida peaks muutma?",
   "Change": "Muuda",
   "Change it: say what should change": "Muuda pilti: kirjelda, mida muuta",
-  "Click to use %1": "Klõpsa, et kasutada mudelit %1",
   "Change it": "Muuda pilti",
   "Screen, square or portrait": "Ekraan, ruut või püstpaigutus",
   "%1 on %2": "%1 masinas %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 teeb sinu klippi",
   "Couldn't save the clip's poster in %1": "Klipi kaanepilti ei õnnestunud salvestada kausta %1",
   "New generation": "Uus genereerimine",
-  "Start a new generation": "Alusta uut genereerimist"
+  "Start a new generation": "Alusta uut genereerimist",
+  "Clip length: %1 s": "Klipi pikkus: %1 s",
+  "Working out how long this takes…": "Arvutan, kui kaua see aega võtab…",
+  "Almost done": "Peaaegu valmis",
+  "About %1 s left": "Jäänud umbes %1 s",
+  "About %1 min left": "Jäänud umbes %1 min",
+  "Images with %1": "Pildid mudeliga %1",
+  "Video with %1": "Video mudeliga %1"
 }

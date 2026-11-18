@@ -55,7 +55,6 @@
   "What should change?": "무엇을 바꿀까요?",
   "Change": "변경",
   "Change it: say what should change": "이미지 변경: 바꿀 내용 입력",
-  "Click to use %1": "클릭하여 %1 사용",
   "Change it": "이미지 변경",
   "Screen, square or portrait": "화면, 정사각형 또는 세로",
   "%1 on %2": "%2의 %1",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1에서 클립을 만드는 중",
   "Couldn't save the clip's poster in %1": "%1에 클립 포스터 이미지를 저장할 수 없습니다",
   "New generation": "새 생성",
-  "Start a new generation": "새 생성 시작"
+  "Start a new generation": "새 생성 시작",
+  "Clip length: %1 s": "클립 길이: %1초",
+  "Working out how long this takes…": "소요 시간을 계산하는 중…",
+  "Almost done": "거의 완료",
+  "About %1 s left": "약 %1초 남음",
+  "About %1 min left": "약 %1분 남음",
+  "Images with %1": "%1(으)로 이미지",
+  "Video with %1": "%1(으)로 동영상"
 }

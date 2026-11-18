@@ -112,7 +112,8 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
         if (row.value("unit").toString() != "installing")
             found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())},
                                          {"running", row.value("unit").toString() == "active"},
-                                         {"video", row.value("kind").toString() == "video"}};
+                                         {"video", row.value("kind").toString() == "video"},
+                                     {"vendor", row.value("vendor").toString()}};
     for (const QJsonObject &row : images)
         if (row.value("unit").toString() == "active" && row.value("edit").toBool() && found.editEndpoint.isEmpty()) {
             found.editEndpoint = row.value("endpoint").toString();
@@ -272,6 +273,7 @@ void Models::choose(const QString &id) {
         }
     }
     m_chosen = id;
+    emit changed();
     QList<QStringList> commands;
     if (m_found.state == "ready" || m_found.state == "starting")
         commands << QStringList{"stop", m_found.id};

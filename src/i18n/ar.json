@@ -55,7 +55,6 @@
   "What should change?": "ماذا يجب أن يتغيّر؟",
   "Change": "تعديل",
   "Change it: say what should change": "تعديلها: صِف ما يجب تغييره",
-  "Click to use %1": "انقر لاستخدام %1",
   "Change it": "تعديلها",
   "Screen, square or portrait": "شاشة أو مربع أو عمودي",
   "%1 on %2": "%1 على %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "النموذج %1 يصنع مقطعك",
   "Couldn't save the clip's poster in %1": "تعذّر حفظ صورة غلاف المقطع في %1",
   "New generation": "توليد جديد",
-  "Start a new generation": "بدء توليد جديد"
+  "Start a new generation": "بدء توليد جديد",
+  "Clip length: %1 s": "طول المقطع: %1 ث",
+  "Working out how long this takes…": "جارٍ حساب المدة اللازمة…",
+  "Almost done": "على وشك الانتهاء",
+  "About %1 s left": "يتبقى نحو %1 ث",
+  "About %1 min left": "يتبقى نحو %1 د",
+  "Images with %1": "صور باستخدام %1",
+  "Video with %1": "فيديو باستخدام %1"
 }

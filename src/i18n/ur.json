@@ -55,7 +55,6 @@
   "What should change?": "کیا تبدیل کرنا ہے؟",
   "Change": "تبدیل کریں",
   "Change it: say what should change": "تصویر تبدیل کریں: بتائیں کہ کیا تبدیل کرنا ہے",
-  "Click to use %1": "%1 استعمال کرنے کے لیے کلک کریں",
   "Change it": "تصویر تبدیل کریں",
   "Screen, square or portrait": "اسکرین، مربع یا عمودی",
   "%1 on %2": "%2 پر %1",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "ماڈل %1 آپ کا کلپ بنا رہا ہے",
   "Couldn't save the clip's poster in %1": "کلپ کا پوسٹر %1 میں محفوظ نہیں ہو سکا",
   "New generation": "نئی تخلیق",
-  "Start a new generation": "نئی تخلیق شروع کریں"
+  "Start a new generation": "نئی تخلیق شروع کریں",
+  "Clip length: %1 s": "کلپ کی لمبائی: %1 سیکنڈ",
+  "Working out how long this takes…": "اندازہ لگایا جا رہا ہے کہ کتنا وقت لگے گا…",
+  "Almost done": "تقریباً مکمل",
+  "About %1 s left": "تقریباً %1 سیکنڈ باقی",
+  "About %1 min left": "تقریباً %1 منٹ باقی",
+  "Images with %1": "%1 کے ساتھ تصاویر",
+  "Video with %1": "%1 کے ساتھ ویڈیو"
 }

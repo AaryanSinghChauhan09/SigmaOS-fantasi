@@ -55,7 +55,6 @@
   "What should change?": "Vad ska ändras?",
   "Change": "Ändra",
   "Change it: say what should change": "Ändra den: säg vad som ska ändras",
-  "Click to use %1": "Klicka för att använda %1",
   "Change it": "Ändra den",
   "Screen, square or portrait": "Skärm, kvadrat eller porträtt",
   "%1 on %2": "%1 på %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 skapar ditt klipp",
   "Couldn't save the clip's poster in %1": "Kunde inte spara klippets omslagsbild i %1",
   "New generation": "Ny generering",
-  "Start a new generation": "Börja på en ny generering"
+  "Start a new generation": "Börja på en ny generering",
+  "Clip length: %1 s": "Klipplängd: %1 s",
+  "Working out how long this takes…": "Räknar ut hur lång tid det tar…",
+  "Almost done": "Nästan klart",
+  "About %1 s left": "Cirka %1 s kvar",
+  "About %1 min left": "Cirka %1 min kvar",
+  "Images with %1": "Bilder med %1",
+  "Video with %1": "Video med %1"
 }

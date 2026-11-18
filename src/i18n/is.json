@@ -55,7 +55,6 @@
   "What should change?": "Hverju á að breyta?",
   "Change": "Breyta",
   "Change it: say what should change": "Breyta mynd: segðu hverju á að breyta",
-  "Click to use %1": "Smelltu til að nota %1",
   "Change it": "Breyta mynd",
   "Screen, square or portrait": "Skjár, ferningur eða lóðrétt",
   "%1 on %2": "%1 á %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 er að búa til myndskeiðið þitt",
   "Couldn't save the clip's poster in %1": "Ekki tókst að vista forsíðumynd myndskeiðsins í %1",
   "New generation": "Ný myndun",
-  "Start a new generation": "Byrja á nýrri myndun"
+  "Start a new generation": "Byrja á nýrri myndun",
+  "Clip length: %1 s": "Lengd myndskeiðs: %1 s",
+  "Working out how long this takes…": "Reikna út hve langan tíma þetta tekur…",
+  "Almost done": "Næstum búið",
+  "About %1 s left": "Um %1 s eftir",
+  "About %1 min left": "Um %1 mín. eftir",
+  "Images with %1": "Myndir með %1",
+  "Video with %1": "Myndskeið með %1"
 }

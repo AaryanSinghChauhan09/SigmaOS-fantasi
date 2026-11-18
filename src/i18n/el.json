@@ -55,7 +55,6 @@
   "What should change?": "Τι πρέπει να αλλάξει;",
   "Change": "Αλλαγή",
   "Change it: say what should change": "Αλλαγή εικόνας: περιγραφή του τι πρέπει να αλλάξει",
-  "Click to use %1": "Κάντε κλικ για χρήση του %1",
   "Change it": "Αλλαγή εικόνας",
   "Screen, square or portrait": "Οθόνη, τετράγωνο ή πορτρέτο",
   "%1 on %2": "%1 στο %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "Το %1 δημιουργεί το κλιπ σας",
   "Couldn't save the clip's poster in %1": "Δεν ήταν δυνατή η αποθήκευση της εικόνας εξωφύλλου του κλιπ στο %1",
   "New generation": "Νέα δημιουργία",
-  "Start a new generation": "Έναρξη νέας δημιουργίας"
+  "Start a new generation": "Έναρξη νέας δημιουργίας",
+  "Clip length: %1 s": "Διάρκεια κλιπ: %1 δευτ.",
+  "Working out how long this takes…": "Υπολογίζεται πόσο θα διαρκέσει…",
+  "Almost done": "Σχεδόν έτοιμο",
+  "About %1 s left": "Απομένουν περίπου %1 δευτ.",
+  "About %1 min left": "Απομένουν περίπου %1 λεπ.",
+  "Images with %1": "Εικόνες με %1",
+  "Video with %1": "Βίντεο με %1"
 }

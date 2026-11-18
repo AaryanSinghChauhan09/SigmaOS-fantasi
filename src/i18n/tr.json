@@ -55,7 +55,6 @@
   "What should change?": "Ne değişsin?",
   "Change": "Değiştir",
   "Change it: say what should change": "Görseli değiştir: neyin değişeceğini yaz",
-  "Click to use %1": "%1 modelini kullanmak için tıkla",
   "Change it": "Görseli değiştir",
   "Screen, square or portrait": "Ekran, kare veya dikey",
   "%1 on %2": "%2 üzerinde %1",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 klibinizi oluşturuyor",
   "Couldn't save the clip's poster in %1": "Klibin kapak görseli şuraya kaydedilemedi: %1",
   "New generation": "Yeni üretim",
-  "Start a new generation": "Yeni üretim başlat"
+  "Start a new generation": "Yeni üretim başlat",
+  "Clip length: %1 s": "Klip uzunluğu: %1 sn",
+  "Working out how long this takes…": "Ne kadar süreceği hesaplanıyor…",
+  "Almost done": "Neredeyse bitti",
+  "About %1 s left": "Yaklaşık %1 sn kaldı",
+  "About %1 min left": "Yaklaşık %1 dk kaldı",
+  "Images with %1": "%1 ile görseller",
+  "Video with %1": "%1 ile video"
 }

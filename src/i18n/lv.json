@@ -55,7 +55,6 @@
   "What should change?": "Ko mainīt?",
   "Change": "Mainīt",
   "Change it: say what should change": "Mainīt attēlu: aprakstīt, ko mainīt",
-  "Click to use %1": "Noklikšķiniet, lai izmantotu %1",
   "Change it": "Mainīt attēlu",
   "Screen, square or portrait": "Ekrāns, kvadrāts vai portrets",
   "%1 on %2": "%1 datorā %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 veido jūsu klipu",
   "Couldn't save the clip's poster in %1": "Neizdevās saglabāt klipa vāka attēlu mapē %1",
   "New generation": "Jauna ģenerēšana",
-  "Start a new generation": "Sākt jaunu ģenerēšanu"
+  "Start a new generation": "Sākt jaunu ģenerēšanu",
+  "Clip length: %1 s": "Klipa garums: %1 s",
+  "Working out how long this takes…": "Aprēķina, cik ilgi tas aizņems…",
+  "Almost done": "Gandrīz gatavs",
+  "About %1 s left": "Atlikušas aptuveni %1 s",
+  "About %1 min left": "Atlikušas aptuveni %1 min",
+  "Images with %1": "Attēli ar %1",
+  "Video with %1": "Video ar %1"
 }

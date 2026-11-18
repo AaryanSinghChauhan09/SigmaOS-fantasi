@@ -55,7 +55,6 @@
   "What should change?": "Що потрібно змінити?",
   "Change": "Змінити",
   "Change it: say what should change": "Змінити зображення: описати, що потрібно змінити",
-  "Click to use %1": "Натисніть, щоб використати %1",
   "Change it": "Змінити зображення",
   "Screen, square or portrait": "Екран, квадрат або портрет",
   "%1 on %2": "%1 на %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 створює ваш кліп",
   "Couldn't save the clip's poster in %1": "Не вдалося зберегти обкладинку кліпу в %1",
   "New generation": "Нова генерація",
-  "Start a new generation": "Почати нову генерацію"
+  "Start a new generation": "Почати нову генерацію",
+  "Clip length: %1 s": "Довжина кліпу: %1 с",
+  "Working out how long this takes…": "Оцінюємо, скільки це триватиме…",
+  "Almost done": "Майже готово",
+  "About %1 s left": "Залишилося близько %1 с",
+  "About %1 min left": "Залишилося близько %1 хв",
+  "Images with %1": "Зображення з %1",
+  "Video with %1": "Відео з %1"
 }

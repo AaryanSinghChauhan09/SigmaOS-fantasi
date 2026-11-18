@@ -55,7 +55,6 @@
   "What should change?": "Apakah yang perlu diubah?",
   "Change": "Ubah",
   "Change it: say what should change": "Ubah imej: nyatakan apa yang perlu diubah",
-  "Click to use %1": "Klik untuk menggunakan %1",
   "Change it": "Ubah imej",
   "Screen, square or portrait": "Skrin, segi empat sama atau potret",
   "%1 on %2": "%1 di %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 sedang membuat klip anda",
   "Couldn't save the clip's poster in %1": "Tidak dapat menyimpan poster klip dalam %1",
   "New generation": "Penjanaan baharu",
-  "Start a new generation": "Mulakan penjanaan baharu"
+  "Start a new generation": "Mulakan penjanaan baharu",
+  "Clip length: %1 s": "Panjang klip: %1 s",
+  "Working out how long this takes…": "Mengira berapa lama masa diperlukan…",
+  "Almost done": "Hampir siap",
+  "About %1 s left": "Kira-kira %1 s lagi",
+  "About %1 min left": "Kira-kira %1 min lagi",
+  "Images with %1": "Imej dengan %1",
+  "Video with %1": "Video dengan %1"
 }

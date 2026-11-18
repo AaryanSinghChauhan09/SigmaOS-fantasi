@@ -45,6 +45,9 @@ class Models : public QObject {
     Q_PROPERTY(bool canEdit READ canEdit NOTIFY changed)
     // The model in use makes clips with their sound rather than images.
     Q_PROPERTY(bool video READ video NOTIFY changed)
+    // The model being started in place of the one in use, while it starts.
+    Q_PROPERTY(QString switchingTo READ switchingTo NOTIFY changed)
+    Q_PROPERTY(QString switchingVendor READ switchingVendor NOTIFY changed)
     Q_PROPERTY(QString error READ error NOTIFY changed)
 
 public:
@@ -99,6 +102,8 @@ public:
     // Whether a running model edits by instruction, which can take several pictures.
     bool canEdit() const { return !m_found.editEndpoint.isEmpty(); }
     bool video() const { return m_found.video; }
+    QString switchingTo() const { return choiceField(m_chosen, "name"); }
+    QString switchingVendor() const { return choiceField(m_chosen, "vendor"); }
     // The video model's server, when it's the one in use and running.
     QString videoOrigin() const;
     QByteArray videoKey() const { return key(); }
@@ -141,6 +146,12 @@ signals:
 
 private:
     void reload();
+    QString choiceField(const QString &id, const QString &field) const {
+        for (const QVariant &choice : m_found.choices)
+            if (choice.toMap().value("id").toString() == id)
+                return choice.toMap().value(field).toString();
+        return {};
+    }
     void run(const QList<QStringList> &commands);
     void runNext();
 

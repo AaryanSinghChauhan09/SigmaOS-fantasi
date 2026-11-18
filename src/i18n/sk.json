@@ -55,7 +55,6 @@
   "What should change?": "Čo sa má zmeniť?",
   "Change": "Upraviť",
   "Change it: say what should change": "Upraviť obrázok: opísať, čo sa má zmeniť",
-  "Click to use %1": "Kliknutím použijete %1",
   "Change it": "Upraviť obrázok",
   "Screen, square or portrait": "Obrazovka, štvorec alebo na výšku",
   "%1 on %2": "%1 na %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 vytvára váš klip",
   "Couldn't save the clip's poster in %1": "Titulný obrázok klipu sa nepodarilo uložiť do %1",
   "New generation": "Nové generovanie",
-  "Start a new generation": "Začať nové generovanie"
+  "Start a new generation": "Začať nové generovanie",
+  "Clip length: %1 s": "Dĺžka klipu: %1 s",
+  "Working out how long this takes…": "Zisťujem, ako dlho to potrvá…",
+  "Almost done": "Takmer hotovo",
+  "About %1 s left": "Zostáva asi %1 s",
+  "About %1 min left": "Zostáva asi %1 min",
+  "Images with %1": "Obrázky s %1",
+  "Video with %1": "Video s %1"
 }

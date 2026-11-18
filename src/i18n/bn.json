@@ -55,7 +55,6 @@
   "What should change?": "কী বদলাতে হবে?",
   "Change": "বদলান",
   "Change it: say what should change": "ছবিটি বদলান: কী বদলাতে হবে তা লিখুন",
-  "Click to use %1": "%1 ব্যবহার করতে ক্লিক করুন",
   "Change it": "ছবিটি বদলান",
   "Screen, square or portrait": "স্ক্রিন, বর্গাকার বা পোর্ট্রেট",
   "%1 on %2": "%2-এ %1",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 আপনার ক্লিপ তৈরি করছে",
   "Couldn't save the clip's poster in %1": "ক্লিপের পোস্টার %1-এ সংরক্ষণ করা যায়নি",
   "New generation": "নতুন জেনারেশন",
-  "Start a new generation": "নতুন জেনারেশন শুরু করুন"
+  "Start a new generation": "নতুন জেনারেশন শুরু করুন",
+  "Clip length: %1 s": "ক্লিপের দৈর্ঘ্য: %1 সে.",
+  "Working out how long this takes…": "কত সময় লাগবে তা হিসাব করা হচ্ছে…",
+  "Almost done": "প্রায় শেষ",
+  "About %1 s left": "আনুমানিক %1 সে. বাকি",
+  "About %1 min left": "আনুমানিক %1 মি. বাকি",
+  "Images with %1": "%1 দিয়ে ছবি",
+  "Video with %1": "%1 দিয়ে ভিডিও"
 }

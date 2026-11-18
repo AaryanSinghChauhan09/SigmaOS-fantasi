@@ -55,7 +55,6 @@
   "What should change?": "Co zmienić?",
   "Change": "Zmień",
   "Change it: say what should change": "Zmień obraz: opisz, co ma się zmienić",
-  "Click to use %1": "Kliknij, aby użyć modelu %1",
   "Change it": "Zmień obraz",
   "Screen, square or portrait": "Ekran, kwadrat lub pionowy",
   "%1 on %2": "%1 na %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 tworzy twój klip",
   "Couldn't save the clip's poster in %1": "Nie udało się zapisać okładki klipu w %1",
   "New generation": "Nowe generowanie",
-  "Start a new generation": "Zacznij nowe generowanie"
+  "Start a new generation": "Zacznij nowe generowanie",
+  "Clip length: %1 s": "Długość klipu: %1 s",
+  "Working out how long this takes…": "Szacowanie, ile to potrwa…",
+  "Almost done": "Prawie gotowe",
+  "About %1 s left": "Zostało około %1 s",
+  "About %1 min left": "Zostało około %1 min",
+  "Images with %1": "Obrazy z %1",
+  "Video with %1": "Wideo z %1"
 }

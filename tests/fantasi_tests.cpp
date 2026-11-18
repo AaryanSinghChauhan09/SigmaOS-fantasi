@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QQmlProperty>
 #include <QQmlContext>
+#include <QSettings>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTcpServer>
@@ -696,6 +697,8 @@ private slots:
         QCOMPARE(submit->second.value("lora").toArray().first().toObject().value("path").toString(), QString("turbo.safetensors"));
         QVERIFY(!submit->second.value("init_image").toString().isEmpty());
         QCOMPARE(submit->second.value("width").toInt(), 640);
+        // Five seconds at 24 frames a second unless asked otherwise.
+        QCOMPARE(submit->second.value("video_frames").toInt(), 120);
         QVERIFY(images.requests.isEmpty() || std::none_of(images.requests.begin(), images.requests.end(), [](const auto &r) { return r.first.contains("vid_gen"); }));
         // The clip, with a poster beside it that the history lists as the clip.
         const QString path = saved.first().first().toString();
@@ -714,6 +717,32 @@ private slots:
             QVERIFY(poster.save(dir.filePath("forged.png")));
             QVERIFY2(History::readEntry(dir.filePath("forged.png")).video.isEmpty(), named);
         }
+    }
+
+    void generatorEstimatesTheTimeLeftFromTheLastOneLikeIt() {
+        QTemporaryDir dir;
+        FakeServer server;
+        server.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (method == "POST" && path == "/sdcpp/v1/img_gen")
+                return {202, q("{'id': 'slow'}")};
+            if (path == "/sdcpp/v1/jobs/slow")
+                return {200, q("{'status': 'generating', 'progress': {'stage': 'sampling', 'unit': 'steps', 'completed': 0, 'total': 8}}")};
+            return {404, "{}"};
+        };
+        readyEngine(dir.path() + "/state", server.origin());
+        Models models(dir.path() + "/state", dir.path() + "/state/key", "/bin/true");
+        Generator generator(&models, dir.path() + "/out");
+        // Nothing like it yet, and no step done: not known.
+        generator.generate("a lake", 1024, 1024);
+        QTRY_VERIFY(generator.busy());
+        QCOMPARE(generator.remainingSeconds(), -1);
+        // The last one like it took 120 seconds: about that long is left.
+        QSettings().setValue("durations/z-image-turbo/image/1024x1024", 120.0);
+        Generator next(&models, dir.path() + "/out");
+        next.generate("a lake", 1024, 1024);
+        QTRY_VERIFY(next.busy());
+        QVERIFY2(next.remainingSeconds() > 115 && next.remainingSeconds() <= 120, qPrintable(QString::number(next.remainingSeconds())));
+        QSettings().remove("durations");
     }
 
     void generatorCancelsAndSavesNothing() {
@@ -1083,6 +1112,8 @@ private slots:
         // One button steps through the shapes; Ctrl+3 goes straight to portrait.
         auto *shape = item(window->contentItem(), "size");
         QVERIFY(shape);
+        // Nothing changes while something is made: wait for the one sent above.
+        QTRY_VERIFY(!backend.generator()->busy());
         QTest::keyClick(window, Qt::Key_3, Qt::ControlModifier);
         QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Portrait"));
         QMetaObject::invokeMethod(shape, "clicked");

@@ -55,7 +55,6 @@
   "What should change?": "Hvad skal ændres?",
   "Change": "Ændr",
   "Change it: say what should change": "Ændr det: sig, hvad der skal ændres",
-  "Click to use %1": "Klik for at bruge %1",
   "Change it": "Ændr det",
   "Screen, square or portrait": "Skærm, kvadrat eller portræt",
   "%1 on %2": "%1 på %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 laver dit klip",
   "Couldn't save the clip's poster in %1": "Kunne ikke gemme klippets forsidebillede i %1",
   "New generation": "Ny generering",
-  "Start a new generation": "Start en ny generering"
+  "Start a new generation": "Start en ny generering",
+  "Clip length: %1 s": "Kliplængde: %1 s",
+  "Working out how long this takes…": "Regner ud, hvor lang tid det tager…",
+  "Almost done": "Næsten færdig",
+  "About %1 s left": "Ca. %1 s tilbage",
+  "About %1 min left": "Ca. %1 min tilbage",
+  "Images with %1": "Billeder med %1",
+  "Video with %1": "Video med %1"
 }

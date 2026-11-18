@@ -55,7 +55,6 @@
   "What should change?": "מה צריך לשנות?",
   "Change": "שינוי",
   "Change it: say what should change": "שינוי התמונה: תיאור של מה שצריך לשנות",
-  "Click to use %1": "יש ללחוץ כדי להשתמש ב־%1",
   "Change it": "שינוי התמונה",
   "Screen, square or portrait": "מסך, ריבוע או לאורך",
   "%1 on %2": "%1 ב־%2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "המודל %1 יוצר את הקליפ שלך",
   "Couldn't save the clip's poster in %1": "לא ניתן היה לשמור את תמונת השער של הקליפ בתיקייה %1",
   "New generation": "יצירה חדשה",
-  "Start a new generation": "התחלת יצירה חדשה"
+  "Start a new generation": "התחלת יצירה חדשה",
+  "Clip length: %1 s": "אורך הקליפ: %1 שנ׳",
+  "Working out how long this takes…": "מחשב כמה זמן זה ייקח…",
+  "Almost done": "כמעט סיימנו",
+  "About %1 s left": "נותרו כ־%1 שנ׳",
+  "About %1 min left": "נותרו כ־%1 דק׳",
+  "Images with %1": "תמונות עם %1",
+  "Video with %1": "וידאו עם %1"
 }

@@ -55,7 +55,6 @@
   "What should change?": "Mitä pitäisi muuttaa?",
   "Change": "Muuta",
   "Change it: say what should change": "Muuta kuvaa: kerro, mitä pitäisi muuttaa",
-  "Click to use %1": "Napsauta käyttääksesi mallia %1",
   "Change it": "Muuta kuvaa",
   "Screen, square or portrait": "Näyttö, neliö tai pysty",
   "%1 on %2": "%1 koneella %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 tekee leikettäsi",
   "Couldn't save the clip's poster in %1": "Leikkeen kansikuvaa ei voitu tallentaa kansioon %1",
   "New generation": "Uusi generointi",
-  "Start a new generation": "Aloita uusi generointi"
+  "Start a new generation": "Aloita uusi generointi",
+  "Clip length: %1 s": "Leikkeen pituus: %1 s",
+  "Working out how long this takes…": "Arvioidaan, kauanko tämä kestää…",
+  "Almost done": "Melkein valmis",
+  "About %1 s left": "Noin %1 s jäljellä",
+  "About %1 min left": "Noin %1 min jäljellä",
+  "Images with %1": "Kuvia mallilla %1",
+  "Video with %1": "Videota mallilla %1"
 }

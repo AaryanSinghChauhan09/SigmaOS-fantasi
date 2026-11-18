@@ -55,7 +55,6 @@
   "What should change?": "Шта треба променити?",
   "Change": "Промени",
   "Change it: say what should change": "Промени слику: опиши шта треба променити",
-  "Click to use %1": "Кликни да користиш %1",
   "Change it": "Промени слику",
   "Screen, square or portrait": "Екран, квадрат или усправно",
   "%1 on %2": "%1 на %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 прави ваш снимак",
   "Couldn't save the clip's poster in %1": "Насловна слика снимка није могла да се сачува у %1",
   "New generation": "Ново генерисање",
-  "Start a new generation": "Започни ново генерисање"
+  "Start a new generation": "Започни ново генерисање",
+  "Clip length: %1 s": "Дужина снимка: %1 с",
+  "Working out how long this takes…": "Процењује се колико ће трајати…",
+  "Almost done": "Скоро готово",
+  "About %1 s left": "Још око %1 с",
+  "About %1 min left": "Још око %1 мин",
+  "Images with %1": "Слике са %1",
+  "Video with %1": "Видео са %1"
 }

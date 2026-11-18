@@ -55,7 +55,6 @@
   "What should change?": "Cần sửa gì?",
   "Change": "Sửa",
   "Change it: say what should change": "Sửa ảnh: mô tả những gì cần sửa",
-  "Click to use %1": "Bấm để dùng %1",
   "Change it": "Sửa ảnh",
   "Screen, square or portrait": "Màn hình, vuông hoặc dọc",
   "%1 on %2": "%1 trên %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 đang tạo clip của bạn",
   "Couldn't save the clip's poster in %1": "Không lưu được ảnh bìa của clip vào %1",
   "New generation": "Lượt tạo mới",
-  "Start a new generation": "Bắt đầu lượt tạo mới"
+  "Start a new generation": "Bắt đầu lượt tạo mới",
+  "Clip length: %1 s": "Độ dài clip: %1 giây",
+  "Working out how long this takes…": "Đang ước tính thời gian…",
+  "Almost done": "Sắp xong",
+  "About %1 s left": "Còn khoảng %1 giây",
+  "About %1 min left": "Còn khoảng %1 phút",
+  "Images with %1": "Ảnh với %1",
+  "Video with %1": "Video với %1"
 }

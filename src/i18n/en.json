@@ -55,7 +55,6 @@
   "What should change?": "What should change?",
   "Change": "Change",
   "Change it: say what should change": "Change it: say what should change",
-  "Click to use %1": "Click to use %1",
   "Change it": "Change it",
   "Screen, square or portrait": "Screen, square or portrait",
   "%1 on %2": "%1 on %2",
@@ -99,5 +98,12 @@
   "%1 is making your clip": "%1 is making your clip",
   "Couldn't save the clip's poster in %1": "Couldn't save the clip's poster in %1",
   "New generation": "New generation",
-  "Start a new generation": "Start a new generation"
+  "Start a new generation": "Start a new generation",
+  "Clip length: %1 s": "Clip length: %1 s",
+  "Working out how long this takes…": "Working out how long this takes…",
+  "Almost done": "Almost done",
+  "About %1 s left": "About %1 s left",
+  "About %1 min left": "About %1 min left",
+  "Images with %1": "Images with %1",
+  "Video with %1": "Video with %1"
 }

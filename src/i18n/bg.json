@@ -55,7 +55,6 @@
   "What should change?": "Какво да се промени?",
   "Change": "Промени",
   "Change it: say what should change": "Промени го: опиши какво да се промени",
-  "Click to use %1": "Щракнете, за да използвате %1",
   "Change it": "Промени го",
   "Screen, square or portrait": "Екран, квадрат или портрет",
   "%1 on %2": "%1 на %2",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 създава вашия клип",
   "Couldn't save the clip's poster in %1": "Корицата на клипа не можа да бъде запазена в %1",
   "New generation": "Ново генериране",
-  "Start a new generation": "Започни ново генериране"
+  "Start a new generation": "Започни ново генериране",
+  "Clip length: %1 s": "Дължина на клипа: %1 с",
+  "Working out how long this takes…": "Изчислява се колко ще отнеме…",
+  "Almost done": "Почти готово",
+  "About %1 s left": "Остават около %1 с",
+  "About %1 min left": "Остават около %1 мин",
+  "Images with %1": "Изображения с %1",
+  "Video with %1": "Видео с %1"
 }

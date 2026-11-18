@@ -55,7 +55,6 @@
   "What should change?": "要修改什么？",
   "Change": "修改",
   "Change it: say what should change": "修改图片：描述要修改的内容",
-  "Click to use %1": "点击以使用 %1",
   "Change it": "修改图片",
   "Screen, square or portrait": "屏幕、方形或竖版",
   "%1 on %2": "%2 上的 %1",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 正在生成你的短片",
   "Couldn't save the clip's poster in %1": "无法将短片的封面保存到 %1",
   "New generation": "新生成",
-  "Start a new generation": "开始新生成"
+  "Start a new generation": "开始新生成",
+  "Clip length: %1 s": "短片时长：%1 秒",
+  "Working out how long this takes…": "正在估算所需时间…",
+  "Almost done": "即将完成",
+  "About %1 s left": "大约还剩 %1 秒",
+  "About %1 min left": "大约还剩 %1 分钟",
+  "Images with %1": "使用 %1 生成图片",
+  "Video with %1": "使用 %1 生成视频"
 }

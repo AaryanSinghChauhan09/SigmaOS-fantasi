@@ -55,7 +55,6 @@
   "What should change?": "වෙනස් විය යුත්තේ කුමක්ද?",
   "Change": "වෙනස් කරන්න",
   "Change it: say what should change": "රූපය වෙනස් කරන්න: වෙනස් විය යුතු දේ කියන්න",
-  "Click to use %1": "%1 භාවිත කිරීමට ක්ලික් කරන්න",
   "Change it": "රූපය වෙනස් කරන්න",
   "Screen, square or portrait": "තිරය, සමචතුරස්‍ර හෝ සිරස්",
   "%1 on %2": "%2 හි %1",
@@ -73,5 +72,12 @@
   "%1 is making your clip": "%1 ඔබේ ක්ලිපය සාදමින් සිටී",
   "Couldn't save the clip's poster in %1": "ක්ලිපයේ පෝස්ටරය %1 තුළ සුරැකිය නොහැකි විය",
   "New generation": "නව උත්පාදනය",
-  "Start a new generation": "නව උත්පාදනයක් අරඹන්න"
+  "Start a new generation": "නව උත්පාදනයක් අරඹන්න",
+  "Clip length: %1 s": "ක්ලිපයේ දිග: %1 තත්.",
+  "Working out how long this takes…": "මෙයට කොපමණ කාලයක් ගතවේදැයි ගණනය කරමින්…",
+  "Almost done": "තව ටිකකින් අවසන්",
+  "About %1 s left": "%1 තත්. පමණ ඉතිරියි",
+  "About %1 min left": "%1 මිනි. පමණ ඉතිරියි",
+  "Images with %1": "%1 සමඟ රූප",
+  "Video with %1": "%1 සමඟ වීඩියෝ"
 }
