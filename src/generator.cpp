@@ -17,6 +17,7 @@
 #include <QImageReader>
 #include <QPainter>
 #include <QtEndian>
+#include <sys/stat.h>
 #include <utility>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -46,6 +47,18 @@ QString stageFor(const QString &server) {
     if (server == "queued" || server == "waiting")
         return "queued";
     return "conditioning";
+}
+
+// What a file the user makes may be read by: everyone their umask lets.
+QFile::Permissions newFilePermissions() {
+    const mode_t mask = ::umask(0);
+    ::umask(mask);
+    QFile::Permissions permissions = QFile::ReadOwner | QFile::WriteOwner;
+    if (!(mask & S_IRGRP))
+        permissions |= QFile::ReadGroup;
+    if (!(mask & S_IROTH))
+        permissions |= QFile::ReadOther;
+    return permissions;
 }
 
 } // namespace
@@ -630,7 +643,7 @@ bool Generator::save() {
         return false;
     }
     // A temporary file is private; the image is as readable as a new file.
-    temporary.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadGroup | QFile::ReadOther);
+    temporary.setPermissions(newFilePermissions());
     const QString base = fileName(m_prompt, QDateTime::currentDateTime());
     for (int n = 1; n < 1000; ++n) {
         const QString stem = base + (n == 1 ? QString() : "-" + QString::number(n));
@@ -730,7 +743,7 @@ bool Generator::writePoster(const QString &media, const QImage &frame, const QSt
     if (song) {
         QTemporaryFile temporary(m_folder + "/.fantasi-XXXXXX.png");
         written = temporary.open() && poster.save(&temporary, "PNG") && temporary.flush()
-               && temporary.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadGroup | QFile::ReadOther)
+               && temporary.setPermissions(newFilePermissions())
                && temporary.rename(target);
         temporary.setAutoRemove(!written);
     } else {
