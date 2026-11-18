@@ -288,10 +288,44 @@ ApplicationWindow {
             anchors.fill: parent
             spacing: 0
 
-            ColumnLayout {
+            Item {
+                id: work
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.margins: 20
+
+            // While something is made, a band of light sweeps the whole of
+            // this side, from the window's edge to the history, under the
+            // image and the prompt bar.
+            Item {
+                objectName: "making"
+                anchors.fill: parent
+                clip: true
+                visible: generator.busy
+                Rectangle {
+                    width: work.width * 0.35
+                    height: work.height * 2
+                    y: -work.height / 2
+                    rotation: 18
+                    gradient: Gradient {
+                        orientation: Gradient.Horizontal
+                        GradientStop { position: 0.0; color: "transparent" }
+                        GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, theme.light ? 0.22 : 0.08) }
+                        GradientStop { position: 1.0; color: "transparent" }
+                    }
+                    NumberAnimation on x {
+                        running: generator.busy
+                        loops: Animation.Infinite
+                        from: -work.width * 0.5
+                        to: work.width * 1.1
+                        duration: 2600
+                        easing.type: Easing.InOutSine
+                    }
+                }
+            }
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 20
                 spacing: 12
 
                 // ----------------------------------------------------- the image
@@ -307,36 +341,6 @@ ApplicationWindow {
                                                    : previous.status === Image.Ready && previous.implicitHeight > 0
                                                    ? previous.implicitWidth / previous.implicitHeight
                                                    : win.outputSize.width / win.outputSize.height
-
-                    // While something is made, a band of light sweeps the whole
-                    // stage, the frame included.
-                    Item {
-                        objectName: "making"
-                        anchors.fill: parent
-                        z: 1
-                        clip: true
-                        visible: generator.busy
-                        Rectangle {
-                            width: stage.width * 0.35
-                            height: stage.height * 2
-                            y: -stage.height / 2
-                            rotation: 18
-                            gradient: Gradient {
-                                orientation: Gradient.Horizontal
-                                GradientStop { position: 0.0; color: "transparent" }
-                                GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, theme.light ? 0.22 : 0.08) }
-                                GradientStop { position: 1.0; color: "transparent" }
-                            }
-                            NumberAnimation on x {
-                                running: generator.busy
-                                loops: Animation.Infinite
-                                from: -stage.width * 0.5
-                                to: stage.width * 1.1
-                                duration: 2600
-                                easing.type: Easing.InOutSine
-                            }
-                        }
-                    }
 
                     Item {
                         id: frame
@@ -978,6 +982,7 @@ ApplicationWindow {
                         }
                     }
                 }
+            }
             }
 
 
