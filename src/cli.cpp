@@ -23,7 +23,8 @@ void print(FILE *stream, const QString &text) {
 
 const char *usage = "Usage:\n"
                     "  fantasi                      Open the window\n"
-                    "  fantasi open [prompt]        Open the window with a prompt\n"
+                    "  fantasi open [prompt] [--model <id>]\n"
+                    "                               Open the window with a prompt, and a model\n"
                     "  fantasi generate <prompt>    Make an image, print where it's saved\n"
                     "      --from <image> --width <px> --height <px> --steps <n> --seed <n> --json\n"
                     "  fantasi skill [install]      Print the agent skill, or install it\n";
@@ -96,7 +97,7 @@ int runCli(const QStringList &arguments) {
     parser.addOption({"height", "Height in pixels", "px", "1024"});
     parser.addOption({"steps", "Sampling steps; the model's own when left out", "n", "0"});
     parser.addOption({"seed", "Seed; a random one when left out", "n", "-1"});
-    parser.addOption({"from", "Change this picture: the prompt says what to change", "image"});
+    parser.addOption({"from", "Change this picture: the prompt says what to change. Give it again to combine pictures, with a model that edits", "image"});
     parser.addOption({"json", "Print the result as JSON"});
     // The parser takes its first argument as the program's name: here,
     // `generate`, which leaves the prompt as the positional arguments.
@@ -143,11 +144,11 @@ int runCli(const QStringList &arguments) {
         if (started)
             return;
         started = true;
-        const QString from = parser.value("from");
+        QStringList from;
+        for (const QString &path : parser.values("from"))
+            from << QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath()).toString();
         generator->generate(prompt, parser.value("width").toInt(), parser.value("height").toInt(),
-                            parser.value("steps").toInt(), parser.value("seed").toLongLong(),
-                            from.isEmpty() ? QString() : QUrl::fromLocalFile(QFileInfo(from).absoluteFilePath()).toString(),
-                            models->edits());
+                            parser.value("steps").toInt(), parser.value("seed").toLongLong(), from, models->edits());
         if (!generator->busy()) {
             print(stderr, "Error: " + generator->error());
             QCoreApplication::exit(1);

@@ -4,7 +4,7 @@ Make images on your own machine with a local model, the way Omarchy runs them.
 
 ![Fantasi making a lighthouse at dusk, with the eight steps it took under the image and earlier images in the history](docs/screenshot.png)
 
-Describe an image, pick a size, and watch it sharpen step by step. Then change it: the next image starts from this one, keeping its composition while your prompt moves it. Or start from a picture of your own: open one, or drop it on the window. Every image lands in `~/Pictures/Generated` with its prompt and seed inside, so the history can show it again and make it again. One key sets it as your background.
+Describe an image, pick a size, and watch it sharpen step by step. Then change it: the next image starts from this one, keeping its composition while your prompt moves it. Or start from a picture of your own: open one, or drop it on the window. Every image lands in `~/Pictures/Generated` with its prompt and seed inside, so the history can show it again and make it again.
 
 ## Where the model comes from
 
@@ -26,9 +26,10 @@ The prompt has the keyboard most of the time, so the shortcuts take Ctrl.
 | Esc | Stop making it, or go back to a new image |
 | Ctrl+R | Make another like it |
 | Ctrl+E | Change it: the next image starts from it |
+| Ctrl+N | Start a new image |
 | Ctrl+O | Start from a picture of your own |
-| Ctrl+1, 2, 3 | Square, screen or portrait |
-| Ctrl+B | Set it as the background |
+| Ctrl+1, 2, 3 | Screen, square or portrait |
+| Ctrl+B | Show or hide the history |
 | Ctrl+Shift+C | Copy it |
 | Ctrl+S | Save a copy somewhere else |
 | Ctrl+Up, Ctrl+Down | Move through the history |
@@ -43,8 +44,10 @@ Double-click an image in the history to take its prompt back into the panel.
 ```sh
 fantasi                                  # open the window
 fantasi open "a calm lake at dusk"       # open it with a prompt
+fantasi open --model flux2-klein-4b-sdcpp  # open it on that model, when it runs
 fantasi generate "a calm lake at dusk" --width 1344 --height 768 --json
 fantasi generate "the same lake under snow" --from ~/Pictures/Generated/lake.png
+fantasi generate "the cabin from the first beside the lighthouse from the second" --from cabin.png --from lighthouse.png
 fantasi skill install                    # teach your coding agents to make images
 ```
 

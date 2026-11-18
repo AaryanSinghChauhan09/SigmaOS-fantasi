@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QJsonDocument>
 #include <QSettings>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QUrl>
 #include <algorithm>
@@ -41,8 +42,15 @@ Models::Models(const QString &stateDirectory, const QString &keyPath, const QStr
             const auto said = std::find_if(lines.rbegin(), lines.rend(), [](const QString &l) { return l.startsWith("Error: "); });
             m_error = said != lines.rend() ? said->mid(7).trimmed() : tr("The model couldn't be started");
             m_queue.clear();
+            m_chosen.clear();
             emit changed();
             return;
+        }
+        // Only a model that started becomes the one to use.
+        if (m_queue.isEmpty() && !m_chosen.isEmpty()) {
+            QSettings().setValue("model", m_chosen);
+            m_chosen.clear();
+            reload();
         }
         runNext();
     });
@@ -91,11 +99,21 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
             runningTextIds << it.key();
         }
     }
+    // This machine's own first, then a paired host's, each by name.
     std::sort(images.begin(), images.end(), [](const QJsonObject &a, const QJsonObject &b) {
+        const bool aRemote = a.contains("host"), bRemote = b.contains("host");
+        if (aRemote != bRemote)
+            return bRemote;
         return a.value("name").toString() < b.value("name").toString();
     });
     for (const QJsonObject &row : images)
-        found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())}};
+        found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())},
+                                     {"running", row.value("unit").toString() == "active"}};
+    for (const QJsonObject &row : images)
+        if (row.value("unit").toString() == "active" && row.value("edit").toBool() && found.editEndpoint.isEmpty()) {
+            found.editEndpoint = row.value("endpoint").toString();
+            found.editId = row.value("id").toString();
+        }
     std::stable_sort(images.begin(), images.end(), [&](const QJsonObject &a, const QJsonObject &b) {
         return a.value("id").toString() == preferred && b.value("id").toString() != preferred;
     });
@@ -157,18 +175,41 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
     return found;
 }
 
-QString Models::origin() const {
-    // The engine's endpoint is the OpenAI base, ending in /v1; the native
-    // API lives beside it.
-    QUrl url(m_found.endpoint);
+// The engine's endpoint is the OpenAI base, ending in /v1; the native API
+// lives beside it.
+static QString originOf(const QString &endpoint) {
+    QUrl url(endpoint);
     if (!url.isValid() || url.host().isEmpty())
         return {};
-    url.setPath({});
+    // A paired host's model lives under /local-ai/<recipe>/v1; its native
+    // API beside the /v1.
+    QString path = url.path();
+    if (path.endsWith("/v1"))
+        path.chop(3);
+    url.setPath(path);
     return url.toString(QUrl::StripTrailingSlash);
 }
 
-QByteArray Models::key() const {
-    QFile file(m_keyPath);
+QString Models::origin() const { return originOf(m_found.endpoint); }
+QString Models::editOrigin() const { return originOf(m_found.editEndpoint); }
+
+QString Models::logo(const QString &vendor, bool light) {
+    const QString omarchy = qEnvironmentVariable("OMARCHY_PATH");
+    if (omarchy.isEmpty())
+        return {};
+    const QString assets = omarchy + "/shell/plugins/agents/assets/";
+    static const QRegularExpression slug("^[a-z0-9-]+$");
+    const QString id = slug.match(vendor).hasMatch() && QFileInfo::exists(assets + vendor + ".svg") ? vendor : "local";
+    const QString path = light && QFileInfo::exists(assets + id + "-light.svg") ? assets + id + "-light.svg" : assets + id + ".svg";
+    return QFileInfo::exists(path) ? QUrl::fromLocalFile(path).toString() : QString();
+}
+
+QByteArray Models::keyFor(const QString &id) const {
+    const QString host = id.contains('/') ? id.section('/', 0, 0) : QString();
+    static const QRegularExpression name("^[a-z0-9-]+$");
+    if (!host.isEmpty() && !name.match(host).hasMatch())
+        return {};
+    QFile file(host.isEmpty() ? m_keyPath : QFileInfo(m_keyPath).absolutePath() + "/remotes/" + host + ".key");
     return file.open(QIODevice::ReadOnly) ? file.readAll().trimmed() : QByteArray();
 }
 
@@ -195,7 +236,17 @@ void Models::switchTo() {
 void Models::choose(const QString &id) {
     if (id == m_found.id || working())
         return;
-    QSettings().setValue("model", id);
+    // One already running is simply used from now on: nothing to stop or start.
+    for (const QVariant &choice : m_found.choices) {
+        const QVariantMap row = choice.toMap();
+        if (row.value("id").toString() == id && row.value("running").toBool()) {
+            m_error.clear();
+            QSettings().setValue("model", id);
+            reload();
+            return;
+        }
+    }
+    m_chosen = id;
     QList<QStringList> commands;
     if (m_found.state == "ready" || m_found.state == "starting")
         commands << QStringList{"stop", m_found.id};
@@ -229,7 +280,7 @@ void Models::reload() {
     QString ancestor = m_directory;
     while (!QFileInfo::exists(ancestor) && ancestor != "/")
         ancestor = QFileInfo(ancestor).absolutePath();
-    QStringList candidates{ancestor, m_directory, m_directory + "/status.json", m_directory + "/list.json"};
+    QStringList candidates{ancestor, m_directory, m_directory + "/status.json", m_directory + "/list.json", m_directory + "/network.json"};
     candidates.removeDuplicates();
     for (const QString &path : candidates)
         if (QFileInfo::exists(path))
@@ -237,14 +288,32 @@ void Models::reload() {
 
     QSettings settings;
     const QString preferred = settings.value("model").toString();
-    const Discovery found = discover(readJson(m_directory + "/status.json").object(),
-                                     readJson(m_directory + "/list.json").array(), !m_command.isEmpty(), preferred);
+    QJsonObject status = readJson(m_directory + "/status.json").object();
+    // A paired host's running image models, shared on the tailnet, join this
+    // machine's own as choices, named for their host.
+    QJsonObject models = status.value("models").toObject();
+    const QJsonObject network = readJson(m_directory + "/network.json").object().value("models").toObject();
+    for (auto it = network.begin(); it != network.end(); ++it) {
+        QJsonObject row = it.value().toObject();
+        if (row.value("kind").toString() != "image" || !row.value("paired").toBool() || !row.value("offline").toString().isEmpty()
+            || row.value("unit").toString() != "active")
+            continue;
+        row.insert("name", tr("%1 on %2").arg(row.value("name").toString(it.key()), row.value("host").toString()));
+        models.insert(it.key(), row);
+    }
+    status.insert("models", models);
+    const QJsonArray list = readJson(m_directory + "/list.json").array();
+    Discovery found = discover(status, list, !m_command.isEmpty(), preferred);
+    found.vendor = status.value("models").toObject().value(found.id).toObject().value("vendor").toString();
+    for (const QJsonValue &row : list)
+        if (found.vendor.isEmpty() && row.toObject().value("id").toString() == found.id)
+            found.vendor = row.toObject().value("vendor").toString();
     if (found.state == "ready" && found.id != preferred)
         settings.setValue("model", found.id);
 
     if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
         || found.reason != m_found.reason || found.blockers != m_found.blockers
-        || found.choices != m_found.choices) {
+        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor) {
         m_found = found;
         emit changed();
     }

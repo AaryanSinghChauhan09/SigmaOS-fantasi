@@ -48,12 +48,15 @@ public:
     QString folder() const { return m_folder; }
 
     // A seed below zero asks the server for a random one; steps of zero take
-    // the model's own default. With a base image the new one is a change of
-    // it, at its size: an edit model takes the prompt as the instruction for
-    // what to change; any other starts from the image and redraws it as the
-    // prompt describes.
+    // the model's own default. With base images the new one is a change of
+    // them, at the first one's size: an edit model, the one in use or another
+    // running, takes them all as references and the prompt as the instruction
+    // (put this from the first into the second); without one, the model
+    // starts from the one image and redraws it as the prompt describes.
     Q_INVOKABLE void generate(const QString &prompt, int width, int height, int steps = 0, qint64 seed = -1,
-                              const QString &baseUrl = {}, bool edit = false);
+                              const QStringList &baseUrls = {}, bool edit = false);
+    // The most pictures an edit model is given at once.
+    static constexpr int maxBases = 4;
 
     // How far a redrawn image may move from its base: far enough that a change
     // asked for shows, near enough that the picture stays the same picture.
@@ -88,7 +91,10 @@ signals:
     void finished(const QString &error);
 
 private:
+    // To the selected model's server; a job's own requests go where the job runs.
     QNetworkReply *send(const QString &method, const QString &path, const QJsonObject &body = {});
+    QNetworkReply *sendJob(const QString &method, const QString &path, const QJsonObject &body = {});
+    QNetworkReply *request(const QString &origin, const QByteArray &key, const QString &method, const QString &path, const QJsonObject &body);
     void fetchDefaults();
     void poll();
     void follow(const QJsonObject &job);
@@ -101,6 +107,10 @@ private:
     QTimer m_poll;
     QJsonObject m_defaults;
     QString m_origin;
+    // The server the job in hand runs on, when a change goes to a running
+    // edit model rather than the one in use.
+    QString m_jobOrigin;
+    QByteArray m_jobKey;
     QByteArray m_key;
 
     QString m_job;

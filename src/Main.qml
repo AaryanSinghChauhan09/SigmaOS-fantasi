@@ -1,6 +1,8 @@
+import QtCore
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import QtQuick.Effects
 import QtQuick.Layouts
 import QtQuick.Shapes
 
@@ -28,18 +30,29 @@ ApplicationWindow {
     readonly property color muted: Qt.rgba(theme.foreground.r, theme.foreground.g, theme.foreground.b, 0.68)
     readonly property color line: theme.colors.selection
     readonly property color panel: theme.light ? Qt.darker(theme.background, 1.04) : Qt.darker(theme.background, 1.3)
+    // The history rail's own surface: a step lighter on a dark theme, darker on a light one.
+    readonly property color rail: theme.light ? Qt.darker(theme.background, 1.05) : Qt.lighter(theme.background, 1.6)
 
-    // 0 Square, 1 Screen, 2 Portrait.
+    // 0 Screen, 1 Square, 2 Portrait; a new image starts in the screen's shape.
     property int sizeChoice: 0
-    readonly property size outputSize: sizeChoice === 1 ? backend.screenSize
+    readonly property size outputSize: sizeChoice === 0 ? backend.screenSize
                                      : sizeChoice === 2 ? Qt.size(832, 1216) : Qt.size(1024, 1024)
     // The file in the center, when it is one rather than a preview.
     readonly property string shownFile: generator.image.startsWith("file:") ? generator.image : ""
     readonly property bool canGenerate: models.state === "ready" && !generator.busy && prompt.text.trim() !== ""
     // The image the next one changes, while changing one. Each change that
     // finishes becomes the base for the next, until it's let go.
-    property string baseImage: ""
-    readonly property bool changing: baseImage !== ""
+    // The pictures the next one changes or combines, while changing: one, or
+    // with a model that edits, up to four.
+    property var baseImages: []
+    readonly property bool changing: baseImages.length > 0
+    readonly property bool canAddPicture: !changing || (models.canEdit && baseImages.length < 4)
+    // Writing a prompt, or looking at a finished image and choosing what's
+    // next: change it, make a new one, or use it.
+    property bool composing: true
+    readonly property bool choosing: !composing && shownFile !== "" && !generator.busy
+    // The history image a new one was started from, for Esc to go back to.
+    property int returnIndex: -1
     readonly property string problem: models.error || generator.error || backend.error
     // What the model is doing, for its icon's tooltip and the empty stage.
     readonly property string modelStatus: {
@@ -58,6 +71,7 @@ ApplicationWindow {
     }
     // What was last sent, to tell it from what is typed while it's made.
     property string sentPrompt
+    property var sentPictures: []
     // How far along the image is being made, 0 to 1: the steps, then whole
     // once they're done and it's finishing.
     readonly property real progress: !generator.busy ? 0
@@ -70,22 +84,35 @@ ApplicationWindow {
         if (!canGenerate)
             return
         sentPrompt = prompt.text
-        generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImage, models.edits)
+        sentPictures = baseImages
+        generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImages, models.edits)
+    }
+    // Makes another like the last one asked for, though the prompt has cleared.
+    function repeat() {
+        if (models.state !== "ready" || generator.busy || sentPrompt.trim() === "")
+            return
+        generator.generate(sentPrompt, outputSize.width, outputSize.height, 0, -1, sentPictures, models.edits)
     }
     // Makes the shown image the one to change, with an empty prompt for
     // what should change.
     function changeImage() {
         if (shownFile === "" || generator.busy)
             return
-        baseImage = shownFile
+        composing = true
+        baseImages = [shownFile]
         prompt.text = ""
         prompt.forceActiveFocus()
     }
-    // A picture of the user's own becomes the one to change.
+    // A picture of the user's own becomes the one to change, or with a model
+    // that edits, one more to combine.
     function startFrom(url) {
         if (generator.busy)
             return
-        baseImage = url
+        composing = true
+        if (changing && canAddPicture)
+            baseImages = baseImages.indexOf(url) < 0 ? baseImages.concat([url]) : baseImages
+        else
+            baseImages = [url]
         prompt.forceActiveFocus()
         prompt.cursorPosition = prompt.length
     }
@@ -95,6 +122,31 @@ ApplicationWindow {
             return
         historyList.currentIndex = index
         generator.show(history.urlAt(index))
+        baseImages = []
+        composing = false
+    }
+    // An empty frame and an empty prompt for a new image.
+    function newImage() {
+        if (generator.busy)
+            return
+        // A second Ctrl+N keeps the image the first one left.
+        if (historyList.currentIndex >= 0)
+            returnIndex = historyList.currentIndex
+        historyList.currentIndex = -1
+        generator.show("")
+        baseImages = []
+        prompt.text = ""
+        composing = true
+        prompt.forceActiveFocus()
+    }
+    // Back from writing to the image that was shown, if there was one.
+    function backToImage() {
+        if (changing) {
+            baseImages = []
+            composing = false
+        } else if (prompt.text === "" && returnIndex >= 0) {
+            pick(returnIndex)
+        }
     }
 
     Shortcut { sequence: "F1"; onActivated: help.opened ? help.close() : help.open() }
@@ -102,16 +154,23 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+Q"; onActivated: Qt.quit() }
     Shortcut { sequence: "Ctrl+Return"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+Enter"; enabled: win.canGenerate; onActivated: win.generate() }
-    Shortcut { sequence: "Ctrl+R"; enabled: win.canGenerate; onActivated: win.generate() }
+    Shortcut { sequence: "Ctrl+R"; enabled: models.state === "ready" && !generator.busy; onActivated: win.canGenerate ? win.generate() : win.repeat() }
     Shortcut { sequence: "Ctrl+E"; enabled: win.shownFile !== "" && !generator.busy; onActivated: win.changeImage() }
     Shortcut { sequence: "Ctrl+O"; enabled: !generator.busy; onActivated: backend.openPicture() }
-    // Esc stops an image being made, or else goes back to a new image.
+    // Esc stops an image being made, or else goes back to the image shown.
     Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }
-    Shortcut { sequence: "Escape"; enabled: !generator.busy && win.changing; onActivated: win.baseImage = "" }
+    Shortcut { sequence: "Escape"; enabled: !generator.busy && win.composing; onActivated: win.backToImage() }
+    Shortcut { sequence: "Ctrl+N"; enabled: !generator.busy; onActivated: win.newImage() }
     Shortcut { sequence: "Ctrl+1"; onActivated: win.sizeChoice = 0 }
     Shortcut { sequence: "Ctrl+2"; onActivated: win.sizeChoice = 1 }
     Shortcut { sequence: "Ctrl+3"; onActivated: win.sizeChoice = 2 }
-    Shortcut { sequence: "Ctrl+B"; enabled: win.shownFile !== ""; onActivated: backend.setBackground(win.shownFile) }
+    Shortcut { sequence: "Ctrl+B"; onActivated: layout.historyShown = !layout.historyShown }
+    // Whether the history sidebar is shown, kept between runs.
+    Settings {
+        id: layout
+        category: "window"
+        property bool historyShown: true
+    }
     Shortcut { sequence: "Ctrl+Shift+C"; enabled: win.shownFile !== ""; onActivated: backend.copy(win.shownFile) }
     Shortcut { sequence: "Ctrl+S"; enabled: win.shownFile !== ""; onActivated: backend.saveAs(win.shownFile) }
     Shortcut { sequence: "Ctrl+Up"; onActivated: win.pick(historyList.currentIndex - 1) }
@@ -135,11 +194,15 @@ ApplicationWindow {
         // finishes is the next one to change.
         function onSaved() {
             historyList.currentIndex = 0
-            if (win.changing) {
-                win.baseImage = generator.image
-                // Unless the next instruction is already being typed.
-                if (prompt.text === win.sentPrompt)
-                    prompt.text = ""
+            if (prompt.text !== win.sentPrompt) {
+                // The next one is already being typed: a change goes on
+                // from the image just made.
+                if (win.changing)
+                    win.baseImages = [generator.image]
+            } else {
+                win.baseImages = []
+                prompt.text = ""
+                win.composing = false
             }
         }
     }
@@ -196,7 +259,8 @@ ApplicationWindow {
                         anchors.centerIn: parent
                         width: Math.min(parent.width, parent.height * stage.aspect)
                         height: width / stage.aspect
-                        visible: generator.busy || generator.image !== ""
+                        // Empty while a new one is written, shimmering once it's asked for.
+                        visible: generator.busy || generator.image !== "" || (win.composing && models.state === "ready")
 
                         Rectangle {
                             anchors.fill: parent
@@ -209,7 +273,7 @@ ApplicationWindow {
                         Image {
                             id: previous
                             anchors.fill: parent
-                            source: generator.busy && win.changing ? win.baseImage : ""
+                            source: generator.busy && win.changing ? win.baseImages[0] : ""
                             fillMode: Image.PreserveAspectFit
                             asynchronous: true
                             visible: source !== ""
@@ -286,10 +350,14 @@ ApplicationWindow {
                                 PathPolyline { path: edge.outline }
                             }
                         }
+                        // A band of light across it while it's made, and a softer,
+                        // slower one while the empty frame waits for a prompt.
                         Item {
+                            id: shimmer
                             anchors.fill: parent
                             clip: true
-                            visible: generator.busy
+                            readonly property bool waiting: !generator.busy && generator.image === ""
+                            visible: generator.busy || waiting
                             Rectangle {
                                 width: frame.width * 0.45
                                 height: frame.height * 2
@@ -298,61 +366,16 @@ ApplicationWindow {
                                 gradient: Gradient {
                                     orientation: Gradient.Horizontal
                                     GradientStop { position: 0.0; color: "transparent" }
-                                    GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, theme.light ? 0.28 : 0.14) }
+                                    GradientStop { position: 0.5; color: Qt.rgba(1, 1, 1, (theme.light ? 0.28 : 0.14) * (shimmer.waiting ? 0.75 : 1)) }
                                     GradientStop { position: 1.0; color: "transparent" }
                                 }
                                 NumberAnimation on x {
-                                    running: generator.busy
+                                    running: shimmer.visible && frame.visible
                                     loops: Animation.Infinite
                                     from: -frame.width * 0.6
                                     to: frame.width * 1.1
-                                    duration: 1800
+                                    duration: shimmer.waiting ? 2800 : 1800
                                     easing.type: Easing.InOutSine
-                                }
-                            }
-                        }
-                    }
-                    // What to do with a finished image: a small bar of icons on
-                    // it, their names and keys in tooltips.
-                    Rectangle {
-                        objectName: "tools"
-                        anchors.bottom: frame.bottom
-                        anchors.bottomMargin: 14
-                        anchors.horizontalCenter: frame.horizontalCenter
-                        width: tools.implicitWidth + 12
-                        height: tools.implicitHeight + 8
-                        radius: Math.min(height / 2, theme.radius + 6)
-                        color: Qt.rgba(theme.background.r, theme.background.g, theme.background.b, 0.82)
-                        border.color: Qt.rgba(theme.foreground.r, theme.foreground.g, theme.foreground.b, 0.12)
-                        readonly property bool ready: win.shownFile !== "" && !generator.busy
-                        visible: opacity > 0
-                        opacity: ready ? 1 : 0
-                        Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
-
-                        Row {
-                            id: tools
-                            anchors.centerIn: parent
-                            spacing: 2
-                            Repeater {
-                                model: [
-                                    { icon: "change", label: qsTr("Change this image"), key: "Ctrl+E", run: () => win.changeImage() },
-                                    { icon: "background", label: qsTr("Set as background"), key: "Ctrl+B", run: () => backend.setBackground(win.shownFile) },
-                                    { icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
-                                    { icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
-                                ]
-                                delegate: ToolButton {
-                                    required property var modelData
-                                    focusPolicy: Qt.NoFocus
-                                    display: AbstractButton.IconOnly
-                                    icon.source: "qrc:/icons/" + modelData.icon + ".svg"
-                                    icon.width: 20
-                                    icon.height: 20
-                                    icon.color: hovered ? theme.accent : theme.foreground
-                                    Accessible.name: modelData.label
-                                    ToolTip.visible: hovered
-                                    ToolTip.text: modelData.label + "  " + modelData.key
-                                    ToolTip.delay: 300
-                                    onClicked: modelData.run()
                                 }
                             }
                         }
@@ -408,68 +431,119 @@ ApplicationWindow {
                 }
 
                 // ------------------------------------------------ the prompt bar
-                // The bar, and beside it the shape, the model and the shortcuts.
-                RowLayout {
-                Layout.fillWidth: true
-                spacing: 6
+                // One pill: the picture to start from, the prompt, the shape,
+                // the model, and the round button that sends it.
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: bar.implicitHeight + 16
-                    color: win.panel
-                    radius: Math.min(8, theme.radius + 4)
-                    border.color: prompt.activeFocus ? theme.accent : win.line
+                    Layout.preferredHeight: (win.choosing ? nextBar.implicitHeight : bar.implicitHeight) + 10
+                    // What's next has no box: just its icons, centred.
+                    color: win.choosing ? "transparent" : win.panel
+                    // Rounded as the theme rounds windows, sharp where it doesn't.
+                    radius: Math.min(height / 2, theme.radius)
+                    border.color: win.choosing ? "transparent" : prompt.activeFocus ? theme.accent : win.line
+
+                    // What's next, once an image is done: change it, start a new
+                    // one, or use it.
+                    RowLayout {
+                        id: nextBar
+                        objectName: "next"
+                        visible: win.choosing
+                        anchors.fill: parent
+                        anchors.topMargin: 5
+                        anchors.bottomMargin: 5
+                        spacing: 4
+                        Item { Layout.fillWidth: true }
+                        Repeater {
+                            model: [
+                                { name: "changeIt", icon: "change", label: qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage() },
+                                { name: "newImage", icon: "new", label: qsTr("New image"), key: "Ctrl+N", run: () => win.newImage() },
+                                { name: "copy", icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
+                                { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
+                            ]
+                            delegate: ToolButton {
+                                required property var modelData
+                                objectName: modelData.name
+                                Layout.preferredWidth: 32
+                                Layout.preferredHeight: 32
+                                padding: 0
+                                focusPolicy: Qt.NoFocus
+                                background: Item {}
+                                display: AbstractButton.IconOnly
+                                icon.source: "qrc:/icons/" + modelData.icon + ".svg"
+                                icon.width: 18
+                                icon.height: 18
+                                icon.color: hovered ? theme.accent : win.muted
+                                Accessible.name: modelData.label
+                                ToolTip.visible: hovered
+                                ToolTip.text: modelData.label + "  " + modelData.key
+                                ToolTip.delay: 300
+                                onClicked: modelData.run()
+                            }
+                        }
+                        Item { Layout.fillWidth: true }
+                    }
 
                     RowLayout {
                         id: bar
+                        visible: !win.choosing
                         anchors.fill: parent
-                        anchors.margins: 8
-                        spacing: 8
+                        anchors.leftMargin: 8
+                        anchors.rightMargin: 5
+                        anchors.topMargin: 5
+                        anchors.bottomMargin: 5
+                        spacing: 4
 
-                        // The image being changed, like an attachment: its
-                        // thumbnail, with a × to go back to a new image.
-                        Item {
-                            objectName: "base"
-                            Layout.preferredWidth: 48
-                            Layout.preferredHeight: 48
-                            Layout.alignment: Qt.AlignVCenter
-                            visible: win.changing
-                            Image {
-                                anchors.fill: parent
-                                source: win.baseImage
-                                sourceSize: Qt.size(96, 96)
-                                fillMode: Image.PreserveAspectCrop
-                                asynchronous: true
-                            }
-                            ToolTip.visible: baseHover.hovered
-                            ToolTip.text: qsTr("Changing this image")
-                            HoverHandler { id: baseHover }
-                            // The × sits on the thumbnail's corner, as on an attachment.
-                            ToolButton {
-                                id: letGo
-                                width: 22
-                                height: 22
-                                padding: 0
-                                anchors.top: parent.top
-                                anchors.right: parent.right
-                                anchors.topMargin: -7
-                                anchors.rightMargin: -7
-                                focusPolicy: Qt.NoFocus
-                                Accessible.name: qsTr("Make a new image instead")
-                                ToolTip.visible: hovered
-                                ToolTip.text: qsTr("Make a new image instead") + "  Esc"
-                                ToolTip.delay: 300
-                                onClicked: win.baseImage = ""
-                                background: Rectangle {
-                                    radius: width / 2
-                                    color: letGo.hovered ? theme.colors.selection : theme.background
-                                    border.color: win.line
+                        // The pictures being changed, like attachments: a thumbnail
+                        // each, with a × to let it go.
+                        Repeater {
+                            model: win.baseImages
+                            delegate: Item {
+                                id: attachment
+                                required property string modelData
+                                required property int index
+                                objectName: "base" + index
+                                // The row's own height, so changing doesn't make the bar taller.
+                                Layout.preferredWidth: 34
+                                Layout.preferredHeight: 34
+                                Layout.alignment: Qt.AlignVCenter
+                                Image {
+                                    anchors.fill: parent
+                                    source: attachment.modelData
+                                    sourceSize: Qt.size(68, 68)
+                                    fillMode: Image.PreserveAspectCrop
+                                    asynchronous: true
                                 }
-                                contentItem: Label {
-                                    text: "×"
-                                    color: theme.foreground
-                                    font.pixelSize: 15
-                                    horizontalAlignment: Text.AlignHCenter
-                                    verticalAlignment: Text.AlignVCenter
+                                ToolTip.visible: baseHover.hovered
+                                ToolTip.text: win.baseImages.length > 1 ? qsTr("Combining this picture") : qsTr("Changing this image")
+                                HoverHandler { id: baseHover }
+                                // The × sits on the thumbnail's corner, as on an attachment.
+                                ToolButton {
+                                    id: letGo
+                                    width: 16
+                                    height: 16
+                                    padding: 0
+                                    anchors.top: parent.top
+                                    anchors.right: parent.right
+                                    anchors.topMargin: -5
+                                    anchors.rightMargin: -5
+                                    focusPolicy: Qt.NoFocus
+                                    Accessible.name: qsTr("Let this picture go")
+                                    ToolTip.visible: hovered
+                                    ToolTip.text: qsTr("Let this picture go")
+                                    ToolTip.delay: 300
+                                    onClicked: win.baseImages = win.baseImages.filter((_, i) => i !== attachment.index)
+                                    background: Rectangle {
+                                        radius: width / 2
+                                        color: letGo.hovered ? theme.colors.selection : theme.background
+                                        border.color: win.line
+                                    }
+                                    contentItem: Label {
+                                        text: "×"
+                                        color: theme.foreground
+                                        font.pixelSize: 12
+                                        horizontalAlignment: Text.AlignHCenter
+                                        verticalAlignment: Text.AlignVCenter
+                                    }
                                 }
                             }
                         }
@@ -479,11 +553,21 @@ ApplicationWindow {
                         ToolButton {
                             objectName: "startFrom"
                             Layout.alignment: Qt.AlignVCenter
-                            visible: !win.changing
+                            visible: win.canAddPicture
+                            Layout.preferredWidth: 32
+                            Layout.preferredHeight: 32
+                            padding: 0
+                            topInset: 0
+                            bottomInset: 0
+                            leftInset: 0
+                            rightInset: 0
+                            // No hover blot behind it: the icon itself answers the pointer.
+                            background: Item {}
                             focusPolicy: Qt.NoFocus
-                            Accessible.name: qsTr("Start from a picture…")
+                            readonly property string label: win.changing ? qsTr("Add a picture to combine…") : qsTr("Start from a picture…")
+                            Accessible.name: label
                             ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Start from a picture…") + "  Ctrl+O"
+                            ToolTip.text: label + "  Ctrl+O"
                             ToolTip.delay: 400
                             onClicked: backend.openPicture()
                             // A picture frame with a plus.
@@ -511,7 +595,7 @@ ApplicationWindow {
 
                         ScrollView {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: Math.min(Math.max(prompt.implicitHeight, 40), 96)
+                            Layout.preferredHeight: Math.min(Math.max(prompt.implicitHeight, 34), 96)
                             Layout.alignment: Qt.AlignVCenter
                             TextArea {
                                 id: prompt
@@ -519,8 +603,10 @@ ApplicationWindow {
                                 focus: true
                                 wrapMode: TextEdit.Wrap
                                 background: null
-                                topPadding: 10
-                                bottomPadding: 10
+                                topPadding: 7
+                                bottomPadding: 7
+                                leftPadding: 6
+                                rightPadding: 6
                                 // Drawn here: Material floats its own placeholder up
                                 // as a label, out of this borderless bar.
                                 Label {
@@ -529,7 +615,8 @@ ApplicationWindow {
                                     visible: prompt.length === 0 && prompt.preeditText === ""
                                     color: win.muted
                                     font: prompt.font
-                                    text: win.changing ? qsTr("What should change?") : qsTr("Describe an image")
+                                    text: win.baseImages.length > 1 ? qsTr("How should they come together?")
+                                          : win.changing ? qsTr("What should change?") : qsTr("Describe an image")
                                 }
                                 // Enter sends the prompt; Shift+Enter is a new line.
                                 Keys.onReturnPressed: event => {
@@ -547,18 +634,121 @@ ApplicationWindow {
                             }
                         }
 
+                        // The shape of a new image, one button that steps through
+                        // square, screen and portrait; a change keeps its own.
+                        ToolButton {
+                            id: shape
+                            objectName: "size"
+                            Layout.alignment: Qt.AlignVCenter
+                            visible: !win.changing
+                            Layout.preferredWidth: 32
+                            Layout.preferredHeight: 32
+                            padding: 0
+                            topInset: 0
+                            bottomInset: 0
+                            leftInset: 0
+                            rightInset: 0
+                            // No hover blot behind it: the icon itself answers the pointer.
+                            background: Item {}
+                            focusPolicy: Qt.NoFocus
+                            readonly property var shapes: [
+                                { name: qsTr("Screen"), w: 20, h: 12 },
+                                { name: qsTr("Square"), w: 15, h: 15 },
+                                { name: qsTr("Portrait"), w: 12, h: 20 }
+                            ]
+                            readonly property var current: shapes[win.sizeChoice]
+                            Accessible.name: current.name
+                            ToolTip.visible: hovered
+                            ToolTip.text: current.name + "  " + win.outputSize.width + " × " + win.outputSize.height
+                            ToolTip.delay: 400
+                            onClicked: win.sizeChoice = (win.sizeChoice + 1) % 3
+                            contentItem: Item {
+                                implicitWidth: 24
+                                implicitHeight: 24
+                                Rectangle {
+                                    anchors.centerIn: parent
+                                    width: shape.current.w
+                                    height: shape.current.h
+                                    color: "transparent"
+                                    border.color: shape.hovered ? theme.accent : win.muted
+                                    border.width: 1.5
+                                    radius: 2
+                                    Behavior on width { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+                                    Behavior on height { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+                                }
+                            }
+                        }
+
+                        // The model: its state as a dot, what it's doing in the
+                        // tooltip, and with more than one set up, a click steps to
+                        // the next.
+                        ToolButton {
+                            id: modelButton
+                            objectName: "model"
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredWidth: 32
+                            Layout.preferredHeight: 32
+                            padding: 0
+                            topInset: 0
+                            bottomInset: 0
+                            leftInset: 0
+                            rightInset: 0
+                            // No hover blot behind it: the icon itself answers the pointer.
+                            background: Item {}
+                            focusPolicy: Qt.NoFocus
+                            // The maker's mark, as the agents panel draws it. It pulses while a
+                            // model starts, and the tooltip says what the model is doing.
+                            readonly property string logo: models.logo(models.vendor, theme.light)
+                            readonly property bool waiting: models.state === "starting" || models.state === "installing" || models.working
+                            SequentialAnimation on opacity {
+                                running: modelButton.waiting
+                                loops: Animation.Infinite
+                                onRunningChanged: if (!running) modelButton.opacity = 1
+                                NumberAnimation { from: 1; to: 0.35; duration: 700; easing.type: Easing.InOutSine }
+                                NumberAnimation { from: 0.35; to: 1; duration: 700; easing.type: Easing.InOutSine }
+                            }
+                            // A mark in its own colours; without one, a chip in the quiet colour.
+                            display: AbstractButton.IconOnly
+                            icon.source: logo !== "" ? logo : "qrc:/icons/model.svg"
+                            icon.color: logo !== "" ? "transparent" : (hovered && canStep ? theme.accent : win.muted)
+                            icon.width: 18
+                            icon.height: 18
+                            readonly property int current: models.choices.findIndex(c => c.id === models.modelId)
+                            readonly property bool canStep: models.choices.length > 1 && !models.working && !generator.busy
+                            readonly property var next: models.choices.length > 1 ? models.choices[(current + 1) % models.choices.length] : null
+                            Accessible.name: win.modelStatus
+                            ToolTip.visible: hovered
+                            ToolTip.text: win.modelStatus + (canStep ? "\n" + qsTr("Click to use %1").arg(next.name) : "")
+                            ToolTip.delay: 300
+                            onClicked: if (canStep) models.choose(next.id)
+                        }
+
+                        // Ready, a round arrow to send (a square to stop while
+                        // it's making one); otherwise, in words, what gets a
+                        // model going.
                         Button {
                             id: action
                             objectName: "action"
+                            readonly property bool round: models.state === "ready"
+                            // The same gap from the model's mark as between the icons.
+                            Layout.leftMargin: 9
                             Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredWidth: round ? 34 : implicitWidth
+                            Layout.preferredHeight: 34
                             visible: ["ready", "installed", "blocked", "installable", "starting", "installing"].indexOf(models.state) >= 0
-                            highlighted: true
                             focusPolicy: Qt.NoFocus
-                            Material.roundedScale: theme.radius
                             topInset: 0
                             bottomInset: 0
-                            leftPadding: 16
-                            rightPadding: 16
+                            leftInset: 0
+                            rightInset: 0
+                            padding: round ? 0 : 14
+                            // Material sets these itself, over padding.
+                            leftPadding: round ? 0 : 14
+                            rightPadding: round ? 0 : 14
+                            Accessible.name: text
+                            ToolTip.visible: round && hovered
+                            ToolTip.text: text + (generator.busy ? "  Esc" : "  Enter")
+                            ToolTip.delay: 400
                             enabled: models.state === "ready" ? (generator.busy || prompt.text.trim() !== "")
                                    : ["installed", "blocked", "installable"].indexOf(models.state) >= 0 && !models.working
                             text: {
@@ -579,173 +769,141 @@ ApplicationWindow {
                                 case "installable": models.install(); break
                                 }
                             }
-                            contentItem: Label {
-                                text: action.text
-                                font: action.font
-                                color: theme.accentForeground
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                                elide: Text.ElideRight
+                            contentItem: Item {
+                                id: face
+                                // What's drawn on the accent: the arrow, the square or the words.
+                                readonly property color color: theme.accentForeground
+                                implicitWidth: action.round ? 20 : caption.implicitWidth
+                                implicitHeight: 20
+                                Label {
+                                    id: caption
+                                    anchors.centerIn: parent
+                                    visible: !action.round
+                                    text: action.text
+                                    font: action.font
+                                    color: face.color
+                                }
+                                // An arrow up to send.
+                                Shape {
+                                    anchors.centerIn: parent
+                                    width: 16
+                                    height: 16
+                                    visible: action.round && !generator.busy
+                                    preferredRendererType: Shape.CurveRenderer
+                                    ShapePath {
+                                        strokeColor: face.color
+                                        strokeWidth: 2.2
+                                        fillColor: "transparent"
+                                        capStyle: ShapePath.RoundCap
+                                        joinStyle: ShapePath.RoundJoin
+                                        PathPolyline { path: [Qt.point(8, 15), Qt.point(8, 2)] }
+                                    }
+                                    ShapePath {
+                                        strokeColor: face.color
+                                        strokeWidth: 2.2
+                                        fillColor: "transparent"
+                                        capStyle: ShapePath.RoundCap
+                                        joinStyle: ShapePath.RoundJoin
+                                        PathPolyline { path: [Qt.point(2.5, 7.5), Qt.point(8, 2), Qt.point(13.5, 7.5)] }
+                                    }
+                                }
+                                // A square to stop.
+                                Rectangle {
+                                    anchors.centerIn: parent
+                                    width: 11
+                                    height: 11
+                                    radius: Math.min(2, theme.radius)
+                                    visible: action.round && generator.busy
+                                    color: face.color
+                                }
+                            }
+                            background: Rectangle {
+                                radius: Math.min(height / 2, theme.radius)
+                                color: theme.accent
+                                opacity: action.enabled ? (action.hovered ? 0.88 : 1) : 0.35
                             }
                         }
                     }
                 }
-                    // The shape of a new image, one button that steps through
-                    // square, screen and portrait; a change keeps its own.
-                    ToolButton {
-                        id: shape
-                        objectName: "size"
-                        Layout.alignment: Qt.AlignVCenter
-                    Layout.leftMargin: 4
-                        visible: !win.changing
-                        focusPolicy: Qt.NoFocus
-                        readonly property var shapes: [
-                            { name: qsTr("Square"), w: 15, h: 15 },
-                            { name: qsTr("Screen"), w: 20, h: 12 },
-                            { name: qsTr("Portrait"), w: 12, h: 20 }
-                        ]
-                        readonly property var current: shapes[win.sizeChoice]
-                        Accessible.name: current.name
-                        ToolTip.visible: hovered
-                        ToolTip.text: current.name + "  " + win.outputSize.width + " × " + win.outputSize.height
-                        ToolTip.delay: 400
-                        onClicked: win.sizeChoice = (win.sizeChoice + 1) % 3
-                        contentItem: Item {
-                            implicitWidth: 24
-                            implicitHeight: 24
-                            Rectangle {
-                                anchors.centerIn: parent
-                                width: shape.current.w
-                                height: shape.current.h
-                                color: "transparent"
-                                border.color: shape.hovered ? theme.accent : win.muted
-                                border.width: 1.5
-                                radius: 2
-                                Behavior on width { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
-                                Behavior on height { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
-                            }
-                        }
-                    }
-
-                    // The model: its state as a dot, what it's doing in the
-                    // tooltip, and with more than one set up, a click steps to
-                    // the next.
-                    ToolButton {
-                        id: modelButton
-                        objectName: "model"
-                        Layout.alignment: Qt.AlignVCenter
-                        focusPolicy: Qt.NoFocus
-                        display: AbstractButton.IconOnly
-                        icon.source: "qrc:/icons/model.svg"
-                        icon.width: 20
-                        icon.height: 20
-                        icon.color: hovered && canStep ? theme.accent : win.muted
-                        readonly property int current: models.choices.findIndex(c => c.id === models.modelId)
-                        readonly property bool canStep: models.choices.length > 1 && !models.working && !generator.busy
-                        readonly property var next: models.choices.length > 1 ? models.choices[(current + 1) % models.choices.length] : null
-                        Accessible.name: win.modelStatus
-                        ToolTip.visible: hovered
-                        ToolTip.text: win.modelStatus + (canStep ? "\n" + qsTr("Click to use %1").arg(next.name) : "")
-                        ToolTip.delay: 300
-                        onClicked: if (canStep) models.choose(next.id)
-                        Rectangle {
-                            width: 7
-                            height: 7
-                            radius: 3.5
-                            x: parent.width - width - 9
-                            y: 9
-                            visible: models.state !== "noEngine"
-                            color: win.problem ? theme.colors.red
-                                 : models.state === "ready" ? theme.accent : win.muted
-                            SequentialAnimation on opacity {
-                                running: models.state === "starting" || models.state === "installing" || models.working
-                                loops: Animation.Infinite
-                                onRunningChanged: if (!running) parent.opacity = 1
-                                NumberAnimation { from: 1; to: 0.3; duration: 700; easing.type: Easing.InOutSine }
-                                NumberAnimation { from: 0.3; to: 1; duration: 700; easing.type: Easing.InOutSine }
-                            }
-                        }
-                    }
-                    ToolButton {
-                        objectName: "shortcuts"
-                        Layout.alignment: Qt.AlignVCenter
-                        focusPolicy: Qt.NoFocus
-                        text: "?"
-                        font.pixelSize: 15
-                        Material.foreground: hovered ? theme.accent : win.muted
-                        Accessible.name: qsTr("Show or hide the shortcuts")
-                        ToolTip.visible: hovered
-                        ToolTip.text: qsTr("Show or hide the shortcuts") + "  F1"
-                        ToolTip.delay: 300
-                        onClicked: help.opened ? help.close() : help.open()
-                    }
-                }
-
             }
 
-            Rectangle { Layout.preferredWidth: 1; Layout.fillHeight: true; color: win.line }
 
             // ----------------------------------------------------------- history
-            // A rail of its own width: its list fills the column, which would
-            // otherwise make the column take the image's space.
-            ColumnLayout {
-                Layout.preferredWidth: 124
-                Layout.maximumWidth: 124
+            // A rail of its own width and its own background: its list fills
+            // the column, which would otherwise take the image's space. Only
+            // once there's an image to list, and Ctrl+B hides it.
+            Rectangle {
+                objectName: "rail"
+                visible: history.count > 0 && layout.historyShown
+                Layout.preferredWidth: 152
+                Layout.maximumWidth: 152
                 Layout.fillWidth: false
                 Layout.fillHeight: true
-                Layout.margins: 14
-                spacing: 10
-
-                Label { text: qsTr("History"); color: win.muted; font.pixelSize: 12 }
-                ListView {
-                    id: historyList
-                    objectName: "history"
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    clip: true
+                color: win.rail
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 14
                     spacing: 10
-                    currentIndex: -1
-                    model: history
-                    delegate: Item {
-                        id: entry
-                        required property int index
-                        required property string url
-                        required property string prompt
-                        width: ListView.view.width
-                        height: width
-                        Image {
-                            anchors.fill: parent
-                            source: entry.url
-                            sourceSize: Qt.size(192, 192)
-                            fillMode: Image.PreserveAspectCrop
-                            asynchronous: true
-                        }
-                        Rectangle {
-                            anchors.fill: parent
-                            color: "transparent"
-                            border.color: theme.accent
-                            border.width: 2
-                            visible: entry.ListView.isCurrentItem
-                        }
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: win.pick(entry.index)
-                            // Takes the image's prompt back into the bar.
-                            onDoubleClicked: {
-                                win.pick(entry.index)
-                                win.baseImage = ""
-                                prompt.text = entry.prompt
+
+                    ListView {
+                        id: historyList
+                        objectName: "history"
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        clip: true
+                        spacing: 10
+                        currentIndex: -1
+                        model: history
+                        delegate: Item {
+                            id: entry
+                            required property int index
+                            required property string url
+                            required property string prompt
+                            width: ListView.view.width
+                            height: width
+                            // Its corners rounded as the theme rounds windows.
+                            Image {
+                                anchors.fill: parent
+                                source: entry.url
+                                sourceSize: Qt.size(192, 192)
+                                fillMode: Image.PreserveAspectCrop
+                                asynchronous: true
+                                layer.enabled: theme.radius > 0
+                                layer.effect: MultiEffect {
+                                    maskEnabled: true
+                                    maskSource: thumbMask
+                                    maskThresholdMin: 0.5
+                                    maskSpreadAtMin: 1.0
+                                }
+                            }
+                            Item {
+                                id: thumbMask
+                                anchors.fill: parent
+                                visible: false
+                                layer.enabled: true
+                                Rectangle { anchors.fill: parent; radius: theme.radius; color: "black" }
+                            }
+                            Rectangle {
+                                anchors.fill: parent
+                                color: "transparent"
+                                radius: theme.radius
+                                border.color: theme.accent
+                                border.width: 2
+                                visible: entry.ListView.isCurrentItem
+                            }
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: win.pick(entry.index)
+                                // Takes the image's prompt back into the bar.
+                                onDoubleClicked: {
+                                    win.pick(entry.index)
+                                    win.composing = true
+                                    prompt.text = entry.prompt
+                                    prompt.forceActiveFocus()
+                                }
                             }
                         }
                     }
-                }
-                Label {
-                    Layout.fillWidth: true
-                    visible: history.count === 0
-                    wrapMode: Text.Wrap
-                    color: win.muted
-                    font.pixelSize: 12
-                    text: qsTr("Your images appear here")
                 }
             }
         }
@@ -775,9 +933,10 @@ ApplicationWindow {
                     { keys: "Esc", action: qsTr("Stop making it, or go back to a new image") },
                     { keys: "Ctrl+R", action: qsTr("Make another like it") },
                     { keys: "Ctrl+E", action: qsTr("Change it: say what should change") },
+                    { keys: "Ctrl+N", action: qsTr("Start a new image") },
                     { keys: "Ctrl+O", action: qsTr("Start from a picture of your own") },
-                    { keys: "Ctrl+1 2 3", action: qsTr("Square, screen or portrait") },
-                    { keys: "Ctrl+B", action: qsTr("Set it as the background") },
+                    { keys: "Ctrl+1 2 3", action: qsTr("Screen, square or portrait") },
+                    { keys: "Ctrl+B", action: qsTr("Show or hide the history") },
                     { keys: "Ctrl+Shift+C", action: qsTr("Copy it") },
                     { keys: "Ctrl+S", action: qsTr("Save a copy somewhere else") },
                     { keys: "Ctrl+↑ ↓", action: qsTr("Move through the history") },

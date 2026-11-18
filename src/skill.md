@@ -16,6 +16,7 @@ fantasi generate "flat app icon of a paper boat on a teal circle" --width 1024 -
 - Images go to `~/Pictures/Generated`, named by time and the prompt's first words. Copy the file where the project needs it; don't move it, since the user browses that folder in Fantasi.
 - An image takes about half a minute. Make them one at a time; the model runs one job at once.
 - To change a picture rather than make a new one, pass it with `--from` and say what should change: `fantasi generate "include a red balloon" --from ~/Pictures/Generated/….png`. With an edit model, which Omarchy recommends, the prompt is the instruction and the rest of the picture stays as it is. `--from` takes any picture, a photo too; it's scaled and cut from the middle to a size near a megapixel in its own shape.
+- With an edit model, give `--from` up to four times to combine pictures, naming them in order: `fantasi generate "put the cabin from the first image beside the lighthouse from the second" --from cabin.png --from lighthouse.png`. The new image takes the first picture's shape.
 - Options: `--width` and `--height` in pixels (multiples of 64 up to about a megapixel work best: 1024×1024, 1344×768, 768×1344), `--steps` (the model's own default when left out), `--seed` for a repeatable image.
 - Write the prompt as a description of the picture: subject, setting, light, colors, composition. Say "no text" when the image must not contain lettering.
 

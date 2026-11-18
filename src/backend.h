@@ -45,7 +45,6 @@ public:
 
     QString error() const { return m_error; }
 
-    Q_INVOKABLE void setBackground(const QString &url);
     Q_INVOKABLE void copy(const QString &url);
     // Asks where, then writes a copy of the image there.
     Q_INVOKABLE void saveAs(const QString &url);

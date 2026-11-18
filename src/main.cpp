@@ -6,6 +6,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickStyle>
+#include <QSettings>
 #include <QQuickWindow>
 #include <QTimer>
 #include <QUrl>
@@ -21,6 +22,10 @@ int main(int argc, char *argv[]) {
     const bool command = argc > 1 && isCliCommand(argv[1]);
     if (command)
         qputenv("QT_QPA_PLATFORM", "offscreen");
+
+    // Controls only follow the pointer where the platform asks for hover
+    // effects, which Wayland doesn't, and without it no tooltip ever shows.
+    qputenv("QT_QUICK_CONTROLS_HOVER_ENABLED", "1");
 
     QGuiApplication app(argc, argv);
     app.setApplicationName("fantasi");
@@ -43,11 +48,19 @@ int main(int argc, char *argv[]) {
     Translator translator;
     app.installTranslator(&translator);
 
+    // `fantasi open "a calm lake"` starts with that prompt, and
+    // `--model <id>` with that model, as the agents panel opens it: the
+    // model to prefer is set before the models are first read.
+    QStringList words = app.arguments().value(1) == "open" ? app.arguments().mid(2) : QStringList();
+    const qsizetype model = words.indexOf("--model");
+    if (model >= 0 && model + 1 < words.size()) {
+        QSettings().setValue("model", words.at(model + 1));
+        words.remove(model, 2);
+    }
+
     Theme theme;
     Backend backend;
-    // `fantasi open "a calm lake"` starts with that prompt.
-    if (app.arguments().value(1) == "open")
-        backend.setInitialPrompt(app.arguments().mid(2).join(' '));
+    backend.setInitialPrompt(words.join(' '));
 
     QQmlApplicationEngine engine;
     QObject::connect(&translator, &Translator::changed, &engine, &QQmlEngine::retranslate);

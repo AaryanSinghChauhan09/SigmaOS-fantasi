@@ -29,6 +29,8 @@ class Models : public QObject {
     // Every image model that's set up, as {id, name}, in the order to step
     // through them; the one in use among them.
     Q_PROPERTY(QVariantList choices READ choices NOTIFY changed)
+    Q_PROPERTY(QString vendor READ vendor NOTIFY changed)
+    Q_PROPERTY(bool canEdit READ canEdit NOTIFY changed)
     Q_PROPERTY(QString error READ error NOTIFY changed)
 
 public:
@@ -42,6 +44,12 @@ public:
         QStringList blockers;
         QStringList blockerIds;
         QVariantList choices;
+        // A running model that edits by instruction, for changing a picture
+        // whichever model makes new ones.
+        QString editEndpoint;
+        QString editId;
+        // Who makes the model, as Omarchy names vendors: bfl, alibaba, qwen.
+        QString vendor;
     };
 
     // The engine's state folder, its key file, and the command that drives
@@ -61,12 +69,26 @@ public:
     QString reason() const { return m_found.reason; }
     QStringList blockers() const { return m_found.blockers; }
     QVariantList choices() const { return m_found.choices; }
+    // Whether a running model edits by instruction, which can take several pictures.
+    bool canEdit() const { return !m_found.editEndpoint.isEmpty(); }
+    QString vendor() const { return m_found.vendor; }
+
+    // The vendor's mark as the agents panel draws it, from Omarchy's own
+    // set: its dark version on a light theme where there is one, the local
+    // model's for a vendor without a mark, and empty without Omarchy.
+    Q_INVOKABLE static QString logo(const QString &vendor, bool light);
     bool working() const { return m_process.state() != QProcess::NotRunning || !m_queue.isEmpty(); }
     QString error() const { return m_error; }
 
     // The ready model's server, as scheme://host:port, and the engine's key.
     QString origin() const;
-    QByteArray key() const;
+    // The server of a running edit model, empty when none runs.
+    QString editOrigin() const;
+    QByteArray key() const { return keyFor(m_found.id); }
+    // The key a model takes: the engine's own, or for a paired host's model
+    // (host/recipe), the one that host gave when pairing.
+    QByteArray keyFor(const QString &id) const;
+    QByteArray editKey() const { return keyFor(m_found.editId); }
 
     Q_INVOKABLE void start();
     Q_INVOKABLE void install();
@@ -93,4 +115,6 @@ private:
     QTimer m_debounce;
     QProcess m_process;
     QList<QStringList> m_queue;
+    // The model chosen, kept as the one to use once it has started.
+    QString m_chosen;
 };

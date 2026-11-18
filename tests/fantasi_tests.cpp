@@ -5,6 +5,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QQmlProperty>
+#include <QQmlContext>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTcpServer>
@@ -256,8 +258,13 @@ class FantasiTests : public QObject {
 private slots:
     void initTestCase() {
         QQuickStyle::setStyle("Material");
+        // As main() does: hover, and so tooltips, whatever the platform says.
+        qputenv("QT_QUICK_CONTROLS_HOVER_ENABLED", "1");
         // The model used last is remembered in settings; never the user's own.
         QStandardPaths::setTestModeEnabled(true);
+        // As main() names the app, which is where its settings live.
+        QCoreApplication::setOrganizationName("fantasi");
+        QCoreApplication::setApplicationName("fantasi");
     }
 
     void discoveryWithoutTheEngine() {
@@ -278,6 +285,79 @@ private slots:
         // Both are choices, by name, whichever is in use.
         QCOMPARE(found.choices.size(), 2);
         QCOMPARE(found.choices.first().toMap().value("id").toString(), QString("a"));
+    }
+
+    void choosingARunningModelNeedsNoEngine() {
+        QTemporaryDir dir;
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{
+            {"k", QJsonObject{{"kind", "image"}, {"name", "K"}, {"unit", "active"}, {"endpoint", "http://127.0.0.1:2/v1"}}},
+            {"z", QJsonObject{{"kind", "image"}, {"name", "Z"}, {"unit", "active"}, {"endpoint", "http://127.0.0.1:1/v1"}}}}}}).toJson());
+        write(state + "/list.json", "[]");
+        // An engine command that always fails: a switch must not need it.
+        Models models(state, state + "/key", "/bin/false");
+        const QString other = models.modelId() == "k" ? "z" : "k";
+        models.choose(other);
+        QCOMPARE(models.modelId(), other);
+        QVERIFY(!models.working());
+        QVERIFY(models.error().isEmpty());
+    }
+
+    void discoveryOffersAPairedHostsSharedImageModels() {
+        QTemporaryDir dir;
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state + "/remotes");
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{
+            {"z", QJsonObject{{"kind", "image"}, {"name", "Z"}, {"unit", "active"}, {"endpoint", "http://127.0.0.1:1/v1"}}}}}}).toJson());
+        write(state + "/list.json", "[]");
+        write(state + "/key", "local-key\n");
+        write(state + "/remotes/spark.key", "spark-key\n");
+        auto shared = [](const QString &recipe, bool paired, const QString &offline) {
+            return QJsonObject{{"kind", "image"}, {"edit", true}, {"name", "Klein"}, {"unit", "active"}, {"host", "spark"},
+                               {"recipe", recipe}, {"paired", paired}, {"offline", offline},
+                               {"endpoint", "https://spark.tail.ts.net/local-ai/" + recipe + "/v1"}};
+        };
+        write(state + "/network.json", QJsonDocument(QJsonObject{{"hosts", QJsonObject{}}, {"models", QJsonObject{
+            {"spark/klein", shared("klein", true, "")},
+            {"spark/away", shared("away", true, "spark isn't reachable")},
+            {"spark/other", shared("other", false, "")}}}}).toJson());
+
+        Models models(state, state + "/key", "/bin/false");
+        // This machine's own first, then the paired host's running one.
+        QCOMPARE(models.choices().size(), 2);
+        QCOMPARE(models.choices().at(1).toMap().value("name").toString(), QString("Klein on spark"));
+        QCOMPARE(models.modelId(), QString("z"));
+        QCOMPARE(models.key(), QByteArray("local-key"));
+        // A change goes to it, the one that edits, with its host's key.
+        QCOMPARE(models.editOrigin(), QString("https://spark.tail.ts.net/local-ai/klein"));
+        QCOMPARE(models.editKey(), QByteArray("spark-key"));
+        models.choose("spark/klein");
+        QCOMPARE(models.origin(), QString("https://spark.tail.ts.net/local-ai/klein"));
+        QCOMPARE(models.key(), QByteArray("spark-key"));
+    }
+
+    void logoIsTheVendorsMarkFromOmarchy() {
+        QTemporaryDir dir;
+        const QString assets = dir.path() + "/shell/plugins/agents/assets/";
+        QDir().mkpath(assets);
+        for (const char *name : {"bfl.svg", "bfl-light.svg", "alibaba.svg", "local.svg"})
+            write(assets + name, "<svg/>");
+        qputenv("OMARCHY_PATH", dir.path().toUtf8());
+        QCOMPARE(Models::logo("bfl", true), QUrl::fromLocalFile(assets + "bfl-light.svg").toString());
+        // No dark version: the mark itself; no mark: the local model's.
+        QCOMPARE(Models::logo("alibaba", true), QUrl::fromLocalFile(assets + "alibaba.svg").toString());
+        QCOMPARE(Models::logo("stability", false), QUrl::fromLocalFile(assets + "local.svg").toString());
+        QCOMPARE(Models::logo("../bfl", false), QUrl::fromLocalFile(assets + "local.svg").toString());
+        qunsetenv("OMARCHY_PATH");
+        QCOMPARE(Models::logo("bfl", false), QString());
+    }
+
+    void discoveryFindsAnEditModelForChanges() {
+        // Z-Image is the one in use, but a change goes to Klein, which edits.
+        const auto found = Models::discover(json(q("{'models': { 'z': {'kind': 'image', 'name': 'Z', 'unit': 'active', 'endpoint': 'http://127.0.0.1:1/v1'}, 'k': {'kind': 'image', 'name': 'K', 'unit': 'active', 'edit': true, 'endpoint': 'http://127.0.0.1:2/v1'}}}")), {}, true, "z");
+        QCOMPARE(found.id, QString("z"));
+        QCOMPARE(found.editEndpoint, QString("http://127.0.0.1:2/v1"));
     }
 
     void discoveryOffersToStartAnInstalledModel() {
@@ -399,7 +479,7 @@ private slots:
 
         Models models(dir.path() + "/state", dir.path() + "/state/key", "/bin/true");
         Generator generator(&models, dir.path() + "/out");
-        generator.generate("the same, with snow", 1024, 1024, 0, -1, QUrl::fromLocalFile(dir.filePath("base.png")).toString());
+        generator.generate("the same, with snow", 1024, 1024, 0, -1, QStringList{QUrl::fromLocalFile(dir.filePath("base.png")).toString()});
         QTRY_VERIFY(!server.requests.isEmpty() && server.requests.last().first == "POST /sdcpp/v1/img_gen");
         const QJsonObject body = server.requests.last().second;
         QFile file(dir.filePath("base.png"));
@@ -413,13 +493,94 @@ private slots:
         QTRY_VERIFY(!generator.busy());
 
         // An edit model gets the image as a reference and the prompt as the change.
-        generator.generate("include a red balloon", 1024, 1024, 0, -1, QUrl::fromLocalFile(dir.filePath("base.png")).toString(), true);
+        generator.generate("include a red balloon", 1024, 1024, 0, -1, QStringList{QUrl::fromLocalFile(dir.filePath("base.png")).toString()}, true);
         QTRY_VERIFY(std::count_if(server.requests.begin(), server.requests.end(), [](const auto &r) { return r.first == "POST /sdcpp/v1/img_gen"; }) == 2);
         const QJsonObject edit = server.requests.last().second;
         QCOMPARE(edit.value("ref_images").toArray(), QJsonArray{sent});
         QVERIFY(!edit.contains("init_image") && !edit.contains("strength"));
         QCOMPARE(edit.value("width").toInt(), 1344);
         QTRY_VERIFY(!generator.busy());
+    }
+
+    void generatorCombinesPicturesOnlyWithAnEditModel() {
+        QTemporaryDir dir;
+        FakeServer server;
+        server.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (method == "POST" && path == "/sdcpp/v1/img_gen")
+                return {202, q("{'id': 'job5'}")};
+            if (path == "/sdcpp/v1/jobs/job5")
+                return {200, q("{'status': 'cancelled'}")};
+            return {404, "{}"};
+        };
+        readyEngine(dir.path() + "/state", server.origin());
+        QStringList pictures;
+        for (const char *name : {"cabin.png", "lighthouse.png"}) {
+            write(dir.filePath(name), png(64));
+            pictures << QUrl::fromLocalFile(dir.filePath(name)).toString();
+        }
+        Models models(dir.path() + "/state", dir.path() + "/state/key", "/bin/true");
+        Generator generator(&models, dir.path() + "/out");
+        // A model that only redraws can't combine them.
+        generator.generate("the cabin beside the lighthouse", 1024, 1024, 0, -1, pictures, false);
+        QVERIFY(!generator.busy());
+        QCOMPARE(generator.error(), QString("Only a model that edits can combine pictures"));
+        // One that edits gets them all as references.
+        generator.generate("the cabin beside the lighthouse", 1024, 1024, 0, -1, pictures, true);
+        QTRY_VERIFY(!server.requests.isEmpty() && server.requests.last().first == "POST /sdcpp/v1/img_gen");
+        QCOMPARE(server.requests.last().second.value("ref_images").toArray().size(), 2);
+        QTRY_VERIFY(!generator.busy());
+    }
+
+    void generatorSendsAChangeToTheEditModelAndTheNextImageBack() {
+        QTemporaryDir dir;
+        FakeServer chosen, editor;
+        bool cancelled = false;
+        chosen.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (path == "/sdcpp/v1/capabilities")
+                return {200, "{}"};
+            if (method == "POST" && path == "/sdcpp/v1/img_gen")
+                return {202, q("{'id': 'new1'}")};
+            if (path == "/sdcpp/v1/jobs/new1")
+                return {200, q("{'status': 'cancelled'}")};
+            return {404, "{}"};
+        };
+        editor.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (method == "POST" && path == "/sdcpp/v1/img_gen")
+                return {202, q("{'id': 'edit1'}")};
+            if (method == "POST" && path == "/sdcpp/v1/jobs/edit1/cancel") {
+                cancelled = true;
+                return {200, "{}"};
+            }
+            if (path == "/sdcpp/v1/jobs/edit1")
+                return {200, cancelled ? q("{'status': 'cancelled'}") : q("{'status': 'generating'}")};
+            return {404, "{}"};
+        };
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{
+            {"a", QJsonObject{{"kind", "image"}, {"name", "A"}, {"unit", "active"}, {"endpoint", chosen.origin() + "/v1"}}},
+            {"b", QJsonObject{{"kind", "image"}, {"name", "B"}, {"unit", "active"}, {"edit", true}, {"endpoint", editor.origin() + "/v1"}}}}}}).toJson());
+        write(state + "/list.json", "[]");
+        write(state + "/key", "secret\n");
+        write(dir.filePath("base.png"), png(64));
+
+        Models models(state, state + "/key", "/bin/true");
+        QCOMPARE(models.modelId(), QString("a"));
+        Generator generator(&models, dir.path() + "/out");
+        // The change goes to the model that edits, and so does its polling and cancelling.
+        generator.generate("make it night", 1024, 1024, 0, -1, QStringList{QUrl::fromLocalFile(dir.filePath("base.png")).toString()}, false);
+        QTRY_VERIFY(!editor.requests.isEmpty() && editor.requests.first().first == "POST /sdcpp/v1/img_gen");
+        QVERIFY(editor.requests.first().second.contains("ref_images"));
+        QTRY_VERIFY(std::any_of(editor.requests.begin(), editor.requests.end(), [](const auto &r) { return r.first == "GET /sdcpp/v1/jobs/edit1"; }));
+        generator.cancel();
+        QTRY_VERIFY(cancelled);
+        QTRY_VERIFY(!generator.busy());
+        // The next new image goes back to the chosen model; only it is asked for settings.
+        generator.generate("a calm lake", 1024, 1024);
+        QTRY_VERIFY(std::any_of(chosen.requests.begin(), chosen.requests.end(), [](const auto &r) { return r.first == "POST /sdcpp/v1/img_gen"; }));
+        QTRY_VERIFY(!generator.busy());
+        QVERIFY(std::none_of(editor.requests.begin(), editor.requests.end(), [](const auto &r) { return r.first.contains("capabilities"); }));
+        QCOMPARE(std::count_if(editor.requests.begin(), editor.requests.end(), [](const auto &r) { return r.first == "POST /sdcpp/v1/img_gen"; }), 1);
     }
 
     void generatorCancelsAndSavesNothing() {
@@ -742,6 +903,9 @@ private slots:
         Theme theme(dir.path());
         // A ready model at an address nothing answers, so nothing is made.
         readyEngine(dir.path() + "/state", "http://127.0.0.1:9");
+        // One image made before, to pick from the history.
+        QDir().mkpath(dir.path() + "/out");
+        write(dir.path() + "/out/20260101-120000-a-lake.png", png(64));
         Backend backend({dir.path() + "/state", dir.path() + "/state/key", "/bin/true", dir.path() + "/out", "/bin/true"});
 
         QQmlApplicationEngine engine;
@@ -789,7 +953,7 @@ private slots:
         QTest::keyClick(window, Qt::Key_3, Qt::ControlModifier);
         QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Portrait"));
         QMetaObject::invokeMethod(shape, "clicked");
-        QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Square"));
+        QCOMPARE(shape->property("current").toMap().value("name").toString(), QString("Screen"));
 
         auto *help = window->findChild<QObject *>("help");
         QTest::keyClick(window, Qt::Key_F1);
@@ -797,6 +961,53 @@ private slots:
         // A Material popup animates out: `opened` drops at once, `visible` after.
         QTest::keyClick(window, Qt::Key_Escape);
         QTRY_VERIFY(!help->property("visible").toBool());
+
+        // A picked image offers what's next; a new one empties the prompt
+        // and the frame; Esc goes back to the image.
+        auto *nextBar = item(window->contentItem(), "next");
+        auto *prompt = item(window->contentItem(), "prompt");
+        QVERIFY(nextBar && prompt);
+        QTRY_VERIFY(backend.history()->count() == 1);
+        // The history shows once there's an image, and Ctrl+B hides and shows it.
+        auto *rail = item(window->contentItem(), "rail");
+        QVERIFY(rail);
+        QTRY_VERIFY(rail->isVisible());
+        QTest::keyClick(window, Qt::Key_B, Qt::ControlModifier);
+        QTRY_VERIFY(!rail->isVisible());
+        QTest::keyClick(window, Qt::Key_B, Qt::ControlModifier);
+        QTRY_VERIFY(rail->isVisible());
+        QTest::keyClick(window, Qt::Key_Down, Qt::ControlModifier);
+        QTRY_VERIFY(nextBar->isVisible());
+        QVERIFY(!prompt->isVisible());
+        QTest::keyClick(window, Qt::Key_N, Qt::ControlModifier);
+        QTRY_VERIFY(prompt->isVisible());
+        QVERIFY(!nextBar->isVisible());
+        // A second Ctrl+N keeps the image Esc goes back to.
+        QTest::keyClick(window, Qt::Key_N, Qt::ControlModifier);
+        QCOMPARE(prompt->property("text").toString(), QString());
+        QCOMPARE(backend.generator()->image(), QString());
+        QTest::keyClick(window, Qt::Key_Escape);
+        QTRY_VERIFY(nextBar->isVisible());
+        QVERIFY(backend.generator()->image().endsWith("a-lake.png"));
+        // Change it: back to writing, with the picture to change.
+        QTest::keyClick(window, Qt::Key_E, Qt::ControlModifier);
+        QTRY_VERIFY(prompt->isVisible());
+        QVERIFY(window->property("changing").toBool());
+        // Esc lets the change go; a new image again, for what follows.
+        QTest::keyClick(window, Qt::Key_Escape);
+        QTRY_VERIFY(nextBar->isVisible());
+        QTest::keyClick(window, Qt::Key_N, Qt::ControlModifier);
+        QTRY_VERIFY(prompt->isVisible());
+
+        // Each control in the prompt bar names itself in a tooltip on hover.
+        for (const char *name : {"startFrom", "size", "model"}) {
+            auto *control = item(window->contentItem(), name);
+            QVERIFY2(control && control->isVisible(), name);
+            const QPointF centre = control->mapToScene(QPointF(control->width() / 2, control->height() / 2));
+            QTest::mouseMove(window, centre.toPoint());
+            QTRY_VERIFY2(control->property("hovered").toBool(), name);
+            QTRY_VERIFY2(QQmlProperty(control, "ToolTip.visible", qmlContext(control)).read().toBool(), name);
+        }
 
         QVERIFY2(warnings.isEmpty(), qPrintable(warnings.join('\n')));
         QCoreApplication::removeTranslator(&translator);
