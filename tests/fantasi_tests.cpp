@@ -769,6 +769,11 @@ private slots:
             QTest::keyClick(window, c);
         QCOMPARE(item(window->contentItem(), "prompt")->property("text").toString(), QString("a calm lake"));
         QVERIFY(action->property("enabled").toBool());
+        // Enter sends the prompt; this engine's model is at an address nothing
+        // answers, so sending shows up as the error it gets back.
+        QTest::keyClick(window, Qt::Key_Return);
+        QTRY_VERIFY(!backend.generator()->error().isEmpty() || backend.generator()->busy());
+        QCOMPARE(item(window->contentItem(), "prompt")->property("text").toString(), QString("a calm lake"));
 
         // The caption reads on the accent: black on the fallback yellow.
         QCOMPARE(action->property("contentItem").value<QQuickItem *>()->property("color").value<QColor>(),

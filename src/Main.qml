@@ -229,6 +229,51 @@ ApplicationWindow {
                             }
                         }
                     }
+                    // What to do with a finished image: a small bar of icons on
+                    // it, their names and keys in tooltips.
+                    Rectangle {
+                        objectName: "tools"
+                        anchors.bottom: frame.bottom
+                        anchors.bottomMargin: 14
+                        anchors.horizontalCenter: frame.horizontalCenter
+                        width: tools.implicitWidth + 12
+                        height: tools.implicitHeight + 8
+                        radius: Math.min(height / 2, theme.radius + 6)
+                        color: Qt.rgba(theme.background.r, theme.background.g, theme.background.b, 0.82)
+                        border.color: Qt.rgba(theme.foreground.r, theme.foreground.g, theme.foreground.b, 0.12)
+                        readonly property bool ready: win.shownFile !== "" && !generator.busy
+                        visible: opacity > 0
+                        opacity: ready ? 1 : 0
+                        Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+
+                        Row {
+                            id: tools
+                            anchors.centerIn: parent
+                            spacing: 2
+                            Repeater {
+                                model: [
+                                    { icon: "change", label: qsTr("Change this image"), key: "Ctrl+E", run: () => win.changeImage() },
+                                    { icon: "background", label: qsTr("Set as background"), key: "Ctrl+B", run: () => backend.setBackground(win.shownFile) },
+                                    { icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
+                                    { icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
+                                ]
+                                delegate: ToolButton {
+                                    required property var modelData
+                                    focusPolicy: Qt.NoFocus
+                                    display: AbstractButton.IconOnly
+                                    icon.source: "qrc:/icons/" + modelData.icon + ".svg"
+                                    icon.width: 20
+                                    icon.height: 20
+                                    icon.color: hovered ? theme.accent : theme.foreground
+                                    Accessible.name: modelData.label
+                                    ToolTip.visible: hovered
+                                    ToolTip.text: modelData.label + "  " + modelData.key
+                                    ToolTip.delay: 300
+                                    onClicked: modelData.run()
+                                }
+                            }
+                        }
+                    }
                     Label {
                         anchors.centerIn: parent
                         width: parent.width * 0.6
@@ -255,37 +300,6 @@ ApplicationWindow {
                             height: 2
                             color: theme.accent
                             Behavior on width { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
-                        }
-                    }
-                }
-
-                // What to do with the image. A Flow wraps when the window is
-                // narrow, where a row would push the history out of it.
-                Flow {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: implicitHeight
-                    spacing: 4
-                    visible: !generator.busy && (win.shownFile !== "" || generator.unsaved)
-                    Repeater {
-                        model: [
-                            { label: qsTr("Change this image"), key: "Ctrl+E", run: () => win.changeImage(), show: win.shownFile !== "" },
-                            { label: qsTr("Set as background"), key: "Ctrl+B", run: () => backend.setBackground(win.shownFile), show: win.shownFile !== "" },
-                            { label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile), show: win.shownFile !== "" },
-                            { label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile), show: win.shownFile !== "" },
-                            { label: qsTr("Try saving again"), key: "", run: () => generator.retrySave(), show: generator.unsaved }
-                        ]
-                        delegate: Button {
-                            required property var modelData
-                            visible: modelData.show
-                            flat: true
-                            focusPolicy: Qt.NoFocus
-                            Material.roundedScale: theme.radius
-                            text: modelData.label
-                            // The key is in the tooltip and on F1.
-                            ToolTip.visible: hovered && modelData.key !== ""
-                            ToolTip.text: modelData.key
-                            ToolTip.delay: 600
-                            onClicked: modelData.run()
                         }
                     }
                 }
@@ -407,11 +421,18 @@ ApplicationWindow {
                                     font: prompt.font
                                     text: win.changing ? qsTr("What should change?") : qsTr("Describe an image")
                                 }
+                                // Enter sends the prompt; Shift+Enter is a new line.
                                 Keys.onReturnPressed: event => {
-                                    if (event.modifiers & Qt.ControlModifier)
-                                        win.generate()
-                                    else
+                                    if (event.modifiers & Qt.ShiftModifier)
                                         event.accepted = false
+                                    else
+                                        win.generate()
+                                }
+                                Keys.onEnterPressed: event => {
+                                    if (event.modifiers & Qt.ShiftModifier)
+                                        event.accepted = false
+                                    else
+                                        win.generate()
                                 }
                             }
                         }
@@ -496,7 +517,7 @@ ApplicationWindow {
                     }
                 }
 
-                // The model's state, what went wrong, and how far along it is.
+                // The model's state, and what went wrong.
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 12
@@ -532,20 +553,15 @@ ApplicationWindow {
                         font.pixelSize: 12
                         text: models.error || generator.error || backend.error
                     }
-                    Label {
-                        color: win.muted
-                        font.pixelSize: 12
-                        visible: generator.busy
-                        text: {
-                            switch (generator.stage) {
-                            case "queued": return qsTr("Waiting for the model")
-                            case "conditioning": return qsTr("Reading the prompt")
-                            case "sampling": return qsTr("Step %1 of %2").arg(generator.step).arg(generator.totalSteps)
-                            case "decoding": return qsTr("Finishing")
-                            case "saving": return qsTr("Saving")
-                            default: return qsTr("Preparing the model…")
-                            }
-                        }
+                    Button {
+                        visible: generator.unsaved
+                        flat: true
+                        focusPolicy: Qt.NoFocus
+                        topInset: 0
+                        bottomInset: 0
+                        Material.roundedScale: theme.radius
+                        text: qsTr("Try saving again")
+                        onClicked: generator.retrySave()
                     }
                 }
             }
@@ -638,7 +654,7 @@ ApplicationWindow {
 
             Repeater {
                 model: [
-                    { keys: "Ctrl+Enter", action: qsTr("Make the image") },
+                    { keys: "Enter", action: qsTr("Make the image") },
                     { keys: "Esc", action: qsTr("Stop making it, or go back to a new image") },
                     { keys: "Ctrl+R", action: qsTr("Make another like it") },
                     { keys: "Ctrl+E", action: qsTr("Change it: say what should change") },

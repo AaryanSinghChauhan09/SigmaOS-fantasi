@@ -22,7 +22,7 @@ The prompt has the keyboard most of the time, so the shortcuts take Ctrl.
 
 | Keys | Action |
 | --- | --- |
-| Ctrl+Enter | Make the image |
+| Enter | Make the image (Shift+Enter for a new line) |
 | Esc | Stop making it, or go back to a new image |
 | Ctrl+R | Make another like it |
 | Ctrl+E | Change it: the next image starts from it |
