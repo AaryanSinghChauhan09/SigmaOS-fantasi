@@ -79,5 +79,20 @@
   "About %1 s left": "大約還剩 %1 秒",
   "About %1 min left": "大約還剩 %1 分鐘",
   "Images with %1": "使用 %1 產生圖片",
-  "Video with %1": "使用 %1 產生影片"
+  "Video with %1": "使用 %1 產生影片",
+  "%1 is making your song": "%1 正在產生你的歌曲",
+  "Describe a song": "描述一首歌曲",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "填寫歌詞，在各段上方標註 [verse] 和 [chorus]",
+  "Lyrics written for you": "為你寫歌詞",
+  "Your own lyrics": "自己寫歌詞",
+  "No lyrics, only music": "沒有歌詞，純音樂",
+  "Song length: %1": "歌曲長度：%1",
+  "Pause": "暫停",
+  "Play": "播放",
+  "No music model is running": "沒有正在執行的音樂模型",
+  "The music model didn't answer: %1": "音樂模型沒有回應：%1",
+  "The music model stopped answering: %1": "音樂模型停止回應：%1",
+  "The song couldn't be made": "無法產生歌曲",
+  "MP3 audio": "MP3 音訊",
+  "Music with %1": "使用 %1 產生音樂"
 }

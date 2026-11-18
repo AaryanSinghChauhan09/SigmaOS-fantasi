@@ -79,5 +79,20 @@
   "About %1 s left": "يتبقى نحو %1 ث",
   "About %1 min left": "يتبقى نحو %1 د",
   "Images with %1": "صور باستخدام %1",
-  "Video with %1": "فيديو باستخدام %1"
+  "Video with %1": "فيديو باستخدام %1",
+  "%1 is making your song": "النموذج %1 يصنع أغنيتك",
+  "Describe a song": "صف أغنية",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "اكتب كلمات الأغنية، وضع [verse] و[chorus] فوق كل مقطع",
+  "Lyrics written for you": "كلمات تُكتب لك",
+  "Your own lyrics": "كلماتك أنت",
+  "No lyrics, only music": "بلا كلمات، موسيقى فقط",
+  "Song length: %1": "مدة الأغنية: %1",
+  "Pause": "إيقاف مؤقت",
+  "Play": "تشغيل",
+  "No music model is running": "لا يعمل أي نموذج موسيقى",
+  "The music model didn't answer: %1": "لم يستجب نموذج الموسيقى: %1",
+  "The music model stopped answering: %1": "توقف نموذج الموسيقى عن الاستجابة: %1",
+  "The song couldn't be made": "تعذّر إنشاء الأغنية",
+  "MP3 audio": "صوت MP3",
+  "Music with %1": "موسيقى باستخدام %1"
 }

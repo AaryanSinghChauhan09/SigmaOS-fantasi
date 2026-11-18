@@ -79,5 +79,20 @@
   "About %1 s left": "Još otprilike %1 s",
   "About %1 min left": "Još otprilike %1 min",
   "Images with %1": "Slike s %1",
-  "Video with %1": "Video s %1"
+  "Video with %1": "Video s %1",
+  "%1 is making your song": "%1 izrađuje vašu pjesmu",
+  "Describe a song": "Opišite pjesmu",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Napišite tekst, s [verse] i [chorus] iznad pripadajućih dijelova",
+  "Lyrics written for you": "Tekst napisan za vas",
+  "Your own lyrics": "Vaš vlastiti tekst",
+  "No lyrics, only music": "Bez teksta, samo glazba",
+  "Song length: %1": "Trajanje pjesme: %1",
+  "Pause": "Pauziraj",
+  "Play": "Reproduciraj",
+  "No music model is running": "Nijedan model za glazbu nije pokrenut",
+  "The music model didn't answer: %1": "Model za glazbu nije odgovorio: %1",
+  "The music model stopped answering: %1": "Model za glazbu prestao je odgovarati: %1",
+  "The song couldn't be made": "Pjesma se nije mogla izraditi",
+  "MP3 audio": "MP3 zvuk",
+  "Music with %1": "Glazba s %1"
 }

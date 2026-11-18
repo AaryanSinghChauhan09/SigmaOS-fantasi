@@ -45,6 +45,8 @@ class Models : public QObject {
     Q_PROPERTY(bool canEdit READ canEdit NOTIFY changed)
     // The model in use makes clips with their sound rather than images.
     Q_PROPERTY(bool video READ video NOTIFY changed)
+    // The model in use makes songs.
+    Q_PROPERTY(bool music READ music NOTIFY changed)
     // The model being started in place of the one in use, while it starts.
     Q_PROPERTY(QString switchingTo READ switchingTo NOTIFY changed)
     Q_PROPERTY(QString switchingVendor READ switchingVendor NOTIFY changed)
@@ -80,6 +82,8 @@ public:
         bool firstStart = false;
         // The model in use makes clips rather than images.
         bool video = false;
+        // The model in use makes songs.
+        bool music = false;
     };
 
     // The engine's state folder, its key file, and the command that drives
@@ -102,6 +106,7 @@ public:
     // Whether a running model edits by instruction, which can take several pictures.
     bool canEdit() const { return !m_found.editEndpoint.isEmpty(); }
     bool video() const { return m_found.video; }
+    bool music() const { return m_found.music; }
     QString switchingTo() const { return choiceField(m_chosen, "name"); }
     QString switchingVendor() const { return choiceField(m_chosen, "vendor"); }
     // The video model's server, when it's the one in use and running.

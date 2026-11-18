@@ -79,5 +79,20 @@
   "About %1 s left": "Sekitar %1 dtk lagi",
   "About %1 min left": "Sekitar %1 mnt lagi",
   "Images with %1": "Gambar dengan %1",
-  "Video with %1": "Video dengan %1"
+  "Video with %1": "Video dengan %1",
+  "%1 is making your song": "%1 sedang membuat lagu Anda",
+  "Describe a song": "Deskripsikan lagu",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Tulis liriknya, dengan [verse] dan [chorus] di atas bagiannya masing-masing",
+  "Lyrics written for you": "Lirik dituliskan untuk Anda",
+  "Your own lyrics": "Lirik Anda sendiri",
+  "No lyrics, only music": "Tanpa lirik, hanya musik",
+  "Song length: %1": "Durasi lagu: %1",
+  "Pause": "Jeda",
+  "Play": "Putar",
+  "No music model is running": "Tidak ada model musik yang berjalan",
+  "The music model didn't answer: %1": "Model musik tidak menjawab: %1",
+  "The music model stopped answering: %1": "Model musik berhenti menjawab: %1",
+  "The song couldn't be made": "Lagu tidak dapat dibuat",
+  "MP3 audio": "Audio MP3",
+  "Music with %1": "Musik dengan %1"
 }

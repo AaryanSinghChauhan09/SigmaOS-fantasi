@@ -79,5 +79,20 @@
   "About %1 s left": "Залишилося близько %1 с",
   "About %1 min left": "Залишилося близько %1 хв",
   "Images with %1": "Зображення з %1",
-  "Video with %1": "Відео з %1"
+  "Video with %1": "Відео з %1",
+  "%1 is making your song": "%1 створює вашу пісню",
+  "Describe a song": "Опишіть пісню",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Напишіть текст пісні, позначивши [verse] і [chorus] над відповідними частинами",
+  "Lyrics written for you": "Текст, написаний за вас",
+  "Your own lyrics": "Ваш власний текст",
+  "No lyrics, only music": "Без слів, лише музика",
+  "Song length: %1": "Тривалість пісні: %1",
+  "Pause": "Пауза",
+  "Play": "Відтворити",
+  "No music model is running": "Жодна модель музики не запущена",
+  "The music model didn't answer: %1": "Модель музики не відповіла: %1",
+  "The music model stopped answering: %1": "Модель музики перестала відповідати: %1",
+  "The song couldn't be made": "Не вдалося створити пісню",
+  "MP3 audio": "Аудіо MP3",
+  "Music with %1": "Музика з %1"
 }

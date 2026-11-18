@@ -111,9 +111,10 @@ void PortalFilePicker::saveImage(const QUrl &suggestedUrl) {
     options.insert(QStringLiteral("modal"), true);
     options.insert(QStringLiteral("current_folder"), portalPathBytes(target.absolutePath()));
     options.insert(QStringLiteral("current_name"), target.fileName());
-    // A clip keeps its own kind of file.
-    const PortalFileFilter filter = target.fileName().endsWith(".webm") ? PortalFileFilter{tr("WebM video"), {{0, QStringLiteral("*.webm")}}}
-                                                                        : pngFilter(tr("PNG image"));
+    // A clip or a song keeps its own kind of file.
+    const PortalFileFilter filter = target.suffix() == "webm"  ? PortalFileFilter{tr("WebM video"), {{0, QStringLiteral("*.webm")}}}
+                                    : target.suffix() == "mp3" ? PortalFileFilter{tr("MP3 audio"), {{0, QStringLiteral("*.mp3")}}}
+                                                               : pngFilter(tr("PNG image"));
     options.insert(QStringLiteral("filters"), QVariant::fromValue(PortalFileFilters{filter}));
     options.insert(QStringLiteral("current_filter"), QVariant::fromValue(filter));
 

@@ -79,5 +79,20 @@
   "About %1 s left": "Omtrent %1 s igjen",
   "About %1 min left": "Omtrent %1 min igjen",
   "Images with %1": "Bilder med %1",
-  "Video with %1": "Video med %1"
+  "Video with %1": "Video med %1",
+  "%1 is making your song": "%1 lager sangen din",
+  "Describe a song": "Beskriv en sang",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Skriv teksten, med [verse] og [chorus] over de ulike delene",
+  "Lyrics written for you": "Tekst skrevet for deg",
+  "Your own lyrics": "Din egen tekst",
+  "No lyrics, only music": "Ingen tekst, bare musikk",
+  "Song length: %1": "Sanglengde: %1",
+  "Pause": "Pause",
+  "Play": "Spill av",
+  "No music model is running": "Ingen musikkmodell kjører",
+  "The music model didn't answer: %1": "Musikkmodellen svarte ikke: %1",
+  "The music model stopped answering: %1": "Musikkmodellen sluttet å svare: %1",
+  "The song couldn't be made": "Sangen kunne ikke lages",
+  "MP3 audio": "MP3-lyd",
+  "Music with %1": "Musikk med %1"
 }

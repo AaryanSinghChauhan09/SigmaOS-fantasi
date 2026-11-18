@@ -47,7 +47,7 @@ ApplicationWindow {
     property var baseImages: []
     readonly property bool changing: baseImages.length > 0
     // A clip starts from one picture; a change combines up to four with a model that edits.
-    readonly property bool canAddPicture: !changing || (!videoMode && models.canEdit && baseImages.length < 4)
+    readonly property bool canAddPicture: !musicMode && (!changing || (!videoMode && models.canEdit && baseImages.length < 4))
     // Writing a prompt, or looking at a finished image and choosing what's
     // next: change it, make a new one, or use it.
     property bool composing: true
@@ -68,12 +68,29 @@ ApplicationWindow {
     property int clipSeconds: 5
     // A clip starts from one picture: switching to a video model keeps the first.
     onVideoModeChanged: if (videoMode && baseImages.length > 1) baseImages = [baseImages[0]]
-    // A clip in the frame: its poster stands in for it as an image.
+    // The model in use makes songs, from the prompt and the lyrics alone.
+    readonly property bool musicMode: models.music
+    onMusicModeChanged: if (musicMode) baseImages = []
+    // A song's lyrics: 0 written by the model, 1 one's own, 2 none.
+    property int lyricsChoice: 0
+    // How long a song is, stepped through with the length button.
+    readonly property var songLengths: [30, 60, 120, 180]
+    property int songSeconds: 60
+    // A clip in the frame: its poster stands in for it as an image. A song
+    // has the player alone, in the shape of its waveform.
     readonly property bool showingClip: shownFile.endsWith(".webm")
-    readonly property string shownImage: showingClip ? shownFile.slice(0, -5) + ".png" : generator.image
-    // The player loads with the first clip shown, and stays.
+    readonly property bool showingSong: shownFile.endsWith(".mp3")
+    readonly property string shownImage: showingClip ? shownFile.slice(0, -5) + ".png" : showingSong ? "" : generator.image
+    // The title and shape of the song in the frame, by the file it is,
+    // looked up again whenever the history has listed its files anew.
+    readonly property var shownSong: { history.count; return history.song(showingSong ? shownFile : "") }
+    // What only an image takes: being changed.
+    readonly property bool showingImage: shownFile !== "" && !showingClip && !showingSong
+    // The player loads with the first clip shown, and stays; a song's too.
     property bool playerWanted: false
     onShowingClipChanged: if (showingClip) playerWanted = true
+    property bool songPlayerWanted: false
+    onShowingSongChanged: if (showingSong) songPlayerWanted = true
     readonly property bool choosing: !composing && shownFile !== "" && !generator.busy
     // The history image a new one was started from, for Esc to go back to.
     property int returnIndex: -1
@@ -81,7 +98,7 @@ ApplicationWindow {
     // What the model is doing, for its icon's tooltip and the empty stage.
     readonly property string modelStatus: {
         switch (models.state) {
-        case "ready": return generator.busy ? (models.video ? qsTr("%1 is making your clip") : qsTr("%1 is making your image")).arg(models.modelName)
+        case "ready": return generator.busy ? (models.music ? qsTr("%1 is making your song") : models.video ? qsTr("%1 is making your clip") : qsTr("%1 is making your image")).arg(models.modelName)
                                             : qsTr("%1 is ready").arg(models.modelName)
         case "starting": return qsTr("Starting %1…").arg(models.modelName)
         case "installing": return qsTr("Setting up %1…").arg(models.modelName)
@@ -98,6 +115,8 @@ ApplicationWindow {
     property string sentPrompt
     property var sentPictures: []
     property bool sentVideo: false
+    property bool sentMusic: false
+    property string sentLyrics
     // How far along the image is being made, 0 to 1: the steps, then whole
     // once they're done and it's finishing.
     readonly property real progress: !generator.busy ? 0
@@ -112,7 +131,11 @@ ApplicationWindow {
         sentPrompt = prompt.text
         sentPictures = baseImages
         sentVideo = videoMode
-        if (videoMode)
+        sentMusic = musicMode
+        sentLyrics = lyricsChoice === 1 ? lyrics.text : lyricsChoice === 2 ? "[Instrumental]" : ""
+        if (musicMode)
+            generator.makeSong(prompt.text, sentLyrics, songSeconds, translator.language)
+        else if (videoMode)
             generator.makeVideo(prompt.text, outputSize.width, outputSize.height, baseImages.length > 0 ? baseImages[0] : "", clipSeconds)
         else
             generator.generate(prompt.text, outputSize.width, outputSize.height, 0, -1, baseImages, models.edits)
@@ -121,8 +144,12 @@ ApplicationWindow {
     function repeat() {
         if (models.state !== "ready" || generator.busy || sentPrompt.trim() === "")
             return
-        // A clip again as a clip, while the model in use still makes them.
-        if (sentVideo && videoMode)
+        // A song or a clip again as one, while the model in use still makes them.
+        if (sentMusic && musicMode)
+            generator.makeSong(sentPrompt, sentLyrics, songSeconds, translator.language)
+        else if (sentMusic || musicMode)
+            return
+        else if (sentVideo && videoMode)
             generator.makeVideo(sentPrompt, outputSize.width, outputSize.height, sentPictures.length > 0 ? sentPictures[0] : "", clipSeconds)
         else if (!sentVideo && !videoMode)
             generator.generate(sentPrompt, outputSize.width, outputSize.height, 0, -1, sentPictures, models.edits)
@@ -130,7 +157,7 @@ ApplicationWindow {
     // Makes the shown image the one to change, with an empty prompt for
     // what should change.
     function changeImage() {
-        if (shownFile === "" || showingClip || generator.busy)
+        if (!showingImage || musicMode || generator.busy)
             return
         composing = true
         baseImages = [shownFile]
@@ -140,7 +167,7 @@ ApplicationWindow {
     // A picture of the user's own becomes the one to change, or with a model
     // that edits, one more to combine.
     function startFrom(url) {
-        if (generator.busy)
+        if (generator.busy || musicMode)
             return
         // With four already, another is refused rather than replacing them.
         if (changing && models.canEdit && !videoMode && !canAddPicture)
@@ -192,8 +219,8 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+Return"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+Enter"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+R"; enabled: models.state === "ready" && !generator.busy; onActivated: win.canGenerate ? win.generate() : win.repeat() }
-    Shortcut { sequence: "Ctrl+E"; enabled: win.shownFile !== "" && !win.showingClip && !generator.busy; onActivated: win.changeImage() }
-    Shortcut { sequence: "Ctrl+O"; enabled: win.page === "studio" && !generator.busy; onActivated: backend.openPicture() }
+    Shortcut { sequence: "Ctrl+E"; enabled: win.showingImage && !win.musicMode && !generator.busy; onActivated: win.changeImage() }
+    Shortcut { sequence: "Ctrl+O"; enabled: win.page === "studio" && !generator.busy && !win.musicMode; onActivated: backend.openPicture() }
     // Esc stops an image being made, or else goes back to the image shown.
     Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }
     Shortcut { sequence: "Escape"; enabled: !generator.busy && win.composing; onActivated: win.backToImage() }
@@ -258,9 +285,9 @@ ApplicationWindow {
     DropArea {
         anchors.fill: parent
         keys: ["text/uri-list"]
-        onEntered: drag => drag.accept(win.page === "studio" && !generator.busy && drag.hasUrls && drag.urls.length === 1 && backend.isPicture(drag.urls[0]))
+        onEntered: drag => drag.accept(win.page === "studio" && !generator.busy && !win.musicMode && drag.hasUrls && drag.urls.length === 1 && backend.isPicture(drag.urls[0]))
         onDropped: drop => {
-            if (win.page === "studio" && !generator.busy && drop.hasUrls && backend.isPicture(drop.urls[0])) {
+            if (win.page === "studio" && !generator.busy && !win.musicMode && drop.hasUrls && backend.isPicture(drop.urls[0])) {
                 win.startFrom(drop.urls[0].toString())
                 drop.accept()
             }
@@ -329,11 +356,12 @@ ApplicationWindow {
 
                     // The shape the image will have: the one shown once it's
                     // there, the size asked for while it isn't.
-                    readonly property real aspect: shown.status === Image.Ready && shown.implicitHeight > 0
+                    readonly property real aspect: win.showingSong ? 3
+                                                   : shown.status === Image.Ready && shown.implicitHeight > 0
                                                    ? shown.implicitWidth / shown.implicitHeight
                                                    : previous.status === Image.Ready && previous.implicitHeight > 0
                                                    ? previous.implicitWidth / previous.implicitHeight
-                                                   : win.outputSize.width / win.outputSize.height
+                                                   : win.musicMode ? 3 : win.outputSize.width / win.outputSize.height
 
                     // A model starting in place of the one in use: its mark in a
                     // ring with a spark circling it, as on the setup screen.
@@ -461,12 +489,12 @@ ApplicationWindow {
                             visible: win.showingClip
                             source: "qrc:/VideoPlayer.qml"
                         }
-                        // How long a clip has left, in the middle of the frame. An
+                        // How long a clip or a song has left, in the middle of the frame. An
                         // image needs none: it comes to life before your eyes.
                         Rectangle {
                             objectName: "remaining"
                             anchors.centerIn: parent
-                            visible: generator.busy && win.videoMode
+                            visible: generator.busy && (win.videoMode || win.musicMode)
                             width: remainingLabel.implicitWidth + 28
                             height: remainingLabel.implicitHeight + 14
                             radius: Math.min(height / 2, theme.radius + 6)
@@ -484,6 +512,21 @@ ApplicationWindow {
                             property: "source"
                             value: win.showingClip ? win.shownFile : ""
                             when: player.status === Loader.Ready
+                        }
+                        Loader {
+                            id: songPlayer
+                            objectName: "songPlayer"
+                            anchors.fill: parent
+                            active: win.songPlayerWanted
+                            visible: win.showingSong
+                            source: "qrc:/SongPlayer.qml"
+                            onLoaded: {
+                                item.source = Qt.binding(() => win.showingSong ? win.shownFile : "")
+                                item.wave = Qt.binding(() => win.shownSong.wave)
+                                item.title = Qt.binding(() => win.shownSong.title)
+                                item.played = Qt.binding(() => theme.accent)
+                                item.unplayed = Qt.binding(() => win.muted)
+                            }
                         }
 
                     }
@@ -532,6 +575,44 @@ ApplicationWindow {
                                 Material.roundedScale: theme.radius
                                 text: qsTr("Try saving again")
                                 onClicked: generator.retrySave()
+                            }
+                        }
+                    }
+                }
+
+                // -------------------------------------------------- the lyrics
+                // One's own lyrics for a song, in a pill of their own above
+                // the prompt's.
+                Rectangle {
+                    objectName: "lyricsBar"
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: Math.min(Math.max(lyrics.implicitHeight, 34), 160) + 10
+                    visible: win.musicMode && win.lyricsChoice === 1 && !win.choosing
+                    color: win.panel
+                    radius: Math.min(height / 2, theme.radius)
+                    border.color: lyrics.activeFocus ? theme.accent : win.line
+                    ScrollView {
+                        anchors.fill: parent
+                        anchors.leftMargin: 8
+                        anchors.rightMargin: 8
+                        anchors.topMargin: 5
+                        anchors.bottomMargin: 5
+                        TextArea {
+                            id: lyrics
+                            objectName: "lyrics"
+                            wrapMode: TextEdit.Wrap
+                            background: null
+                            topPadding: 7
+                            bottomPadding: 7
+                            leftPadding: 6
+                            rightPadding: 6
+                            Label {
+                                x: lyrics.leftPadding
+                                y: lyrics.topPadding
+                                visible: lyrics.length === 0 && lyrics.preeditText === ""
+                                color: win.muted
+                                font: lyrics.font
+                                text: qsTr("Write the lyrics, with [verse] and [chorus] over their parts")
                             }
                         }
                     }
@@ -617,7 +698,7 @@ ApplicationWindow {
                         Item { Layout.fillWidth: true }
                         Repeater {
                             model: [
-                                { name: "changeIt", icon: "change", label: win.videoMode ? qsTr("Animate it") : qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage(), shown: !win.showingClip },
+                                { name: "changeIt", icon: "change", label: win.videoMode ? qsTr("Animate it") : qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage(), shown: win.showingImage && !win.musicMode },
                                 { name: "newImage", icon: "new", label: qsTr("New generation"), key: "Ctrl+N", run: () => win.newImage() },
                                 { name: "copy", icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
                                 { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
@@ -788,7 +869,8 @@ ApplicationWindow {
                                     visible: prompt.length === 0 && prompt.preeditText === ""
                                     color: win.muted
                                     font: prompt.font
-                                    text: win.videoMode ? (win.changing ? qsTr("How should it move?") : qsTr("Describe a clip"))
+                                    text: win.musicMode ? qsTr("Describe a song")
+                                          : win.videoMode ? (win.changing ? qsTr("How should it move?") : qsTr("Describe a clip"))
                                           : win.baseImages.length > 1 ? qsTr("How should they come together?")
                                           : win.changing ? qsTr("What should change?") : qsTr("Describe an image")
                                 }
@@ -806,6 +888,94 @@ ApplicationWindow {
                                         win.generate()
                                 }
                             }
+                        }
+
+                        // A song's lyrics, one button that steps through written
+                        // for you, your own and none.
+                        ToolButton {
+                            id: lyricsButton
+                            objectName: "lyricsChoice"
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy
+                            opacity: generator.busy ? 0.4 : 1
+                            Layout.alignment: Qt.AlignVCenter
+                            visible: win.musicMode
+                            Layout.preferredWidth: 32
+                            Layout.preferredHeight: 32
+                            padding: 0
+                            topInset: 0
+                            bottomInset: 0
+                            leftInset: 0
+                            rightInset: 0
+                            background: Item {}
+                            focusPolicy: Qt.NoFocus
+                            readonly property string label: [qsTr("Lyrics written for you"), qsTr("Your own lyrics"), qsTr("No lyrics, only music")][win.lyricsChoice]
+                            readonly property color ink: hovered || win.lyricsChoice === 1 ? theme.accent : win.muted
+                            Accessible.name: label
+                            ToolTip.visible: hovered
+                            ToolTip.text: label
+                            ToolTip.delay: 300
+                            onClicked: {
+                                win.lyricsChoice = (win.lyricsChoice + 1) % 3
+                                if (win.lyricsChoice === 1)
+                                    lyrics.forceActiveFocus()
+                                else
+                                    prompt.forceActiveFocus()
+                            }
+                            // Lines of a verse; struck through when there are none.
+                            contentItem: Item {
+                                implicitWidth: 24
+                                implicitHeight: 24
+                                Column {
+                                    anchors.centerIn: parent
+                                    spacing: 3
+                                    Repeater {
+                                        model: [16, 12, 16, 9]
+                                        Rectangle {
+                                            required property int modelData
+                                            width: modelData
+                                            height: 1.5
+                                            color: lyricsButton.ink
+                                        }
+                                    }
+                                }
+                                Rectangle {
+                                    anchors.centerIn: parent
+                                    visible: win.lyricsChoice === 2
+                                    width: 24
+                                    height: 1.5
+                                    rotation: -45
+                                    color: lyricsButton.ink
+                                }
+                            }
+                        }
+
+                        // A song's length, while a music model is in use.
+                        ToolButton {
+                            objectName: "songLength"
+                            // Nothing changes while something is made: only stop works.
+                            enabled: !generator.busy
+                            opacity: generator.busy ? 0.4 : 1
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredWidth: 32
+                            Layout.preferredHeight: 32
+                            padding: 0
+                            topInset: 0
+                            bottomInset: 0
+                            leftInset: 0
+                            rightInset: 0
+                            background: Item {}
+                            focusPolicy: Qt.NoFocus
+                            visible: win.musicMode
+                            text: Math.floor(win.songSeconds / 60) + ":" + String(win.songSeconds % 60).padStart(2, "0")
+                            font.pixelSize: 12
+                            Material.foreground: hovered ? theme.accent : win.muted
+                            readonly property string label: qsTr("Song length: %1").arg(text)
+                            Accessible.name: label
+                            ToolTip.visible: hovered
+                            ToolTip.text: label
+                            ToolTip.delay: 300
+                            onClicked: win.songSeconds = win.songLengths[(win.songLengths.indexOf(win.songSeconds) + 1) % win.songLengths.length]
                         }
 
                         // A clip's length, 2, 5 or 10 seconds, while a video model is in use.
@@ -845,7 +1015,7 @@ ApplicationWindow {
                             enabled: !generator.busy
                             opacity: generator.busy ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
-                            visible: !win.changing
+                            visible: !win.changing && !win.musicMode
                             Layout.preferredWidth: 32
                             Layout.preferredHeight: 32
                             padding: 0
@@ -945,7 +1115,7 @@ ApplicationWindow {
                                                 Behavior on scale { NumberAnimation { duration: 120 } }
                                                 Accessible.name: ToolTip.text
                                                 ToolTip.visible: hovered || visualFocus
-                                                ToolTip.text: modelData.video ? qsTr("Video with %1").arg(modelData.name) : qsTr("Images with %1").arg(modelData.name)
+                                                ToolTip.text: (modelData.music ? qsTr("Music with %1") : modelData.video ? qsTr("Video with %1") : qsTr("Images with %1")).arg(modelData.name)
                                                 ToolTip.delay: 150
                                                 onClicked: models.choose(modelData.id)
                                             }
@@ -995,7 +1165,7 @@ ApplicationWindow {
                                     ToolTip.visible: (hovered || visualFocus) && picker.others.length === 0
                                     // What it makes once it's ready; until then, what it's doing.
                                     ToolTip.text: models.state !== "ready" ? win.modelStatus
-                                        : models.video ? qsTr("Video with %1").arg(models.modelName) : qsTr("Images with %1").arg(models.modelName)
+                                        : (models.music ? qsTr("Music with %1") : models.video ? qsTr("Video with %1") : qsTr("Images with %1")).arg(models.modelName)
                                     ToolTip.delay: 300
                                 }
                             }
@@ -1139,11 +1309,58 @@ ApplicationWindow {
                             required property string url
                             required property string prompt
                         required property string video
+                            required property string audio
+                            required property string title
+                            required property var wave
                             width: ListView.view.width
                             height: width
+                            // A song: its own shape in the accent, over what it goes by.
+                            Rectangle {
+                                anchors.fill: parent
+                                visible: entry.audio !== ""
+                                radius: theme.radius
+                                color: win.panel
+                                Row {
+                                    id: tileWave
+                                    anchors.top: parent.top
+                                    anchors.left: parent.left
+                                    anchors.right: parent.right
+                                    anchors.bottom: tileTitle.top
+                                    anchors.margins: 8
+                                    LayoutMirroring.enabled: false
+                                    // Every third bar: the tile is a third as wide as there are bars.
+                                    Repeater {
+                                        model: entry.wave.filter((_, i) => i % 3 === 1)
+                                        Item {
+                                            required property real modelData
+                                            width: tileWave.width / 32
+                                            height: tileWave.height
+                                            Rectangle {
+                                                anchors.centerIn: parent
+                                                width: Math.max(1, parent.width * 0.6)
+                                                height: Math.max(2, parent.modelData * parent.height)
+                                                color: theme.accent
+                                            }
+                                        }
+                                    }
+                                }
+                                Label {
+                                    id: tileTitle
+                                    anchors.left: parent.left
+                                    anchors.right: parent.right
+                                    anchors.bottom: parent.bottom
+                                    anchors.margins: 8
+                                    text: entry.title
+                                    font.pixelSize: 12
+                                    wrapMode: Text.Wrap
+                                    maximumLineCount: 2
+                                    elide: Text.ElideRight
+                                }
+                            }
                             // Its corners rounded as the theme rounds windows.
                             Image {
                                 anchors.fill: parent
+                                visible: entry.audio === ""
                                 source: entry.url
                                 sourceSize: Qt.size(192, 192)
                                 fillMode: Image.PreserveAspectCrop

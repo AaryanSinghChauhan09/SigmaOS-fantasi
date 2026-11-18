@@ -79,5 +79,20 @@
   "About %1 s left": "Nog ongeveer %1 s",
   "About %1 min left": "Nog ongeveer %1 min",
   "Images with %1": "Afbeeldingen met %1",
-  "Video with %1": "Video met %1"
+  "Video with %1": "Video met %1",
+  "%1 is making your song": "%1 maakt je nummer",
+  "Describe a song": "Beschrijf een nummer",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Schrijf de songtekst, met [verse] en [chorus] boven de bijbehorende delen",
+  "Lyrics written for you": "Songtekst wordt voor je geschreven",
+  "Your own lyrics": "Je eigen songtekst",
+  "No lyrics, only music": "Geen tekst, alleen muziek",
+  "Song length: %1": "Lengte van het nummer: %1",
+  "Pause": "Pauzeren",
+  "Play": "Afspelen",
+  "No music model is running": "Er draait geen muziekmodel",
+  "The music model didn't answer: %1": "Het muziekmodel antwoordde niet: %1",
+  "The music model stopped answering: %1": "Het muziekmodel antwoordt niet meer: %1",
+  "The song couldn't be made": "Het nummer kon niet worden gemaakt",
+  "MP3 audio": "MP3-audio",
+  "Music with %1": "Muziek met %1"
 }

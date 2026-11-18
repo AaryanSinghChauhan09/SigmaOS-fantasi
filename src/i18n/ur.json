@@ -79,5 +79,20 @@
   "About %1 s left": "تقریباً %1 سیکنڈ باقی",
   "About %1 min left": "تقریباً %1 منٹ باقی",
   "Images with %1": "%1 کے ساتھ تصاویر",
-  "Video with %1": "%1 کے ساتھ ویڈیو"
+  "Video with %1": "%1 کے ساتھ ویڈیو",
+  "%1 is making your song": "ماڈل %1 آپ کا گانا بنا رہا ہے",
+  "Describe a song": "ایک گانا بیان کریں",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "گانے کے بول لکھیں، ہر حصے کے اوپر [verse] اور [chorus] لگا کر",
+  "Lyrics written for you": "آپ کے لیے لکھے گئے بول",
+  "Your own lyrics": "آپ کے اپنے بول",
+  "No lyrics, only music": "بول نہیں، صرف موسیقی",
+  "Song length: %1": "گانے کی لمبائی: %1",
+  "Pause": "وقفہ",
+  "Play": "چلائیں",
+  "No music model is running": "کوئی موسیقی ماڈل نہیں چل رہا",
+  "The music model didn't answer: %1": "موسیقی ماڈل نے جواب نہیں دیا: %1",
+  "The music model stopped answering: %1": "موسیقی ماڈل نے جواب دینا بند کر دیا: %1",
+  "The song couldn't be made": "گانا نہیں بن سکا",
+  "MP3 audio": "MP3 آڈیو",
+  "Music with %1": "%1 کے ساتھ موسیقی"
 }

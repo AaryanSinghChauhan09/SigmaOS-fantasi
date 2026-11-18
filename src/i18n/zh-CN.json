@@ -79,5 +79,20 @@
   "About %1 s left": "大约还剩 %1 秒",
   "About %1 min left": "大约还剩 %1 分钟",
   "Images with %1": "使用 %1 生成图片",
-  "Video with %1": "使用 %1 生成视频"
+  "Video with %1": "使用 %1 生成视频",
+  "%1 is making your song": "%1 正在生成你的歌曲",
+  "Describe a song": "描述一首歌曲",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "填写歌词，在各段上方标注 [verse] 和 [chorus]",
+  "Lyrics written for you": "为你写歌词",
+  "Your own lyrics": "自己写歌词",
+  "No lyrics, only music": "无歌词，纯音乐",
+  "Song length: %1": "歌曲时长：%1",
+  "Pause": "暂停",
+  "Play": "播放",
+  "No music model is running": "没有正在运行的音乐模型",
+  "The music model didn't answer: %1": "音乐模型没有响应：%1",
+  "The music model stopped answering: %1": "音乐模型停止响应：%1",
+  "The song couldn't be made": "无法生成歌曲",
+  "MP3 audio": "MP3 音频",
+  "Music with %1": "使用 %1 生成音乐"
 }

@@ -79,5 +79,20 @@
   "About %1 s left": "Jäänud umbes %1 s",
   "About %1 min left": "Jäänud umbes %1 min",
   "Images with %1": "Pildid mudeliga %1",
-  "Video with %1": "Video mudeliga %1"
+  "Video with %1": "Video mudeliga %1",
+  "%1 is making your song": "%1 teeb sinu laulu",
+  "Describe a song": "Kirjelda laulu",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Kirjuta laulusõnad, pannes [verse] ja [chorus] vastavate osade kohale",
+  "Lyrics written for you": "Laulusõnad kirjutatakse sinu eest",
+  "Your own lyrics": "Sinu enda laulusõnad",
+  "No lyrics, only music": "Sõnadeta, ainult muusika",
+  "Song length: %1": "Laulu pikkus: %1",
+  "Pause": "Peata",
+  "Play": "Esita",
+  "No music model is running": "Ükski muusikamudel ei tööta",
+  "The music model didn't answer: %1": "Muusikamudel ei vastanud: %1",
+  "The music model stopped answering: %1": "Muusikamudel lakkas vastamast: %1",
+  "The song couldn't be made": "Laulu ei õnnestunud teha",
+  "MP3 audio": "MP3-heli",
+  "Music with %1": "Muusika mudeliga %1"
 }

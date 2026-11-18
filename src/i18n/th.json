@@ -79,5 +79,20 @@
   "About %1 s left": "เหลืออีกประมาณ %1 วิ",
   "About %1 min left": "เหลืออีกประมาณ %1 นาที",
   "Images with %1": "ภาพด้วย %1",
-  "Video with %1": "วิดีโอด้วย %1"
+  "Video with %1": "วิดีโอด้วย %1",
+  "%1 is making your song": "%1 กำลังสร้างเพลงของคุณ",
+  "Describe a song": "อธิบายเพลงที่ต้องการ",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "เขียนเนื้อเพลง โดยใส่ [verse] และ [chorus] ไว้เหนือแต่ละท่อน",
+  "Lyrics written for you": "เขียนเนื้อเพลงให้คุณ",
+  "Your own lyrics": "เนื้อเพลงของคุณเอง",
+  "No lyrics, only music": "ไม่มีเนื้อร้อง มีแต่ดนตรี",
+  "Song length: %1": "ความยาวเพลง: %1",
+  "Pause": "หยุดชั่วคราว",
+  "Play": "เล่น",
+  "No music model is running": "ไม่มีโมเดลดนตรีที่ทำงานอยู่",
+  "The music model didn't answer: %1": "โมเดลดนตรีไม่ตอบสนอง: %1",
+  "The music model stopped answering: %1": "โมเดลดนตรีหยุดตอบสนอง: %1",
+  "The song couldn't be made": "สร้างเพลงไม่ได้",
+  "MP3 audio": "เสียง MP3",
+  "Music with %1": "เพลงด้วย %1"
 }

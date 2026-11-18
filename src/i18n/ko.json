@@ -79,5 +79,20 @@
   "About %1 s left": "약 %1초 남음",
   "About %1 min left": "약 %1분 남음",
   "Images with %1": "%1(으)로 이미지",
-  "Video with %1": "%1(으)로 동영상"
+  "Video with %1": "%1(으)로 동영상",
+  "%1 is making your song": "%1에서 노래를 만드는 중",
+  "Describe a song": "노래를 설명하세요",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "가사를 쓰고 각 부분 위에 [verse]와 [chorus]를 넣으세요",
+  "Lyrics written for you": "가사 자동 작성",
+  "Your own lyrics": "직접 쓴 가사",
+  "No lyrics, only music": "가사 없이 음악만",
+  "Song length: %1": "노래 길이: %1",
+  "Pause": "일시 정지",
+  "Play": "재생",
+  "No music model is running": "실행 중인 음악 모델이 없습니다",
+  "The music model didn't answer: %1": "음악 모델이 응답하지 않았습니다: %1",
+  "The music model stopped answering: %1": "음악 모델이 응답을 멈췄습니다: %1",
+  "The song couldn't be made": "노래를 만들 수 없습니다",
+  "MP3 audio": "MP3 오디오",
+  "Music with %1": "%1(으)로 음악"
 }

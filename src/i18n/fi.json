@@ -79,5 +79,20 @@
   "About %1 s left": "Noin %1 s jäljellä",
   "About %1 min left": "Noin %1 min jäljellä",
   "Images with %1": "Kuvia mallilla %1",
-  "Video with %1": "Videota mallilla %1"
+  "Video with %1": "Videota mallilla %1",
+  "%1 is making your song": "%1 tekee kappalettasi",
+  "Describe a song": "Kuvaile kappale",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Kirjoita sanat ja merkitse [verse] ja [chorus] osien yläpuolelle",
+  "Lyrics written for you": "Sanat kirjoitetaan puolestasi",
+  "Your own lyrics": "Omat sanasi",
+  "No lyrics, only music": "Ei sanoja, pelkkää musiikkia",
+  "Song length: %1": "Kappaleen pituus: %1",
+  "Pause": "Keskeytä",
+  "Play": "Toista",
+  "No music model is running": "Musiikkimalli ei ole käynnissä",
+  "The music model didn't answer: %1": "Musiikkimalli ei vastannut: %1",
+  "The music model stopped answering: %1": "Musiikkimalli lakkasi vastaamasta: %1",
+  "The song couldn't be made": "Kappaletta ei voitu tehdä",
+  "MP3 audio": "MP3-ääni",
+  "Music with %1": "Musiikkia mallilla %1"
 }

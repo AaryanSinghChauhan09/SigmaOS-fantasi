@@ -79,5 +79,20 @@
   "About %1 s left": "சுமார் %1 வி. மீதமுள்ளது",
   "About %1 min left": "சுமார் %1 நி. மீதமுள்ளது",
   "Images with %1": "%1 மூலம் படங்கள்",
-  "Video with %1": "%1 மூலம் வீடியோ"
+  "Video with %1": "%1 மூலம் வீடியோ",
+  "%1 is making your song": "%1 உங்கள் பாடலை உருவாக்குகிறது",
+  "Describe a song": "ஒரு பாடலை விவரிக்கவும்",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "பாடல் வரிகளை எழுதவும், ஒவ்வொரு பகுதிக்கும் மேலே [verse] மற்றும் [chorus] இடவும்",
+  "Lyrics written for you": "உங்களுக்காக எழுதப்படும் பாடல் வரிகள்",
+  "Your own lyrics": "உங்கள் சொந்த பாடல் வரிகள்",
+  "No lyrics, only music": "வரிகள் இல்லை, இசை மட்டும்",
+  "Song length: %1": "பாடலின் நீளம்: %1",
+  "Pause": "இடைநிறுத்து",
+  "Play": "இயக்கு",
+  "No music model is running": "எந்த இசை மாதிரியும் இயங்கவில்லை",
+  "The music model didn't answer: %1": "இசை மாதிரி பதிலளிக்கவில்லை: %1",
+  "The music model stopped answering: %1": "இசை மாதிரி பதிலளிப்பதை நிறுத்தியது: %1",
+  "The song couldn't be made": "பாடலை உருவாக்க முடியவில்லை",
+  "MP3 audio": "MP3 ஆடியோ",
+  "Music with %1": "%1 மூலம் இசை"
 }

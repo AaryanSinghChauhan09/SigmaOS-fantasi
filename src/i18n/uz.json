@@ -79,5 +79,20 @@
   "About %1 s left": "Taxminan %1 s qoldi",
   "About %1 min left": "Taxminan %1 daq qoldi",
   "Images with %1": "%1 bilan rasmlar",
-  "Video with %1": "%1 bilan video"
+  "Video with %1": "%1 bilan video",
+  "%1 is making your song": "%1 qoʻshigʻingizni yaratmoqda",
+  "Describe a song": "Qoʻshiqni tasvirlang",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Qoʻshiq matnini yozing, qismlar ustiga [verse] va [chorus] qoʻying",
+  "Lyrics written for you": "Matn siz uchun yoziladi",
+  "Your own lyrics": "Oʻz matningiz",
+  "No lyrics, only music": "Matnsiz, faqat musiqa",
+  "Song length: %1": "Qoʻshiq davomiyligi: %1",
+  "Pause": "Pauza",
+  "Play": "Ijro etish",
+  "No music model is running": "Hech qanday musiqa modeli ishlamayapti",
+  "The music model didn't answer: %1": "Musiqa modeli javob bermadi: %1",
+  "The music model stopped answering: %1": "Musiqa modeli javob berishni toʻxtatdi: %1",
+  "The song couldn't be made": "Qoʻshiqni yaratib boʻlmadi",
+  "MP3 audio": "MP3 audio",
+  "Music with %1": "%1 bilan musiqa"
 }

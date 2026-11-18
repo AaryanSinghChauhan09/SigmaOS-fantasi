@@ -79,5 +79,20 @@
   "About %1 s left": "Atlikušas aptuveni %1 s",
   "About %1 min left": "Atlikušas aptuveni %1 min",
   "Images with %1": "Attēli ar %1",
-  "Video with %1": "Video ar %1"
+  "Video with %1": "Video ar %1",
+  "%1 is making your song": "%1 veido jūsu dziesmu",
+  "Describe a song": "Aprakstiet dziesmu",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Uzrakstiet dziesmas vārdus, virs attiecīgajām daļām norādot [verse] un [chorus]",
+  "Lyrics written for you": "Vārdi tiek uzrakstīti jūsu vietā",
+  "Your own lyrics": "Jūsu pašu vārdi",
+  "No lyrics, only music": "Bez vārdiem, tikai mūzika",
+  "Song length: %1": "Dziesmas garums: %1",
+  "Pause": "Pauzēt",
+  "Play": "Atskaņot",
+  "No music model is running": "Nedarbojas neviens mūzikas modelis",
+  "The music model didn't answer: %1": "Mūzikas modelis neatbildēja: %1",
+  "The music model stopped answering: %1": "Mūzikas modelis pārstāja atbildēt: %1",
+  "The song couldn't be made": "Dziesmu neizdevās izveidot",
+  "MP3 audio": "MP3 audio",
+  "Music with %1": "Mūzika ar %1"
 }

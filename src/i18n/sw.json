@@ -79,5 +79,20 @@
   "About %1 s left": "Zimebaki takriban sek. %1",
   "About %1 min left": "Zimebaki takriban dak. %1",
   "Images with %1": "Picha kwa %1",
-  "Video with %1": "Video kwa %1"
+  "Video with %1": "Video kwa %1",
+  "%1 is making your song": "%1 inatengeneza wimbo wako",
+  "Describe a song": "Eleza wimbo",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Andika maneno ya wimbo, ukiweka [verse] na [chorus] juu ya sehemu zake",
+  "Lyrics written for you": "Maneno ya wimbo yanaandikwa kwa ajili yako",
+  "Your own lyrics": "Maneno yako mwenyewe",
+  "No lyrics, only music": "Bila maneno, muziki pekee",
+  "Song length: %1": "Urefu wa wimbo: %1",
+  "Pause": "Sitisha",
+  "Play": "Cheza",
+  "No music model is running": "Hakuna modeli ya muziki inayofanya kazi",
+  "The music model didn't answer: %1": "Modeli ya muziki haikujibu: %1",
+  "The music model stopped answering: %1": "Modeli ya muziki iliacha kujibu: %1",
+  "The song couldn't be made": "Wimbo haukuweza kutengenezwa",
+  "MP3 audio": "Sauti ya MP3",
+  "Music with %1": "Muziki kwa %1"
 }

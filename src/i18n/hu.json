@@ -79,5 +79,20 @@
   "About %1 s left": "Kb. %1 mp van hátra",
   "About %1 min left": "Kb. %1 perc van hátra",
   "Images with %1": "Képek ezzel: %1",
-  "Video with %1": "Videó ezzel: %1"
+  "Video with %1": "Videó ezzel: %1",
+  "%1 is making your song": "%1 készíti a dalodat",
+  "Describe a song": "Írj le egy dalt",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Írd meg a dalszöveget, a részek fölé írt [verse] és [chorus] címkékkel",
+  "Lyrics written for you": "Neked írt dalszöveg",
+  "Your own lyrics": "Saját dalszöveg",
+  "No lyrics, only music": "Nincs szöveg, csak zene",
+  "Song length: %1": "A dal hossza: %1",
+  "Pause": "Szünet",
+  "Play": "Lejátszás",
+  "No music model is running": "Nem fut zenemodell",
+  "The music model didn't answer: %1": "A zenemodell nem válaszolt: %1",
+  "The music model stopped answering: %1": "A zenemodell nem válaszol tovább: %1",
+  "The song couldn't be made": "A dalt nem sikerült elkészíteni",
+  "MP3 audio": "MP3-hang",
+  "Music with %1": "Zene ezzel: %1"
 }

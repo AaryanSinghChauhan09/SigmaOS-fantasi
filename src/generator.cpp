@@ -15,6 +15,9 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QImageReader>
+#include <QPainter>
+#include <QtEndian>
+#include <utility>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QNetworkReply>
@@ -47,10 +50,12 @@ QString stageFor(const QString &server) {
 
 } // namespace
 
-Generator::Generator(Models *models, const QString &folder, QObject *parent)
+Generator::Generator(Models *models, const QString &folder, const QString &musicFolder, QObject *parent)
     : QObject(parent), m_models(models),
       m_folder(!folder.isEmpty() ? folder
-                                 : QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Generated") {
+                                 : QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Generated"),
+      m_musicFolder(!musicFolder.isEmpty() ? musicFolder
+                                           : QStandardPaths::writableLocation(QStandardPaths::MusicLocation) + "/Generated") {
     // A job has no change signal of its own, so it is asked about while it
     // runs, and only then: a request at a time, half a second apart.
     m_tick.setInterval(1000);
@@ -223,6 +228,7 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
 
     m_prompt = prompt.trimmed();
     m_pending.clear();
+    m_unposted.clear();
     m_error.clear();
     m_submitting = true;
     m_cancelling = false;
@@ -236,6 +242,7 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
     emit changed();
 
     m_video = false;
+    m_song = false;
     submit("/sdcpp/v1/img_gen", body);
 }
 
@@ -247,13 +254,15 @@ void Generator::submit(const QString &path, const QJsonObject &body) {
         m_submitting = false;
         if (reply->error() != QNetworkReply::NoError || answer.value("id").toString().isEmpty()) {
             const QString said = errorText(answer);
-            finish(!said.isEmpty() ? said : tr("The image model didn't answer: %1").arg(reply->errorString()));
+            finish(!said.isEmpty() ? said
+                                   : (m_song ? tr("The music model didn't answer: %1") : tr("The image model didn't answer: %1"))
+                                         .arg(reply->errorString()));
             return;
         }
         m_job = answer.value("id").toString();
         // Cancelled while the job was being submitted.
         if (m_cancelling)
-            sendJob("POST", "/sdcpp/v1/jobs/" + m_job + "/cancel")->deleteLater();
+            sendJob("POST", jobPath("cancel"))->deleteLater();
         emit changed();
         m_poll.start();
     });
@@ -310,8 +319,10 @@ void Generator::makeVideo(const QString &prompt, int width, int height, const QS
     m_jobOrigin = origin;
     m_jobKey = m_models->videoKey();
     m_video = true;
+    m_song = false;
     m_prompt = prompt.trimmed();
     m_pending.clear();
+    m_unposted.clear();
     m_error.clear();
     m_submitting = true;
     m_cancelling = false;
@@ -341,6 +352,143 @@ void Generator::makeVideo(const QString &prompt, int width, int height, const QS
     });
 }
 
+void Generator::makeSong(const QString &prompt, const QString &lyrics, int seconds, const QString &language) {
+    if (busy() || prompt.trimmed().isEmpty())
+        return;
+    if (m_origin.isEmpty() || !m_models->music()) {
+        m_error = tr("No music model is running");
+        emit changed();
+        return;
+    }
+    m_jobOrigin = m_origin;
+    m_jobKey = m_key;
+    m_video = false;
+    m_song = true;
+    m_rendering = false;
+    m_prompt = prompt.trimmed();
+    m_pending.clear();
+    m_unposted.clear();
+    m_error.clear();
+    m_submitting = true;
+    m_cancelling = false;
+    // Two steps: written, then rendered.
+    m_stage = "conditioning";
+    m_step = 0;
+    m_totalSteps = 2;
+    m_previews.clear();
+    m_image.clear();
+    m_locker = std::make_unique<QEventLoopLocker>();
+    emit changed();
+
+    startClock(QString("%1/song/%2").arg(m_models->modelId()).arg(seconds));
+    // The model takes a language by its plain code: pt, not pt-BR.
+    submit("/lm", {{"caption", m_prompt}, {"lyrics", lyrics.trimmed()}, {"duration", seconds},
+                   {"vocal_language", language.section('-', 0, 0)}});
+}
+
+QString Generator::jobPath(const QString &action) const {
+    if (m_song)
+        return "/job?id=" + m_job + (action.isEmpty() ? QString() : "&" + action + "=1");
+    return "/sdcpp/v1/jobs/" + m_job + (action.isEmpty() ? QString() : "/" + action);
+}
+
+void Generator::followSong(const QString &status) {
+    if (status == "failed") {
+        finish(tr("The song couldn't be made"));
+    } else if (status == "cancelled") {
+        finish();
+    } else if (status != "done") {
+        m_poll.start();
+    } else {
+        QNetworkReply *reply = sendJob("GET", jobPath("result"));
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            reply->deleteLater();
+            const QByteArray body = reply->readAll();
+            if (reply->error() != QNetworkReply::NoError) {
+                finish(tr("The music model stopped answering: %1").arg(reply->errorString()));
+            } else if (m_cancelling) {
+                finish();
+            } else if (!m_rendering) {
+                // The song written out: its lyrics, tempo, key and notes,
+                // which go back to be rendered as they are.
+                const QJsonObject song = QJsonDocument::fromJson(body).array().first().toObject();
+                if (song.isEmpty()) {
+                    finish(tr("The song couldn't be made"));
+                    return;
+                }
+                m_lyrics = song.value("lyrics").toString();
+                m_rendering = true;
+                m_job.clear();
+                m_submitting = true;
+                m_stage = "sampling";
+                m_step = 1;
+                emit changed();
+                submit("/synth", song);
+            } else {
+                // Parts between lines of a boundary, which the first line
+                // is: the MP3 is the first part's body.
+                const QByteArray boundary = "\r\n" + body.left(body.indexOf("\r\n"));
+                const qsizetype start = body.indexOf("\r\n\r\n") + 4;
+                m_pending = start < 4 ? QByteArray() : body.mid(start, body.indexOf(boundary, start) - start);
+                if (m_pending.isEmpty()) {
+                    finish(tr("The song couldn't be made"));
+                    return;
+                }
+                m_step = m_totalSteps;
+                m_stage = "saving";
+                // Remembered, so the next one as long knows from the start.
+                QSettings().setValue("durations/" + m_durationKey, m_clock.elapsed() / 1000.0);
+                emit changed();
+                if (save())
+                    posterSong();
+                else
+                    finish(m_error);
+            }
+        });
+    }
+}
+
+QString Generator::songTitle(const QString &lyrics, const QString &prompt) {
+    QString first, chorus;
+    bool inChorus = false;
+    for (const QString &line : lyrics.split('\n')) {
+        const QString words = line.trimmed();
+        // A line in brackets names a part or how it's played, and isn't sung.
+        if (words.startsWith('[')) {
+            // Not a pre-chorus, which leads up to one.
+            inChorus = words.startsWith("[chorus", Qt::CaseInsensitive);
+        } else if (!words.isEmpty()) {
+            if (first.isEmpty())
+                first = words;
+            if (inChorus) {
+                chorus = words;
+                break;
+            }
+        }
+    }
+    // Without words, what was asked for, up to its first comma or full stop.
+    static const QRegularExpression pause("[,.;:\\n]");
+    QString title = !chorus.isEmpty() ? chorus : !first.isEmpty() ? first : prompt.section(pause, 0, 0).simplified();
+    static const QRegularExpression trailing("[\\s,.;:!?…-]+$");
+    title.remove(trailing);
+    return title.size() > 48 ? title.left(47).trimmed() + "…" : title;
+}
+
+QByteArray Generator::songWave(const QByteArray &samples) {
+    // Each bar is how loud its share of the song is on the whole, against
+    // the loudest of them: a song's peaks are all alike, its parts are not.
+    // Without a sound to read (no ffmpeg), it lies flat.
+    QByteArray wave(waveBars, '\0');
+    const qsizetype count = samples.size() / 2;
+    QList<qint64> sums(waveBars, 0);
+    for (qsizetype i = 0; i < count; ++i)
+        sums[i * waveBars / count] += std::abs(int(qFromLittleEndian<qint16>(samples.constData() + i * 2)));
+    const qint64 loudest = *std::max_element(sums.begin(), sums.end());
+    for (int i = 0; loudest > 0 && i < waveBars; ++i)
+        wave[i] = char(sums[i] * 255 / loudest);
+    return wave;
+}
+
 void Generator::cancel() {
     if (!busy() || m_cancelling)
         return;
@@ -348,7 +496,7 @@ void Generator::cancel() {
     // The server stops at its next checkpoint; the job is followed until it
     // says it has, since it may finish first.
     if (!m_job.isEmpty()) {
-        QNetworkReply *reply = sendJob("POST", "/sdcpp/v1/jobs/" + m_job + "/cancel");
+        QNetworkReply *reply = sendJob("POST", jobPath("cancel"));
         connect(reply, &QNetworkReply::finished, reply, &QObject::deleteLater);
     }
     emit changed();
@@ -357,15 +505,20 @@ void Generator::cancel() {
 void Generator::poll() {
     if (m_job.isEmpty())
         return;
-    QNetworkReply *reply = sendJob("GET", "/sdcpp/v1/jobs/" + m_job);
+    QNetworkReply *reply = sendJob("GET", jobPath());
     connect(reply, &QNetworkReply::finished, this, [this, reply] {
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError) {
             const QString said = errorText(parse(reply));
-            finish(!said.isEmpty() ? said : tr("The image model stopped answering: %1").arg(reply->errorString()));
+            finish(!said.isEmpty() ? said
+                                   : (m_song ? tr("The music model stopped answering: %1") : tr("The image model stopped answering: %1"))
+                                         .arg(reply->errorString()));
             return;
         }
-        follow(parse(reply));
+        if (m_song)
+            followSong(parse(reply).value("status").toString());
+        else
+            follow(parse(reply));
     });
 }
 
@@ -462,31 +615,40 @@ QString Generator::fileName(const QString &prompt, const QDateTime &when) {
 }
 
 bool Generator::save() {
-    if (!QDir().mkpath(m_folder)) {
-        m_error = tr("Couldn't make the folder %1").arg(m_folder);
-        return false;
+    // A song goes with the user's music, its poster with the images.
+    const QString folder = m_song ? m_musicFolder : m_folder;
+    for (const QString &needed : {folder, m_folder}) {
+        if (!QDir().mkpath(needed)) {
+            m_error = tr("Couldn't make the folder %1").arg(needed);
+            return false;
+        }
     }
     // Written beside its final name, then renamed into place: the history
     // never sees half a file, and a rename never replaces another image the
     // app or the command line saved in the same second.
-    const QString extension = m_video ? ".webm" : ".png";
-    QTemporaryFile temporary(m_folder + "/.fantasi-XXXXXX" + extension);
+    const QString extension = m_song ? ".mp3" : m_video ? ".webm" : ".png";
+    QTemporaryFile temporary(folder + "/.fantasi-XXXXXX" + extension);
     if (!temporary.open() || temporary.write(m_pending) != m_pending.size() || !temporary.flush()) {
-        m_error = tr("Couldn't save the image in %1").arg(m_folder);
+        m_error = tr("Couldn't save the image in %1").arg(folder);
         return false;
     }
     // A temporary file is private; the image is as readable as a new file.
     temporary.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadGroup | QFile::ReadOther);
-    const QString base = m_folder + "/" + fileName(m_prompt, QDateTime::currentDateTime());
+    const QString base = fileName(m_prompt, QDateTime::currentDateTime());
     for (int n = 1; n < 1000; ++n) {
         const QString stem = base + (n == 1 ? QString() : "-" + QString::number(n));
-        const QString path = stem + extension;
-        // A clip's poster takes the name beside it, so both must be free.
-        if (!QFileInfo::exists(path) && !(m_video && QFileInfo::exists(stem + ".png")) && temporary.rename(path)) {
+        const QString path = folder + "/" + stem + extension;
+        // A clip's or a song's poster takes the same name among the images, so both must be free.
+        if (!QFileInfo::exists(path) && !(extension != ".png" && QFileInfo::exists(m_folder + "/" + stem + ".png"))
+            && temporary.rename(path)) {
             temporary.setAutoRemove(false);
             m_pending.clear();
             m_image = QUrl::fromLocalFile(path).toString();
-            if (m_video) {
+            if (m_song) {
+                // Not saved, as far as anyone is told, until its poster is too.
+                m_unposted = path;
+                return true;
+            } else if (m_video) {
                 if (!m_firstFrame.isNull()) {
                     writePoster(path, m_firstFrame, m_prompt);
                 } else {
@@ -505,33 +667,81 @@ bool Generator::save() {
             return true;
         }
     }
-    m_error = tr("Couldn't save the image in %1").arg(m_folder);
+    m_error = tr("Couldn't save the image in %1").arg(folder);
     return false;
 }
 
-void Generator::writePoster(const QString &clip, const QImage &frame, const QString &prompt) {
+void Generator::posterSong() {
+    // A song shows by its own shape, taken from its sound as ffmpeg plays it out.
+    // Busy until it's done, and the app kept running, on a second try too.
+    m_postering = true;
+    if (!m_locker)
+        m_locker = std::make_unique<QEventLoopLocker>();
+    auto *sound = new QProcess(this);
+    auto done = [this, sound] {
+        sound->deleteLater();
+        m_postering = false;
+        const QByteArray wave = songWave(sound->readAllStandardOutput());
+        // Drawn as the window draws it, for a file manager to show.
+        QImage shape(1200, 400, QImage::Format_ARGB32);
+        shape.fill(Qt::transparent);
+        QPainter painter(&shape);
+        const double slot = double(shape.width()) / waveBars;
+        for (int i = 0; i < wave.size(); ++i) {
+            const double height = std::max(4.0, uchar(wave[i]) / 255.0 * shape.height());
+            painter.fillRect(QRectF(i * slot + slot * 0.2, (shape.height() - height) / 2, slot * 0.6, height), QColor(128, 128, 128));
+        }
+        painter.end();
+        // Without its poster the history can't list the song, so it stays
+        // unsaved, to try again.
+        if (writePoster(m_unposted, shape, m_prompt, songTitle(m_lyrics, m_prompt), wave))
+            emit saved(std::exchange(m_unposted, {}));
+        finish(m_error);
+    };
+    // Without ffmpeg the song still gets its poster, flat.
+    connect(sound, &QProcess::finished, this, done);
+    connect(sound, &QProcess::errorOccurred, this, [sound, done](QProcess::ProcessError error) {
+        if (error == QProcess::FailedToStart)
+            done();
+    });
+    sound->start("ffmpeg", {"-loglevel", "error", "-i", m_unposted, "-ac", "1", "-ar", "8000", "-f", "s16le", "-"});
+}
+
+bool Generator::writePoster(const QString &media, const QImage &frame, const QString &prompt, const QString &title,
+                            const QByteArray &wave) {
+    const QFileInfo info(media);
+    const bool song = info.suffix() == "mp3";
     QImage poster = frame.isNull() ? QImage(864, 480, QImage::Format_RGB32) : frame;
     if (frame.isNull())
         poster.fill(Qt::black);
-    // The history reads a prompt from here, and finds the clip it stands for.
+    // The history reads a prompt from here, and finds the clip or the song it
+    // stands for.
     poster.setText("parameters", prompt);
-    poster.setText("fantasi-video", QFileInfo(clip).fileName());
-    QSaveFile file(clip.chopped(5) + ".png");
+    poster.setText(song ? "fantasi-audio" : "fantasi-video", info.fileName());
+    if (song) {
+        poster.setText("fantasi-title", title);
+        poster.setText("fantasi-wave", QString::fromLatin1(wave.toHex()));
+    }
+    // A clip's poster is beside it; a song's is among the images.
+    QSaveFile file(m_folder + "/" + info.completeBaseName() + ".png");
     file.setDirectWriteFallback(false);
     if (file.open(QIODevice::WriteOnly) && poster.save(&file, "PNG") && file.commit()) {
-        emit posterSaved(clip);
-    } else {
-        m_error = tr("Couldn't save the clip's poster in %1").arg(m_folder);
-        emit changed();
-        emit posterFailed(m_error);
+        m_error.clear();
+        emit posterSaved(media);
+        return true;
     }
+    m_error = song ? tr("Couldn't save the image in %1").arg(m_folder) : tr("Couldn't save the clip's poster in %1").arg(m_folder);
+    emit changed();
+    emit posterFailed(m_error);
+    return false;
 }
 
 void Generator::retrySave() {
-    if (m_pending.isEmpty() || busy())
+    if (!unsaved() || busy())
         return;
     m_error.clear();
-    save();
+    if (!m_unposted.isEmpty() || (save() && m_song))
+        posterSong();
     emit changed();
 }
 

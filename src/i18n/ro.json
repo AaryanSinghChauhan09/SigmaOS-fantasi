@@ -79,5 +79,20 @@
   "About %1 s left": "Mai sunt aproximativ %1 s",
   "About %1 min left": "Mai sunt aproximativ %1 min",
   "Images with %1": "Imagini cu %1",
-  "Video with %1": "Video cu %1"
+  "Video with %1": "Video cu %1",
+  "%1 is making your song": "%1 îți creează melodia",
+  "Describe a song": "Descrie o melodie",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Scrie versurile, cu [verse] și [chorus] deasupra părților lor",
+  "Lyrics written for you": "Versuri scrise pentru tine",
+  "Your own lyrics": "Propriile tale versuri",
+  "No lyrics, only music": "Fără versuri, doar muzică",
+  "Song length: %1": "Durata melodiei: %1",
+  "Pause": "Pauză",
+  "Play": "Redă",
+  "No music model is running": "Niciun model de muzică nu rulează",
+  "The music model didn't answer: %1": "Modelul de muzică nu a răspuns: %1",
+  "The music model stopped answering: %1": "Modelul de muzică a încetat să răspundă: %1",
+  "The song couldn't be made": "Melodia nu a putut fi creată",
+  "MP3 audio": "Audio MP3",
+  "Music with %1": "Muzică cu %1"
 }

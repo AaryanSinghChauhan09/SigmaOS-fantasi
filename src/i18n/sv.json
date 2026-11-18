@@ -79,5 +79,20 @@
   "About %1 s left": "Cirka %1 s kvar",
   "About %1 min left": "Cirka %1 min kvar",
   "Images with %1": "Bilder med %1",
-  "Video with %1": "Video med %1"
+  "Video with %1": "Video med %1",
+  "%1 is making your song": "%1 skapar din låt",
+  "Describe a song": "Beskriv en låt",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Skriv texten, med [verse] och [chorus] ovanför respektive del",
+  "Lyrics written for you": "Text skriven åt dig",
+  "Your own lyrics": "Din egen text",
+  "No lyrics, only music": "Ingen text, bara musik",
+  "Song length: %1": "Låtens längd: %1",
+  "Pause": "Pausa",
+  "Play": "Spela upp",
+  "No music model is running": "Ingen musikmodell körs",
+  "The music model didn't answer: %1": "Musikmodellen svarade inte: %1",
+  "The music model stopped answering: %1": "Musikmodellen slutade svara: %1",
+  "The song couldn't be made": "Låten kunde inte skapas",
+  "MP3 audio": "MP3-ljud",
+  "Music with %1": "Musik med %1"
 }

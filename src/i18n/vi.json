@@ -79,5 +79,20 @@
   "About %1 s left": "Còn khoảng %1 giây",
   "About %1 min left": "Còn khoảng %1 phút",
   "Images with %1": "Ảnh với %1",
-  "Video with %1": "Video với %1"
+  "Video with %1": "Video với %1",
+  "%1 is making your song": "%1 đang tạo bài hát của bạn",
+  "Describe a song": "Mô tả một bài hát",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Viết lời bài hát, đặt [verse] và [chorus] phía trên từng phần",
+  "Lyrics written for you": "Lời được viết giúp bạn",
+  "Your own lyrics": "Lời của riêng bạn",
+  "No lyrics, only music": "Không lời, chỉ có nhạc",
+  "Song length: %1": "Độ dài bài hát: %1",
+  "Pause": "Tạm dừng",
+  "Play": "Phát",
+  "No music model is running": "Không có mô hình tạo nhạc nào đang chạy",
+  "The music model didn't answer: %1": "Mô hình tạo nhạc không phản hồi: %1",
+  "The music model stopped answering: %1": "Mô hình tạo nhạc đã ngừng phản hồi: %1",
+  "The song couldn't be made": "Không tạo được bài hát",
+  "MP3 audio": "Âm thanh MP3",
+  "Music with %1": "Nhạc với %1"
 }

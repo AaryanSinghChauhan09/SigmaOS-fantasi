@@ -105,5 +105,20 @@
   "About %1 s left": "About %1 s left",
   "About %1 min left": "About %1 min left",
   "Images with %1": "Images with %1",
-  "Video with %1": "Video with %1"
+  "Video with %1": "Video with %1",
+  "%1 is making your song": "%1 is making your song",
+  "Describe a song": "Describe a song",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Write the lyrics, with [verse] and [chorus] over their parts",
+  "Lyrics written for you": "Lyrics written for you",
+  "Your own lyrics": "Your own lyrics",
+  "No lyrics, only music": "No lyrics, only music",
+  "Song length: %1": "Song length: %1",
+  "Pause": "Pause",
+  "Play": "Play",
+  "No music model is running": "No music model is running",
+  "The music model didn't answer: %1": "The music model didn't answer: %1",
+  "The music model stopped answering: %1": "The music model stopped answering: %1",
+  "The song couldn't be made": "The song couldn't be made",
+  "MP3 audio": "MP3 audio",
+  "Music with %1": "Music with %1"
 }

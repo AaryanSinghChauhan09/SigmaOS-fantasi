@@ -79,5 +79,20 @@
   "About %1 s left": "लगभग %1 से. बाकी",
   "About %1 min left": "लगभग %1 मि. बाकी",
   "Images with %1": "%1 से चित्र",
-  "Video with %1": "%1 से वीडियो"
+  "Video with %1": "%1 से वीडियो",
+  "%1 is making your song": "%1 आपका गाना बना रहा है",
+  "Describe a song": "एक गाने का वर्णन करें",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "गाने के बोल लिखें, हर हिस्से के ऊपर [verse] और [chorus] लगाकर",
+  "Lyrics written for you": "आपके लिए लिखे गए बोल",
+  "Your own lyrics": "आपके अपने बोल",
+  "No lyrics, only music": "बोल नहीं, सिर्फ़ संगीत",
+  "Song length: %1": "गाने की लंबाई: %1",
+  "Pause": "रोकें",
+  "Play": "चलाएँ",
+  "No music model is running": "कोई म्यूज़िक मॉडल नहीं चल रहा",
+  "The music model didn't answer: %1": "म्यूज़िक मॉडल ने जवाब नहीं दिया: %1",
+  "The music model stopped answering: %1": "म्यूज़िक मॉडल ने जवाब देना बंद कर दिया: %1",
+  "The song couldn't be made": "गाना नहीं बन सका",
+  "MP3 audio": "MP3 ऑडियो",
+  "Music with %1": "%1 से संगीत"
 }

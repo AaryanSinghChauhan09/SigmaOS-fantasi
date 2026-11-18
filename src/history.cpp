@@ -8,7 +8,8 @@
 #include <QtConcurrent>
 #include <algorithm>
 
-History::History(const QString &folder, QObject *parent) : QAbstractListModel(parent), m_folder(folder) {
+History::History(const QString &folder, const QString &musicFolder, QObject *parent)
+    : QAbstractListModel(parent), m_folder(folder), m_musicFolder(musicFolder) {
     m_debounce.setSingleShot(true);
     m_debounce.setInterval(150);
     connect(&m_watcher, &QFileSystemWatcher::directoryChanged, this, [this] { m_debounce.start(); });
@@ -83,7 +84,7 @@ QString pngText(const QString &path, const QByteArray &keyword) {
 
 } // namespace
 
-History::Entry History::readEntry(const QString &path) {
+History::Entry History::readEntry(const QString &path, const QString &musicFolder) {
     Entry entry;
     entry.path = path;
     entry.modified = QFileInfo(path).lastModified();
@@ -93,6 +94,13 @@ History::Entry History::readEntry(const QString &path) {
     const QFileInfo poster(path);
     if (pngText(path, "fantasi-video") == poster.completeBaseName() + ".webm")
         entry.video = poster.absoluteDir().filePath(poster.completeBaseName() + ".webm");
+    // A song's poster likewise, the song being with the music.
+    if (!musicFolder.isEmpty() && pngText(path, "fantasi-audio") == poster.completeBaseName() + ".mp3") {
+        entry.audio = musicFolder + "/" + poster.completeBaseName() + ".mp3";
+        entry.title = pngText(path, "fantasi-title");
+        for (const char level : QByteArray::fromHex(pngText(path, "fantasi-wave").toLatin1()))
+            entry.wave << uchar(level) / 255.0;
+    }
     const qsizetype settings = parameters.lastIndexOf("\nSteps: ");
     entry.prompt = (settings >= 0 ? parameters.left(settings) : parameters).trimmed();
     static const QRegularExpression seed("(?:^|, )Seed: (-?\\d+)"), size("(?:^|, )Size: (\\d+x\\d+)");
@@ -104,10 +112,10 @@ History::Entry History::readEntry(const QString &path) {
     return entry;
 }
 
-QList<History::Entry> History::scan(const QString &folder) {
+QList<History::Entry> History::scan(const QString &folder, const QString &musicFolder) {
     QList<Entry> entries;
     for (const QFileInfo &info : QDir(folder).entryInfoList({"*.png", "*.jpg", "*.jpeg", "*.webp"}, QDir::Files))
-        entries << readEntry(info.filePath());
+        entries << readEntry(info.filePath(), musicFolder);
     std::sort(entries.begin(), entries.end(), [](const Entry &a, const Entry &b) {
         return a.modified != b.modified ? a.modified > b.modified : a.path > b.path;
     });
@@ -134,7 +142,7 @@ void History::rescan() {
         m_again = true;
         return;
     }
-    m_scan.setFuture(QtConcurrent::run(&History::scan, m_folder));
+    m_scan.setFuture(QtConcurrent::run(&History::scan, m_folder, m_musicFolder));
 }
 
 int History::rowCount(const QModelIndex &parent) const { return parent.isValid() ? 0 : int(m_entries.size()); }
@@ -152,6 +160,12 @@ QVariant History::data(const QModelIndex &index, int role) const {
         return entry.prompt;
     case VideoRole:
         return entry.video.isEmpty() ? QString() : QUrl::fromLocalFile(entry.video).toString();
+    case AudioRole:
+        return entry.audio.isEmpty() ? QString() : QUrl::fromLocalFile(entry.audio).toString();
+    case TitleRole:
+        return entry.title;
+    case WaveRole:
+        return entry.wave;
     case SeedRole:
         return entry.seed;
     case SizeRole:
@@ -162,7 +176,16 @@ QVariant History::data(const QModelIndex &index, int role) const {
 }
 
 QHash<int, QByteArray> History::roleNames() const {
-    return {{UrlRole, "url"}, {PathRole, "path"}, {PromptRole, "prompt"}, {SeedRole, "seed"}, {SizeRole, "size"}, {VideoRole, "video"}};
+    return {{UrlRole, "url"}, {PathRole, "path"}, {PromptRole, "prompt"}, {SeedRole, "seed"}, {SizeRole, "size"}, {VideoRole, "video"},
+            {AudioRole, "audio"}, {TitleRole, "title"}, {WaveRole, "wave"}};
+}
+
+QVariantMap History::song(const QString &url) const {
+    const QString path = QUrl(url).toLocalFile();
+    for (const Entry &entry : m_entries)
+        if (!path.isEmpty() && entry.audio == path)
+            return {{"title", entry.title}, {"wave", entry.wave}};
+    return {{"title", QString()}, {"wave", QVariantList()}};
 }
 
 bool History::remove(int row) {
@@ -170,9 +193,10 @@ bool History::remove(int row) {
         return false;
     if (!QFile::moveToTrash(m_entries.at(row).path))
         return false;
-    // A clip goes with its poster.
-    if (const QString clip = m_entries.at(row).video; !clip.isEmpty())
-        QFile::moveToTrash(clip);
+    // A clip or a song goes with its poster.
+    for (const QString &media : {m_entries.at(row).video, m_entries.at(row).audio})
+        if (!media.isEmpty())
+            QFile::moveToTrash(media);
     beginRemoveRows({}, row, row);
     m_entries.removeAt(row);
     endRemoveRows();

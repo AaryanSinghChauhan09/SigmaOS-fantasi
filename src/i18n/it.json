@@ -79,5 +79,20 @@
   "About %1 s left": "Circa %1 s rimanenti",
   "About %1 min left": "Circa %1 min rimanenti",
   "Images with %1": "Immagini con %1",
-  "Video with %1": "Video con %1"
+  "Video with %1": "Video con %1",
+  "%1 is making your song": "%1 sta creando la tua canzone",
+  "Describe a song": "Descrivi una canzone",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "Scrivi il testo, con [verse] e [chorus] sopra le rispettive parti",
+  "Lyrics written for you": "Testo scritto per te",
+  "Your own lyrics": "Il tuo testo",
+  "No lyrics, only music": "Niente testo, solo musica",
+  "Song length: %1": "Durata della canzone: %1",
+  "Pause": "Pausa",
+  "Play": "Riproduci",
+  "No music model is running": "Nessun modello musicale in esecuzione",
+  "The music model didn't answer: %1": "Il modello musicale non ha risposto: %1",
+  "The music model stopped answering: %1": "Il modello musicale ha smesso di rispondere: %1",
+  "The song couldn't be made": "Impossibile creare la canzone",
+  "MP3 audio": "Audio MP3",
+  "Music with %1": "Musica con %1"
 }

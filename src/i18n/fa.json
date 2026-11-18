@@ -79,5 +79,20 @@
   "About %1 s left": "حدود %1 ثانیه مانده",
   "About %1 min left": "حدود %1 دقیقه مانده",
   "Images with %1": "تصویر با %1",
-  "Video with %1": "ویدیو با %1"
+  "Video with %1": "ویدیو با %1",
+  "%1 is making your song": "مدل %1 در حال ساختن آهنگ شماست",
+  "Describe a song": "یک آهنگ را توصیف کنید",
+  "Write the lyrics, with [verse] and [chorus] over their parts": "متن آهنگ را بنویسید و [verse] و [chorus] را بالای هر بخش بگذارید",
+  "Lyrics written for you": "متن آهنگ برای شما نوشته می‌شود",
+  "Your own lyrics": "متن آهنگ خودتان",
+  "No lyrics, only music": "بدون کلام، فقط موسیقی",
+  "Song length: %1": "مدت آهنگ: %1",
+  "Pause": "مکث",
+  "Play": "پخش",
+  "No music model is running": "هیچ مدل موسیقی در حال اجرا نیست",
+  "The music model didn't answer: %1": "مدل موسیقی پاسخ نداد: %1",
+  "The music model stopped answering: %1": "مدل موسیقی دیگر پاسخ نمی‌دهد: %1",
+  "The song couldn't be made": "آهنگ ساخته نشد",
+  "MP3 audio": "صدای MP3",
+  "Music with %1": "موسیقی با %1"
 }
