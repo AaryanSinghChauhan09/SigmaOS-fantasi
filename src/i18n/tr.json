@@ -67,5 +67,8 @@
   "Open": "Aç",
   "Pictures": "Görseller",
   "Start from a picture": "Bir görselden başla",
-  "Stop %1 and start %2": "%1 modelini durdur ve %2 modelini başlat"
+  "Stop %1 and start %2": "%1 modelini durdur ve %2 modelini başlat",
+  "What should change?": "Ne değişsin?",
+  "Change": "Değiştir",
+  "Change it: say what should change": "Görseli değiştir: neyin değişeceğini yaz"
 }

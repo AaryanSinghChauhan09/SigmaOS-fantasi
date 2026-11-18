@@ -67,5 +67,8 @@
   "Open": "Atidaryti",
   "Pictures": "Paveikslėliai",
   "Start from a picture": "Pradėti nuo paveikslėlio",
-  "Stop %1 and start %2": "Sustabdyti %1 ir paleisti %2"
+  "Stop %1 and start %2": "Sustabdyti %1 ir paleisti %2",
+  "What should change?": "Ką pakeisti?",
+  "Change": "Keisti",
+  "Change it: say what should change": "Keisti vaizdą: aprašyti, ką pakeisti"
 }

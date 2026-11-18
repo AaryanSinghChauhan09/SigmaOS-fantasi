@@ -67,5 +67,8 @@
   "Open": "פתיחה",
   "Pictures": "תמונות",
   "Start from a picture": "התחלה מתמונה",
-  "Stop %1 and start %2": "עצירת %1 והפעלת %2"
+  "Stop %1 and start %2": "עצירת %1 והפעלת %2",
+  "What should change?": "מה צריך לשנות?",
+  "Change": "שינוי",
+  "Change it: say what should change": "שינוי התמונה: תיאור של מה שצריך לשנות"
 }

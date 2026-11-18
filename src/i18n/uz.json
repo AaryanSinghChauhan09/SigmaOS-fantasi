@@ -67,5 +67,8 @@
   "Open": "Ochish",
   "Pictures": "Rasmlar",
   "Start from a picture": "Rasmdan boshlash",
-  "Stop %1 and start %2": "%1 ni toʻxtatib, %2 ni ishga tushirish"
+  "Stop %1 and start %2": "%1 ni toʻxtatib, %2 ni ishga tushirish",
+  "What should change?": "Nimani oʻzgartirish kerak?",
+  "Change": "Oʻzgartirish",
+  "Change it: say what should change": "Rasmni oʻzgartirish: nimani oʻzgartirish kerakligini yozing"
 }

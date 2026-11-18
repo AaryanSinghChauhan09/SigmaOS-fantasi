@@ -67,5 +67,8 @@
   "Open": "開啟",
   "Pictures": "圖片",
   "Start from a picture": "從圖片開始",
-  "Stop %1 and start %2": "停止 %1 並啟動 %2"
+  "Stop %1 and start %2": "停止 %1 並啟動 %2",
+  "What should change?": "要修改什麼？",
+  "Change": "修改",
+  "Change it: say what should change": "修改圖片：描述要修改的內容"
 }

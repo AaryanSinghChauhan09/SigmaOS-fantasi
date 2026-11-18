@@ -67,5 +67,8 @@
   "Open": "باز کردن",
   "Pictures": "تصاویر",
   "Start from a picture": "شروع از یک تصویر",
-  "Stop %1 and start %2": "توقف %1 و اجرای %2"
+  "Stop %1 and start %2": "توقف %1 و اجرای %2",
+  "What should change?": "چه چیزی باید تغییر کند؟",
+  "Change": "تغییر",
+  "Change it: say what should change": "تغییر تصویر: بنویسید چه چیزی باید تغییر کند"
 }

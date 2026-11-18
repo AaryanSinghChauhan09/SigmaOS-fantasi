@@ -67,5 +67,8 @@
   "Open": "Άνοιγμα",
   "Pictures": "Εικόνες",
   "Start from a picture": "Έναρξη από εικόνα",
-  "Stop %1 and start %2": "Διακοπή του %1 και εκκίνηση του %2"
+  "Stop %1 and start %2": "Διακοπή του %1 και εκκίνηση του %2",
+  "What should change?": "Τι πρέπει να αλλάξει;",
+  "Change": "Αλλαγή",
+  "Change it: say what should change": "Αλλαγή εικόνας: περιγραφή του τι πρέπει να αλλάξει"
 }

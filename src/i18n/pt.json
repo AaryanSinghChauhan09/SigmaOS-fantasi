@@ -67,5 +67,8 @@
   "Open": "Abrir",
   "Pictures": "Imagens",
   "Start from a picture": "Começar a partir de uma imagem",
-  "Stop %1 and start %2": "Parar %1 e iniciar %2"
+  "Stop %1 and start %2": "Parar %1 e iniciar %2",
+  "What should change?": "O que deve mudar?",
+  "Change": "Alterar",
+  "Change it: say what should change": "Alterar a imagem: descrever o que deve mudar"
 }

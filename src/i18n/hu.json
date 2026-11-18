@@ -67,5 +67,8 @@
   "Open": "Megnyitás",
   "Pictures": "Képek",
   "Start from a picture": "Kiindulás egy képből",
-  "Stop %1 and start %2": "%1 leállítása és %2 indítása"
+  "Stop %1 and start %2": "%1 leállítása és %2 indítása",
+  "What should change?": "Min változtassunk?",
+  "Change": "Módosítás",
+  "Change it: say what should change": "Kép módosítása: írd le, min kell változtatni"
 }

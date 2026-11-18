@@ -67,5 +67,8 @@
   "Open": "Åpne",
   "Pictures": "Bilder",
   "Start from a picture": "Start fra et bilde",
-  "Stop %1 and start %2": "Stopp %1 og start %2"
+  "Stop %1 and start %2": "Stopp %1 og start %2",
+  "What should change?": "Hva skal endres?",
+  "Change": "Endre",
+  "Change it: say what should change": "Endre det: si hva som skal endres"
 }

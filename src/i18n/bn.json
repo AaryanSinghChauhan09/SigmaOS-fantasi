@@ -67,5 +67,8 @@
   "Open": "খুলুন",
   "Pictures": "ছবি",
   "Start from a picture": "একটি ছবি থেকে শুরু করুন",
-  "Stop %1 and start %2": "%1 বন্ধ করে %2 চালু করুন"
+  "Stop %1 and start %2": "%1 বন্ধ করে %2 চালু করুন",
+  "What should change?": "কী বদলাতে হবে?",
+  "Change": "বদলান",
+  "Change it: say what should change": "ছবিটি বদলান: কী বদলাতে হবে তা লিখুন"
 }

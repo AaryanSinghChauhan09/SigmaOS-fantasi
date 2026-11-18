@@ -67,5 +67,8 @@
   "Open": "打开",
   "Pictures": "图片",
   "Start from a picture": "从图片开始",
-  "Stop %1 and start %2": "停止 %1 并启动 %2"
+  "Stop %1 and start %2": "停止 %1 并启动 %2",
+  "What should change?": "要修改什么？",
+  "Change": "修改",
+  "Change it: say what should change": "修改图片：描述要修改的内容"
 }

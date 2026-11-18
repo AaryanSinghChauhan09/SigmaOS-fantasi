@@ -67,5 +67,8 @@
   "Open": "खोलें",
   "Pictures": "तस्वीरें",
   "Start from a picture": "किसी तस्वीर से शुरू करें",
-  "Stop %1 and start %2": "%1 रोकें और %2 शुरू करें"
+  "Stop %1 and start %2": "%1 रोकें और %2 शुरू करें",
+  "What should change?": "क्या बदलना है?",
+  "Change": "बदलें",
+  "Change it: say what should change": "तस्वीर बदलें: बताएँ कि क्या बदलना है"
 }

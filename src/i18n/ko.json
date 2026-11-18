@@ -67,5 +67,8 @@
   "Open": "열기",
   "Pictures": "이미지",
   "Start from a picture": "이미지에서 시작",
-  "Stop %1 and start %2": "%1 중지 후 %2 시작"
+  "Stop %1 and start %2": "%1 중지 후 %2 시작",
+  "What should change?": "무엇을 바꿀까요?",
+  "Change": "변경",
+  "Change it: say what should change": "이미지 변경: 바꿀 내용 입력"
 }

@@ -67,5 +67,8 @@
   "Open": "Отвори",
   "Pictures": "Изображения",
   "Start from a picture": "Започни от изображение",
-  "Stop %1 and start %2": "Спри %1 и стартирай %2"
+  "Stop %1 and start %2": "Спри %1 и стартирай %2",
+  "What should change?": "Какво да се промени?",
+  "Change": "Промени",
+  "Change it: say what should change": "Промени го: опиши какво да се промени"
 }

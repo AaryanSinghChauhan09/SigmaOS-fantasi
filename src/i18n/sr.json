@@ -67,5 +67,8 @@
   "Open": "Отвори",
   "Pictures": "Слике",
   "Start from a picture": "Почни од слике",
-  "Stop %1 and start %2": "Заустави %1 и покрени %2"
+  "Stop %1 and start %2": "Заустави %1 и покрени %2",
+  "What should change?": "Шта треба променити?",
+  "Change": "Промени",
+  "Change it: say what should change": "Промени слику: опиши шта треба променити"
 }

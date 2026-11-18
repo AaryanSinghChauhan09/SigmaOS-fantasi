@@ -67,5 +67,8 @@
   "Open": "Відкрити",
   "Pictures": "Зображення",
   "Start from a picture": "Почати із зображення",
-  "Stop %1 and start %2": "Зупинити %1 і запустити %2"
+  "Stop %1 and start %2": "Зупинити %1 і запустити %2",
+  "What should change?": "Що потрібно змінити?",
+  "Change": "Змінити",
+  "Change it: say what should change": "Змінити зображення: описати, що потрібно змінити"
 }

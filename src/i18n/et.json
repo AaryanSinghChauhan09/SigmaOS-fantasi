@@ -67,5 +67,8 @@
   "Open": "Ava",
   "Pictures": "Pildid",
   "Start from a picture": "Alusta pildist",
-  "Stop %1 and start %2": "Peata %1 ja käivita %2"
+  "Stop %1 and start %2": "Peata %1 ja käivita %2",
+  "What should change?": "Mida peaks muutma?",
+  "Change": "Muuda",
+  "Change it: say what should change": "Muuda pilti: kirjelda, mida muuta"
 }

@@ -67,5 +67,8 @@
   "Open": "Atvērt",
   "Pictures": "Attēli",
   "Start from a picture": "Sākt no attēla",
-  "Stop %1 and start %2": "Apturēt %1 un palaist %2"
+  "Stop %1 and start %2": "Apturēt %1 un palaist %2",
+  "What should change?": "Ko mainīt?",
+  "Change": "Mainīt",
+  "Change it: say what should change": "Mainīt attēlu: aprakstīt, ko mainīt"
 }
