@@ -82,6 +82,7 @@ public:
     bool canEdit() const { return !m_found.editEndpoint.isEmpty(); }
     bool makesVideo() const { return !m_found.videoEndpoint.isEmpty(); }
     QString videoName() const { return m_found.videoName; }
+    QString videoId() const { return m_found.videoId; }
     QString videoVendor() const { return m_found.videoVendor; }
     // The running video model's server, and its key.
     QString videoOrigin() const;

@@ -246,6 +246,11 @@ ApplicationWindow {
             win.newImage()
             prompt.text = text
         }
+        function onVideoRequested() {
+            if (!win.changing)
+                win.newImage()
+            win.videoMode = true
+        }
     }
 
     // A picture dropped anywhere on the window becomes the one to change,
