@@ -637,9 +637,14 @@ bool Generator::save() {
 
 void Generator::posterSong() {
     // A song shows by its own shape, taken from its sound as ffmpeg plays it out.
+    // Busy until it's done, and the app kept running, on a second try too.
+    m_postering = true;
+    if (!m_locker)
+        m_locker = std::make_unique<QEventLoopLocker>();
     auto *sound = new QProcess(this);
     auto done = [this, sound] {
         sound->deleteLater();
+        m_postering = false;
         const QByteArray wave = songWave(sound->readAllStandardOutput());
         // Drawn as the window draws it, for a file manager to show.
         QImage shape(1200, 400, QImage::Format_ARGB32);

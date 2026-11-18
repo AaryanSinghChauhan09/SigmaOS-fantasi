@@ -40,7 +40,7 @@ public:
     explicit Generator(Models *models, const QString &folder = {}, const QString &musicFolder = {}, QObject *parent = nullptr);
     ~Generator() override;
 
-    bool busy() const { return !m_job.isEmpty() || m_submitting; }
+    bool busy() const { return !m_job.isEmpty() || m_submitting || m_postering; }
     QString stage() const { return m_stage; }
     int step() const { return m_step; }
     int totalSteps() const { return m_totalSteps; }
@@ -171,6 +171,8 @@ private:
     QString m_lyrics;
     // A song that's saved but has no poster yet, so the history can't list it.
     QString m_unposted;
+    // Its poster is being made, which nothing else may start during.
+    bool m_postering = false;
     bool m_cancelling = false;
     QString m_stage;
     int m_step = 0;

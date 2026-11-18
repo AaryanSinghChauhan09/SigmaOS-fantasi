@@ -64,10 +64,11 @@ ApplicationWindow {
     // How long a song is, stepped through with the length button.
     readonly property var songLengths: [30, 60, 120, 180]
     property int songSeconds: 60
-    // A clip or a song in the frame: its poster stands in for it as an image.
+    // A clip in the frame: its poster stands in for it as an image. A song
+    // has the player alone, in the shape of its waveform.
     readonly property bool showingClip: shownFile.endsWith(".webm")
     readonly property bool showingSong: shownFile.endsWith(".mp3")
-    readonly property string shownImage: showingClip || showingSong ? shownFile.replace(/\.[a-z0-9]+$/, ".png") : generator.image
+    readonly property string shownImage: showingClip ? shownFile.slice(0, -5) + ".png" : showingSong ? "" : generator.image
     // The title and shape of the song in the frame, by the file it is,
     // looked up again whenever the history has listed its files anew.
     readonly property var shownSong: { history.count; return history.song(showingSong ? shownFile : "") }
@@ -303,7 +304,8 @@ ApplicationWindow {
 
                     // The shape the image will have: the one shown once it's
                     // there, the size asked for while it isn't.
-                    readonly property real aspect: shown.status === Image.Ready && shown.implicitHeight > 0
+                    readonly property real aspect: win.showingSong ? 3
+                                                   : shown.status === Image.Ready && shown.implicitHeight > 0
                                                    ? shown.implicitWidth / shown.implicitHeight
                                                    : previous.status === Image.Ready && previous.implicitHeight > 0
                                                    ? previous.implicitWidth / previous.implicitHeight
@@ -343,9 +345,7 @@ ApplicationWindow {
                             fillMode: Image.PreserveAspectFit
                             asynchronous: true
                             smooth: true
-                            // A song's poster gives the frame its shape, and
-                            // the player draws it in the theme's colors.
-                            opacity: win.showingSong ? 0 : generator.busy && win.changing ? 0.2 + 0.8 * win.progress : 1
+                            opacity: generator.busy && win.changing ? 0.2 + 0.8 * win.progress : 1
                             Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
                         }
                         Loader {

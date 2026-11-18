@@ -728,7 +728,11 @@ private slots:
         QVERIFY(!generator.error().isEmpty());
         QFile::setPermissions(dir.path() + "/out", QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
         generator.retrySave();
+        // Nothing else starts while the poster is made.
+        QVERIFY(generator.busy());
+        generator.makeSong("another");
         QTRY_COMPARE(saved.count(), 1);
+        QTRY_VERIFY(!generator.busy());
         QVERIFY(!generator.unsaved());
         QCOMPARE(generator.error(), QString());
         // Written first, in the language's plain code, then rendered as written.
