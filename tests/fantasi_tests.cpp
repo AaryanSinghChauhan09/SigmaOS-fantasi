@@ -786,6 +786,9 @@ private slots:
         Theme theme(dir.path());
         // A ready model at an address nothing answers, so nothing is made.
         readyEngine(dir.path() + "/state", "http://127.0.0.1:9");
+        // One image made before, to pick from the history.
+        QDir().mkpath(dir.path() + "/out");
+        write(dir.path() + "/out/20260101-120000-a-lake.png", png(64));
         Backend backend({dir.path() + "/state", dir.path() + "/state/key", "/bin/true", dir.path() + "/out", "/bin/true"});
 
         QQmlApplicationEngine engine;
@@ -841,6 +844,33 @@ private slots:
         // A Material popup animates out: `opened` drops at once, `visible` after.
         QTest::keyClick(window, Qt::Key_Escape);
         QTRY_VERIFY(!help->property("visible").toBool());
+
+        // A picked image offers what's next; a new one empties the prompt
+        // and the frame; Esc goes back to the image.
+        auto *nextBar = item(window->contentItem(), "next");
+        auto *prompt = item(window->contentItem(), "prompt");
+        QVERIFY(nextBar && prompt);
+        QTRY_VERIFY(backend.history()->count() == 1);
+        QTest::keyClick(window, Qt::Key_Down, Qt::ControlModifier);
+        QTRY_VERIFY(nextBar->isVisible());
+        QVERIFY(!prompt->isVisible());
+        QTest::keyClick(window, Qt::Key_N, Qt::ControlModifier);
+        QTRY_VERIFY(prompt->isVisible());
+        QVERIFY(!nextBar->isVisible());
+        QCOMPARE(prompt->property("text").toString(), QString());
+        QCOMPARE(backend.generator()->image(), QString());
+        QTest::keyClick(window, Qt::Key_Escape);
+        QTRY_VERIFY(nextBar->isVisible());
+        QVERIFY(backend.generator()->image().endsWith("a-lake.png"));
+        // Change it: back to writing, with the picture to change.
+        QTest::keyClick(window, Qt::Key_E, Qt::ControlModifier);
+        QTRY_VERIFY(prompt->isVisible());
+        QVERIFY(window->property("changing").toBool());
+        // Esc lets the change go; a new image again, for what follows.
+        QTest::keyClick(window, Qt::Key_Escape);
+        QTRY_VERIFY(nextBar->isVisible());
+        QTest::keyClick(window, Qt::Key_N, Qt::ControlModifier);
+        QTRY_VERIFY(prompt->isVisible());
 
         // Each control in the prompt bar names itself in a tooltip on hover.
         for (const char *name : {"startFrom", "size", "model"}) {

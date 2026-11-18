@@ -26,6 +26,7 @@ The prompt has the keyboard most of the time, so the shortcuts take Ctrl.
 | Esc | Stop making it, or go back to a new image |
 | Ctrl+R | Make another like it |
 | Ctrl+E | Change it: the next image starts from it |
+| Ctrl+N | Start a new image |
 | Ctrl+O | Start from a picture of your own |
 | Ctrl+1, 2, 3 | Square, screen or portrait |
 | Ctrl+B | Set it as the background |

@@ -41,6 +41,12 @@ ApplicationWindow {
     // finishes becomes the base for the next, until it's let go.
     property string baseImage: ""
     readonly property bool changing: baseImage !== ""
+    // Writing a prompt, or looking at a finished image and choosing what's
+    // next: change it, make a new one, or use it.
+    property bool composing: true
+    readonly property bool choosing: !composing && shownFile !== "" && !generator.busy
+    // The history image a new one was started from, for Esc to go back to.
+    property int returnIndex: -1
     readonly property string problem: models.error || generator.error || backend.error
     // What the model is doing, for its icon's tooltip and the empty stage.
     readonly property string modelStatus: {
@@ -78,6 +84,7 @@ ApplicationWindow {
     function changeImage() {
         if (shownFile === "" || generator.busy)
             return
+        composing = true
         baseImage = shownFile
         prompt.text = ""
         prompt.forceActiveFocus()
@@ -86,6 +93,7 @@ ApplicationWindow {
     function startFrom(url) {
         if (generator.busy)
             return
+        composing = true
         baseImage = url
         prompt.forceActiveFocus()
         prompt.cursorPosition = prompt.length
@@ -96,6 +104,29 @@ ApplicationWindow {
             return
         historyList.currentIndex = index
         generator.show(history.urlAt(index))
+        baseImage = ""
+        composing = false
+    }
+    // An empty frame and an empty prompt for a new image.
+    function newImage() {
+        if (generator.busy)
+            return
+        returnIndex = historyList.currentIndex
+        historyList.currentIndex = -1
+        generator.show("")
+        baseImage = ""
+        prompt.text = ""
+        composing = true
+        prompt.forceActiveFocus()
+    }
+    // Back from writing to the image that was shown, if there was one.
+    function backToImage() {
+        if (changing) {
+            baseImage = ""
+            composing = false
+        } else if (prompt.text === "" && returnIndex >= 0) {
+            pick(returnIndex)
+        }
     }
 
     Shortcut { sequence: "F1"; onActivated: help.opened ? help.close() : help.open() }
@@ -106,9 +137,10 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+R"; enabled: win.canGenerate; onActivated: win.generate() }
     Shortcut { sequence: "Ctrl+E"; enabled: win.shownFile !== "" && !generator.busy; onActivated: win.changeImage() }
     Shortcut { sequence: "Ctrl+O"; enabled: !generator.busy; onActivated: backend.openPicture() }
-    // Esc stops an image being made, or else goes back to a new image.
+    // Esc stops an image being made, or else goes back to the image shown.
     Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }
-    Shortcut { sequence: "Escape"; enabled: !generator.busy && win.changing; onActivated: win.baseImage = "" }
+    Shortcut { sequence: "Escape"; enabled: !generator.busy && win.composing; onActivated: win.backToImage() }
+    Shortcut { sequence: "Ctrl+N"; enabled: !generator.busy; onActivated: win.newImage() }
     Shortcut { sequence: "Ctrl+1"; onActivated: win.sizeChoice = 0 }
     Shortcut { sequence: "Ctrl+2"; onActivated: win.sizeChoice = 1 }
     Shortcut { sequence: "Ctrl+3"; onActivated: win.sizeChoice = 2 }
@@ -136,11 +168,15 @@ ApplicationWindow {
         // finishes is the next one to change.
         function onSaved() {
             historyList.currentIndex = 0
-            if (win.changing) {
-                win.baseImage = generator.image
-                // Unless the next instruction is already being typed.
-                if (prompt.text === win.sentPrompt)
-                    prompt.text = ""
+            if (prompt.text !== win.sentPrompt) {
+                // The next one is already being typed: a change goes on
+                // from the image just made.
+                if (win.changing)
+                    win.baseImage = generator.image
+            } else {
+                win.baseImage = ""
+                prompt.text = ""
+                win.composing = false
             }
         }
     }
@@ -197,7 +233,8 @@ ApplicationWindow {
                         anchors.centerIn: parent
                         width: Math.min(parent.width, parent.height * stage.aspect)
                         height: width / stage.aspect
-                        visible: generator.busy || generator.image !== ""
+                        // Empty while a new one is written, shimmering once it's asked for.
+                        visible: generator.busy || generator.image !== "" || (win.composing && models.state === "ready")
 
                         Rectangle {
                             anchors.fill: parent
@@ -313,52 +350,6 @@ ApplicationWindow {
                             }
                         }
                     }
-                    // What to do with a finished image: a small bar of icons on
-                    // it, their names and keys in tooltips.
-                    Rectangle {
-                        objectName: "tools"
-                        anchors.bottom: frame.bottom
-                        anchors.bottomMargin: 14
-                        anchors.horizontalCenter: frame.horizontalCenter
-                        width: tools.implicitWidth + 12
-                        height: tools.implicitHeight + 8
-                        radius: Math.min(height / 2, theme.radius + 6)
-                        color: Qt.rgba(theme.background.r, theme.background.g, theme.background.b, 0.82)
-                        border.color: Qt.rgba(theme.foreground.r, theme.foreground.g, theme.foreground.b, 0.12)
-                        readonly property bool ready: win.shownFile !== "" && !generator.busy
-                        visible: opacity > 0
-                        opacity: ready ? 1 : 0
-                        Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
-
-                        Row {
-                            id: tools
-                            anchors.centerIn: parent
-                            spacing: 2
-                            Repeater {
-                                model: [
-                                    { icon: "change", label: qsTr("Change this image"), key: "Ctrl+E", run: () => win.changeImage() },
-                                    { icon: "background", label: qsTr("Set as background"), key: "Ctrl+B", run: () => backend.setBackground(win.shownFile) },
-                                    { icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
-                                    { icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
-                                ]
-                                delegate: ToolButton {
-                                    required property var modelData
-                                    focusPolicy: Qt.NoFocus
-                                    display: AbstractButton.IconOnly
-                                    icon.source: "qrc:/icons/" + modelData.icon + ".svg"
-                                    icon.width: 20
-                                    icon.height: 20
-                                    icon.color: hovered ? theme.accent : theme.foreground
-                                    Accessible.name: modelData.label
-                                    ToolTip.visible: hovered
-                                    ToolTip.text: modelData.label + "  " + modelData.key
-                                    ToolTip.delay: 300
-                                    visible: modelData.shown !== false
-                                    onClicked: modelData.run()
-                                }
-                            }
-                        }
-                    }
                     Label {
                         anchors.centerIn: parent
                         width: parent.width * 0.6
@@ -414,14 +405,79 @@ ApplicationWindow {
                 // the model, and the round button that sends it.
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: bar.implicitHeight + 10
+                    Layout.preferredHeight: (win.choosing ? nextBar.implicitHeight : bar.implicitHeight) + 10
                     color: win.panel
                     // Rounded as the theme rounds windows, sharp where it doesn't.
                     radius: Math.min(height / 2, theme.radius)
                     border.color: prompt.activeFocus ? theme.accent : win.line
 
+                    // What's next, once an image is done: change it, start a new
+                    // one, or use it.
+                    RowLayout {
+                        id: nextBar
+                        objectName: "next"
+                        visible: win.choosing
+                        anchors.fill: parent
+                        anchors.leftMargin: 8
+                        anchors.rightMargin: 8
+                        anchors.topMargin: 5
+                        anchors.bottomMargin: 5
+                        spacing: 4
+                        Repeater {
+                            model: [
+                                { name: "changeIt", icon: "change", label: qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage() },
+                                { name: "newImage", icon: "new", label: qsTr("New image"), key: "Ctrl+N", run: () => win.newImage() }
+                            ]
+                            delegate: ToolButton {
+                                required property var modelData
+                                objectName: modelData.name
+                                Layout.preferredHeight: 34
+                                focusPolicy: Qt.NoFocus
+                                background: Item {}
+                                display: AbstractButton.TextBesideIcon
+                                text: modelData.label
+                                icon.source: "qrc:/icons/" + modelData.icon + ".svg"
+                                icon.width: 18
+                                icon.height: 18
+                                icon.color: hovered ? theme.accent : theme.foreground
+                                Material.foreground: hovered ? theme.accent : theme.foreground
+                                ToolTip.visible: hovered
+                                ToolTip.text: modelData.key
+                                ToolTip.delay: 400
+                                onClicked: modelData.run()
+                            }
+                        }
+                        Item { Layout.fillWidth: true }
+                        Repeater {
+                            model: [
+                                { icon: "background", label: qsTr("Set as background"), key: "Ctrl+B", run: () => backend.setBackground(win.shownFile) },
+                                { icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
+                                { icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
+                            ]
+                            delegate: ToolButton {
+                                required property var modelData
+                                Layout.preferredWidth: 32
+                                Layout.preferredHeight: 32
+                                padding: 0
+                                focusPolicy: Qt.NoFocus
+                                background: Item {}
+                                display: AbstractButton.IconOnly
+                                icon.source: "qrc:/icons/" + modelData.icon + ".svg"
+                                icon.width: 18
+                                icon.height: 18
+                                icon.color: hovered ? theme.accent : win.muted
+                                Accessible.name: modelData.label
+                                ToolTip.visible: hovered
+                                ToolTip.text: modelData.label + "  " + modelData.key
+                                ToolTip.delay: 300
+                                onClicked: modelData.run()
+                            }
+                        }
+                    }
+
                     RowLayout {
                         id: bar
+                        visible: !win.choosing
                         anchors.fill: parent
                         anchors.leftMargin: 8
                         anchors.rightMargin: 5
@@ -882,6 +938,7 @@ ApplicationWindow {
                     { keys: "Esc", action: qsTr("Stop making it, or go back to a new image") },
                     { keys: "Ctrl+R", action: qsTr("Make another like it") },
                     { keys: "Ctrl+E", action: qsTr("Change it: say what should change") },
+                    { keys: "Ctrl+N", action: qsTr("Start a new image") },
                     { keys: "Ctrl+O", action: qsTr("Start from a picture of your own") },
                     { keys: "Ctrl+1 2 3", action: qsTr("Square, screen or portrait") },
                     { keys: "Ctrl+B", action: qsTr("Set it as the background") },

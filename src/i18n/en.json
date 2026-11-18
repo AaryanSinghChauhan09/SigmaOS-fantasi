@@ -50,7 +50,6 @@
   "The portal file picker failed: %1": "The portal file picker failed: %1",
   "Changing this image": "Changing this image",
   "Make a new image instead": "Make a new image instead",
-  "Change this image": "Change this image",
   "Stop making it, or go back to a new image": "Stop making it, or go back to a new image",
   "Make another like it": "Make another like it",
   "Couldn't read the image to start from": "Couldn't read the image to start from",
@@ -65,5 +64,8 @@
   "What should change?": "What should change?",
   "Change": "Change",
   "Change it: say what should change": "Change it: say what should change",
-  "Click to use %1": "Click to use %1"
+  "Click to use %1": "Click to use %1",
+  "Change it": "Change it",
+  "New image": "New image",
+  "Start a new image": "Start a new image"
 }
