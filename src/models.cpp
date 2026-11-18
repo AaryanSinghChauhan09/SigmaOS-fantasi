@@ -103,7 +103,8 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
         return a.value("name").toString() < b.value("name").toString();
     });
     for (const QJsonObject &row : images)
-        found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())}};
+        found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())},
+                                     {"running", row.value("unit").toString() == "active"}};
     for (const QJsonObject &row : images)
         if (row.value("unit").toString() == "active" && row.value("edit").toBool() && found.editEndpoint.isEmpty())
             found.editEndpoint = row.value("endpoint").toString();
@@ -224,6 +225,15 @@ void Models::switchTo() {
 void Models::choose(const QString &id) {
     if (id == m_found.id || working())
         return;
+    // One already running is simply used from now on: nothing to stop or start.
+    for (const QVariant &choice : m_found.choices) {
+        const QVariantMap row = choice.toMap();
+        if (row.value("id").toString() == id && row.value("running").toBool()) {
+            QSettings().setValue("model", id);
+            reload();
+            return;
+        }
+    }
     m_chosen = id;
     QList<QStringList> commands;
     if (m_found.state == "ready" || m_found.state == "starting")

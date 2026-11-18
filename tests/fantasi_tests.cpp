@@ -284,6 +284,23 @@ private slots:
         QCOMPARE(found.choices.first().toMap().value("id").toString(), QString("a"));
     }
 
+    void choosingARunningModelNeedsNoEngine() {
+        QTemporaryDir dir;
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{
+            {"k", QJsonObject{{"kind", "image"}, {"name", "K"}, {"unit", "active"}, {"endpoint", "http://127.0.0.1:2/v1"}}},
+            {"z", QJsonObject{{"kind", "image"}, {"name", "Z"}, {"unit", "active"}, {"endpoint", "http://127.0.0.1:1/v1"}}}}}}).toJson());
+        write(state + "/list.json", "[]");
+        // An engine command that always fails: a switch must not need it.
+        Models models(state, state + "/key", "/bin/false");
+        const QString other = models.modelId() == "k" ? "z" : "k";
+        models.choose(other);
+        QCOMPARE(models.modelId(), other);
+        QVERIFY(!models.working());
+        QVERIFY(models.error().isEmpty());
+    }
+
     void logoIsTheVendorsMarkFromOmarchy() {
         QTemporaryDir dir;
         const QString assets = dir.path() + "/shell/plugins/agents/assets/";
