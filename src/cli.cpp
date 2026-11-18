@@ -101,7 +101,7 @@ int runCli(const QStringList &arguments) {
     parser.addOption({"from", "Change this picture: the prompt says what to change. Give it again to combine pictures, with a model that edits", "image"});
     parser.addOption({"video", "Make a clip with its sound on the running video model; --from is its first frame"});
     parser.addOption({"music", "Make a song on the running music model: the prompt describes it"});
-    parser.addOption({"lyrics", "The song's lyrics, with [verse] and [chorus] over their parts; the model writes them when left out", "text"});
+    parser.addOption({"lyrics", "The song's lyrics, with [verse] and [chorus] over their parts and \\n between lines; the model writes them when left out", "text"});
     parser.addOption({"instrumental", "A song without words"});
     parser.addOption({"seconds", "How long the song is", "n", QString::number(Generator::defaultSongSeconds)});
     parser.addOption({"json", "Print the result as JSON"});
@@ -188,7 +188,7 @@ int runCli(const QStringList &arguments) {
             return;
         }
         if (music)
-            generator->makeSong(prompt, parser.isSet("instrumental") ? QString("[Instrumental]") : parser.value("lyrics"),
+            generator->makeSong(prompt, parser.isSet("instrumental") ? QString("[Instrumental]") : parser.value("lyrics").replace("\\n", "\n"),
                                 parser.value("seconds").toInt());
         else if (video)
             generator->makeVideo(prompt, parser.value("width").toInt(), parser.value("height").toInt(), from.value(0));
