@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QQmlProperty>
 #include <QQmlContext>
+#include <QSettings>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTcpServer>
@@ -667,6 +668,32 @@ private slots:
             QVERIFY(poster.save(dir.filePath("forged.png")));
             QVERIFY2(History::readEntry(dir.filePath("forged.png")).video.isEmpty(), named);
         }
+    }
+
+    void generatorEstimatesTheTimeLeftFromTheLastOneLikeIt() {
+        QTemporaryDir dir;
+        FakeServer server;
+        server.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
+            if (method == "POST" && path == "/sdcpp/v1/img_gen")
+                return {202, q("{'id': 'slow'}")};
+            if (path == "/sdcpp/v1/jobs/slow")
+                return {200, q("{'status': 'generating', 'progress': {'stage': 'sampling', 'unit': 'steps', 'completed': 0, 'total': 8}}")};
+            return {404, "{}"};
+        };
+        readyEngine(dir.path() + "/state", server.origin());
+        Models models(dir.path() + "/state", dir.path() + "/state/key", "/bin/true");
+        Generator generator(&models, dir.path() + "/out");
+        // Nothing like it yet, and no step done: not known.
+        generator.generate("a lake", 1024, 1024);
+        QTRY_VERIFY(generator.busy());
+        QCOMPARE(generator.remainingSeconds(), -1);
+        // The last one like it took 120 seconds: about that long is left.
+        QSettings().setValue("durations/z-image-turbo/image/1024x1024", 120.0);
+        Generator next(&models, dir.path() + "/out");
+        next.generate("a lake", 1024, 1024);
+        QTRY_VERIFY(next.busy());
+        QVERIFY2(next.remainingSeconds() > 115 && next.remainingSeconds() <= 120, qPrintable(QString::number(next.remainingSeconds())));
+        QSettings().remove("durations");
     }
 
     void generatorCancelsAndSavesNothing() {

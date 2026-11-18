@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QByteArray>
+#include <QElapsedTimer>
 #include <QEventLoopLocker>
 #include <QImage>
 #include <QJsonObject>
@@ -32,6 +33,10 @@ class Generator : public QObject {
     Q_PROPERTY(QString error READ error NOTIFY changed)
     Q_PROPERTY(bool unsaved READ unsaved NOTIFY changed)
     Q_PROPERTY(int defaultSteps READ defaultSteps NOTIFY defaultsChanged)
+    // About how many seconds the job in hand has left, or -1 while that
+    // can't be told yet. From how long the last one like it took, or else
+    // from how fast its steps go.
+    Q_PROPERTY(int remainingSeconds READ remainingSeconds NOTIFY remainingChanged)
 
 public:
     explicit Generator(Models *models, const QString &folder = {}, QObject *parent = nullptr);
@@ -46,6 +51,7 @@ public:
     QString error() const { return m_error; }
     bool unsaved() const { return !m_pending.isEmpty(); }
     int defaultSteps() const;
+    int remainingSeconds() const;
     QString folder() const { return m_folder; }
 
     // A seed below zero asks the server for a random one; steps of zero take
@@ -101,6 +107,7 @@ signals:
     void saved(const QString &path);
     // A clip's poster is written beside it, a moment after the clip.
     void posterSaved(const QString &clip);
+    void remainingChanged();
     void posterFailed(const QString &error);
     // A job has ended: made and saved, cancelled, or failed with `error`.
     void finished(const QString &error);
@@ -124,6 +131,13 @@ private:
     QString m_folder;
     QNetworkAccessManager m_network;
     QTimer m_poll;
+    // When the job in hand started, what it's called among the durations
+    // remembered, and how long the last one like it took.
+    QElapsedTimer m_clock;
+    QString m_durationKey;
+    double m_expected = 0;
+    QTimer m_tick;
+    void startClock(const QString &key);
     QJsonObject m_defaults;
     QString m_origin;
     // The server the job in hand runs on, when a change goes to a running

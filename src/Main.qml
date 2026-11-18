@@ -54,6 +54,17 @@ ApplicationWindow {
     // The model in use makes clips: from the prompt alone, or animating the
     // picture being changed.
     readonly property bool videoMode: models.video
+    // A long job says about how long it has left, once it's known to be long.
+    property bool longJob: false
+    function remainingText(seconds) {
+        if (seconds < 0)
+            return qsTr("Working out how long this takes…")
+        if (seconds < 10)
+            return qsTr("Almost done")
+        if (seconds < 90)
+            return qsTr("About %1 s left").arg(Math.max(10, Math.round(seconds / 10) * 10))
+        return qsTr("About %1 min left").arg(Math.round(seconds / 60))
+    }
     // How long a clip is, stepped through with the length button.
     readonly property var clipLengths: [2, 5, 10]
     property int clipSeconds: 5
@@ -234,6 +245,17 @@ ApplicationWindow {
         }
     }
     Connections {
+        target: generator
+        function onRemainingChanged() {
+            if (generator.remainingSeconds > 20)
+                win.longJob = true
+        }
+        function onChanged() {
+            if (!generator.busy)
+                win.longJob = false
+        }
+    }
+    Connections {
         target: backend
         function onPictureChosen(url) { win.startFrom(url) }
         // Another `fantasi open` with a prompt: a new image from it.
@@ -330,6 +352,23 @@ ApplicationWindow {
                             active: win.playerWanted
                             visible: win.showingClip
                             source: "qrc:/VideoPlayer.qml"
+                        }
+                        // How long a long job has left, in the middle of the frame.
+                        Rectangle {
+                            objectName: "remaining"
+                            anchors.centerIn: parent
+                            visible: generator.busy && (win.longJob || (win.videoMode && generator.remainingSeconds < 0))
+                            width: remainingLabel.implicitWidth + 28
+                            height: remainingLabel.implicitHeight + 14
+                            radius: Math.min(height / 2, theme.radius + 6)
+                            color: Qt.rgba(theme.background.r, theme.background.g, theme.background.b, 0.78)
+                            Label {
+                                id: remainingLabel
+                                anchors.centerIn: parent
+                                color: theme.foreground
+                                font.pixelSize: 14
+                                text: win.remainingText(generator.remainingSeconds)
+                            }
                         }
                         Binding {
                             target: player.item

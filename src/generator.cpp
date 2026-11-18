@@ -1,4 +1,5 @@
 #include "generator.h"
+#include <QSettings>
 #include <algorithm>
 #include <memory>
 #include <QSaveFile>
@@ -52,6 +53,8 @@ Generator::Generator(Models *models, const QString &folder, QObject *parent)
                                  : QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Generated") {
     // A job has no change signal of its own, so it is asked about while it
     // runs, and only then: a request at a time, half a second apart.
+    m_tick.setInterval(1000);
+    connect(&m_tick, &QTimer::timeout, this, &Generator::remainingChanged);
     m_poll.setSingleShot(true);
     m_poll.setInterval(500);
     connect(&m_poll, &QTimer::timeout, this, &Generator::poll);
@@ -229,6 +232,7 @@ void Generator::generate(const QString &prompt, int width, int height, int steps
     m_previews = QStringList(m_totalSteps, QString());
     m_image.clear();
     m_locker = std::make_unique<QEventLoopLocker>();
+    startClock(QString("%1/image/%2x%3").arg(m_models->modelId()).arg(width).arg(height));
     emit changed();
 
     m_video = false;
@@ -317,6 +321,7 @@ void Generator::makeVideo(const QString &prompt, int width, int height, const QS
     m_previews.clear();
     m_image.clear();
     m_locker = std::make_unique<QEventLoopLocker>();
+    startClock(QString("%1/clip/%2/%3x%4").arg(m_models->modelId()).arg(std::clamp(seconds, 1, 10)).arg(size.width()).arg(size.height()));
     emit changed();
 
     // The LoRAs the server lists are the ones the model is meant to run with,
@@ -393,6 +398,9 @@ void Generator::follow(const QJsonObject &job) {
         }
         m_step = m_totalSteps;
         m_stage = "saving";
+        // Remembered, so the next one like it knows from the start.
+        if (!m_durationKey.isEmpty())
+            QSettings().setValue("durations/" + m_durationKey, m_clock.elapsed() / 1000.0);
         emit changed();
         finish(save() ? QString() : m_error);
     } else if (status == "failed") {
@@ -405,8 +413,32 @@ void Generator::follow(const QJsonObject &job) {
     }
 }
 
+void Generator::startClock(const QString &key) {
+    m_durationKey = key;
+    m_expected = QSettings().value("durations/" + key, 0.0).toDouble();
+    m_clock.start();
+    m_tick.start();
+    emit remainingChanged();
+}
+
+int Generator::remainingSeconds() const {
+    if (!busy() || !m_clock.isValid())
+        return -1;
+    const double elapsed = m_clock.elapsed() / 1000.0;
+    // The last one like it is the best guess, from the start.
+    if (m_expected > 0)
+        return std::max(0, int(std::lround(m_expected - elapsed)));
+    // Otherwise the pace of the steps so far, and a share more for what
+    // follows them (decoding, and a clip's sound).
+    if (m_step > 0 && m_totalSteps > 0)
+        return std::max(0, int(std::lround(elapsed / m_step * m_totalSteps * 1.25 - elapsed)));
+    return -1;
+}
+
 void Generator::finish(const QString &error) {
     m_poll.stop();
+    m_tick.stop();
+    m_clock.invalidate();
     m_job.clear();
     m_submitting = false;
     m_cancelling = false;

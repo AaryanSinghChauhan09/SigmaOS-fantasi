@@ -77,5 +77,9 @@
   "Couldn't save the clip's poster in %1": "Couldn't save the clip's poster in %1",
   "New generation": "New generation",
   "Start a new generation": "Start a new generation",
-  "Clip length: %1 s": "Clip length: %1 s"
+  "Clip length: %1 s": "Clip length: %1 s",
+  "Working out how long this takes…": "Working out how long this takes…",
+  "Almost done": "Almost done",
+  "About %1 s left": "About %1 s left",
+  "About %1 min left": "About %1 min left"
 }
