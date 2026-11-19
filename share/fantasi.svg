@@ -1,32 +1,356 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
   <title>Fantasi</title>
-  <desc>A picture made from words: a photo print seen from the front, as Omaview's, in Tokyo Night colors, a pale border around a sky in the main color with two mountains, and two four-pointed sparkles in the highlight rising off its top corner, each piece with a hard shadow.</desc>
+  <desc>A night-sky tile with two aurora curtains: a bright cyan hem swinging across it, rays rising through blue to violet.</desc>
   <defs>
-    <linearGradient id="main" x1="0" y1="0" x2="1" y2="1">
-      <stop stop-color="#7aa2f7"/>
-      <stop offset="1" stop-color="#8faef6"/>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#24283b"/><stop offset="1" stop-color="#11121a"/></linearGradient>
+    <linearGradient id="ray" x1="0" y1="1" x2="0" y2="0">
+      <stop stop-color="#56e0d0"/><stop offset=".22" stop-color="#7aa2f7"/><stop offset=".6" stop-color="#bb9af7" stop-opacity=".55"/><stop offset="1" stop-color="#bb9af7" stop-opacity="0"/>
     </linearGradient>
+    <linearGradient id="ray2" x1="0" y1="1" x2="0" y2="0">
+      <stop stop-color="#56e0d0"/><stop offset=".10" stop-color="#7aa2f7"/><stop offset=".6" stop-color="#bb9af7" stop-opacity=".55"/><stop offset="1" stop-color="#bb9af7" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#56e0d0" stop-opacity=".55"/><stop offset="1" stop-color="#56e0d0" stop-opacity="0"/></linearGradient>
+    <clipPath id="tile"><rect x="32" y="32" width="448" height="448" rx="108"/></clipPath>
   </defs>
-  <g transform="translate(256 256) scale(1.2) translate(-256 -256)">
-    <!-- The print, moved down and over to make room for the sparkles. -->
-    <g transform="translate(52 128) scale(.92) translate(-76 -100)">
-      <!-- The print; one hard shadow, as Omaview's. -->
-      <rect x="76" y="100" width="360" height="312" rx="20" fill="#0e0e14" transform="translate(0 8.7)"/>
-      <!-- The picture: sky, a far mountain and a near one. -->
-      <rect x="100" y="124" width="312" height="264" rx="12" fill="url(#main)"/>
-      <g stroke-width="16" stroke-linejoin="round">
-        <path d="M190 400L312 244L420 372V400Z" fill="#565f89" stroke="#565f89"/>
-        <path d="M92 400V344L184 262L300 400Z" fill="#1a1b26" stroke="#1a1b26"/>
-      </g>
-      <!-- The border, laid over the picture so it trims the mountains
-           without a clip, which not every SVG renderer applies. -->
-      <path d="M96 100H416A20 20 0 0 1 436 120V392A20 20 0 0 1 416 412H96A20 20 0 0 1 76 392V120A20 20 0 0 1 96 100Z M112 124A12 12 0 0 0 100 136V376A12 12 0 0 0 112 388H400A12 12 0 0 0 412 376V136A12 12 0 0 0 400 124Z" fill="#c0caf5" fill-rule="evenodd"/>
-    </g>
-    <!-- The sparkles: four points with curved sides, a large one on the
-         print's corner and a small one beside it, raised off the page. -->
-    <path d="M370 52Q378 112 434 120Q378 128 370 188Q362 128 306 120Q362 112 370 52Z" fill="#0e0e14" transform="translate(0 8)"/>
-    <path d="M370 52Q378 112 434 120Q378 128 370 188Q362 128 306 120Q362 112 370 52Z" fill="#bb9af7"/>
-    <path d="M286 56Q290 82 314 86Q290 90 286 116Q282 90 258 86Q282 82 286 56Z" fill="#0e0e14" transform="translate(0 6)"/>
-    <path d="M286 56Q290 82 314 86Q290 90 286 116Q282 90 258 86Q282 82 286 56Z" fill="#bb9af7"/>
+  <rect x="32" y="32" width="448" height="448" rx="108" fill="url(#sky)"/>
+  <g clip-path="url(#tile)">
+      <rect x="32" y="59.4" width="4" height="239.5" fill="url(#ray2)" opacity="0.28"/>
+      <rect x="36" y="52.4" width="4" height="247.1" fill="url(#ray2)" opacity="0.25"/>
+      <rect x="40" y="39.9" width="4" height="260.0" fill="url(#ray2)" opacity="0.25"/>
+      <rect x="44" y="40.0" width="4" height="260.0" fill="url(#ray2)" opacity="0.28"/>
+      <rect x="48" y="44.9" width="4" height="255.0" fill="url(#ray2)" opacity="0.31"/>
+      <rect x="52" y="55.6" width="4" height="244.1" fill="url(#ray2)" opacity="0.33"/>
+      <rect x="56" y="56.2" width="4" height="242.9" fill="url(#ray2)" opacity="0.40"/>
+      <rect x="60" y="63.5" width="4" height="234.9" fill="url(#ray2)" opacity="0.43"/>
+      <rect x="64" y="85.8" width="4" height="211.7" fill="url(#ray2)" opacity="0.39"/>
+      <rect x="68" y="104.5" width="4" height="191.9" fill="url(#ray2)" opacity="0.37"/>
+      <rect x="72" y="104.8" width="4" height="190.3" fill="url(#ray2)" opacity="0.44"/>
+      <rect x="76" y="100.0" width="4" height="193.7" fill="url(#ray2)" opacity="0.45"/>
+      <rect x="80" y="105.2" width="4" height="186.9" fill="url(#ray2)" opacity="0.37"/>
+      <rect x="84" y="109.2" width="4" height="181.2" fill="url(#ray2)" opacity="0.34"/>
+      <rect x="88" y="96.2" width="4" height="192.5" fill="url(#ray2)" opacity="0.35"/>
+      <rect x="92" y="76.9" width="4" height="209.9" fill="url(#ray2)" opacity="0.35"/>
+      <rect x="96" y="72.2" width="4" height="212.7" fill="url(#ray2)" opacity="0.40"/>
+      <rect x="100" y="77.8" width="4" height="205.0" fill="url(#ray2)" opacity="0.42"/>
+      <rect x="104" y="75.1" width="4" height="205.7" fill="url(#ray2)" opacity="0.38"/>
+      <rect x="108" y="66.8" width="4" height="212.0" fill="url(#ray2)" opacity="0.39"/>
+      <rect x="112" y="72.4" width="4" height="204.4" fill="url(#ray2)" opacity="0.44"/>
+      <rect x="116" y="91.4" width="4" height="183.5" fill="url(#ray2)" opacity="0.40"/>
+      <rect x="120" y="102.2" width="4" height="170.8" fill="url(#ray2)" opacity="0.36"/>
+      <rect x="124" y="98.9" width="4" height="172.2" fill="url(#ray2)" opacity="0.36"/>
+      <rect x="128" y="99.6" width="4" height="169.8" fill="url(#ray2)" opacity="0.30"/>
+      <rect x="132" y="110.9" width="4" height="156.9" fill="url(#ray2)" opacity="0.23"/>
+      <rect x="136" y="110.2" width="4" height="156.0" fill="url(#ray2)" opacity="0.23"/>
+      <rect x="140" y="100.8" width="4" height="164.0" fill="url(#ray2)" opacity="0.27"/>
+      <rect x="144" y="86.8" width="4" height="176.7" fill="url(#ray2)" opacity="0.28"/>
+      <rect x="148" y="86.8" width="4" height="175.4" fill="url(#ray2)" opacity="0.25"/>
+      <rect x="152" y="87.8" width="4" height="173.4" fill="url(#ray2)" opacity="0.24"/>
+      <rect x="156" y="74.8" width="4" height="185.4" fill="url(#ray2)" opacity="0.31"/>
+      <rect x="160" y="59.7" width="4" height="199.6" fill="url(#ray2)" opacity="0.36"/>
+      <rect x="164" y="59.8" width="4" height="198.7" fill="url(#ray2)" opacity="0.34"/>
+      <rect x="168" y="66.0" width="4" height="191.8" fill="url(#ray2)" opacity="0.30"/>
+      <rect x="172" y="58.9" width="4" height="198.3" fill="url(#ray2)" opacity="0.30"/>
+      <rect x="176" y="43.7" width="4" height="213.0" fill="url(#ray2)" opacity="0.27"/>
+      <rect x="180" y="40.0" width="4" height="216.3" fill="url(#ray2)" opacity="0.27"/>
+      <rect x="184" y="45.9" width="4" height="210.0" fill="url(#ray2)" opacity="0.29"/>
+      <rect x="188" y="41.6" width="4" height="213.9" fill="url(#ray2)" opacity="0.27"/>
+      <rect x="192" y="26.7" width="4" height="228.4" fill="url(#ray2)" opacity="0.27"/>
+      <rect x="196" y="21.7" width="4" height="233.0" fill="url(#ray2)" opacity="0.33"/>
+      <rect x="200" y="31.3" width="4" height="222.9" fill="url(#ray2)" opacity="0.36"/>
+      <rect x="204" y="36.4" width="4" height="217.5" fill="url(#ray2)" opacity="0.39"/>
+      <rect x="208" y="28.4" width="4" height="224.9" fill="url(#ray2)" opacity="0.47"/>
+      <rect x="212" y="24.4" width="4" height="228.3" fill="url(#ray2)" opacity="0.48"/>
+      <rect x="216" y="34.1" width="4" height="218.1" fill="url(#ray2)" opacity="0.39"/>
+      <rect x="220" y="40.0" width="4" height="211.4" fill="url(#ray2)" opacity="0.39"/>
+      <rect x="224" y="28.3" width="4" height="222.4" fill="url(#ray2)" opacity="0.44"/>
+      <rect x="228" y="12.8" width="4" height="237.0" fill="url(#ray2)" opacity="0.40"/>
+      <rect x="232" y="9.7" width="4" height="239.1" fill="url(#ray2)" opacity="0.32"/>
+      <rect x="236" y="9.1" width="4" height="238.6" fill="url(#ray2)" opacity="0.31"/>
+      <rect x="240" y="-4.9" width="4" height="251.6" fill="url(#ray2)" opacity="0.33"/>
+      <rect x="244" y="-14.6" width="4" height="260.0" fill="url(#ray2)" opacity="0.36"/>
+      <rect x="248" y="-15.9" width="4" height="260.0" fill="url(#ray2)" opacity="0.39"/>
+      <rect x="252" y="-10.4" width="4" height="253.2" fill="url(#ray2)" opacity="0.40"/>
+      <rect x="256" y="-5.2" width="4" height="246.6" fill="url(#ray2)" opacity="0.40"/>
+      <rect x="260" y="-6.1" width="4" height="246.1" fill="url(#ray2)" opacity="0.40"/>
+      <rect x="264" y="5.5" width="4" height="233.0" fill="url(#ray2)" opacity="0.38"/>
+      <rect x="268" y="29.1" width="4" height="207.9" fill="url(#ray2)" opacity="0.37"/>
+      <rect x="272" y="42.6" width="4" height="192.9" fill="url(#ray2)" opacity="0.34"/>
+      <rect x="276" y="39.7" width="4" height="194.4" fill="url(#ray2)" opacity="0.28"/>
+      <rect x="280" y="38.4" width="4" height="194.3" fill="url(#ray2)" opacity="0.24"/>
+      <rect x="284" y="46.6" width="4" height="184.8" fill="url(#ray2)" opacity="0.21"/>
+      <rect x="288" y="47.4" width="4" height="182.8" fill="url(#ray2)" opacity="0.21"/>
+      <rect x="292" y="31.2" width="4" height="197.9" fill="url(#ray2)" opacity="0.27"/>
+      <rect x="296" y="16.0" width="4" height="212.1" fill="url(#ray2)" opacity="0.31"/>
+      <rect x="300" y="17.2" width="4" height="210.0" fill="url(#ray2)" opacity="0.26"/>
+      <rect x="304" y="22.8" width="4" height="203.8" fill="url(#ray2)" opacity="0.28"/>
+      <rect x="308" y="17.6" width="4" height="208.5" fill="url(#ray2)" opacity="0.37"/>
+      <rect x="312" y="12.7" width="4" height="213.1" fill="url(#ray2)" opacity="0.39"/>
+      <rect x="316" y="25.1" width="4" height="200.6" fill="url(#ray2)" opacity="0.32"/>
+      <rect x="320" y="45.4" width="4" height="180.4" fill="url(#ray2)" opacity="0.31"/>
+      <rect x="324" y="52.8" width="4" height="173.2" fill="url(#ray2)" opacity="0.30"/>
+      <rect x="328" y="50.9" width="4" height="175.6" fill="url(#ray2)" opacity="0.25"/>
+      <rect x="332" y="58.3" width="4" height="169.0" fill="url(#ray2)" opacity="0.26"/>
+      <rect x="336" y="72.1" width="4" height="156.0" fill="url(#ray2)" opacity="0.31"/>
+      <rect x="340" y="73.3" width="4" height="156.0" fill="url(#ray2)" opacity="0.30"/>
+      <rect x="344" y="61.6" width="4" height="168.9" fill="url(#ray2)" opacity="0.32"/>
+      <rect x="348" y="55.6" width="4" height="176.5" fill="url(#ray2)" opacity="0.37"/>
+      <rect x="352" y="62.1" width="4" height="171.6" fill="url(#ray2)" opacity="0.41"/>
+      <rect x="356" y="63.0" width="4" height="172.5" fill="url(#ray2)" opacity="0.46"/>
+      <rect x="360" y="50.6" width="4" height="187.0" fill="url(#ray2)" opacity="0.49"/>
+      <rect x="364" y="42.4" width="4" height="197.2" fill="url(#ray2)" opacity="0.44"/>
+      <rect x="368" y="49.5" width="4" height="192.3" fill="url(#ray2)" opacity="0.38"/>
+      <rect x="372" y="55.5" width="4" height="188.5" fill="url(#ray2)" opacity="0.37"/>
+      <rect x="376" y="46.3" width="4" height="200.1" fill="url(#ray2)" opacity="0.39"/>
+      <rect x="380" y="35.1" width="4" height="213.7" fill="url(#ray2)" opacity="0.36"/>
+      <rect x="384" y="37.9" width="4" height="213.2" fill="url(#ray2)" opacity="0.30"/>
+      <rect x="388" y="44.6" width="4" height="208.9" fill="url(#ray2)" opacity="0.29"/>
+      <rect x="392" y="37.7" width="4" height="218.1" fill="url(#ray2)" opacity="0.35"/>
+      <rect x="396" y="26.0" width="4" height="232.1" fill="url(#ray2)" opacity="0.39"/>
+      <rect x="400" y="29.0" width="4" height="231.3" fill="url(#ray2)" opacity="0.38"/>
+      <rect x="404" y="42.3" width="4" height="220.0" fill="url(#ray2)" opacity="0.41"/>
+      <rect x="408" y="45.8" width="4" height="218.6" fill="url(#ray2)" opacity="0.42"/>
+      <rect x="412" y="39.8" width="4" height="226.6" fill="url(#ray2)" opacity="0.36"/>
+      <rect x="416" y="43.3" width="4" height="224.8" fill="url(#ray2)" opacity="0.32"/>
+      <rect x="420" y="57.3" width="4" height="212.4" fill="url(#ray2)" opacity="0.34"/>
+      <rect x="424" y="60.8" width="4" height="210.4" fill="url(#ray2)" opacity="0.30"/>
+      <rect x="428" y="47.9" width="4" height="224.7" fill="url(#ray2)" opacity="0.22"/>
+      <rect x="432" y="37.5" width="4" height="236.3" fill="url(#ray2)" opacity="0.21"/>
+      <rect x="436" y="39.1" width="4" height="235.8" fill="url(#ray2)" opacity="0.20"/>
+      <rect x="440" y="36.5" width="4" height="239.3" fill="url(#ray2)" opacity="0.23"/>
+      <rect x="444" y="20.0" width="4" height="256.6" fill="url(#ray2)" opacity="0.32"/>
+      <rect x="448" y="17.3" width="4" height="260.0" fill="url(#ray2)" opacity="0.33"/>
+      <rect x="452" y="17.8" width="4" height="260.0" fill="url(#ray2)" opacity="0.29"/>
+      <rect x="456" y="25.8" width="4" height="252.4" fill="url(#ray2)" opacity="0.33"/>
+      <rect x="460" y="28.6" width="4" height="250.0" fill="url(#ray2)" opacity="0.39"/>
+      <rect x="464" y="31.0" width="4" height="247.9" fill="url(#ray2)" opacity="0.36"/>
+      <rect x="468" y="49.3" width="4" height="229.7" fill="url(#ray2)" opacity="0.31"/>
+      <rect x="472" y="74.1" width="4" height="205.2" fill="url(#ray2)" opacity="0.30"/>
+      <rect x="476" y="83.8" width="4" height="195.5" fill="url(#ray2)" opacity="0.28"/>
+      <rect x="32" y="148.6" width="4" height="266.1" fill="url(#ray)" opacity="0.90"/>
+      <rect x="32" y="414.7" width="4" height="44" fill="url(#glow)" opacity="0.90"/>
+      <rect x="36" y="147.7" width="4" height="266.9" fill="url(#ray)" opacity="0.93"/>
+      <rect x="36" y="414.6" width="4" height="44" fill="url(#glow)" opacity="0.93"/>
+      <rect x="40" y="158.1" width="4" height="256.1" fill="url(#ray)" opacity="0.85"/>
+      <rect x="40" y="414.2" width="4" height="44" fill="url(#glow)" opacity="0.85"/>
+      <rect x="44" y="181.8" width="4" height="231.8" fill="url(#ray)" opacity="0.82"/>
+      <rect x="44" y="413.6" width="4" height="44" fill="url(#glow)" opacity="0.82"/>
+      <rect x="48" y="199.3" width="4" height="213.5" fill="url(#ray)" opacity="0.73"/>
+      <rect x="48" y="412.8" width="4" height="44" fill="url(#glow)" opacity="0.73"/>
+      <rect x="52" y="195.4" width="4" height="216.4" fill="url(#ray)" opacity="0.80"/>
+      <rect x="52" y="411.8" width="4" height="44" fill="url(#glow)" opacity="0.80"/>
+      <rect x="56" y="181.2" width="4" height="229.4" fill="url(#ray)" opacity="0.82"/>
+      <rect x="56" y="410.5" width="4" height="44" fill="url(#glow)" opacity="0.82"/>
+      <rect x="60" y="178.3" width="4" height="230.8" fill="url(#ray)" opacity="0.71"/>
+      <rect x="60" y="409.1" width="4" height="44" fill="url(#glow)" opacity="0.71"/>
+      <rect x="64" y="188.7" width="4" height="218.7" fill="url(#ray)" opacity="0.56"/>
+      <rect x="64" y="407.4" width="4" height="44" fill="url(#glow)" opacity="0.56"/>
+      <rect x="68" y="195.5" width="4" height="210.0" fill="url(#ray)" opacity="0.45"/>
+      <rect x="68" y="405.5" width="4" height="44" fill="url(#glow)" opacity="0.45"/>
+      <rect x="72" y="190.7" width="4" height="212.7" fill="url(#ray)" opacity="0.51"/>
+      <rect x="72" y="403.4" width="4" height="44" fill="url(#glow)" opacity="0.51"/>
+      <rect x="76" y="187.7" width="4" height="213.5" fill="url(#ray)" opacity="0.50"/>
+      <rect x="76" y="401.1" width="4" height="44" fill="url(#glow)" opacity="0.50"/>
+      <rect x="80" y="197.9" width="4" height="200.8" fill="url(#ray)" opacity="0.54"/>
+      <rect x="80" y="398.6" width="4" height="44" fill="url(#glow)" opacity="0.54"/>
+      <rect x="84" y="198.0" width="4" height="198.0" fill="url(#ray)" opacity="0.55"/>
+      <rect x="84" y="396.0" width="4" height="44" fill="url(#glow)" opacity="0.55"/>
+      <rect x="88" y="195.1" width="4" height="198.0" fill="url(#ray)" opacity="0.58"/>
+      <rect x="88" y="393.1" width="4" height="44" fill="url(#glow)" opacity="0.58"/>
+      <rect x="92" y="173.7" width="4" height="216.4" fill="url(#ray)" opacity="0.59"/>
+      <rect x="92" y="390.2" width="4" height="44" fill="url(#glow)" opacity="0.59"/>
+      <rect x="96" y="147.8" width="4" height="239.2" fill="url(#ray)" opacity="0.54"/>
+      <rect x="96" y="387.0" width="4" height="44" fill="url(#glow)" opacity="0.54"/>
+      <rect x="100" y="137.4" width="4" height="246.4" fill="url(#ray)" opacity="0.66"/>
+      <rect x="100" y="383.8" width="4" height="44" fill="url(#glow)" opacity="0.66"/>
+      <rect x="104" y="131.8" width="4" height="248.6" fill="url(#ray)" opacity="0.69"/>
+      <rect x="104" y="380.4" width="4" height="44" fill="url(#glow)" opacity="0.69"/>
+      <rect x="108" y="116.9" width="4" height="260.1" fill="url(#ray)" opacity="0.70"/>
+      <rect x="108" y="377.0" width="4" height="44" fill="url(#glow)" opacity="0.70"/>
+      <rect x="112" y="98.8" width="4" height="274.7" fill="url(#ray)" opacity="0.60"/>
+      <rect x="112" y="373.5" width="4" height="44" fill="url(#glow)" opacity="0.60"/>
+      <rect x="116" y="94.2" width="4" height="275.7" fill="url(#ray)" opacity="0.59"/>
+      <rect x="116" y="369.9" width="4" height="44" fill="url(#glow)" opacity="0.59"/>
+      <rect x="120" y="102.5" width="4" height="263.8" fill="url(#ray)" opacity="0.67"/>
+      <rect x="120" y="366.3" width="4" height="44" fill="url(#glow)" opacity="0.67"/>
+      <rect x="124" y="102.7" width="4" height="260.0" fill="url(#ray)" opacity="0.64"/>
+      <rect x="124" y="362.7" width="4" height="44" fill="url(#glow)" opacity="0.64"/>
+      <rect x="128" y="82.9" width="4" height="276.2" fill="url(#ray)" opacity="0.66"/>
+      <rect x="128" y="359.1" width="4" height="44" fill="url(#glow)" opacity="0.66"/>
+      <rect x="132" y="57.4" width="4" height="298.1" fill="url(#ray)" opacity="0.64"/>
+      <rect x="132" y="355.5" width="4" height="44" fill="url(#glow)" opacity="0.64"/>
+      <rect x="136" y="46.7" width="4" height="305.4" fill="url(#ray)" opacity="0.71"/>
+      <rect x="136" y="352.0" width="4" height="44" fill="url(#glow)" opacity="0.71"/>
+      <rect x="140" y="49.4" width="4" height="299.1" fill="url(#ray)" opacity="0.71"/>
+      <rect x="140" y="348.6" width="4" height="44" fill="url(#glow)" opacity="0.71"/>
+      <rect x="144" y="48.7" width="4" height="296.5" fill="url(#ray)" opacity="0.73"/>
+      <rect x="144" y="345.2" width="4" height="44" fill="url(#glow)" opacity="0.73"/>
+      <rect x="148" y="40.2" width="4" height="301.7" fill="url(#ray)" opacity="0.83"/>
+      <rect x="148" y="341.9" width="4" height="44" fill="url(#glow)" opacity="0.83"/>
+      <rect x="152" y="39.0" width="4" height="299.7" fill="url(#ray)" opacity="0.86"/>
+      <rect x="152" y="338.7" width="4" height="44" fill="url(#glow)" opacity="0.86"/>
+      <rect x="156" y="54.1" width="4" height="281.6" fill="url(#ray)" opacity="0.87"/>
+      <rect x="156" y="335.7" width="4" height="44" fill="url(#glow)" opacity="0.87"/>
+      <rect x="160" y="70.0" width="4" height="262.8" fill="url(#ray)" opacity="0.74"/>
+      <rect x="160" y="332.8" width="4" height="44" fill="url(#glow)" opacity="0.74"/>
+      <rect x="164" y="66.3" width="4" height="263.7" fill="url(#ray)" opacity="0.75"/>
+      <rect x="164" y="330.0" width="4" height="44" fill="url(#glow)" opacity="0.75"/>
+      <rect x="168" y="45.9" width="4" height="281.5" fill="url(#ray)" opacity="0.75"/>
+      <rect x="168" y="327.4" width="4" height="44" fill="url(#glow)" opacity="0.75"/>
+      <rect x="172" y="30.4" width="4" height="294.6" fill="url(#ray)" opacity="0.71"/>
+      <rect x="172" y="325.0" width="4" height="44" fill="url(#glow)" opacity="0.71"/>
+      <rect x="176" y="29.6" width="4" height="293.1" fill="url(#ray)" opacity="0.68"/>
+      <rect x="176" y="322.7" width="4" height="44" fill="url(#glow)" opacity="0.68"/>
+      <rect x="180" y="30.5" width="4" height="290.2" fill="url(#ray)" opacity="0.64"/>
+      <rect x="180" y="320.6" width="4" height="44" fill="url(#glow)" opacity="0.64"/>
+      <rect x="184" y="20.8" width="4" height="297.9" fill="url(#ray)" opacity="0.70"/>
+      <rect x="184" y="318.7" width="4" height="44" fill="url(#glow)" opacity="0.70"/>
+      <rect x="188" y="10.0" width="4" height="307.0" fill="url(#ray)" opacity="0.61"/>
+      <rect x="188" y="317.0" width="4" height="44" fill="url(#glow)" opacity="0.61"/>
+      <rect x="192" y="14.2" width="4" height="301.2" fill="url(#ray)" opacity="0.60"/>
+      <rect x="192" y="315.5" width="4" height="44" fill="url(#glow)" opacity="0.60"/>
+      <rect x="196" y="29.0" width="4" height="285.1" fill="url(#ray)" opacity="0.63"/>
+      <rect x="196" y="314.1" width="4" height="44" fill="url(#glow)" opacity="0.63"/>
+      <rect x="200" y="32.4" width="4" height="280.5" fill="url(#ray)" opacity="0.70"/>
+      <rect x="200" y="312.9" width="4" height="44" fill="url(#glow)" opacity="0.70"/>
+      <rect x="204" y="15.6" width="4" height="296.3" fill="url(#ray)" opacity="0.74"/>
+      <rect x="204" y="311.9" width="4" height="44" fill="url(#glow)" opacity="0.74"/>
+      <rect x="208" y="-4.3" width="4" height="315.3" fill="url(#ray)" opacity="0.68"/>
+      <rect x="208" y="311.0" width="4" height="44" fill="url(#glow)" opacity="0.68"/>
+      <rect x="212" y="-8.7" width="4" height="319.0" fill="url(#ray)" opacity="0.72"/>
+      <rect x="212" y="310.3" width="4" height="44" fill="url(#glow)" opacity="0.72"/>
+      <rect x="216" y="-1.9" width="4" height="311.6" fill="url(#ray)" opacity="0.68"/>
+      <rect x="216" y="309.7" width="4" height="44" fill="url(#glow)" opacity="0.68"/>
+      <rect x="220" y="-0.2" width="4" height="309.5" fill="url(#ray)" opacity="0.64"/>
+      <rect x="220" y="309.3" width="4" height="44" fill="url(#glow)" opacity="0.64"/>
+      <rect x="224" y="-3.8" width="4" height="312.8" fill="url(#ray)" opacity="0.54"/>
+      <rect x="224" y="309.0" width="4" height="44" fill="url(#glow)" opacity="0.54"/>
+      <rect x="228" y="4.1" width="4" height="304.7" fill="url(#ray)" opacity="0.54"/>
+      <rect x="228" y="308.8" width="4" height="44" fill="url(#glow)" opacity="0.54"/>
+      <rect x="232" y="29.6" width="4" height="279.1" fill="url(#ray)" opacity="0.60"/>
+      <rect x="232" y="308.6" width="4" height="44" fill="url(#glow)" opacity="0.60"/>
+      <rect x="236" y="54.5" width="4" height="254.1" fill="url(#ray)" opacity="0.53"/>
+      <rect x="236" y="308.6" width="4" height="44" fill="url(#glow)" opacity="0.53"/>
+      <rect x="240" y="60.0" width="4" height="248.6" fill="url(#ray)" opacity="0.52"/>
+      <rect x="240" y="308.6" width="4" height="44" fill="url(#glow)" opacity="0.52"/>
+      <rect x="244" y="51.9" width="4" height="256.8" fill="url(#ray)" opacity="0.49"/>
+      <rect x="244" y="308.7" width="4" height="44" fill="url(#glow)" opacity="0.49"/>
+      <rect x="248" y="51.6" width="4" height="257.3" fill="url(#ray)" opacity="0.59"/>
+      <rect x="248" y="308.8" width="4" height="44" fill="url(#glow)" opacity="0.59"/>
+      <rect x="252" y="64.7" width="4" height="244.3" fill="url(#ray)" opacity="0.60"/>
+      <rect x="252" y="309.0" width="4" height="44" fill="url(#glow)" opacity="0.60"/>
+      <rect x="256" y="76.3" width="4" height="232.8" fill="url(#ray)" opacity="0.63"/>
+      <rect x="256" y="309.1" width="4" height="44" fill="url(#glow)" opacity="0.63"/>
+      <rect x="260" y="76.5" width="4" height="232.8" fill="url(#ray)" opacity="0.73"/>
+      <rect x="260" y="309.3" width="4" height="44" fill="url(#glow)" opacity="0.73"/>
+      <rect x="264" y="77.3" width="4" height="232.0" fill="url(#ray)" opacity="0.75"/>
+      <rect x="264" y="309.4" width="4" height="44" fill="url(#glow)" opacity="0.75"/>
+      <rect x="268" y="93.2" width="4" height="216.3" fill="url(#ray)" opacity="0.78"/>
+      <rect x="268" y="309.5" width="4" height="44" fill="url(#glow)" opacity="0.78"/>
+      <rect x="272" y="111.6" width="4" height="198.0" fill="url(#ray)" opacity="0.71"/>
+      <rect x="272" y="309.6" width="4" height="44" fill="url(#glow)" opacity="0.71"/>
+      <rect x="276" y="111.6" width="4" height="198.0" fill="url(#ray)" opacity="0.80"/>
+      <rect x="276" y="309.6" width="4" height="44" fill="url(#glow)" opacity="0.80"/>
+      <rect x="280" y="106.7" width="4" height="202.8" fill="url(#ray)" opacity="0.83"/>
+      <rect x="280" y="309.5" width="4" height="44" fill="url(#glow)" opacity="0.83"/>
+      <rect x="284" y="88.1" width="4" height="221.3" fill="url(#ray)" opacity="0.78"/>
+      <rect x="284" y="309.4" width="4" height="44" fill="url(#glow)" opacity="0.78"/>
+      <rect x="288" y="82.5" width="4" height="226.8" fill="url(#ray)" opacity="0.71"/>
+      <rect x="288" y="309.3" width="4" height="44" fill="url(#glow)" opacity="0.71"/>
+      <rect x="292" y="82.5" width="4" height="226.6" fill="url(#ray)" opacity="0.67"/>
+      <rect x="292" y="309.1" width="4" height="44" fill="url(#glow)" opacity="0.67"/>
+      <rect x="296" y="73.3" width="4" height="235.5" fill="url(#ray)" opacity="0.78"/>
+      <rect x="296" y="308.8" width="4" height="44" fill="url(#glow)" opacity="0.78"/>
+      <rect x="300" y="58.8" width="4" height="249.6" fill="url(#ray)" opacity="0.78"/>
+      <rect x="300" y="308.4" width="4" height="44" fill="url(#glow)" opacity="0.78"/>
+      <rect x="304" y="57.1" width="4" height="250.9" fill="url(#ray)" opacity="0.83"/>
+      <rect x="304" y="307.9" width="4" height="44" fill="url(#glow)" opacity="0.83"/>
+      <rect x="308" y="71.5" width="4" height="235.9" fill="url(#ray)" opacity="0.82"/>
+      <rect x="308" y="307.4" width="4" height="44" fill="url(#glow)" opacity="0.82"/>
+      <rect x="312" y="82.3" width="4" height="224.6" fill="url(#ray)" opacity="0.80"/>
+      <rect x="312" y="306.8" width="4" height="44" fill="url(#glow)" opacity="0.80"/>
+      <rect x="316" y="73.0" width="4" height="233.2" fill="url(#ray)" opacity="0.74"/>
+      <rect x="316" y="306.2" width="4" height="44" fill="url(#glow)" opacity="0.74"/>
+      <rect x="320" y="53.4" width="4" height="252.2" fill="url(#ray)" opacity="0.67"/>
+      <rect x="320" y="305.5" width="4" height="44" fill="url(#glow)" opacity="0.67"/>
+      <rect x="324" y="44.0" width="4" height="260.8" fill="url(#ray)" opacity="0.78"/>
+      <rect x="324" y="304.8" width="4" height="44" fill="url(#glow)" opacity="0.78"/>
+      <rect x="328" y="47.6" width="4" height="256.5" fill="url(#ray)" opacity="0.78"/>
+      <rect x="328" y="304.0" width="4" height="44" fill="url(#glow)" opacity="0.78"/>
+      <rect x="332" y="48.2" width="4" height="255.1" fill="url(#ray)" opacity="0.72"/>
+      <rect x="332" y="303.3" width="4" height="44" fill="url(#glow)" opacity="0.72"/>
+      <rect x="336" y="39.4" width="4" height="263.0" fill="url(#ray)" opacity="0.52"/>
+      <rect x="336" y="302.5" width="4" height="44" fill="url(#glow)" opacity="0.52"/>
+      <rect x="340" y="36.0" width="4" height="265.7" fill="url(#ray)" opacity="0.43"/>
+      <rect x="340" y="301.7" width="4" height="44" fill="url(#glow)" opacity="0.43"/>
+      <rect x="344" y="50.2" width="4" height="250.7" fill="url(#ray)" opacity="0.44"/>
+      <rect x="344" y="300.9" width="4" height="44" fill="url(#glow)" opacity="0.44"/>
+      <rect x="348" y="70.1" width="4" height="230.1" fill="url(#ray)" opacity="0.42"/>
+      <rect x="348" y="300.2" width="4" height="44" fill="url(#glow)" opacity="0.42"/>
+      <rect x="352" y="73.0" width="4" height="226.5" fill="url(#ray)" opacity="0.48"/>
+      <rect x="352" y="299.5" width="4" height="44" fill="url(#glow)" opacity="0.48"/>
+      <rect x="356" y="56.2" width="4" height="242.6" fill="url(#ray)" opacity="0.47"/>
+      <rect x="356" y="298.9" width="4" height="44" fill="url(#glow)" opacity="0.47"/>
+      <rect x="360" y="39.3" width="4" height="259.0" fill="url(#ray)" opacity="0.52"/>
+      <rect x="360" y="298.3" width="4" height="44" fill="url(#glow)" opacity="0.52"/>
+      <rect x="364" y="35.0" width="4" height="262.9" fill="url(#ray)" opacity="0.46"/>
+      <rect x="364" y="297.9" width="4" height="44" fill="url(#glow)" opacity="0.46"/>
+      <rect x="368" y="32.9" width="4" height="264.6" fill="url(#ray)" opacity="0.50"/>
+      <rect x="368" y="297.5" width="4" height="44" fill="url(#glow)" opacity="0.50"/>
+      <rect x="372" y="19.7" width="4" height="277.5" fill="url(#ray)" opacity="0.66"/>
+      <rect x="372" y="297.3" width="4" height="44" fill="url(#glow)" opacity="0.66"/>
+      <rect x="376" y="3.0" width="4" height="294.2" fill="url(#ray)" opacity="0.76"/>
+      <rect x="376" y="297.2" width="4" height="44" fill="url(#glow)" opacity="0.76"/>
+      <rect x="380" y="0.9" width="4" height="296.3" fill="url(#ray)" opacity="0.79"/>
+      <rect x="380" y="297.2" width="4" height="44" fill="url(#glow)" opacity="0.79"/>
+      <rect x="384" y="13.4" width="4" height="284.0" fill="url(#ray)" opacity="0.67"/>
+      <rect x="384" y="297.4" width="4" height="44" fill="url(#glow)" opacity="0.67"/>
+      <rect x="388" y="19.2" width="4" height="278.6" fill="url(#ray)" opacity="0.72"/>
+      <rect x="388" y="297.8" width="4" height="44" fill="url(#glow)" opacity="0.72"/>
+      <rect x="392" y="4.8" width="4" height="293.5" fill="url(#ray)" opacity="0.77"/>
+      <rect x="392" y="298.3" width="4" height="44" fill="url(#glow)" opacity="0.77"/>
+      <rect x="396" y="-17.0" width="4" height="316.1" fill="url(#ray)" opacity="0.82"/>
+      <rect x="396" y="299.1" width="4" height="44" fill="url(#glow)" opacity="0.82"/>
+      <rect x="400" y="-26.7" width="4" height="326.7" fill="url(#ray)" opacity="0.83"/>
+      <rect x="400" y="300.0" width="4" height="44" fill="url(#glow)" opacity="0.83"/>
+      <rect x="404" y="-24.8" width="4" height="325.9" fill="url(#ray)" opacity="0.80"/>
+      <rect x="404" y="301.2" width="4" height="44" fill="url(#glow)" opacity="0.80"/>
+      <rect x="408" y="-27.1" width="4" height="329.6" fill="url(#ray)" opacity="0.81"/>
+      <rect x="408" y="302.5" width="4" height="44" fill="url(#glow)" opacity="0.81"/>
+      <rect x="412" y="-26.0" width="4" height="330.0" fill="url(#ray)" opacity="0.72"/>
+      <rect x="412" y="304.0" width="4" height="44" fill="url(#glow)" opacity="0.72"/>
+      <rect x="416" y="-24.2" width="4" height="330.0" fill="url(#ray)" opacity="0.79"/>
+      <rect x="416" y="305.8" width="4" height="44" fill="url(#glow)" opacity="0.79"/>
+      <rect x="420" y="-12.7" width="4" height="320.4" fill="url(#ray)" opacity="0.89"/>
+      <rect x="420" y="307.7" width="4" height="44" fill="url(#glow)" opacity="0.89"/>
+      <rect x="424" y="14.9" width="4" height="294.9" fill="url(#ray)" opacity="0.97"/>
+      <rect x="424" y="309.9" width="4" height="44" fill="url(#glow)" opacity="0.97"/>
+      <rect x="428" y="26.3" width="4" height="285.9" fill="url(#ray)" opacity="0.90"/>
+      <rect x="428" y="312.2" width="4" height="44" fill="url(#glow)" opacity="0.90"/>
+      <rect x="432" y="22.2" width="4" height="292.5" fill="url(#ray)" opacity="0.72"/>
+      <rect x="432" y="314.7" width="4" height="44" fill="url(#glow)" opacity="0.72"/>
+      <rect x="436" y="22.2" width="4" height="295.2" fill="url(#ray)" opacity="0.69"/>
+      <rect x="436" y="317.4" width="4" height="44" fill="url(#glow)" opacity="0.69"/>
+      <rect x="440" y="35.4" width="4" height="284.8" fill="url(#ray)" opacity="0.66"/>
+      <rect x="440" y="320.3" width="4" height="44" fill="url(#glow)" opacity="0.66"/>
+      <rect x="444" y="48.8" width="4" height="274.5" fill="url(#ray)" opacity="0.70"/>
+      <rect x="444" y="323.3" width="4" height="44" fill="url(#glow)" opacity="0.70"/>
+      <rect x="448" y="50.7" width="4" height="275.8" fill="url(#ray)" opacity="0.62"/>
+      <rect x="448" y="326.4" width="4" height="44" fill="url(#glow)" opacity="0.62"/>
+      <rect x="452" y="51.6" width="4" height="278.2" fill="url(#ray)" opacity="0.56"/>
+      <rect x="452" y="329.7" width="4" height="44" fill="url(#glow)" opacity="0.56"/>
+      <rect x="456" y="68.6" width="4" height="264.6" fill="url(#ray)" opacity="0.47"/>
+      <rect x="456" y="333.1" width="4" height="44" fill="url(#glow)" opacity="0.47"/>
+      <rect x="460" y="97.6" width="4" height="239.1" fill="url(#ray)" opacity="0.35"/>
+      <rect x="460" y="336.6" width="4" height="44" fill="url(#glow)" opacity="0.35"/>
+      <rect x="464" y="115.7" width="4" height="224.4" fill="url(#ray)" opacity="0.40"/>
+      <rect x="464" y="340.2" width="4" height="44" fill="url(#glow)" opacity="0.40"/>
+      <rect x="468" y="112.2" width="4" height="231.6" fill="url(#ray)" opacity="0.44"/>
+      <rect x="468" y="343.8" width="4" height="44" fill="url(#glow)" opacity="0.44"/>
+      <rect x="472" y="101.8" width="4" height="245.7" fill="url(#ray)" opacity="0.60"/>
+      <rect x="472" y="347.5" width="4" height="44" fill="url(#glow)" opacity="0.60"/>
+      <rect x="476" y="102.0" width="4" height="249.2" fill="url(#ray)" opacity="0.56"/>
+      <rect x="476" y="351.1" width="4" height="44" fill="url(#glow)" opacity="0.56"/>
+      <path d="M34 414.7 L38 414.6 L42 414.2 L46 413.6 L50 412.8 L54 411.8 L58 410.5 L62 409.1 L66 407.4 L70 405.5 L74 403.4 L78 401.1 L82 398.6 L86 396.0 L90 393.1 L94 390.2 L98 387.0 L102 383.8 L106 380.4 L110 377.0 L114 373.5 L118 369.9 L122 366.3 L126 362.7 L130 359.1 L134 355.5 L138 352.0 L142 348.6 L146 345.2 L150 341.9 L154 338.7 L158 335.7 L162 332.8 L166 330.0 L170 327.4 L174 325.0 L178 322.7 L182 320.6 L186 318.7 L190 317.0 L194 315.5 L198 314.1 L202 312.9 L206 311.9 L210 311.0 L214 310.3 L218 309.7 L222 309.3 L226 309.0 L230 308.8 L234 308.6 L238 308.6 L242 308.6 L246 308.7 L250 308.8 L254 309.0 L258 309.1 L262 309.3 L266 309.4 L270 309.5 L274 309.6 L278 309.6 L282 309.5 L286 309.4 L290 309.3 L294 309.1 L298 308.8 L302 308.4 L306 307.9 L310 307.4 L314 306.8 L318 306.2 L322 305.5 L326 304.8 L330 304.0 L334 303.3 L338 302.5 L342 301.7 L346 300.9 L350 300.2 L354 299.5 L358 298.9 L362 298.3 L366 297.9 L370 297.5 L374 297.3 L378 297.2 L382 297.2 L386 297.4 L390 297.8 L394 298.3 L398 299.1 L402 300.0 L406 301.2 L410 302.5 L414 304.0 L418 305.8 L422 307.7 L426 309.9 L430 312.2 L434 314.7 L438 317.4 L442 320.3 L446 323.3 L450 326.4 L454 329.7 L458 333.1 L462 336.6 L466 340.2 L470 343.8 L474 347.5 L478 351.1" fill="none" stroke="#b4f5ea" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" opacity="1.00"/>
   </g>
+  <rect x="33.500" y="33.500" width="445" height="445" rx="106.500" fill="none" stroke="#565f89" stroke-width="3"/>
 </svg>
