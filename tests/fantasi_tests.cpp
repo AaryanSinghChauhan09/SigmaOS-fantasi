@@ -996,6 +996,8 @@ private slots:
     }
 
     void generatorEstimatesTheTimeLeftFromTheLastOneLikeIt() {
+        // From nothing remembered, even when a run before stopped halfway.
+        QSettings().remove("durations");
         QTemporaryDir dir;
         FakeServer server;
         server.answer = [&](const QString &method, const QString &path) -> QPair<int, QByteArray> {
@@ -1012,12 +1014,20 @@ private slots:
         generator.generate("a lake", 1024, 1024);
         QTRY_VERIFY(generator.busy());
         QCOMPARE(generator.remainingSeconds(), -1);
+        QCOMPARE(generator.timeProgress(), -1.0);
         // The last one like it took 120 seconds: about that long is left.
         QSettings().setValue("durations/z-image-turbo/image/1024x1024", 120.0);
         Generator next(&models, dir.path() + "/out");
         next.generate("a lake", 1024, 1024);
         QTRY_VERIFY(next.busy());
         QVERIFY2(next.remainingSeconds() > 115 && next.remainingSeconds() <= 120, qPrintable(QString::number(next.remainingSeconds())));
+        // And its share gone by fills from there, held short of whole.
+        QVERIFY2(next.timeProgress() >= 0 && next.timeProgress() < 0.05, qPrintable(QString::number(next.timeProgress())));
+        QSettings().setValue("durations/z-image-turbo/image/1024x1024", 0.001);
+        Generator late(&models, dir.path() + "/out");
+        late.generate("a lake", 1024, 1024);
+        QTRY_VERIFY(late.busy());
+        QTRY_COMPARE(late.timeProgress(), 0.97);
         QSettings().remove("durations");
     }
 

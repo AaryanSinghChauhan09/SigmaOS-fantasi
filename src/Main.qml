@@ -137,9 +137,12 @@ ApplicationWindow {
     property bool sentMusic: false
     property string sentLyrics
     // How far along the image is being made, 0 to 1: the steps, then whole
-    // once they're done and it's finishing.
+    // once they're done and it's finishing. A song has only two steps,
+    // written and rendered, so it fills by time against the last one as
+    // long, and by its steps the first time.
     readonly property real progress: !generator.busy ? 0
         : generator.stage === "decoding" || generator.stage === "saving" ? 1
+        : sentMusic && generator.timeProgress >= 0 ? generator.timeProgress
         : generator.totalSteps > 0 ? Math.min(1, generator.step / generator.totalSteps) : 0
 
     // The model's own steps and a new seed every time: what matters is said
@@ -556,12 +559,13 @@ ApplicationWindow {
                             visible: win.showingClip
                             source: "qrc:/VideoPlayer.qml"
                         }
-                        // How long a clip or a song has left, in the middle of the frame. An
-                        // image needs none: it comes to life before your eyes.
+                        // How long a clip has left, in the middle of the frame. An image
+                        // needs none: it comes to life before your eyes, and a song's
+                        // progress is the edge around the prompt filling up.
                         Rectangle {
                             objectName: "remaining"
                             anchors.centerIn: parent
-                            visible: generator.busy && (win.videoMode || win.musicMode)
+                            visible: generator.busy && win.videoMode && !win.sentMusic
                             width: remainingLabel.implicitWidth + 28
                             height: remainingLabel.implicitHeight + 14
                             radius: Math.min(height / 2, theme.radius + 6)
