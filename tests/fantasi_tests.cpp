@@ -883,6 +883,62 @@ private slots:
         QCoreApplication::removeTranslator(&translator);
     }
 
+    void aModelSetUpButNotRunningWaitsInARingForAClickToStartIt() {
+        QTemporaryDir dir;
+        Translator translator(dir.path() + "/language");
+        QCoreApplication::installTranslator(&translator);
+        Theme theme(dir.path());
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{{"z", QJsonObject{
+            {"kind", "image"}, {"name", "Z-Image Turbo"}, {"unit", "inactive"}}}}}}).toJson());
+        write(state + "/list.json", "[]");
+        write(state + "/key", "secret\n");
+        // An engine that notes what it's asked to do.
+        const QString command = dir.path() + "/engine";
+        write(command, "#!/bin/bash\necho \"$@\" >> '" + dir.path().toUtf8() + "/asked'\n");
+        QFile::setPermissions(command, QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+        Backend backend({state, state + "/key", command, dir.path() + "/out", "/bin/true", {}});
+
+        QQmlApplicationEngine engine;
+        QStringList warnings;
+        connect(&engine, &QQmlEngine::warnings, this, [&](const QList<QQmlError> &errors) {
+            for (const auto &error : errors)
+                warnings << error.toString();
+        });
+        engine.rootContext()->setContextProperty("translator", &translator);
+        engine.rootContext()->setContextProperty("theme", &theme);
+        engine.rootContext()->setContextProperty("backend", &backend);
+        engine.load(QUrl("qrc:/Main.qml"));
+        QVERIFY(!engine.rootObjects().isEmpty());
+        auto *window = qobject_cast<QQuickWindow *>(engine.rootObjects().first());
+        QVERIFY(QTest::qWaitForWindowExposed(window));
+
+        // The ring offers the start; the bar waits, greyed, with nothing to send.
+        auto *ring = item(window->contentItem(), "starting");
+        auto *wake = item(window->contentItem(), "wake");
+        auto *prompt = item(window->contentItem(), "prompt");
+        auto *action = item(window->contentItem(), "action");
+        QVERIFY(ring && wake && prompt && action);
+        QTRY_VERIFY(window->property("asleep").toBool());
+        QVERIFY(ring->isVisible() && ring->property("offer").toBool());
+        QCOMPARE(window->property("wakeText").toString(), QString("Start Z-Image Turbo"));
+        QVERIFY(prompt->property("readOnly").toBool());
+        QVERIFY(!action->isEnabled());
+        QVERIFY(action->property("round").toBool());
+
+        // A click on the ring starts the model, and the ring turns to starting.
+        QTest::mouseClick(window, Qt::LeftButton, {}, wake->mapToScene(QPointF(wake->width() / 2, wake->height() / 2)).toPoint());
+        const auto asked = [&] {
+            QFile file(dir.path() + "/asked");
+            return file.open(QIODevice::ReadOnly) ? file.readAll().split('\n') : QByteArrayList();
+        };
+        QTRY_VERIFY(asked().contains("start z"));
+
+        QVERIFY2(warnings.isEmpty(), qPrintable(warnings.join('\n')));
+        QCoreApplication::removeTranslator(&translator);
+    }
+
     void generatorEstimatesTheTimeLeftFromTheLastOneLikeIt() {
         QTemporaryDir dir;
         FakeServer server;

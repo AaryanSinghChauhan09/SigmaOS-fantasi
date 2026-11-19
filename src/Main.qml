@@ -105,6 +105,21 @@ ApplicationWindow {
         default: return ""
         }
     }
+    // Set up but not running: the stage offers to start it, and the bar waits.
+    readonly property bool asleep: ["installed", "blocked"].indexOf(models.state) >= 0 && !models.working
+    readonly property string wakeText: models.state === "blocked"
+        ? qsTr("Stop %1 and start %2").arg(models.blockers.join(", ")).arg(models.modelName)
+        : qsTr("Start %1").arg(models.modelName)
+    function wake() {
+        if (!asleep)
+            return
+        if (models.state === "blocked")
+            models.switchTo()
+        else
+            models.start()
+    }
+    // Nothing in the bar changes while something is made, or with no model running.
+    readonly property bool locked: generator.busy || asleep
     // Which screen shows: setting up the first image model, sorry there's
     // none for this machine, or the studio once one is set up.
     readonly property string page: models.settingUp ? "setup"
@@ -362,28 +377,46 @@ ApplicationWindow {
                                                    : win.musicMode ? 3 : win.outputSize.width / win.outputSize.height
 
                     // A model starting in place of the one in use: its mark in a
-                    // ring with a spark circling it, as on the setup screen.
+                    // ring with a spark circling it, as on the setup screen. One
+                    // set up but not running waits in the same ring, over a glow
+                    // that breathes, for a click to start it.
                     Item {
                         id: starting
                         objectName: "starting"
                         readonly property bool active: models.working || models.state === "starting"
+                        readonly property bool offer: !active && win.asleep && win.composing
                         readonly property string name: models.switchingTo !== "" ? models.switchingTo : models.modelName
                         readonly property string mark: models.logo(models.switchingTo !== "" ? models.switchingVendor : models.vendor, theme.light)
                         anchors.centerIn: parent
                         width: 220
                         height: 200
                         z: 2
-                        visible: active && !generator.busy
+                        visible: (active || offer) && !generator.busy
                         Item {
                             id: ring
                             width: 120
                             height: 120
                             anchors.horizontalCenter: parent.horizontalCenter
+                            Rectangle {
+                                anchors.centerIn: parent
+                                width: 92
+                                height: 92
+                                radius: width / 2
+                                visible: starting.offer
+                                color: Qt.rgba(theme.accent.r, theme.accent.g, theme.accent.b, wake.containsMouse ? 0.2 : 0.1)
+                                SequentialAnimation on scale {
+                                    running: starting.visible && starting.offer
+                                    loops: Animation.Infinite
+                                    NumberAnimation { from: 0.92; to: 1.06; duration: 1800; easing.type: Easing.InOutSine }
+                                    NumberAnimation { from: 1.06; to: 0.92; duration: 1800; easing.type: Easing.InOutSine }
+                                }
+                            }
                             Shape {
                                 anchors.fill: parent
                                 preferredRendererType: Shape.CurveRenderer
                                 ShapePath {
-                                    strokeColor: Qt.rgba(theme.foreground.r, theme.foreground.g, theme.foreground.b, 0.12)
+                                    strokeColor: starting.offer && wake.containsMouse ? theme.accent
+                                               : Qt.rgba(theme.foreground.r, theme.foreground.g, theme.foreground.b, 0.12)
                                     strokeWidth: 5
                                     fillColor: "transparent"
                                     PathAngleArc { centerX: 60; centerY: 60; radiusX: 55; radiusY: 55; startAngle: -90; sweepAngle: 360 }
@@ -391,8 +424,9 @@ ApplicationWindow {
                             }
                             Item {
                                 anchors.fill: parent
+                                visible: starting.active
                                 RotationAnimation on rotation {
-                                    running: starting.visible
+                                    running: starting.visible && starting.active
                                     loops: Animation.Infinite
                                     from: 0
                                     to: 360
@@ -415,13 +449,28 @@ ApplicationWindow {
                                 fillMode: Image.PreserveAspectFit
                                 source: starting.mark !== "" ? starting.mark : "qrc:/icons/model.svg"
                             }
+                            MouseArea {
+                                id: wake
+                                objectName: "wake"
+                                anchors.fill: parent
+                                enabled: starting.offer
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                Accessible.role: Accessible.Button
+                                Accessible.name: win.wakeText
+                                Accessible.onPressAction: win.wake()
+                                onClicked: win.wake()
+                            }
                         }
                         Label {
                             anchors.top: ring.bottom
                             anchors.topMargin: 16
                             anchors.horizontalCenter: parent.horizontalCenter
-                            color: win.muted
-                            text: qsTr("Starting %1…").arg(starting.name)
+                            width: Math.min(implicitWidth, stage.width * 0.6)
+                            horizontalAlignment: Text.AlignHCenter
+                            wrapMode: Text.Wrap
+                            color: starting.offer && wake.containsMouse ? theme.foreground : win.muted
+                            text: starting.offer ? win.wakeText : qsTr("Starting %1…").arg(starting.name)
                         }
                     }
 
@@ -642,7 +691,7 @@ ApplicationWindow {
                     // Rounded as the theme rounds windows, sharp where it doesn't.
                     radius: Math.min(height / 2, theme.radius)
                     // While something is made, the edge below takes the border's place.
-                    border.color: win.choosing || generator.busy ? "transparent" : prompt.activeFocus ? theme.accent : win.line
+                    border.color: win.choosing || generator.busy ? "transparent" : prompt.activeFocus && !win.asleep ? theme.accent : win.line
 
                     // While it's being made, the bar's edge says how far along it
                     // is: a faint track, an accent line growing clockwise with each
@@ -814,8 +863,8 @@ ApplicationWindow {
                         ToolButton {
                             objectName: "startFrom"
                             // Nothing changes while something is made: only stop works.
-                            enabled: !generator.busy
-                            opacity: generator.busy ? 0.4 : 1
+                            enabled: !win.locked
+                            opacity: win.locked ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             visible: win.canAddPicture
                             Layout.preferredWidth: 32
@@ -864,8 +913,8 @@ ApplicationWindow {
                             TextArea {
                                 id: prompt
                                 objectName: "prompt"
-                                readOnly: generator.busy
-                                opacity: generator.busy ? 0.5 : 1
+                                readOnly: win.locked
+                                opacity: win.locked ? 0.5 : 1
                                 focus: true
                                 wrapMode: TextEdit.Wrap
                                 background: null
@@ -886,16 +935,21 @@ ApplicationWindow {
                                           : win.baseImages.length > 1 ? qsTr("How should they come together?")
                                           : win.changing ? qsTr("What should change?") : qsTr("Describe an image")
                                 }
-                                // Enter sends the prompt; Shift+Enter is a new line.
+                                // Enter sends the prompt, or starts a model that waits
+                                // to be; Shift+Enter is a new line.
                                 Keys.onReturnPressed: event => {
                                     if (event.modifiers & Qt.ShiftModifier)
                                         event.accepted = false
+                                    else if (win.asleep)
+                                        win.wake()
                                     else
                                         win.generate()
                                 }
                                 Keys.onEnterPressed: event => {
                                     if (event.modifiers & Qt.ShiftModifier)
                                         event.accepted = false
+                                    else if (win.asleep)
+                                        win.wake()
                                     else
                                         win.generate()
                                 }
@@ -908,8 +962,8 @@ ApplicationWindow {
                             id: lyricsButton
                             objectName: "lyricsChoice"
                             // Nothing changes while something is made: only stop works.
-                            enabled: !generator.busy
-                            opacity: generator.busy ? 0.4 : 1
+                            enabled: !win.locked
+                            opacity: win.locked ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             visible: win.musicMode
                             Layout.preferredWidth: 32
@@ -966,8 +1020,8 @@ ApplicationWindow {
                         ToolButton {
                             objectName: "songLength"
                             // Nothing changes while something is made: only stop works.
-                            enabled: !generator.busy
-                            opacity: generator.busy ? 0.4 : 1
+                            enabled: !win.locked
+                            opacity: win.locked ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             Layout.preferredWidth: 32
                             Layout.preferredHeight: 32
@@ -994,8 +1048,8 @@ ApplicationWindow {
                         ToolButton {
                             objectName: "clipLength"
                             // Nothing changes while something is made: only stop works.
-                            enabled: !generator.busy
-                            opacity: generator.busy ? 0.4 : 1
+                            enabled: !win.locked
+                            opacity: win.locked ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             Layout.preferredWidth: 32
                             Layout.preferredHeight: 32
@@ -1024,8 +1078,8 @@ ApplicationWindow {
                             id: shape
                             objectName: "size"
                             // Nothing changes while something is made: only stop works.
-                            enabled: !generator.busy
-                            opacity: generator.busy ? 0.4 : 1
+                            enabled: !win.locked
+                            opacity: win.locked ? 0.4 : 1
                             Layout.alignment: Qt.AlignVCenter
                             visible: !win.changing && !win.musicMode
                             Layout.preferredWidth: 32
@@ -1183,15 +1237,14 @@ ApplicationWindow {
                             }
                         }
 
-                        // Ready, a round arrow to send (a square to stop while
-                        // it's making one); otherwise, in words, what gets a
-                        // model going.
+                        // A round arrow to send, or a square to stop while it's
+                        // making one. Starting a model is the stage's to offer.
                         Button {
                             id: action
                             objectName: "action"
-                            // The round arrow stays while a model starts: the bar keeps its
-                            // shape and greys out; words only for an offer to start or set up.
-                            readonly property bool round: models.state === "ready" || starting.active
+                            // The round arrow stays while a model starts or waits to: the
+                            // bar keeps its shape and greys out; words only for a setup.
+                            readonly property bool round: models.state === "ready" || starting.active || win.asleep
                             // The same gap from the model's mark as between the icons.
                             Layout.leftMargin: 9
                             Layout.alignment: Qt.AlignVCenter
@@ -1211,24 +1264,17 @@ ApplicationWindow {
                             ToolTip.visible: round && hovered
                             ToolTip.text: text + (generator.busy ? "  Esc" : "  Enter")
                             ToolTip.delay: 400
-                            enabled: models.state === "ready" ? (generator.busy || prompt.text.trim() !== "")
-                                   : ["installed", "blocked"].indexOf(models.state) >= 0 && !models.working
+                            enabled: models.state === "ready" && (generator.busy || prompt.text.trim() !== "")
                             text: {
                                 switch (models.state) {
                                 case "ready": return generator.busy ? qsTr("Cancel") : win.changing ? qsTr("Change") : qsTr("Generate")
-                                case "installed": return qsTr("Start %1").arg(models.modelName)
-                                case "blocked": return qsTr("Stop %1 and start %2").arg(models.blockers.join(", ")).arg(models.modelName)
+                                case "installed":
+                                case "blocked": return win.wakeText
                                 case "starting": return qsTr("Starting…")
                                 default: return qsTr("Setting up…")
                                 }
                             }
-                            onClicked: {
-                                switch (models.state) {
-                                case "ready": generator.busy ? generator.cancel() : win.generate(); break
-                                case "installed": models.start(); break
-                                case "blocked": models.switchTo(); break
-                                }
-                            }
+                            onClicked: generator.busy ? generator.cancel() : win.generate()
                             contentItem: Item {
                                 id: face
                                 // What's drawn on the accent: the arrow, the square or the words.
