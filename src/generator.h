@@ -89,8 +89,10 @@ public:
     // size the model is fastest at in the shape of `width` by `height`.
     Q_INVOKABLE void makeVideo(const QString &prompt, int width, int height, const QString &firstFrameUrl = {},
                                int seconds = defaultSeconds);
-    // A clip is 2, 5 or 10 seconds at 24 frames a second.
+    // A clip is 5 seconds at 24 frames a second unless asked for another
+    // length, as long as its model makes here; a minute at most.
     static constexpr int defaultSeconds = 5;
+    static constexpr int maxClipSeconds = 60;
     static constexpr int videoFps = 24;
     // About 0.4 megapixels in the shape of `width` by `height`, in steps of 32.
     static QSize fitVideo(int width, int height);

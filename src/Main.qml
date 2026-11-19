@@ -62,8 +62,14 @@ ApplicationWindow {
         return qsTr("About %1 min left").arg(Math.round(seconds / 60))
     }
     // How long a clip is, stepped through with the length button.
-    readonly property var clipLengths: [2, 5, 10]
+    // As long as the video model makes here: 2, 5 and 10 seconds on most
+    // machines, up to its own longest on one with the memory for it.
+    readonly property var clipLengths: models.clipLengths
     property int clipSeconds: 5
+    // A length that no longer fits, say once another model starts, drops to
+    // the longest that still does.
+    onClipLengthsChanged: if (clipLengths.indexOf(clipSeconds) < 0)
+        clipSeconds = clipLengths.filter(length => length < clipSeconds).pop() || clipLengths[0]
     // A clip starts from one picture: switching to a video model keeps the first.
     onVideoModeChanged: if (videoMode && baseImages.length > 1) baseImages = [baseImages[0]]
     // The model in use makes songs, from the prompt and the lyrics alone.
@@ -1044,7 +1050,7 @@ ApplicationWindow {
                             onClicked: win.songSeconds = win.songLengths[(win.songLengths.indexOf(win.songSeconds) + 1) % win.songLengths.length]
                         }
 
-                        // A clip's length, 2, 5 or 10 seconds, while a video model is in use.
+                        // A clip's length, as long as the video model makes here, while one is in use.
                         ToolButton {
                             objectName: "clipLength"
                             // Nothing changes while something is made: only stop works.

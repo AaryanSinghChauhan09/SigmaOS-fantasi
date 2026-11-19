@@ -141,6 +141,7 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
             found.edits = row.value("edit").toBool();
             found.video = row.value("kind").toString() == "video";
             found.music = row.value("kind").toString() == "music";
+            found.maxSeconds = row.value("max_seconds").toInt(-1);
             found.state = QString(unit) == "active" ? "ready" : QString(unit) == "activating" ? "starting" : "installing";
             // What a setup screen shows: the download's progress, then the
             // start, timed against how long the catalog measured one to take.
@@ -167,6 +168,7 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
         found.name = row.value("name").toString(found.id);
         found.video = row.value("kind").toString() == "video";
         found.music = row.value("kind").toString() == "music";
+        found.maxSeconds = row.value("max_seconds").toInt(-1);
         // An installed model the memory can't hold right now waits for the
         // text models in its way.
         if (row.value("fits").toBool(true) || runningText.isEmpty()) {
@@ -224,6 +226,25 @@ static QString originOf(const QString &endpoint) {
 
 QString Models::origin() const { return originOf(m_found.endpoint); }
 QString Models::editOrigin() const { return originOf(m_found.editEndpoint); }
+QList<int> Models::lengthsUpTo(int maxSeconds) {
+    if (maxSeconds < 0)
+        return {2, 5, 10};
+    QList<int> lengths;
+    for (int seconds : {2, 5})
+        if (seconds <= maxSeconds)
+            lengths << seconds;
+    for (int seconds = 10; seconds <= maxSeconds; seconds += 5)
+        lengths << seconds;
+    return lengths.isEmpty() ? QList<int>{2} : lengths;
+}
+
+QVariantList Models::clipLengths() const {
+    QVariantList lengths;
+    for (int seconds : lengthsUpTo(m_found.maxSeconds))
+        lengths << seconds;
+    return lengths;
+}
+
 QString Models::videoOrigin() const { return m_found.video ? origin() : QString(); }
 
 QString Models::logo(const QString &vendor, bool light) {
@@ -361,7 +382,7 @@ void Models::reload() {
 
     if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
         || found.reason != m_found.reason || found.blockers != m_found.blockers
-        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor || found.video != m_found.video
+        || found.choices != m_found.choices || found.editEndpoint != m_found.editEndpoint || found.vendor != m_found.vendor || found.video != m_found.video || found.maxSeconds != m_found.maxSeconds
         || found.music != m_found.music
         || found.setupPhase != m_found.setupPhase || found.doneBytes != m_found.doneBytes || found.totalBytes != m_found.totalBytes
         || found.rateBytes != m_found.rateBytes || found.startedMs != m_found.startedMs || found.loadSeconds != m_found.loadSeconds

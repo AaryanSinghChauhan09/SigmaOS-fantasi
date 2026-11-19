@@ -103,7 +103,7 @@ int runCli(const QStringList &arguments) {
     parser.addOption({"music", "Make a song on the running music model: the prompt describes it"});
     parser.addOption({"lyrics", "The song's lyrics, with [verse] and [chorus] over their parts and \\n between lines; the model writes them when left out", "text"});
     parser.addOption({"instrumental", "A song without words"});
-    parser.addOption({"seconds", "How long a clip is: 2, 5 or 10; or a song, a minute when left out", "n"});
+    parser.addOption({"seconds", "How long a clip is: 2, 5, 10, 15… as long as the video model makes here; or a song, a minute when left out", "n"});
     parser.addOption({"json", "Print the result as JSON"});
     // The parser takes its first argument as the program's name: here,
     // `generate`, which leaves the prompt as the positional arguments.
@@ -134,13 +134,10 @@ int runCli(const QStringList &arguments) {
     // video model for --video, an image model otherwise, whichever is the
     // one chosen in the window.
     const bool video = parser.isSet("video"), music = parser.isSet("music");
-    // A clip is 2, 5 or 10 seconds: anything else is refused before minutes go into it.
+    // A clip's length is checked against what its model makes here once
+    // the model is known, before minutes go into it.
     const int seconds = parser.isSet("seconds") ? parser.value("seconds").toInt()
                         : music ? Generator::defaultSongSeconds : Generator::defaultSeconds;
-    if (video && seconds != 2 && seconds != 5 && seconds != 10) {
-        print(stderr, "Error: --seconds takes 2, 5 or 10");
-        return 1;
-    }
 
     int code = 1;
     QString path;
@@ -191,6 +188,14 @@ int runCli(const QStringList &arguments) {
         // None of that kind running: say so rather than send it to the wrong one.
         if (!right()) {
             print(stderr, QString("Error: no %1 model is running").arg(music ? "music" : video ? "video" : "image"));
+            QCoreApplication::exit(1);
+            return;
+        }
+        if (video && !models->clipLengths().contains(seconds)) {
+            QStringList lengths;
+            for (const QVariant &length : models->clipLengths())
+                lengths << length.toString();
+            print(stderr, QString("Error: --seconds takes %1 with %2 here").arg(lengths.join(", "), models->modelName()));
             QCoreApplication::exit(1);
             return;
         }

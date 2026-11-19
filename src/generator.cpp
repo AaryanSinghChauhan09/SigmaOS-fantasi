@@ -323,7 +323,7 @@ void Generator::makeVideo(const QString &prompt, int width, int height, const QS
     body.insert("prompt", prompt.trimmed());
     body.insert("width", size.width());
     body.insert("height", size.height());
-    body.insert("video_frames", std::clamp(seconds, 1, 10) * videoFps);
+    body.insert("video_frames", std::clamp(seconds, 1, maxClipSeconds) * videoFps);
     body.insert("fps", videoFps);
     body.insert("seed", -1);
     body.insert("output_format", "webm");
@@ -345,7 +345,7 @@ void Generator::makeVideo(const QString &prompt, int width, int height, const QS
     m_previews.clear();
     m_image.clear();
     m_locker = std::make_unique<QEventLoopLocker>();
-    startClock(QString("%1/clip/%2/%3x%4").arg(m_models->modelId()).arg(std::clamp(seconds, 1, 10)).arg(size.width()).arg(size.height()));
+    startClock(QString("%1/clip/%2/%3x%4").arg(m_models->modelId()).arg(std::clamp(seconds, 1, maxClipSeconds)).arg(size.width()).arg(size.height()));
     emit changed();
 
     // The LoRAs the server lists are the ones the model is meant to run with,

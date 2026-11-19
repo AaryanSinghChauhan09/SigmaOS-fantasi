@@ -673,7 +673,7 @@ private slots:
         QDir().mkpath(state);
         write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{
             {"klein", QJsonObject{{"kind", "image"}, {"name", "Klein"}, {"unit", "active"}, {"endpoint", images.origin() + "/v1"}}},
-            {"h3", QJsonObject{{"kind", "video"}, {"name", "MiniMax H3"}, {"vendor", "minimax"}, {"unit", "active"}, {"endpoint", video.origin() + "/v1"}}}}}}).toJson());
+            {"h3", QJsonObject{{"kind", "video"}, {"name", "MiniMax H3"}, {"vendor", "minimax"}, {"unit", "active"}, {"endpoint", video.origin() + "/v1"}, {"max_seconds", 15}}}}}}).toJson());
         write(state + "/list.json", "[]");
         write(state + "/key", "secret\n");
         QImage picture(1024, 1024, QImage::Format_RGB32);
@@ -687,6 +687,11 @@ private slots:
         QVERIFY(models.video());
         QCOMPARE(models.modelName(), QString("MiniMax H3"));
         QCOMPARE(models.vendor(), QString("minimax"));
+        // As long as the engine says the model makes here, a GB300's 15 s included.
+        QCOMPARE(models.clipLengths(), (QVariantList{2, 5, 10, 15}));
+        QCOMPARE(Models::lengthsUpTo(6), (QList<int>{2, 5}));
+        QCOMPARE(Models::lengthsUpTo(-1), (QList<int>{2, 5, 10}));
+        QCOMPARE(Models::lengthsUpTo(0), (QList<int>{2}));
         Generator generator(&models, dir.path() + "/out");
         QSignalSpy saved(&generator, &Generator::saved);
         generator.makeVideo("snow falls", 1344, 768, QUrl::fromLocalFile(dir.filePath("cabin.png")).toString());
@@ -717,6 +722,12 @@ private slots:
             QVERIFY(poster.save(dir.filePath("forged.png")));
             QVERIFY2(History::readEntry(dir.filePath("forged.png")).video.isEmpty(), named);
         }
+        // A GB300's 15 s clip asks for 360 frames, past the old 10 s limit.
+        QTRY_VERIFY(!generator.busy());
+        generator.makeVideo("snow falls", 1344, 768, "", 15);
+        QTRY_COMPARE(saved.count(), 2);
+        const auto longest = std::find_if(video.requests.rbegin(), video.requests.rend(), [](const auto &r) { return r.first == "POST /sdcpp/v1/vid_gen"; });
+        QCOMPARE(longest->second.value("video_frames").toInt(), 360);
     }
 
     void songsGoByTheirChorus() {
