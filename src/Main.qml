@@ -95,6 +95,9 @@ ApplicationWindow {
     onShowingClipChanged: if (showingClip) playerWanted = true
     property bool songPlayerWanted: false
     onShowingSongChanged: if (showingSong) songPlayerWanted = true
+    // A song is being made: its wave forms in the frame, where it will play.
+    readonly property bool formingSong: generator.busy && sentMusic
+    onFormingSongChanged: if (formingSong) songPlayerWanted = true
     readonly property bool choosing: !composing && shownFile !== "" && !generator.busy
     // The history image a new one was started from, for Esc to go back to.
     property int returnIndex: -1
@@ -589,9 +592,13 @@ ApplicationWindow {
                             objectName: "songPlayer"
                             anchors.fill: parent
                             active: win.songPlayerWanted
-                            visible: win.showingSong
+                            // There for the song shown, and for the one being made
+                            // until its wave has settled into the song or faded away.
+                            visible: win.showingSong || (status === Loader.Ready && item.live)
                             source: "qrc:/SongPlayer.qml"
                             onLoaded: {
+                                item.forming = Qt.binding(() => win.formingSong)
+                                item.formed = Qt.binding(() => win.progress)
                                 item.source = Qt.binding(() => win.showingSong ? win.shownFile : "")
                                 item.wave = Qt.binding(() => win.shownSong.wave)
                                 item.title = Qt.binding(() => win.shownSong.title)

@@ -14,9 +14,11 @@
 #include <QTcpSocket>
 #include <algorithm>
 #include <functional>
+#include <memory>
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QQuickStyle>
@@ -26,6 +28,7 @@
 #include <QtTest>
 
 #include "backend.h"
+#include "generator.h"
 #include "history.h"
 #include "instance.h"
 #include "theme.h"
@@ -937,6 +940,74 @@ private slots:
 
         QVERIFY2(warnings.isEmpty(), qPrintable(warnings.join('\n')));
         QCoreApplication::removeTranslator(&translator);
+    }
+
+    void aSongsWaveFormsThenSettlesIntoItsShape() {
+        QTemporaryDir dir;
+        Theme theme(dir.path());
+        QQmlEngine engine;
+        engine.rootContext()->setContextProperty("theme", &theme);
+        QQmlComponent component(&engine, QUrl("qrc:/SongPlayer.qml"));
+        std::unique_ptr<QQuickItem> player(qobject_cast<QQuickItem *>(component.create()));
+        QVERIFY2(player, qPrintable(component.errorString()));
+        player->setSize(QSizeF(960, 320));
+        auto level = [&](const char *function, const QVariantList &arguments) {
+            QVariant result;
+            if (arguments.size() == 1)
+                QMetaObject::invokeMethod(player.get(), function, Q_RETURN_ARG(QVariant, result), Q_ARG(QVariant, arguments[0]));
+            else
+                QMetaObject::invokeMethod(player.get(), function, Q_RETURN_ARG(QVariant, result), Q_ARG(QVariant, arguments[0]),
+                                          Q_ARG(QVariant, arguments[1]), Q_ARG(QVariant, arguments[2]), Q_ARG(QVariant, arguments[3]));
+            return result.toDouble();
+        };
+        const int columns = Generator::waveBars;
+
+        // A forming wave stays within the frame at every moment, moves from
+        // one moment to the next, and stands taller the further the work is.
+        auto tallest = [&](double time, double formed) {
+            double most = 0;
+            for (int i = 0; i < columns; ++i) {
+                const double height = level("formingLevel", {i, columns, time, formed});
+                if (height < 0 || height > 1)
+                    return -1.0;
+                most = std::max(most, height);
+            }
+            return most;
+        };
+        for (double time : {0.0, 0.3, 1.7, 42.0}) {
+            const double begun = tallest(time, 0), gathered = tallest(time, 1);
+            QVERIFY(begun > 0 && gathered > 0);
+            QVERIFY2(gathered > begun * 2, qPrintable(QString("%1 after %2 at %3 s").arg(gathered).arg(begun).arg(time)));
+        }
+        QVERIFY(level("formingLevel", {40, columns, 1.0, 0.5}) != level("formingLevel", {40, columns, 1.2, 0.5}));
+
+        // A song being made has a finished song's columns already.
+        QCOMPARE(player->property("columns").toInt(), 0);
+        player->setProperty("forming", true);
+        QCOMPARE(player->property("columns").toInt(), columns);
+        QVERIFY(player->property("live").toBool());
+
+        // Done, the columns settle onto the song's own shape, wherever they were.
+        QVariantList wave;
+        for (int i = 0; i < columns; ++i)
+            wave << (i % 8) / 8.0;
+        player->setProperty("wave", wave);
+        player->setProperty("source", QUrl::fromLocalFile(dir.path() + "/song.mp3"));
+        player->setProperty("forming", false);
+        QVERIFY(player->property("live").toBool());
+        QTRY_VERIFY(!player->property("live").toBool());
+        for (int i = 0; i < columns; ++i)
+            QCOMPARE(level("columnLevel", {i}), wave.at(i).toDouble());
+
+        // Given up, with no song to become, the wave fades away, and the
+        // next song shown is in its own shape at once.
+        player->setProperty("source", QUrl());
+        player->setProperty("wave", QVariantList());
+        player->setProperty("forming", true);
+        player->setProperty("forming", false);
+        QVERIFY(player->property("live").toBool());
+        QTRY_VERIFY(!player->property("live").toBool());
+        QCOMPARE(player->property("presence").toDouble(), 1.0);
     }
 
     void aModelSetUpButNotRunningWaitsInARingForAClickToStartIt() {
