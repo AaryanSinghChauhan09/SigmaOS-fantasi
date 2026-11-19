@@ -94,5 +94,6 @@
   "The music model stopped answering: %1": "মিউজিক মডেল সাড়া দেওয়া বন্ধ করেছে: %1",
   "The song couldn't be made": "গানটি তৈরি করা যায়নি",
   "MP3 audio": "MP3 অডিও",
-  "Music with %1": "%1 দিয়ে সংগীত"
+  "Music with %1": "%1 দিয়ে সংগীত",
+  "Move it to the trash?": "এটি ট্র্যাশে সরাবেন?"
 }

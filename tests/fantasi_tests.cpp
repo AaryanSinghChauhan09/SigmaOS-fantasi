@@ -1452,6 +1452,24 @@ private slots:
             QTRY_VERIFY2(QQmlProperty(control, "ToolTip.visible", qmlContext(control)).read().toBool(), name);
         }
 
+        // Delete asks first: Esc keeps the image, Enter moves it to the trash.
+        // While a prompt takes the keyboard, Delete is the prompt's.
+        auto *trash = window->findChild<QObject *>("trash");
+        QVERIFY(trash);
+        QTest::keyClick(window, Qt::Key_Delete);
+        QVERIFY(!trash->property("opened").toBool());
+        QTest::keyClick(window, Qt::Key_Escape);
+        QTRY_VERIFY(nextBar->isVisible());
+        QTest::keyClick(window, Qt::Key_Delete);
+        QTRY_VERIFY(trash->property("opened").toBool());
+        QTest::keyClick(window, Qt::Key_Escape);
+        QTRY_VERIFY(!trash->property("visible").toBool());
+        QCOMPARE(backend.history()->count(), 1);
+        QTest::keyClick(window, Qt::Key_Delete);
+        QTRY_VERIFY(trash->property("opened").toBool());
+        QTest::keyClick(window, Qt::Key_Return);
+        QTRY_COMPARE(backend.history()->count(), 0);
+
         QVERIFY2(warnings.isEmpty(), qPrintable(warnings.join('\n')));
         QCoreApplication::removeTranslator(&translator);
     }

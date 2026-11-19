@@ -94,5 +94,6 @@
   "The music model stopped answering: %1": "Model na hudbu prestal odpovedať: %1",
   "The song couldn't be made": "Pieseň sa nepodarilo vytvoriť",
   "MP3 audio": "Zvuk MP3",
-  "Music with %1": "Hudba s %1"
+  "Music with %1": "Hudba s %1",
+  "Move it to the trash?": "Presunúť do koša?"
 }

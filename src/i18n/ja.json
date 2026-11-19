@@ -94,5 +94,6 @@
   "The music model stopped answering: %1": "音楽モデルが応答しなくなりました: %1",
   "The song couldn't be made": "曲を作成できませんでした",
   "MP3 audio": "MP3 オーディオ",
-  "Music with %1": "%1 で音楽"
+  "Music with %1": "%1 で音楽",
+  "Move it to the trash?": "ゴミ箱へ移動しますか？"
 }

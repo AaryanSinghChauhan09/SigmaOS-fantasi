@@ -52,6 +52,13 @@ public:
     }
     // The title and shape of the song at `url`, empty until it's listed.
     Q_INVOKABLE QVariantMap song(const QString &url) const;
+    // The row showing `url`, as urlAt gives it, or -1.
+    Q_INVOKABLE int rowOf(const QString &url) const {
+        for (int row = 0; row < rowCount(); ++row)
+            if (urlAt(row) == url)
+                return row;
+        return -1;
+    }
     Q_INVOKABLE QString promptAt(int row) const { return data(index(row), PromptRole).toString(); }
     // Moves the image to the trash, from where it can come back.
     Q_INVOKABLE bool remove(int row);
