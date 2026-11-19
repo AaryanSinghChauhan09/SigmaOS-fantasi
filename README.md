@@ -1,18 +1,18 @@
 # Fantasi
 
-Make images on your own machine with Omarchy's local image models.
+Make images, video clips and songs on your own machine with Omarchy's local AI models.
 
-![Fantasi showing a lighthouse with a red cabin beside it, the actions under it and earlier images in the history](docs/screenshot.png)
+![Fantasi showing a cabin under the northern lights, with a fox and a lighthouse in the history beside it](docs/screenshot.png)
 
-Describe an image and watch it sharpen. Then change it by saying what should change, start from a picture of your own, or combine up to four. Pick a video model with the model button and the same prompt makes a short clip with sound, or animates the picture you change. Pick a music model and it makes a song: describe it, write the lyrics or leave them to the model, and play it back over its own waveform. Images and clips are kept in `~/Pictures/Generated` with their prompts, songs in `~/Music/Generated`.
+Describe an image and watch it come to life. Change it by saying what should change, start from a picture of your own, or combine up to four. The model you pick decides what you make: hover its mark to pick another. A video model makes a 2, 5 or 10 second clip with sound, from a prompt or from a picture. A music model makes a song from a description and lyrics, yours or its own.
 
-Fantasi uses the image model [omarchy-local-ai](https://github.com/omacom/omarchy-local-ai) runs, and offers to start or set one up when none is running.
+Images and clips are kept in `~/Pictures/Generated` with their prompts, songs in `~/Music/Generated`. The models run in [omarchy-local-ai](https://github.com/omacom/omarchy-local-ai), and Fantasi offers to start or set one up when none is running.
 
 ## Shortcuts
 
 | Keys | Action |
 | --- | --- |
-| Enter | Make the image |
+| Enter | Make it |
 | Esc | Stop, or go back |
 | Ctrl+E | Change it |
 | Ctrl+N | New generation |
