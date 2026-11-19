@@ -1465,10 +1465,21 @@ private slots:
         QTest::keyClick(window, Qt::Key_Escape);
         QTRY_VERIFY(!trash->property("visible").toBool());
         QCOMPARE(backend.history()->count(), 1);
+        // A trash of the test's own, on the same disk as the image: test mode
+        // keeps data under ~/.qttest/share, and Qt makes only the Trash in it.
+        const QByteArray home = qgetenv("HOME");
+        qputenv("HOME", dir.path().toUtf8());
+        QVERIFY(QDir().mkpath(dir.path() + "/.qttest/share"));
         QTest::keyClick(window, Qt::Key_Delete);
         QTRY_VERIFY(trash->property("opened").toBool());
         QTest::keyClick(window, Qt::Key_Return);
         QTRY_COMPARE(backend.history()->count(), 0);
+        qputenv("HOME", home);
+        QVERIFY(QDir(dir.path() + "/.qttest/share/Trash/files").exists());
+        // The prompt is back, and takes the keyboard.
+        QTRY_VERIFY(prompt->isVisible());
+        QTest::keyClick(window, Qt::Key_A);
+        QTRY_COMPARE(prompt->property("text").toString(), QString("a"));
 
         QVERIFY2(warnings.isEmpty(), qPrintable(warnings.join('\n')));
         QCoreApplication::removeTranslator(&translator);

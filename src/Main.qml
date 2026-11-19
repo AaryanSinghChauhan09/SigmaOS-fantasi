@@ -98,8 +98,8 @@ ApplicationWindow {
     readonly property bool choosing: !composing && shownFile !== "" && !generator.busy
     // The hidden prompt lets go of the keyboard while a picture is shown, so
     // Delete reaches its shortcut rather than an empty field; every way back
-    // to writing focuses the prompt again.
-    onChoosingChanged: if (choosing) win.contentItem.forceActiveFocus()
+    // to writing, a deletion included, gives it back.
+    onChoosingChanged: choosing ? win.contentItem.forceActiveFocus() : prompt.forceActiveFocus()
     // The history image a new one was started from, for Esc to go back to.
     property int returnIndex: -1
     readonly property string problem: models.error || generator.error || backend.error
@@ -270,7 +270,7 @@ ApplicationWindow {
     // step as the history changes.
     readonly property bool canDelete: history.count >= 0 && history.rowOf(win.shownFile) >= 0 && !generator.busy
     function askDelete() {
-        trash.index = history.rowOf(win.shownFile)
+        trash.file = win.shownFile
         trash.open()
     }
 
@@ -1506,7 +1506,9 @@ ApplicationWindow {
     Popup {
         id: trash
         objectName: "trash"
-        property int index: -1
+        // The file asked about, found again on confirming: the history may
+        // have reordered meanwhile, and one that's gone is left alone.
+        property string file
         anchors.centerIn: Overlay.overlay
         modal: true
         focus: true
@@ -1518,7 +1520,8 @@ ApplicationWindow {
         }
         function confirm() {
             close()
-            if (history.remove(index))
+            const row = history.rowOf(file)
+            if (row >= 0 && history.remove(row))
                 generator.show("")
         }
         // Closing hands the keyboard back to the prompt; while the picture is
