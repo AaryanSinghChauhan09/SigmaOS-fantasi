@@ -118,6 +118,7 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
         if (row.value("unit").toString() != "installing")
             found.choices << QVariantMap{{"id", row.value("id").toString()}, {"name", row.value("name").toString(row.value("id").toString())},
                                          {"running", row.value("unit").toString() == "active"},
+                                         {"fits", row.value("fits").toBool(true)},
                                          {"video", row.value("kind").toString() == "video"},
                                          {"music", row.value("kind").toString() == "music"},
                                          {"vendor", row.value("vendor").toString()}};
@@ -304,8 +305,14 @@ void Models::choose(const QString &id) {
     }
     m_chosen = id;
     emit changed();
+    // The one in use keeps running beside it, ready to switch back to, unless
+    // the engine says there's no room for both.
+    bool fits = true;
+    for (const QVariant &choice : m_found.choices)
+        if (choice.toMap().value("id").toString() == id)
+            fits = choice.toMap().value("fits").toBool();
     QList<QStringList> commands;
-    if (m_found.state == "ready" || m_found.state == "starting")
+    if (!fits && (m_found.state == "ready" || m_found.state == "starting"))
         commands << QStringList{"stop", m_found.id};
     commands << QStringList{"start", id};
     run(commands);
