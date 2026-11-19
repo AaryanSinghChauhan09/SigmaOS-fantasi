@@ -722,6 +722,12 @@ private slots:
             QVERIFY(poster.save(dir.filePath("forged.png")));
             QVERIFY2(History::readEntry(dir.filePath("forged.png")).video.isEmpty(), named);
         }
+        // A GB300's 15 s clip asks for 360 frames, past the old 10 s limit.
+        QTRY_VERIFY(!generator.busy());
+        generator.makeVideo("snow falls", 1344, 768, "", 15);
+        QTRY_COMPARE(saved.count(), 2);
+        const auto longest = std::find_if(video.requests.rbegin(), video.requests.rend(), [](const auto &r) { return r.first == "POST /sdcpp/v1/vid_gen"; });
+        QCOMPARE(longest->second.value("video_frames").toInt(), 360);
     }
 
     void songsGoByTheirChorus() {
