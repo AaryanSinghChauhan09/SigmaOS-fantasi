@@ -382,7 +382,7 @@ ApplicationWindow {
                                                    ? previous.implicitWidth / previous.implicitHeight
                                                    : win.musicMode ? 3 : win.outputSize.width / win.outputSize.height
 
-                    // A model starting in place of the one in use: its mark in a
+                    // A model starting to take over from the one in use: its mark in a
                     // ring with a spark circling it, as on the setup screen. One
                     // set up but not running waits in the same ring, over a glow
                     // that breathes, for a click to start it.
