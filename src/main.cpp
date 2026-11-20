@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     app.setApplicationName("fantasi");
     // Settings (the model used last) live in ~/.config/fantasi/.
     app.setOrganizationName("fantasi");
-    app.setApplicationVersion("0.1.3");
+    app.setApplicationVersion("0.1.4");
     if (command)
         return runCli(app.arguments());
 
