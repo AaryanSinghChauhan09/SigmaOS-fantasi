@@ -1713,8 +1713,12 @@ private slots:
             QTRY_VERIFY2(QQmlProperty(control, "ToolTip.visible", qmlContext(control)).read().toBool(), name);
         }
 
-        // Delete asks first: Esc keeps the image, Enter moves it to the trash.
-        // While a prompt takes the keyboard, Delete is the prompt's.
+        // Delete asks first: Esc keeps the image, Enter moves it to the trash
+        // and goes on to the next one. While a prompt takes the keyboard,
+        // Delete is the prompt's.
+        // A newer one, which Esc lands on, with the lake next after it.
+        write(dir.path() + "/out/20260102-120000-a-river.png", png(64));
+        QTRY_COMPARE(backend.history()->count(), 2);
         auto *trash = window->findChild<QObject *>("trash");
         QVERIFY(trash);
         QTest::keyClick(window, Qt::Key_Delete);
@@ -1725,12 +1729,19 @@ private slots:
         QTRY_VERIFY(trash->property("opened").toBool());
         QTest::keyClick(window, Qt::Key_Escape);
         QTRY_VERIFY(!trash->property("visible").toBool());
-        QCOMPARE(backend.history()->count(), 1);
+        QCOMPARE(backend.history()->count(), 2);
         // A trash of the test's own, on the same disk as the image: test mode
         // keeps data under ~/.qttest/share, and Qt makes only the Trash in it.
         const QByteArray home = qgetenv("HOME");
         qputenv("HOME", dir.path().toUtf8());
         QVERIFY(QDir().mkpath(dir.path() + "/.qttest/share"));
+        QTest::keyClick(window, Qt::Key_Delete);
+        QTRY_VERIFY(trash->property("opened").toBool());
+        QTest::keyClick(window, Qt::Key_Return);
+        QTRY_COMPARE(backend.history()->count(), 1);
+        QTRY_VERIFY(backend.generator()->image().endsWith("a-lake.png"));
+        QVERIFY(nextBar->isVisible());
+        // The last one goes back to the prompt.
         QTest::keyClick(window, Qt::Key_Delete);
         QTRY_VERIFY(trash->property("opened").toBool());
         QTest::keyClick(window, Qt::Key_Return);
