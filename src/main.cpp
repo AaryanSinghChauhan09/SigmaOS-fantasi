@@ -22,7 +22,7 @@
 int main(int argc, char *argv[]) {
     // A command needs no window, so no display either, even where the desktop
     // exports QT_QPA_PLATFORM=wayland.
-    const bool command = argc > 1 && isCliCommand(argv[1]);
+    const bool command = isCliCommand(argc, argv);
     if (command)
         qputenv("QT_QPA_PLATFORM", "offscreen");
 
