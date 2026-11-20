@@ -1390,33 +1390,54 @@ ApplicationWindow {
                             required property var wave
                             width: ListView.view.width
                             height: width
-                            // A song: its own shape in the accent, over what it goes by.
+                            // A song: its own shape in the accent's dots, as the frame draws it,
+                            // over what it goes by, on nothing but the history behind it.
                             Rectangle {
                                 anchors.fill: parent
                                 visible: entry.audio !== ""
                                 radius: theme.radius
-                                color: win.panel
-                                Row {
+                                color: "transparent"
+                                Canvas {
                                     id: tileWave
+                                    objectName: "tileWave"
                                     anchors.top: parent.top
                                     anchors.left: parent.left
                                     anchors.right: parent.right
                                     anchors.bottom: tileTitle.top
                                     anchors.margins: 8
                                     LayoutMirroring.enabled: false
-                                    // Every third bar: the tile is a third as wide as there are bars.
-                                    Repeater {
-                                        model: entry.wave.filter((_, i) => i % 3 === 1)
-                                        Item {
-                                            required property real modelData
-                                            width: tileWave.width / 32
-                                            height: tileWave.height
-                                            Rectangle {
-                                                anchors.centerIn: parent
-                                                width: Math.max(1, parent.width * 0.6)
-                                                height: Math.max(2, parent.modelData * parent.height)
-                                                color: theme.accent
-                                            }
+                                    // A third as many columns as the song has levels, each the
+                                    // loudest of its three, so no peak falls between them.
+                                    readonly property var levels: {
+                                        const wave = entry.wave, out = []
+                                        for (let i = 0; i + 2 < wave.length; i += 3)
+                                            out.push(Math.max(wave[i], wave[i + 1], wave[i + 2]))
+                                        return out
+                                    }
+                                    readonly property color ink: theme.accent
+                                    onLevelsChanged: requestPaint()
+                                    onInkChanged: requestPaint()
+                                    onWidthChanged: requestPaint()
+                                    onHeightChanged: requestPaint()
+                                    onPaint: {
+                                        const ctx = getContext("2d")
+                                        ctx.clearRect(0, 0, width, height)
+                                        const columns = levels.length
+                                        if (columns === 0)
+                                            return
+                                        // Square dots on a grid, mirrored about the middle row,
+                                        // a dot there or not: the frame's song, made small.
+                                        const pitch = width / columns
+                                        const rows = Math.max(1, Math.floor((height / pitch - 1) / 2))
+                                        const dot = Math.max(2, Math.round(pitch * 0.62))
+                                        const inset = (pitch - dot) / 2
+                                        const top = (height - pitch * (rows * 2 + 1)) / 2
+                                        ctx.fillStyle = ink
+                                        for (let c = 0; c < columns; ++c) {
+                                            const tall = Math.round(levels[c] * rows)
+                                            const x = Math.round(c * pitch + inset)
+                                            for (let r = -tall; r <= tall; ++r)
+                                                ctx.fillRect(x, Math.round(top + (r + rows) * pitch + inset), dot, dot)
                                         }
                                     }
                                 }
