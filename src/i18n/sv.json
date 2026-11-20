@@ -22,7 +22,7 @@
   "Copy it": "Kopiera den",
   "Move through the history": "Bläddra i historiken",
   "Show it full screen": "Visa i helskärm",
-  "Move it to the trash": "Flytta den till papperskorgen",
+  "Delete it": "Radera den",
   "Show or hide the shortcuts": "Visa eller dölj kortkommandona",
   "Quit": "Avsluta",
   "No image model is running": "Ingen bildmodell körs",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Låten kunde inte skapas",
   "MP3 audio": "MP3-ljud",
   "Music with %1": "Musik med %1",
-  "Move it to the trash?": "Flytta den till papperskorgen?"
+  "Delete it?": "Radera den?",
+  "Delete": "Radera"
 }

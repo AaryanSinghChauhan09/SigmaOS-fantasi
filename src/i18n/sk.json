@@ -22,7 +22,7 @@
   "Copy it": "Skopírovať",
   "Move through the history": "Prechádzať históriu",
   "Show it full screen": "Zobraziť na celú obrazovku",
-  "Move it to the trash": "Presunúť do koša",
+  "Delete it": "Odstrániť",
   "Show or hide the shortcuts": "Zobraziť alebo skryť skratky",
   "Quit": "Ukončiť",
   "No image model is running": "Nebeží žiadny model na obrázky",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Pieseň sa nepodarilo vytvoriť",
   "MP3 audio": "Zvuk MP3",
   "Music with %1": "Hudba s %1",
-  "Move it to the trash?": "Presunúť do koša?"
+  "Delete it?": "Odstrániť?",
+  "Delete": "Odstrániť"
 }

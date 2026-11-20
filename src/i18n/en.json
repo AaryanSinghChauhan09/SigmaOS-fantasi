@@ -22,7 +22,7 @@
   "Copy it": "Copy it",
   "Move through the history": "Move through the history",
   "Show it full screen": "Show it full screen",
-  "Move it to the trash": "Move it to the trash",
+  "Delete it": "Delete it",
   "Show or hide the shortcuts": "Show or hide the shortcuts",
   "Quit": "Quit",
   "No image model is running": "No image model is running",
@@ -122,5 +122,6 @@
   "The song couldn't be made": "The song couldn't be made",
   "MP3 audio": "MP3 audio",
   "Music with %1": "Music with %1",
-  "Move it to the trash?": "Move it to the trash?"
+  "Delete it?": "Delete it?",
+  "Delete": "Delete"
 }

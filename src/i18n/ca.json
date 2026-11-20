@@ -22,7 +22,7 @@
   "Copy it": "Copia-la",
   "Move through the history": "Recorre l'historial",
   "Show it full screen": "Mostra-ho a pantalla completa",
-  "Move it to the trash": "Mou-la a la paperera",
+  "Delete it": "Esborra-ho",
   "Show or hide the shortcuts": "Mostra o amaga les dreceres",
   "Quit": "Surt",
   "No image model is running": "No s'està executant cap model d'imatge",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "No s'ha pogut crear la cançó",
   "MP3 audio": "Àudio MP3",
   "Music with %1": "Música amb %1",
-  "Move it to the trash?": "La voleu moure a la paperera?"
+  "Delete it?": "Ho vols esborrar?",
+  "Delete": "Esborra"
 }

@@ -22,7 +22,7 @@
   "Copy it": "复制",
   "Move through the history": "浏览历史",
   "Show it full screen": "全屏显示",
-  "Move it to the trash": "移到回收站",
+  "Delete it": "删除",
   "Show or hide the shortcuts": "显示或隐藏快捷键",
   "Quit": "退出",
   "No image model is running": "没有正在运行的图片模型",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "无法生成歌曲",
   "MP3 audio": "MP3 音频",
   "Music with %1": "使用 %1 生成音乐",
-  "Move it to the trash?": "移到回收站？"
+  "Delete it?": "要删除吗？",
+  "Delete": "删除"
 }

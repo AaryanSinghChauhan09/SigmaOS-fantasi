@@ -22,7 +22,7 @@
   "Copy it": "Salin",
   "Move through the history": "Semak imbas sejarah",
   "Show it full screen": "Tunjukkan skrin penuh",
-  "Move it to the trash": "Pindahkan ke tong sampah",
+  "Delete it": "Padamkannya",
   "Show or hide the shortcuts": "Tunjukkan atau sembunyikan pintasan",
   "Quit": "Keluar",
   "No image model is running": "Tiada model imej yang berjalan",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Lagu tidak dapat dibuat",
   "MP3 audio": "Audio MP3",
   "Music with %1": "Muzik dengan %1",
-  "Move it to the trash?": "Pindahkan ke tong sampah?"
+  "Delete it?": "Padamkannya?",
+  "Delete": "Padam"
 }

@@ -22,7 +22,7 @@
   "Copy it": "Kopiraj jo",
   "Move through the history": "Premikaj se po zgodovini",
   "Show it full screen": "Prikaži čez cel zaslon",
-  "Move it to the trash": "Premakni jo v smeti",
+  "Delete it": "Izbriši",
   "Show or hide the shortcuts": "Pokaži ali skrij bližnjice",
   "Quit": "Končaj",
   "No image model is running": "Noben model za slike ne teče",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Pesmi ni bilo mogoče ustvariti",
   "MP3 audio": "Zvok MP3",
   "Music with %1": "Glasba z %1",
-  "Move it to the trash?": "Jo premaknem v smeti?"
+  "Delete it?": "Izbrišem?",
+  "Delete": "Izbriši"
 }

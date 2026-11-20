@@ -834,7 +834,7 @@ ApplicationWindow {
                                 { name: "fullScreen", icon: "fullscreen", label: qsTr("Show it full screen"), key: "F", run: () => win.fullView = true },
                                 { name: "copy", icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
                                 { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) },
-                                { name: "delete", icon: "delete", label: qsTr("Move it to the trash"), key: "Delete", run: () => win.askDelete(), shown: win.canDelete }
+                                { name: "delete", icon: "delete", label: qsTr("Delete"), key: "Delete", run: () => win.askDelete(), shown: win.canDelete }
                             ]
                             delegate: ToolButton {
                                 required property var modelData
@@ -1603,6 +1603,10 @@ ApplicationWindow {
         modal: true
         focus: true
         padding: 24
+        // It's there at once, dimming and all.
+        enter: Transition {}
+        exit: Transition {}
+        Overlay.modal: Rectangle { color: trash.Material.backgroundDimColor }
         background: Rectangle {
             color: theme.background
             border.color: win.line
@@ -1611,7 +1615,12 @@ ApplicationWindow {
         function confirm() {
             close()
             const row = history.rowOf(file)
-            if (row >= 0 && history.remove(row))
+            if (row < 0 || !history.remove(row))
+                return
+            // On to the next one, or the prompt once there are none.
+            if (history.count > 0)
+                win.pick(Math.min(row, history.count - 1))
+            else
                 generator.show("")
         }
         // Closing hands the keyboard back to the prompt; while the picture is
@@ -1625,7 +1634,7 @@ ApplicationWindow {
             Keys.onEnterPressed: trash.confirm()
             focus: true
             Label {
-                text: qsTr("Move it to the trash?")
+                text: qsTr("Delete it?")
                 font.pixelSize: 17
                 color: theme.foreground
             }
@@ -1642,7 +1651,7 @@ ApplicationWindow {
                 Button {
                     id: trashConfirm
                     objectName: "trashConfirm"
-                    text: qsTr("Move it to the trash")
+                    text: qsTr("Delete")
                     highlighted: true
                     Material.roundedScale: theme.radius
                     onClicked: trash.confirm()
@@ -1692,7 +1701,7 @@ ApplicationWindow {
                     { keys: "Ctrl+S", action: qsTr("Save a copy somewhere else") },
                     { keys: "↑ ↓", action: qsTr("Move through the history") },
                     { keys: "F", action: qsTr("Show it full screen") },
-                    { keys: "Delete", action: qsTr("Move it to the trash") },
+                    { keys: "Delete", action: qsTr("Delete it") },
                     { keys: "F1", action: qsTr("Show or hide the shortcuts") },
                     { keys: "Ctrl+Q", action: qsTr("Quit") }
                 ]

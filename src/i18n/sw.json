@@ -22,7 +22,7 @@
   "Copy it": "Inakili",
   "Move through the history": "Pitia historia",
   "Show it full screen": "Onyesha skrini nzima",
-  "Move it to the trash": "Ihamishie kwenye takataka",
+  "Delete it": "Ifute",
   "Show or hide the shortcuts": "Onyesha au ficha mikato",
   "Quit": "Ondoka",
   "No image model is running": "Hakuna modeli ya picha inayofanya kazi",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Wimbo haukuweza kutengenezwa",
   "MP3 audio": "Sauti ya MP3",
   "Music with %1": "Muziki kwa %1",
-  "Move it to the trash?": "Ihamishe kwenye takataka?"
+  "Delete it?": "Uifute?",
+  "Delete": "Futa"
 }

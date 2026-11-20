@@ -22,7 +22,7 @@
   "Copy it": "এটি কপি করুন",
   "Move through the history": "ইতিহাসে আগে-পিছে যান",
   "Show it full screen": "পূর্ণ পর্দায় দেখান",
-  "Move it to the trash": "এটি ট্র্যাশে সরান",
+  "Delete it": "এটি মুছুন",
   "Show or hide the shortcuts": "শর্টকাট দেখান বা লুকান",
   "Quit": "প্রস্থান",
   "No image model is running": "কোনো ইমেজ মডেল চলছে না",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "গানটি তৈরি করা যায়নি",
   "MP3 audio": "MP3 অডিও",
   "Music with %1": "%1 দিয়ে সংগীত",
-  "Move it to the trash?": "এটি ট্র্যাশে সরাবেন?"
+  "Delete it?": "এটি মুছবেন?",
+  "Delete": "মুছুন"
 }

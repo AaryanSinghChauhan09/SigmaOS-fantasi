@@ -22,7 +22,7 @@
   "Copy it": "کپی آن",
   "Move through the history": "پیمایش تاریخچه",
   "Show it full screen": "نمایش تمام‌صفحه",
-  "Move it to the trash": "انتقال آن به زباله‌دان",
+  "Delete it": "حذفش کن",
   "Show or hide the shortcuts": "نمایش یا پنهان کردن میان‌برها",
   "Quit": "خروج",
   "No image model is running": "هیچ مدل تصویری در حال اجرا نیست",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "آهنگ ساخته نشد",
   "MP3 audio": "صدای MP3",
   "Music with %1": "موسیقی با %1",
-  "Move it to the trash?": "انتقال آن به زباله‌دان؟"
+  "Delete it?": "حذف شود؟",
+  "Delete": "حذف"
 }

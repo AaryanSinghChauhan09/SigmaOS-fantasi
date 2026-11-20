@@ -22,7 +22,7 @@
   "Copy it": "Sao chép ảnh",
   "Move through the history": "Duyệt lịch sử",
   "Show it full screen": "Hiển thị toàn màn hình",
-  "Move it to the trash": "Chuyển ảnh vào thùng rác",
+  "Delete it": "Xóa",
   "Show or hide the shortcuts": "Hiện hoặc ẩn phím tắt",
   "Quit": "Thoát",
   "No image model is running": "Không có mô hình tạo ảnh nào đang chạy",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Không tạo được bài hát",
   "MP3 audio": "Âm thanh MP3",
   "Music with %1": "Nhạc với %1",
-  "Move it to the trash?": "Chuyển ảnh vào thùng rác?"
+  "Delete it?": "Xóa nhé?",
+  "Delete": "Xóa"
 }

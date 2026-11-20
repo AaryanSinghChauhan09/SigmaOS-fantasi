@@ -22,7 +22,7 @@
   "Copy it": "Kopēt to",
   "Move through the history": "Pārvietoties pa vēsturi",
   "Show it full screen": "Rādīt pilnekrāna režīmā",
-  "Move it to the trash": "Pārvietot to uz atkritni",
+  "Delete it": "Dzēst",
   "Show or hide the shortcuts": "Rādīt vai paslēpt īsinājumtaustiņus",
   "Quit": "Iziet",
   "No image model is running": "Nedarbojas neviens attēlu modelis",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Dziesmu neizdevās izveidot",
   "MP3 audio": "MP3 audio",
   "Music with %1": "Mūzika ar %1",
-  "Move it to the trash?": "Pārvietot to uz atkritni?"
+  "Delete it?": "Dzēst?",
+  "Delete": "Dzēst"
 }

@@ -22,7 +22,7 @@
   "Copy it": "Скопіювати його",
   "Move through the history": "Гортати історію",
   "Show it full screen": "Показати на весь екран",
-  "Move it to the trash": "Перемістити його до смітника",
+  "Delete it": "Видалити",
   "Show or hide the shortcuts": "Показати або сховати комбінації клавіш",
   "Quit": "Вийти",
   "No image model is running": "Жодна модель зображень не запущена",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Не вдалося створити пісню",
   "MP3 audio": "Аудіо MP3",
   "Music with %1": "Музика з %1",
-  "Move it to the trash?": "Перемістити його до смітника?"
+  "Delete it?": "Видалити?",
+  "Delete": "Видалити"
 }

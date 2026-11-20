@@ -22,7 +22,7 @@
   "Copy it": "Zkopírovat",
   "Move through the history": "Procházet historii",
   "Show it full screen": "Zobrazit na celou obrazovku",
-  "Move it to the trash": "Přesunout do koše",
+  "Delete it": "Smazat to",
   "Show or hide the shortcuts": "Zobrazit nebo skrýt zkratky",
   "Quit": "Ukončit",
   "No image model is running": "Neběží žádný model pro obrázky",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Píseň se nepodařilo vytvořit",
   "MP3 audio": "Zvuk MP3",
   "Music with %1": "Hudba s %1",
-  "Move it to the trash?": "Přesunout do koše?"
+  "Delete it?": "Smazat?",
+  "Delete": "Smazat"
 }
