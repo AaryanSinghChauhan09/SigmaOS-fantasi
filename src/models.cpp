@@ -210,6 +210,48 @@ Models::Discovery Models::discover(const QJsonObject &status, const QJsonArray &
     return found;
 }
 
+QVariantList Models::offersFrom(const QJsonObject &status, const QJsonArray &list) {
+    const QJsonObject models = status.value("models").toObject();
+    QVariantList offers;
+    for (const QString kind : {"image", "music", "video"}) {
+        QList<QJsonObject> rows;
+        for (const QJsonValue &value : list)
+            if (value.toObject().value("kind").toString() == kind && value.toObject().value("available").toBool())
+                rows << value.toObject();
+        if (rows.isEmpty())
+            continue;
+        // The engine's pick for its kind first.
+        std::stable_sort(rows.begin(), rows.end(), [](const QJsonObject &a, const QJsonObject &b) {
+            return a.value("best").toBool() && !b.value("best").toBool();
+        });
+        const QJsonObject row = rows.first();
+        const QString id = row.value("id").toString();
+        const QJsonObject model = models.value(id).toObject();
+        const QJsonObject install = model.value("install").toObject();
+        const QString unit = model.value("unit").toString();
+        const QString error = model.value("error").toString();
+        QString phase = "offer";
+        if (unit == "installing")
+            phase = !error.isEmpty() ? "failed" : install.value("phase").toString("waiting");
+        else if (unit == "activating")
+            phase = "starting";
+        else if (unit == "active")
+            phase = "ready";
+        else if (!model.isEmpty())
+            phase = "installed";
+        constexpr double gib = 1024.0 * 1024 * 1024;
+        offers << QVariantMap{{"id", id}, {"kind", kind}, {"name", row.value("name").toString(id)},
+                              {"vendor", row.value("vendor").toString()},
+                              {"downloadBytes", qint64(row.value("download_gib").toDouble() * gib)},
+                              {"memoryBytes", qint64(row.value("memory_gib").toDouble() * gib)},
+                              {"phase", phase}, {"error", error},
+                              {"doneBytes", install.value("done_bytes").toInteger()},
+                              {"totalBytes", install.value("total_bytes").toInteger()},
+                              {"rateBytes", install.value("rate_bytes_s").toInteger()}};
+    }
+    return offers;
+}
+
 // The engine's endpoint is the OpenAI base, ending in /v1; the native API
 // lives beside it.
 static QString originOf(const QString &endpoint) {
@@ -278,6 +320,21 @@ void Models::install() {
     // the failed record rather than inheriting its error.
     if (m_found.state == "installable" || (m_found.state == "installing" && m_found.setupPhase == "failed"))
         run({{"use", m_found.id, "--detach"}});
+}
+
+void Models::download(const QString &id) {
+    for (const QVariant &offer : m_found.offers) {
+        const QVariantMap row = offer.toMap();
+        if (row.value("id").toString() == id && (row.value("phase") == "offer" || row.value("phase") == "failed"))
+            run({{"use", id, "--detach"}});
+    }
+}
+
+void Models::endSetup() {
+    if (!m_settingUp)
+        return;
+    m_settingUp = false;
+    emit changed();
 }
 
 void Models::switchTo() {
@@ -375,17 +432,10 @@ void Models::reload() {
     if (found.state == "ready" && found.id != preferred)
         settings.setValue("model", found.id);
 
-    // With no image model set up, the first one's setup carries on through
-    // its first start, which status.json shows like any other model's, until
-    // it's ready or set up and stopped.
-    // Opened during that first start, it's the same setup: the model has
-    // never started before, and it's the only one there is.
-    bool settingUp = m_settingUp;
-    if (found.state == "installable" || (found.state == "installing" && found.choices.isEmpty())
-        || (found.state == "starting" && found.firstStart && found.choices.size() == 1))
-        settingUp = true;
-    else if (found.state != "starting")
-        settingUp = false;
+    // A first run, while nothing to make things with is set up yet: it offers
+    // what this machine runs, and lasts until the first prompt is sent.
+    found.offers = offersFrom(status, list);
+    bool settingUp = m_settingUp || (found.choices.isEmpty() && !found.offers.isEmpty());
 
     if (found.state != m_found.state || found.id != m_found.id || found.endpoint != m_found.endpoint || found.edits != m_found.edits
         || found.reason != m_found.reason || found.blockers != m_found.blockers
@@ -393,7 +443,7 @@ void Models::reload() {
         || found.music != m_found.music
         || found.setupPhase != m_found.setupPhase || found.doneBytes != m_found.doneBytes || found.totalBytes != m_found.totalBytes
         || found.rateBytes != m_found.rateBytes || found.startedMs != m_found.startedMs || found.loadSeconds != m_found.loadSeconds
-        || found.firstStart != m_found.firstStart || settingUp != m_settingUp) {
+        || found.firstStart != m_found.firstStart || settingUp != m_settingUp || found.offers != m_found.offers) {
         m_found = found;
         m_settingUp = settingUp;
         emit changed();

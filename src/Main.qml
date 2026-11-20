@@ -145,8 +145,11 @@ ApplicationWindow {
     readonly property bool locked: generator.busy || asleep
     // Which screen shows: setting up the first image model, sorry there's
     // none for this machine, or the studio once one is set up.
-    readonly property string page: models.settingUp ? "setup"
-                                 : models.state === "none" || models.state === "noEngine" ? "sorry" : "studio"
+    readonly property string page: models.state === "noEngine" || (models.offers.length === 0 && models.state === "none") ? "sorry" : "studio"
+    // A first run: the chooser in the stage, the prompt bar waiting below
+    // until something it offered is ready.
+    readonly property bool choosingFirst: models.settingUp
+    readonly property bool waitingFirst: choosingFirst && models.state !== "ready"
     // What was last sent, to tell it from what is typed while it's made.
     property string sentPrompt
     property var sentPictures: []
@@ -167,6 +170,7 @@ ApplicationWindow {
     function generate() {
         if (!canGenerate)
             return
+        models.endSetup()
         sentPrompt = prompt.text
         sentPictures = baseImages
         sentVideo = videoMode
@@ -368,15 +372,6 @@ ApplicationWindow {
         }
     }
 
-    Setup {
-        anchors.fill: parent
-        visible: win.page === "setup"
-        models: win.models
-        muted: win.muted
-        LayoutMirroring.enabled: win.rightToLeft
-        LayoutMirroring.childrenInherit: true
-    }
-
     NoModel {
         anchors.fill: parent
         visible: win.page === "sorry"
@@ -428,6 +423,16 @@ ApplicationWindow {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
+                    Chooser {
+                        objectName: "chooser"
+                        anchors.fill: parent
+                        z: 3
+                        visible: win.choosingFirst
+                        models: win.models
+                        muted: win.muted
+                        line: win.line
+                    }
+
                     // The shape the image will have: the one shown once it's
                     // there, the size asked for while it isn't.
                     readonly property real aspect: win.showingSong ? 3
@@ -452,7 +457,7 @@ ApplicationWindow {
                         width: 220
                         height: 200
                         z: 2
-                        visible: (active || offer) && !generator.busy
+                        visible: (active || offer) && !generator.busy && !win.choosingFirst
                         Item {
                             id: ring
                             width: 120
@@ -543,7 +548,7 @@ ApplicationWindow {
                         // Empty while a new one is written, shimmering once it's asked for.
                         // Also while a song's wave is still settling or fading away, which
                         // outlasts the job: a cancelled repeat leaves no image to show.
-                        visible: !starting.visible && (generator.busy || generator.image !== "" || (win.composing && models.state === "ready")
+                        visible: !win.choosingFirst && !starting.visible && (generator.busy || generator.image !== "" || (win.composing && models.state === "ready")
                                  || (songPlayer.status === Loader.Ready && songPlayer.item.live))
 
                         // While a picture is being changed, it stays in the frame,
@@ -663,7 +668,7 @@ ApplicationWindow {
                     Label {
                         anchors.centerIn: parent
                         width: parent.width * 0.6
-                        visible: !frame.visible && !starting.visible
+                        visible: !frame.visible && !starting.visible && !win.choosingFirst
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.Wrap
                         color: win.muted
@@ -864,8 +869,8 @@ ApplicationWindow {
                         id: bar
                         // While a model starts, the bar keeps its controls as they
                         // are and greys out as a whole.
-                        enabled: !starting.active
-                        opacity: starting.active ? 0.4 : 1
+                        enabled: !starting.active && !win.waitingFirst
+                        opacity: starting.active || win.waitingFirst ? 0.4 : 1
                         visible: !win.choosing
                         anchors.fill: parent
                         anchors.leftMargin: 8
@@ -1002,7 +1007,8 @@ ApplicationWindow {
                                     visible: prompt.length === 0 && prompt.preeditText === ""
                                     color: win.muted
                                     font: prompt.font
-                                    text: win.musicMode ? qsTr("Describe a song")
+                                    text: win.waitingFirst ? qsTr("Pick something to make first")
+                                          : win.musicMode ? qsTr("Describe a song")
                                           : win.videoMode ? (win.changing ? qsTr("How should it move?") : qsTr("Describe a clip"))
                                           : win.baseImages.length > 1 ? qsTr("How should they come together?")
                                           : win.changing ? qsTr("What should change?") : qsTr("Describe an image")
@@ -1330,7 +1336,7 @@ ApplicationWindow {
                             objectName: "action"
                             // The round arrow stays while a model starts or waits to: the
                             // bar keeps its shape and greys out; words only for a setup.
-                            readonly property bool round: models.state === "ready" || starting.active || win.asleep
+                            readonly property bool round: models.state === "ready" || starting.active || win.waitingFirst || win.asleep
                             // The same gap from the model's mark as between the icons.
                             Layout.leftMargin: 9
                             Layout.alignment: Qt.AlignVCenter
