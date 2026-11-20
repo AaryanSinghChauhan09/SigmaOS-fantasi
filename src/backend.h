@@ -63,6 +63,9 @@ signals:
     void errorChanged();
     void pictureChosen(const QString &url);
     void promptRequested(const QString &prompt);
+    // Another `fantasi open --model`, as the agents panel opens a model:
+    // the window turns to making something new with it.
+    void modelRequested();
 
 private:
     Models m_models;
