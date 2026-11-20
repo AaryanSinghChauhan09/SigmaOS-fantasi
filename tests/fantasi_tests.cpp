@@ -517,6 +517,10 @@ private slots:
         QTRY_COMPARE(models.state(), QString("ready"));
         QCOMPARE(models.offers().at(0).toMap().value("phase").toString(), QString("ready"));
         QVERIFY(models.settingUp());
+        // Stopped before the first prompt, it's set up and can be started again.
+        status({{"klein", QJsonObject{{"kind", "image"}, {"name", "FLUX.2 Klein 4B"}, {"unit", "inactive"}}}});
+        QTRY_COMPARE(models.offers().at(0).toMap().value("phase").toString(), QString("installed"));
+        QVERIFY(models.settingUp());
         models.endSetup();
         QVERIFY(!models.settingUp());
 
