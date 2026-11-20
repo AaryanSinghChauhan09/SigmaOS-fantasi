@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "Le modèle de musique a cessé de répondre : %1",
   "The song couldn't be made": "La chanson n'a pas pu être créée",
   "MP3 audio": "Audio MP3",
-  "Music with %1": "Musique avec %1"
+  "Music with %1": "Musique avec %1",
+  "Move it to the trash?": "La mettre à la corbeille ?"
 }

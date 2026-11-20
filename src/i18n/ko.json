@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "음악 모델이 응답을 멈췄습니다: %1",
   "The song couldn't be made": "노래를 만들 수 없습니다",
   "MP3 audio": "MP3 오디오",
-  "Music with %1": "%1(으)로 음악"
+  "Music with %1": "%1(으)로 음악",
+  "Move it to the trash?": "휴지통으로 이동할까요?"
 }

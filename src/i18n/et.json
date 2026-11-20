@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "Muusikamudel lakkas vastamast: %1",
   "The song couldn't be made": "Laulu ei õnnestunud teha",
   "MP3 audio": "MP3-heli",
-  "Music with %1": "Muusika mudeliga %1"
+  "Music with %1": "Muusika mudeliga %1",
+  "Move it to the trash?": "Kas teisaldada see prügikasti?"
 }

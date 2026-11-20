@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "音乐模型停止响应：%1",
   "The song couldn't be made": "无法生成歌曲",
   "MP3 audio": "MP3 音频",
-  "Music with %1": "使用 %1 生成音乐"
+  "Music with %1": "使用 %1 生成音乐",
+  "Move it to the trash?": "移到回收站？"
 }

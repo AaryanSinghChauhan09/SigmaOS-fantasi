@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "Модель музики перестала відповідати: %1",
   "The song couldn't be made": "Не вдалося створити пісню",
   "MP3 audio": "Аудіо MP3",
-  "Music with %1": "Музика з %1"
+  "Music with %1": "Музика з %1",
+  "Move it to the trash?": "Перемістити його до смітника?"
 }

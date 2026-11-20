@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "โมเดลดนตรีหยุดตอบสนอง: %1",
   "The song couldn't be made": "สร้างเพลงไม่ได้",
   "MP3 audio": "เสียง MP3",
-  "Music with %1": "เพลงด้วย %1"
+  "Music with %1": "เพลงด้วย %1",
+  "Move it to the trash?": "ย้ายไปถังขยะไหม?"
 }

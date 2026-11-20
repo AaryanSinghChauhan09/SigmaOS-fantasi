@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "A zenemodell nem válaszol tovább: %1",
   "The song couldn't be made": "A dalt nem sikerült elkészíteni",
   "MP3 audio": "MP3-hang",
-  "Music with %1": "Zene ezzel: %1"
+  "Music with %1": "Zene ezzel: %1",
+  "Move it to the trash?": "Áthelyezés a Kukába?"
 }

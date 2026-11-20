@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "Mūzikas modelis pārstāja atbildēt: %1",
   "The song couldn't be made": "Dziesmu neizdevās izveidot",
   "MP3 audio": "MP3 audio",
-  "Music with %1": "Mūzika ar %1"
+  "Music with %1": "Mūzika ar %1",
+  "Move it to the trash?": "Pārvietot to uz atkritni?"
 }

@@ -153,6 +153,8 @@ Item {
     MediaPlayer {
         id: player
         source: root.source
+        // Round and round, as a clip plays.
+        loops: MediaPlayer.Infinite
         audioOutput: AudioOutput {}
         onSourceChanged: if (source.toString() !== "") play()
     }

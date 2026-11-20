@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "இசை மாதிரி பதிலளிப்பதை நிறுத்தியது: %1",
   "The song couldn't be made": "பாடலை உருவாக்க முடியவில்லை",
   "MP3 audio": "MP3 ஆடியோ",
-  "Music with %1": "%1 மூலம் இசை"
+  "Music with %1": "%1 மூலம் இசை",
+  "Move it to the trash?": "அதைக் குப்பைக்கு நகர்த்தவா?"
 }

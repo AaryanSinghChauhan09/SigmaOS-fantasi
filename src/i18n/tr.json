@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "Müzik modeli yanıt vermeyi bıraktı: %1",
   "The song couldn't be made": "Şarkı oluşturulamadı",
   "MP3 audio": "MP3 sesi",
-  "Music with %1": "%1 ile müzik"
+  "Music with %1": "%1 ile müzik",
+  "Move it to the trash?": "Çöpe taşınsın mı?"
 }

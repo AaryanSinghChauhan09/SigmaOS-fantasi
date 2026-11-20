@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "Muzikos modelis nustojo atsakinėti: %1",
   "The song couldn't be made": "Nepavyko sukurti dainos",
   "MP3 audio": "MP3 garso įrašas",
-  "Music with %1": "Muzika su %1"
+  "Music with %1": "Muzika su %1",
+  "Move it to the trash?": "Perkelti jį į šiukšlinę?"
 }

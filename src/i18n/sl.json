@@ -95,5 +95,6 @@
   "The music model stopped answering: %1": "Model za glasbo se je nehal odzivati: %1",
   "The song couldn't be made": "Pesmi ni bilo mogoče ustvariti",
   "MP3 audio": "Zvok MP3",
-  "Music with %1": "Glasba z %1"
+  "Music with %1": "Glasba z %1",
+  "Move it to the trash?": "Jo premaknem v smeti?"
 }

@@ -49,6 +49,16 @@ ApplicationWindow {
     // Writing a prompt, or looking at a finished image and choosing what's
     // next: change it, make a new one, or use it.
     property bool composing: true
+    // Done writing, whatever ended it (a pick, a result made, Escape): the
+    // prompt is out of sight, so it lets go of the keyboard, and the keys are
+    // the window's, F, Delete and the arrows among them. Starting to write
+    // leaves the full view first, so nothing is typed where it can't be seen.
+    onComposingChanged: {
+        if (composing)
+            fullView = false
+        else
+            contentItem.forceActiveFocus()
+    }
     // The model in use makes clips: from the prompt alone, or animating the
     // picture being changed.
     readonly property bool videoMode: models.video
@@ -99,6 +109,10 @@ ApplicationWindow {
     readonly property bool formingSong: generator.busy && sentMusic
     onFormingSongChanged: if (formingSong) songPlayerWanted = true
     readonly property bool choosing: !composing && shownFile !== "" && !generator.busy
+    // The hidden prompt lets go of the keyboard while a picture is shown, so
+    // Delete reaches its shortcut rather than an empty field; every way back
+    // to writing, a deletion included, gives it back.
+    onChoosingChanged: choosing ? win.contentItem.forceActiveFocus() : prompt.forceActiveFocus()
     // The history image a new one was started from, for Esc to go back to.
     property int returnIndex: -1
     readonly property string problem: models.error || generator.error || backend.error
@@ -213,10 +227,6 @@ ApplicationWindow {
         generator.show(history.urlAt(index))
         baseImages = []
         composing = false
-        // The prompt is out of sight now, so it lets go of the keyboard: the
-        // keys are the window's, F and the arrows among them, until writing
-        // starts again.
-        win.contentItem.forceActiveFocus()
     }
     // An empty frame and an empty prompt for a new image.
     function newImage() {
@@ -289,10 +299,16 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+S"; enabled: win.shownFile !== ""; onActivated: backend.saveAs(win.shownFile) }
     Shortcut { sequence: "Ctrl+Up"; onActivated: win.pick(historyList.currentIndex - 1) }
     Shortcut { sequence: "Ctrl+Down"; onActivated: win.pick(historyList.currentIndex + 1) }
-    Shortcut {
-        sequence: "Ctrl+Delete"
-        enabled: win.shownFile !== "" && historyList.currentIndex >= 0
-        onActivated: if (history.remove(historyList.currentIndex)) generator.show("")
+    // Delete, or Ctrl+Delete, asks before moving the one shown to the trash.
+    // Delete only while it's shown, not while a prompt takes the keyboard.
+    Shortcut { sequence: "Delete"; enabled: win.choosing && win.canDelete; onActivated: win.askDelete() }
+    Shortcut { sequence: "Ctrl+Delete"; enabled: win.canDelete; onActivated: win.askDelete() }
+    // The one shown, picked in the history or not; history.count keeps it in
+    // step as the history changes.
+    readonly property bool canDelete: history.count >= 0 && history.rowOf(win.shownFile) >= 0 && !generator.busy
+    function askDelete() {
+        trash.file = win.shownFile
+        trash.open()
     }
 
     // Typing goes to the prompt from the start; it sits in a ScrollView, a
@@ -809,7 +825,8 @@ ApplicationWindow {
                                 { name: "newImage", icon: "new", label: qsTr("New generation"), key: "Ctrl+N", run: () => win.newImage() },
                                 { name: "fullScreen", icon: "fullscreen", label: qsTr("Show it full screen"), key: "F", run: () => win.fullView = true },
                                 { name: "copy", icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
-                                { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
+                                { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) },
+                                { name: "delete", icon: "delete", label: qsTr("Move it to the trash"), key: "Delete", run: () => win.askDelete(), shown: win.canDelete }
                             ]
                             delegate: ToolButton {
                                 required property var modelData
@@ -1566,6 +1583,75 @@ ApplicationWindow {
         }
     }
 
+    // Asks before the one shown goes to the trash; Enter moves it, Escape or a
+    // click outside keeps it.
+    Popup {
+        id: trash
+        objectName: "trash"
+        // The file asked about, found again on confirming: the history may
+        // have reordered meanwhile, and one that's gone is left alone.
+        property string file
+        anchors.centerIn: Overlay.overlay
+        modal: true
+        focus: true
+        padding: 24
+        background: Rectangle {
+            color: theme.background
+            border.color: win.line
+            radius: theme.radius
+        }
+        function confirm() {
+            close()
+            const row = history.rowOf(file)
+            if (row >= 0 && history.remove(row))
+                generator.show("")
+        }
+        // Closing hands the keyboard back to the prompt; while the picture is
+        // still shown, Delete should reach its shortcut again.
+        onClosed: if (win.choosing) win.contentItem.forceActiveFocus()
+        ColumnLayout {
+            spacing: 18
+            LayoutMirroring.enabled: win.rightToLeft
+            LayoutMirroring.childrenInherit: true
+            Keys.onReturnPressed: trash.confirm()
+            Keys.onEnterPressed: trash.confirm()
+            focus: true
+            Label {
+                text: qsTr("Move it to the trash?")
+                font.pixelSize: 17
+                color: theme.foreground
+            }
+            RowLayout {
+                Layout.alignment: Qt.AlignRight
+                spacing: 8
+                Button {
+                    objectName: "trashCancel"
+                    text: qsTr("Cancel")
+                    flat: true
+                    Material.roundedScale: theme.radius
+                    onClicked: trash.close()
+                }
+                Button {
+                    id: trashConfirm
+                    objectName: "trashConfirm"
+                    text: qsTr("Move it to the trash")
+                    highlighted: true
+                    Material.roundedScale: theme.radius
+                    onClicked: trash.confirm()
+                    // A highlighted button colors its caption by Material's own
+                    // rule, which doesn't read on every accent.
+                    contentItem: Label {
+                        text: trashConfirm.text
+                        font: trashConfirm.font
+                        color: theme.accentForeground
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+            }
+        }
+    }
+
     Popup {
         id: help
         objectName: "help"
@@ -1598,7 +1684,7 @@ ApplicationWindow {
                     { keys: "Ctrl+S", action: qsTr("Save a copy somewhere else") },
                     { keys: "↑ ↓", action: qsTr("Move through the history") },
                     { keys: "F", action: qsTr("Show it full screen") },
-                    { keys: "Ctrl+Delete", action: qsTr("Move it to the trash") },
+                    { keys: "Delete", action: qsTr("Move it to the trash") },
                     { keys: "F1", action: qsTr("Show or hide the shortcuts") },
                     { keys: "Ctrl+Q", action: qsTr("Quit") }
                 ]
