@@ -78,8 +78,10 @@ void Backend::open(const QString &model, const QString &prompt) {
         m_waitingOpen = {{"model", model}, {"prompt", prompt}};
         return;
     }
-    if (!model.isEmpty())
+    if (!model.isEmpty()) {
         m_models.choose(model);
+        emit modelRequested();
+    }
     if (!prompt.isEmpty())
         emit promptRequested(prompt);
 }
