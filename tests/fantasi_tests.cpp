@@ -1037,13 +1037,27 @@ private slots:
         auto *window = qobject_cast<QQuickWindow *>(engine.rootObjects().first());
         QVERIFY(QTest::qWaitForWindowExposed(window));
 
-        // Something made earlier is in the frame, as after picking it from the history.
+        // Something made earlier is in the frame with its prompt, as after
+        // picking it from the history.
+        QDir().mkpath(dir.path() + "/out");
+        write(dir.path() + "/out/20260101-120000-a-lake.png", png(64));
+        auto *prompt = item(window->contentItem(), "prompt");
+        QVERIFY(prompt);
+        prompt->setProperty("text", QString("a lake"));
+        backend.generator()->show(QUrl::fromLocalFile(dir.path() + "/out/20260101-120000-a-lake.png").toString());
         window->setProperty("composing", false);
+        QVERIFY(!window->property("shownFile").toString().isEmpty());
         // The agents panel opens the other model: it's the one in use, with an
-        // empty prompt to make something with it.
+        // empty frame and an empty prompt to make something with it.
         backend.open("b", {});
         QCOMPARE(QSettings().value("model").toString(), QString("b"));
         QVERIFY(window->property("composing").toBool());
+        QCOMPARE(window->property("shownFile").toString(), QString());
+        QCOMPARE(prompt->property("text").toString(), QString());
+        // A prompt being written when it's opened stays.
+        prompt->setProperty("text", QString("a hill"));
+        backend.open("a", {});
+        QCOMPARE(prompt->property("text").toString(), QString("a hill"));
 
         QSettings().remove("model");
         QCoreApplication::removeTranslator(&translator);
