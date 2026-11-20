@@ -1010,6 +1010,59 @@ private slots:
         QCOMPARE(player->property("presence").toDouble(), 1.0);
     }
 
+    void openingAnotherModelTurnsTheWindowToMakingSomethingWithIt() {
+        QTemporaryDir dir;
+        Translator translator(dir.path() + "/language");
+        QCoreApplication::installTranslator(&translator);
+        Theme theme(dir.path());
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        // Two image models running: the window starts on the first.
+        const auto running = [](const QString &name) {
+            return QJsonObject{{"kind", "image"}, {"name", name}, {"unit", "active"}, {"port", 1}};
+        };
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{
+            {"a", running("Model A")}, {"b", running("Model B")}}}}).toJson());
+        write(state + "/list.json", "[]");
+        write(state + "/key", "secret\n");
+        QSettings().setValue("model", "a");
+        Backend backend({state, state + "/key", "/bin/true", dir.path() + "/out", "/bin/true", {}});
+
+        QQmlApplicationEngine engine;
+        engine.rootContext()->setContextProperty("translator", &translator);
+        engine.rootContext()->setContextProperty("theme", &theme);
+        engine.rootContext()->setContextProperty("backend", &backend);
+        engine.load(QUrl("qrc:/Main.qml"));
+        QVERIFY(!engine.rootObjects().isEmpty());
+        auto *window = qobject_cast<QQuickWindow *>(engine.rootObjects().first());
+        QVERIFY(QTest::qWaitForWindowExposed(window));
+
+        // Something made earlier is in the frame with its prompt, as after
+        // picking it from the history.
+        QDir().mkpath(dir.path() + "/out");
+        write(dir.path() + "/out/20260101-120000-a-lake.png", png(64));
+        auto *prompt = item(window->contentItem(), "prompt");
+        QVERIFY(prompt);
+        prompt->setProperty("text", QString("a lake"));
+        backend.generator()->show(QUrl::fromLocalFile(dir.path() + "/out/20260101-120000-a-lake.png").toString());
+        window->setProperty("composing", false);
+        QVERIFY(!window->property("shownFile").toString().isEmpty());
+        // The agents panel opens the other model: it's the one in use, with an
+        // empty frame and an empty prompt to make something with it.
+        backend.open("b", {});
+        QCOMPARE(QSettings().value("model").toString(), QString("b"));
+        QVERIFY(window->property("composing").toBool());
+        QCOMPARE(window->property("shownFile").toString(), QString());
+        QCOMPARE(prompt->property("text").toString(), QString());
+        // A prompt being written when it's opened stays.
+        prompt->setProperty("text", QString("a hill"));
+        backend.open("a", {});
+        QCOMPARE(prompt->property("text").toString(), QString("a hill"));
+
+        QSettings().remove("model");
+        QCoreApplication::removeTranslator(&translator);
+    }
+
     void aModelSetUpButNotRunningWaitsInARingForAClickToStartIt() {
         QTemporaryDir dir;
         Translator translator(dir.path() + "/language");

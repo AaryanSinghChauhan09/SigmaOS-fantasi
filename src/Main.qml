@@ -313,6 +313,14 @@ ApplicationWindow {
             win.newImage()
             prompt.text = text
         }
+        // Another `fantasi open` with a model: an empty prompt to make something
+        // with it, rather than the last thing made with another one left in the
+        // frame. A prompt being written stays.
+        function onModelRequested() {
+            if (!win.composing)
+                win.newImage()
+            prompt.forceActiveFocus()
+        }
     }
 
     // A picture dropped anywhere on the window becomes the one to change,
