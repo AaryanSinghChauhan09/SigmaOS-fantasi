@@ -10,6 +10,7 @@
         <file alias="icons/change.svg">icons/change.svg</file>
         <file alias="icons/copy.svg">icons/copy.svg</file>
         <file alias="icons/save.svg">icons/save.svg</file>
+        <file alias="icons/delete.svg">icons/delete.svg</file>
         <file alias="icons/model.svg">icons/model.svg</file>
         <file alias="icons/new.svg">icons/new.svg</file>
         <file alias="fantasi.svg">../share/fantasi.svg</file>

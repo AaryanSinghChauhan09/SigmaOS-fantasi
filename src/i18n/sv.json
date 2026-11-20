@@ -94,5 +94,6 @@
   "The music model stopped answering: %1": "Musikmodellen slutade svara: %1",
   "The song couldn't be made": "Låten kunde inte skapas",
   "MP3 audio": "MP3-ljud",
-  "Music with %1": "Musik med %1"
+  "Music with %1": "Musik med %1",
+  "Move it to the trash?": "Flytta den till papperskorgen?"
 }

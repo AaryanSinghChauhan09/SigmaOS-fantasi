@@ -94,5 +94,6 @@
   "The music model stopped answering: %1": "Το μοντέλο μουσικής σταμάτησε να απαντά: %1",
   "The song couldn't be made": "Δεν ήταν δυνατή η δημιουργία του τραγουδιού",
   "MP3 audio": "Ήχος MP3",
-  "Music with %1": "Μουσική με %1"
+  "Music with %1": "Μουσική με %1",
+  "Move it to the trash?": "Μετακίνηση στα απορρίμματα;"
 }

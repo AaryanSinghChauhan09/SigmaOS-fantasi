@@ -94,5 +94,6 @@
   "The music model stopped answering: %1": "Tónlistarlíkanið hætti að svara: %1",
   "The song couldn't be made": "Ekki tókst að búa til lagið",
   "MP3 audio": "MP3-hljóð",
-  "Music with %1": "Tónlist með %1"
+  "Music with %1": "Tónlist með %1",
+  "Move it to the trash?": "Flytja hana í ruslið?"
 }

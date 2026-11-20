@@ -94,5 +94,6 @@
   "The music model stopped answering: %1": "توقف نموذج الموسيقى عن الاستجابة: %1",
   "The song couldn't be made": "تعذّر إنشاء الأغنية",
   "MP3 audio": "صوت MP3",
-  "Music with %1": "موسيقى باستخدام %1"
+  "Music with %1": "موسيقى باستخدام %1",
+  "Move it to the trash?": "نقلها إلى المهملات؟"
 }
