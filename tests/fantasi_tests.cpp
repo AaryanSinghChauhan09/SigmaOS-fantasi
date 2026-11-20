@@ -1417,6 +1417,66 @@ private slots:
         QVERIFY2(problems.isEmpty(), qPrintable(problems.join('\n')));
     }
 
+    void fShowsTheFrameFullScreenAndArrowsMoveThroughTheHistory() {
+        QTemporaryDir dir;
+        Translator translator(dir.path() + "/language");
+        QCoreApplication::installTranslator(&translator);
+        Theme theme(dir.path());
+        readyEngine(dir.path() + "/state", "http://127.0.0.1:9");
+        // Two images made before, newest first in the history.
+        QDir().mkpath(dir.path() + "/out");
+        write(dir.path() + "/out/20260101-120000-a-lake.png", png(64));
+        write(dir.path() + "/out/20260102-120000-a-hill.png", png(64));
+        Backend backend({dir.path() + "/state", dir.path() + "/state/key", "/bin/true", dir.path() + "/out", "/bin/true", {}});
+
+        QQmlApplicationEngine engine;
+        engine.rootContext()->setContextProperty("translator", &translator);
+        engine.rootContext()->setContextProperty("theme", &theme);
+        engine.rootContext()->setContextProperty("backend", &backend);
+        engine.load(QUrl("qrc:/Main.qml"));
+        QVERIFY(!engine.rootObjects().isEmpty());
+        auto *window = qobject_cast<QQuickWindow *>(engine.rootObjects().first());
+        QVERIFY(QTest::qWaitForWindowExposed(window));
+        window->requestActivate();
+        QVERIFY(QTest::qWaitForWindowActive(window));
+        QTRY_COMPARE(window->property("modelStatus").toString(), QString("Z-Image Turbo is ready"));
+        auto *list = item(window->contentItem(), "history");
+        auto *rail = item(window->contentItem(), "rail");
+        auto *prompt = item(window->contentItem(), "prompt");
+        QVERIFY(list && rail && prompt);
+        QTRY_COMPARE(list->property("count").toInt(), 2);
+
+        // With the prompt empty, down and up step through the history.
+        QTest::keyClick(window, Qt::Key_Down);
+        QTRY_COMPARE(list->property("currentIndex").toInt(), 0);
+        QTest::keyClick(window, Qt::Key_Down);
+        QTRY_COMPARE(list->property("currentIndex").toInt(), 1);
+        QTest::keyClick(window, Qt::Key_Up);
+        QTRY_COMPARE(list->property("currentIndex").toInt(), 0);
+
+        // F shows it alone on the whole screen, and Escape brings it all back.
+        QTest::keyClick(window, Qt::Key_F);
+        QVERIFY(window->property("fullView").toBool());
+        QTRY_COMPARE(window->visibility(), QWindow::FullScreen);
+        QVERIFY(!rail->isVisible());
+        QTest::keyClick(window, Qt::Key_Escape);
+        QVERIFY(!window->property("fullView").toBool());
+        QTRY_VERIFY(window->visibility() != QWindow::FullScreen);
+        QVERIFY(rail->isVisible());
+
+        // In a prompt being written, F is a letter and the arrows stay there.
+        QTest::keyClick(window, Qt::Key_N, Qt::ControlModifier);
+        QTRY_VERIFY(prompt->property("activeFocus").toBool());
+        QTest::keyClick(window, 'f');
+        QCOMPARE(prompt->property("text").toString(), QString("f"));
+        QVERIFY(!window->property("fullView").toBool());
+        const int index = list->property("currentIndex").toInt();
+        QTest::keyClick(window, Qt::Key_Down);
+        QCOMPARE(list->property("currentIndex").toInt(), index);
+
+        QCoreApplication::removeTranslator(&translator);
+    }
+
     void windowLoadsAndAnswersTheKeyboard() {
         // A temp language and theme, so the test never depends on the desktop's.
         QTemporaryDir dir;

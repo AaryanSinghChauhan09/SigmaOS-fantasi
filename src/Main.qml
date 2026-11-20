@@ -213,6 +213,10 @@ ApplicationWindow {
         generator.show(history.urlAt(index))
         baseImages = []
         composing = false
+        // The prompt is out of sight now, so it lets go of the keyboard: the
+        // keys are the window's, F and the arrows among them, until writing
+        // starts again.
+        win.contentItem.forceActiveFocus()
     }
     // An empty frame and an empty prompt for a new image.
     function newImage() {
@@ -247,13 +251,34 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+E"; enabled: win.showingImage && !win.musicMode && !generator.busy; onActivated: win.changeImage() }
     Shortcut { sequence: "Ctrl+O"; enabled: win.page === "studio" && !generator.busy && !win.musicMode; onActivated: backend.openPicture() }
     // Esc stops an image being made, or else goes back to the image shown.
-    Shortcut { sequence: "Escape"; enabled: generator.busy; onActivated: generator.cancel() }
-    Shortcut { sequence: "Escape"; enabled: !generator.busy && win.composing; onActivated: win.backToImage() }
+    Shortcut { sequence: "Escape"; enabled: generator.busy && !win.fullView; onActivated: generator.cancel() }
+    Shortcut { sequence: "Escape"; enabled: !generator.busy && win.composing && !win.fullView; onActivated: win.backToImage() }
+    // F shows what's in the frame on its own, filling the screen, and F or
+    // Escape brings the studio back. Not while a prompt is being written,
+    // where F is a letter.
+    Shortcut { sequence: "F"; enabled: win.page === "studio" && (win.fullView || !prompt.activeFocus); onActivated: win.fullView = !win.fullView }
+    Shortcut { sequence: "Escape"; enabled: win.fullView; onActivated: win.fullView = false }
+    // Up and down step through the history, as with Ctrl. A focused prompt
+    // takes them itself: empty, it steps too; written in, they move in it.
+    Shortcut { sequence: "Up"; enabled: win.page === "studio" && !prompt.activeFocus; onActivated: win.pick(historyList.currentIndex - 1) }
+    Shortcut { sequence: "Down"; enabled: win.page === "studio" && !prompt.activeFocus; onActivated: win.pick(historyList.currentIndex + 1) }
     Shortcut { sequence: "Ctrl+N"; enabled: win.page === "studio" && !generator.busy; onActivated: win.newImage() }
     Shortcut { sequence: "Ctrl+1"; enabled: !generator.busy; onActivated: win.sizeChoice = 0 }
     Shortcut { sequence: "Ctrl+2"; enabled: !generator.busy; onActivated: win.sizeChoice = 1 }
     Shortcut { sequence: "Ctrl+3"; enabled: !generator.busy; onActivated: win.sizeChoice = 2 }
     Shortcut { sequence: "Ctrl+B"; onActivated: layout.historyShown = !layout.historyShown }
+    // What's in the frame alone on the screen: the window full screen, the
+    // prompt and the history out of the way, and back as it was after.
+    property bool fullView: false
+    property int visibilityBeforeFull: Window.Windowed
+    onFullViewChanged: {
+        if (fullView) {
+            visibilityBeforeFull = visibility === Window.FullScreen ? Window.Windowed : visibility
+            showFullScreen()
+        } else {
+            visibility = visibilityBeforeFull
+        }
+    }
     // Whether the history sidebar is shown, kept between runs.
     Settings {
         id: layout
@@ -370,7 +395,7 @@ ApplicationWindow {
 
             ColumnLayout {
                 anchors.fill: parent
-                anchors.margins: 20
+                anchors.margins: win.fullView ? 0 : 20
                 spacing: 12
 
                 // ----------------------------------------------------- the image
@@ -668,7 +693,7 @@ ApplicationWindow {
                     objectName: "lyricsBar"
                     Layout.fillWidth: true
                     Layout.preferredHeight: Math.min(Math.max(lyrics.implicitHeight, 34), 160) + 10
-                    visible: win.musicMode && win.lyricsChoice === 1 && !win.choosing
+                    visible: win.musicMode && win.lyricsChoice === 1 && !win.choosing && !win.fullView
                     color: win.panel
                     radius: Math.min(height / 2, theme.radius)
                     border.color: lyrics.activeFocus ? theme.accent : win.line
@@ -704,6 +729,7 @@ ApplicationWindow {
                 // the model, and the round button that sends it.
                 Rectangle {
                     id: promptBar
+                    visible: !win.fullView
                     Layout.fillWidth: true
                     Layout.preferredHeight: (win.choosing ? nextBar.implicitHeight : bar.implicitHeight) + 10
                     // What's next has no box: just its icons, centred.
@@ -972,6 +998,20 @@ ApplicationWindow {
                                         win.wake()
                                     else
                                         win.generate()
+                                }
+                                // An empty prompt has nowhere for the arrows to move, so
+                                // they step through the history, as they do elsewhere.
+                                Keys.onUpPressed: event => {
+                                    if (text === "" && !event.modifiers)
+                                        win.pick(historyList.currentIndex - 1)
+                                    else
+                                        event.accepted = false
+                                }
+                                Keys.onDownPressed: event => {
+                                    if (text === "" && !event.modifiers)
+                                        win.pick(historyList.currentIndex + 1)
+                                    else
+                                        event.accepted = false
                                 }
                             }
                         }
@@ -1361,7 +1401,7 @@ ApplicationWindow {
             // once there's an image to list, and Ctrl+B hides it.
             Rectangle {
                 objectName: "rail"
-                visible: history.count > 0 && layout.historyShown
+                visible: history.count > 0 && layout.historyShown && !win.fullView
                 Layout.preferredWidth: 152
                 Layout.maximumWidth: 152
                 Layout.fillWidth: false
@@ -1555,7 +1595,8 @@ ApplicationWindow {
                     { keys: "Ctrl+B", action: qsTr("Show or hide the history") },
                     { keys: "Ctrl+Shift+C", action: qsTr("Copy it") },
                     { keys: "Ctrl+S", action: qsTr("Save a copy somewhere else") },
-                    { keys: "Ctrl+↑ ↓", action: qsTr("Move through the history") },
+                    { keys: "↑ ↓", action: qsTr("Move through the history") },
+                    { keys: "F", action: qsTr("Show it full screen") },
                     { keys: "Ctrl+Delete", action: qsTr("Move it to the trash") },
                     { keys: "F1", action: qsTr("Show or hide the shortcuts") },
                     { keys: "Ctrl+Q", action: qsTr("Quit") }
