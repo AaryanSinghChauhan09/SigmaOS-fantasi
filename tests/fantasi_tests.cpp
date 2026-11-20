@@ -1481,6 +1481,18 @@ private slots:
         QTest::keyClick(window, Qt::Key_Down);
         QCOMPARE(list->property("currentIndex").toInt(), index);
 
+        // A result arriving ends the writing as onSaved does: the hidden prompt
+        // lets the keyboard go, so F shows the result.
+        window->setProperty("composing", false);
+        QVERIFY(!prompt->property("activeFocus").toBool());
+        QTest::keyClick(window, Qt::Key_F);
+        QVERIFY(window->property("fullView").toBool());
+        // Starting to write from the full view leaves it, so the prompt being
+        // typed in is in sight.
+        QTest::keyClick(window, Qt::Key_N, Qt::ControlModifier);
+        QVERIFY(!window->property("fullView").toBool());
+        QTRY_VERIFY(prompt->isVisible() && prompt->property("activeFocus").toBool());
+
         QCoreApplication::removeTranslator(&translator);
     }
 
