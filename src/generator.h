@@ -37,6 +37,9 @@ class Generator : public QObject {
     // can't be told yet. From how long the last one like it took, or else
     // from how fast its steps go.
     Q_PROPERTY(int remainingSeconds READ remainingSeconds NOTIFY remainingChanged)
+    // How much of the job in hand has gone by, 0 to just short of 1, from
+    // how long the last one like it took; -1 with nothing to go by.
+    Q_PROPERTY(double timeProgress READ timeProgress NOTIFY remainingChanged)
 
 public:
     // Images and clips are kept in `folder`, songs in `musicFolder` with
@@ -55,6 +58,7 @@ public:
     bool unsaved() const { return !m_pending.isEmpty() || !m_unposted.isEmpty(); }
     int defaultSteps() const;
     int remainingSeconds() const;
+    double timeProgress() const;
     QString folder() const { return m_folder; }
     QString musicFolder() const { return m_musicFolder; }
 

@@ -95,6 +95,9 @@ ApplicationWindow {
     onShowingClipChanged: if (showingClip) playerWanted = true
     property bool songPlayerWanted: false
     onShowingSongChanged: if (showingSong) songPlayerWanted = true
+    // A song is being made: its wave forms in the frame, where it will play.
+    readonly property bool formingSong: generator.busy && sentMusic
+    onFormingSongChanged: if (formingSong) songPlayerWanted = true
     readonly property bool choosing: !composing && shownFile !== "" && !generator.busy
     // The history image a new one was started from, for Esc to go back to.
     property int returnIndex: -1
@@ -137,9 +140,12 @@ ApplicationWindow {
     property bool sentMusic: false
     property string sentLyrics
     // How far along the image is being made, 0 to 1: the steps, then whole
-    // once they're done and it's finishing.
+    // once they're done and it's finishing. A song has only two steps,
+    // written and rendered, so it fills by time against the last one as
+    // long, and by its steps the first time.
     readonly property real progress: !generator.busy ? 0
         : generator.stage === "decoding" || generator.stage === "saving" ? 1
+        : sentMusic && generator.timeProgress >= 0 ? generator.timeProgress
         : generator.totalSteps > 0 ? Math.min(1, generator.step / generator.totalSteps) : 0
 
     // The model's own steps and a new seed every time: what matters is said
@@ -486,7 +492,10 @@ ApplicationWindow {
                         width: Math.min(parent.width, parent.height * stage.aspect)
                         height: width / stage.aspect
                         // Empty while a new one is written, shimmering once it's asked for.
-                        visible: !starting.visible && (generator.busy || generator.image !== "" || (win.composing && models.state === "ready"))
+                        // Also while a song's wave is still settling or fading away, which
+                        // outlasts the job: a cancelled repeat leaves no image to show.
+                        visible: !starting.visible && (generator.busy || generator.image !== "" || (win.composing && models.state === "ready")
+                                 || (songPlayer.status === Loader.Ready && songPlayer.item.live))
 
                         // While a picture is being changed, it stays in the frame,
                         // faded, and the new one grows in over it as it's made.
@@ -556,12 +565,13 @@ ApplicationWindow {
                             visible: win.showingClip
                             source: "qrc:/VideoPlayer.qml"
                         }
-                        // How long a clip or a song has left, in the middle of the frame. An
-                        // image needs none: it comes to life before your eyes.
+                        // How long a clip has left, in the middle of the frame. An image
+                        // needs none: it comes to life before your eyes, and a song's
+                        // progress is the edge around the prompt filling up.
                         Rectangle {
                             objectName: "remaining"
                             anchors.centerIn: parent
-                            visible: generator.busy && (win.videoMode || win.musicMode)
+                            visible: generator.busy && win.videoMode && !win.sentMusic
                             width: remainingLabel.implicitWidth + 28
                             height: remainingLabel.implicitHeight + 14
                             radius: Math.min(height / 2, theme.radius + 6)
@@ -585,9 +595,13 @@ ApplicationWindow {
                             objectName: "songPlayer"
                             anchors.fill: parent
                             active: win.songPlayerWanted
-                            visible: win.showingSong
+                            // There for the song shown, and for the one being made
+                            // until its wave has settled into the song or faded away.
+                            visible: win.showingSong || (status === Loader.Ready && item.live)
                             source: "qrc:/SongPlayer.qml"
                             onLoaded: {
+                                item.forming = Qt.binding(() => win.formingSong)
+                                item.formed = Qt.binding(() => win.progress)
                                 item.source = Qt.binding(() => win.showingSong ? win.shownFile : "")
                                 item.wave = Qt.binding(() => win.shownSong.wave)
                                 item.title = Qt.binding(() => win.shownSong.title)
@@ -1379,33 +1393,54 @@ ApplicationWindow {
                             required property var wave
                             width: ListView.view.width
                             height: width
-                            // A song: its own shape in the accent, over what it goes by.
+                            // A song: its own shape in the accent's dots, as the frame draws it,
+                            // over what it goes by, on nothing but the history behind it.
                             Rectangle {
                                 anchors.fill: parent
                                 visible: entry.audio !== ""
                                 radius: theme.radius
-                                color: win.panel
-                                Row {
+                                color: "transparent"
+                                Canvas {
                                     id: tileWave
+                                    objectName: "tileWave"
                                     anchors.top: parent.top
                                     anchors.left: parent.left
                                     anchors.right: parent.right
                                     anchors.bottom: tileTitle.top
                                     anchors.margins: 8
                                     LayoutMirroring.enabled: false
-                                    // Every third bar: the tile is a third as wide as there are bars.
-                                    Repeater {
-                                        model: entry.wave.filter((_, i) => i % 3 === 1)
-                                        Item {
-                                            required property real modelData
-                                            width: tileWave.width / 32
-                                            height: tileWave.height
-                                            Rectangle {
-                                                anchors.centerIn: parent
-                                                width: Math.max(1, parent.width * 0.6)
-                                                height: Math.max(2, parent.modelData * parent.height)
-                                                color: theme.accent
-                                            }
+                                    // A third as many columns as the song has levels, each the
+                                    // loudest of its three, so no peak falls between them.
+                                    readonly property var levels: {
+                                        const wave = entry.wave, out = []
+                                        for (let i = 0; i + 2 < wave.length; i += 3)
+                                            out.push(Math.max(wave[i], wave[i + 1], wave[i + 2]))
+                                        return out
+                                    }
+                                    readonly property color ink: theme.accent
+                                    onLevelsChanged: requestPaint()
+                                    onInkChanged: requestPaint()
+                                    onWidthChanged: requestPaint()
+                                    onHeightChanged: requestPaint()
+                                    onPaint: {
+                                        const ctx = getContext("2d")
+                                        ctx.clearRect(0, 0, width, height)
+                                        const columns = levels.length
+                                        if (columns === 0)
+                                            return
+                                        // Square dots on a grid, mirrored about the middle row,
+                                        // a dot there or not: the frame's song, made small.
+                                        const pitch = width / columns
+                                        const rows = Math.max(1, Math.floor((height / pitch - 1) / 2))
+                                        const dot = Math.max(2, Math.round(pitch * 0.62))
+                                        const inset = (pitch - dot) / 2
+                                        const top = (height - pitch * (rows * 2 + 1)) / 2
+                                        ctx.fillStyle = ink
+                                        for (let c = 0; c < columns; ++c) {
+                                            const tall = Math.round(levels[c] * rows)
+                                            const x = Math.round(c * pitch + inset)
+                                            for (let r = -tall; r <= tall; ++r)
+                                                ctx.fillRect(x, Math.round(top + (r + rows) * pitch + inset), dot, dot)
                                         }
                                     }
                                 }

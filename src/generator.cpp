@@ -71,7 +71,8 @@ Generator::Generator(Models *models, const QString &folder, const QString &music
                                            : QStandardPaths::writableLocation(QStandardPaths::MusicLocation) + "/Generated") {
     // A job has no change signal of its own, so it is asked about while it
     // runs, and only then: a request at a time, half a second apart.
-    m_tick.setInterval(1000);
+    // Often enough for a progress filled by time to move smoothly.
+    m_tick.setInterval(250);
     connect(&m_tick, &QTimer::timeout, this, &Generator::remainingChanged);
     m_poll.setSingleShot(true);
     m_poll.setInterval(500);
@@ -596,6 +597,13 @@ int Generator::remainingSeconds() const {
     if (m_step > 0 && m_totalSteps > 0)
         return std::max(0, int(std::lround(elapsed / m_step * m_totalSteps * 1.25 - elapsed)));
     return -1;
+}
+
+double Generator::timeProgress() const {
+    if (!busy() || !m_clock.isValid() || m_expected <= 0)
+        return -1;
+    // Held short of whole: only the result says it's done.
+    return std::min(0.97, m_clock.elapsed() / 1000.0 / m_expected);
 }
 
 void Generator::finish(const QString &error) {
