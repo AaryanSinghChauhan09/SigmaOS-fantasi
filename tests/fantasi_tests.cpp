@@ -1220,6 +1220,12 @@ private slots:
         QCOMPARE(entries.at(1).prompt, QString("a lake\nat dusk"));
         QCOMPARE(entries.at(1).seed, 42);
         QCOMPARE(entries.at(1).size, QString("1024x768"));
+        // Qt writes a text that fits Latin-1 as Latin-1, and any other as UTF-8.
+        for (const QString &prompt : {QString("tô no lago"), QString("湖 ô")}) {
+            image.setText("parameters", prompt + "\nSteps: 8");
+            QVERIFY(image.save(dir.filePath("accent.png")));
+            QCOMPARE(History::readEntry(dir.filePath("accent.png")).prompt, prompt);
+        }
     }
 
     void saveAsCopiesTheImageWhereThePickerSays() {
