@@ -492,7 +492,10 @@ ApplicationWindow {
                         width: Math.min(parent.width, parent.height * stage.aspect)
                         height: width / stage.aspect
                         // Empty while a new one is written, shimmering once it's asked for.
-                        visible: !starting.visible && (generator.busy || generator.image !== "" || (win.composing && models.state === "ready"))
+                        // Also while a song's wave is still settling or fading away, which
+                        // outlasts the job: a cancelled repeat leaves no image to show.
+                        visible: !starting.visible && (generator.busy || generator.image !== "" || (win.composing && models.state === "ready")
+                                 || (songPlayer.status === Loader.Ready && songPlayer.item.live))
 
                         // While a picture is being changed, it stays in the frame,
                         // faded, and the new one grows in over it as it's made.
