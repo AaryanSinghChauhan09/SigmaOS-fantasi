@@ -807,6 +807,7 @@ ApplicationWindow {
                             model: [
                                 { name: "changeIt", icon: "change", label: win.videoMode ? qsTr("Animate it") : qsTr("Change it"), key: "Ctrl+E", run: () => win.changeImage(), shown: win.showingImage && !win.musicMode },
                                 { name: "newImage", icon: "new", label: qsTr("New generation"), key: "Ctrl+N", run: () => win.newImage() },
+                                { name: "fullScreen", icon: "fullscreen", label: qsTr("Show it full screen"), key: "F", run: () => win.fullView = true },
                                 { name: "copy", icon: "copy", label: qsTr("Copy"), key: "Ctrl+Shift+C", run: () => backend.copy(win.shownFile) },
                                 { name: "save", icon: "save", label: qsTr("Save as…"), key: "Ctrl+S", run: () => backend.saveAs(win.shownFile) }
                             ]

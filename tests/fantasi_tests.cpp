@@ -1463,6 +1463,13 @@ private slots:
         QVERIFY(!window->property("fullView").toBool());
         QTRY_VERIFY(window->visibility() != QWindow::FullScreen);
         QVERIFY(rail->isVisible());
+        // The button beside the + does the same.
+        auto *button = item(window->contentItem(), "fullScreen");
+        QVERIFY(button && button->isVisible());
+        QMetaObject::invokeMethod(button, "click");
+        QVERIFY(window->property("fullView").toBool());
+        QTest::keyClick(window, Qt::Key_Escape);
+        QVERIFY(!window->property("fullView").toBool());
 
         // In a prompt being written, F is a letter and the arrows stay there.
         QTest::keyClick(window, Qt::Key_N, Qt::ControlModifier);
