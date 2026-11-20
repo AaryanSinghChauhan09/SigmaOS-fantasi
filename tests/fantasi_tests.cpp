@@ -471,37 +471,62 @@ private slots:
         QCOMPARE(found.reason, QString("The download stopped"));
     }
 
-    void theFirstSetupCarriesOnThroughItsFirstStart() {
+    void aFirstRunOffersWhatFitsAndLastsUntilTheFirstPrompt() {
         QTemporaryDir dir;
         const QString state = dir.path() + "/state";
         QDir().mkpath(state);
-        write(state + "/list.json", "[]");
-        // The engine records how a start went once one has succeeded.
-        const auto status = [&](const QString &unit, bool startedBefore = false) {
-            QJsonObject row{{"kind", "image"}, {"name", "Z"}, {"unit", unit}, {"endpoint", "http://127.0.0.1:1/v1"}};
-            row.insert("observed", startedBefore ? QJsonValue(QJsonObject{{"load_seconds", 3.1}}) : QJsonValue());
-            write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{{"z", row}}}}).toJson());
+        // Images and music fit this machine; video doesn't.
+        write(state + "/list.json", QJsonDocument(QJsonArray{
+            QJsonObject{{"id", "klein"}, {"kind", "image"}, {"name", "FLUX.2 Klein 4B"}, {"vendor", "bfl"}, {"available", true}, {"best", true}, {"memory_gib", 11}, {"download_gib", 8.3}},
+            QJsonObject{{"id", "ace"}, {"kind", "music"}, {"name", "ACE-Step"}, {"vendor", "ace-step"}, {"available", true}, {"memory_gib", 8}, {"download_gib", 7.57}},
+            QJsonObject{{"id", "h3"}, {"kind", "video"}, {"name", "MiniMax H3"}, {"available", false}, {"memory_gib", 38}, {"download_gib", 22.64}}}).toJson());
+        const auto status = [&](const QJsonObject &models) {
+            write(state + "/status.json", QJsonDocument(QJsonObject{{"models", models}}).toJson());
         };
-        status("installing");
-        Models models(state, state + "/key", "/bin/true");
+        // The engine command, recording what it's asked.
+        const QString command = dir.path() + "/engine";
+        write(command, QString("#!/bin/sh\necho \"$@\" >> %1/asked\n").arg(dir.path()).toUtf8());
+        QFile(command).setPermissions(QFile::ExeOwner | QFile::ReadOwner);
+        status({});
+
+        Models models(state, state + "/key", command);
         QVERIFY(models.settingUp());
-        // Its first start looks like any model's start, and stays part of the setup.
-        status("activating");
-        QTRY_COMPARE(models.state(), QString("starting"));
-        QVERIFY(models.settingUp());
-        status("active");
+        QCOMPARE(models.offers().size(), 2);
+        const QVariantMap image = models.offers().at(0).toMap();
+        QCOMPARE(image.value("kind").toString(), QString("image"));
+        QCOMPARE(image.value("phase").toString(), QString("offer"));
+        QCOMPARE(image.value("downloadBytes").toLongLong(), qint64(8.3 * 1024 * 1024 * 1024));
+        QCOMPARE(models.offers().at(1).toMap().value("kind").toString(), QString("music"));
+
+        // Only an offer downloads, through the engine.
+        models.download("h3");
+        models.download("klein");
+        QTRY_VERIFY(QFile::exists(dir.path() + "/asked"));
+        QFile asked(dir.path() + "/asked");
+        QVERIFY(asked.open(QIODevice::ReadOnly));
+        const QByteArray said = asked.readAll();
+        QVERIFY(said.contains("use klein --detach"));
+        QVERIFY(!said.contains("h3"));
+
+        // Its download, then ready: the first run carries on until the first prompt.
+        status({{"klein", QJsonObject{{"kind", "image"}, {"unit", "installing"},
+                                      {"install", QJsonObject{{"phase", "downloading"}, {"done_bytes", 100}, {"total_bytes", 400}}}}}});
+        QTRY_COMPARE(models.offers().at(0).toMap().value("phase").toString(), QString("downloading"));
+        QCOMPARE(models.offers().at(0).toMap().value("doneBytes").toLongLong(), 100);
+        status({{"klein", QJsonObject{{"kind", "image"}, {"name", "FLUX.2 Klein 4B"}, {"unit", "active"}, {"endpoint", "http://127.0.0.1:1/v1"}}}});
         QTRY_COMPARE(models.state(), QString("ready"));
-        QVERIFY(!models.settingUp());
-        // A model set up before, starting again, is no setup.
-        status("activating", true);
-        QTRY_COMPARE(models.state(), QString("starting"));
+        QCOMPARE(models.offers().at(0).toMap().value("phase").toString(), QString("ready"));
+        QVERIFY(models.settingUp());
+        // Stopped before the first prompt, it's set up and can be started again.
+        status({{"klein", QJsonObject{{"kind", "image"}, {"name", "FLUX.2 Klein 4B"}, {"unit", "inactive"}}}});
+        QTRY_COMPARE(models.offers().at(0).toMap().value("phase").toString(), QString("installed"));
+        QVERIFY(models.settingUp());
+        models.endSetup();
         QVERIFY(!models.settingUp());
 
-        // Opened during that first start, it's still the setup.
-        status("activating");
-        Models opened(state, state + "/key", "/bin/true");
-        QCOMPARE(opened.state(), QString("starting"));
-        QVERIFY(opened.settingUp());
+        // Opened with something set up, it's no first run.
+        Models later(state, state + "/key", command);
+        QVERIFY(!later.settingUp());
     }
 
     void modelsFollowTheEngineFiles() {

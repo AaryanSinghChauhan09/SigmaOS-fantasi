@@ -33,6 +33,9 @@ class Models : public QObject {
     // Setting up this machine's first image model: from when none is set up,
     // through its download and first start, until it's ready.
     Q_PROPERTY(bool settingUp READ settingUp NOTIFY changed)
+    // What a first run offers to download: the image, music and video model
+    // this machine runs, each with its sizes and how far its setup has come.
+    Q_PROPERTY(QVariantList offers READ offers NOTIFY changed)
     // The setup's progress: waiting, downloading, starting or failed, what it
     // has fetched of how much and how fast, and how long the start takes.
     Q_PROPERTY(QString setupPhase READ setupPhase NOTIFY changed)
@@ -65,6 +68,7 @@ public:
         QStringList blockers;
         QStringList blockerIds;
         QVariantList choices;
+        QVariantList offers;
         // A running model that edits by instruction, for changing a picture
         // whichever model makes new ones.
         QString editEndpoint;
@@ -123,6 +127,12 @@ public:
     QByteArray videoKey() const { return key(); }
     QString vendor() const { return m_found.vendor; }
     bool settingUp() const { return m_settingUp; }
+    QVariantList offers() const { return m_found.offers; }
+    // For each of image, music and video, the model this machine runs best:
+    // id, kind, name, vendor, downloadBytes and memoryBytes (0 when the
+    // engine doesn't say), and phase, one of offer, waiting, downloading,
+    // starting, ready, installed or failed, with its progress and error.
+    static QVariantList offersFrom(const QJsonObject &status, const QJsonArray &list);
     QString setupPhase() const { return m_found.setupPhase; }
     qint64 doneBytes() const { return m_found.doneBytes; }
     qint64 totalBytes() const { return m_found.totalBytes; }
@@ -149,6 +159,10 @@ public:
 
     Q_INVOKABLE void start();
     Q_INVOKABLE void install();
+    // Sets up an offer; the engine queues one asked for while another downloads.
+    Q_INVOKABLE void download(const QString &id);
+    // The first prompt is sent: the first run is over.
+    Q_INVOKABLE void endSetup();
     // Stops the text models in the way, then starts the image model.
     Q_INVOKABLE void switchTo();
     // Uses another set-up image model from now on: stops the running one
