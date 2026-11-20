@@ -73,8 +73,13 @@ int skill(const QString &action) {
 
 } // namespace
 
-bool isCliCommand(const char *argument) {
-    const QByteArray command(argument);
+bool isCliCommand(int argc, char *argv[]) {
+    if (argc < 2)
+        return false;
+    const QByteArray command(argv[1]);
+    // `open --help` asks for the usage, not for a window with that as its prompt.
+    if (command == "open" && argc > 2)
+        return QByteArray(argv[2]) == "--help" || QByteArray(argv[2]) == "-h";
     return command == "generate" || command == "skill" || command == "--help" || command == "-h" || command == "--version"
         || command == "-v";
 }
