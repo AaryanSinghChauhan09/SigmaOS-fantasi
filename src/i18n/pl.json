@@ -22,7 +22,7 @@
   "Copy it": "Skopiuj go",
   "Move through the history": "Przeglądaj historię",
   "Show it full screen": "Pokaż na pełnym ekranie",
-  "Move it to the trash": "Przenieś go do kosza",
+  "Delete it": "Usuń",
   "Show or hide the shortcuts": "Pokaż lub ukryj skróty",
   "Quit": "Zakończ",
   "No image model is running": "Żaden model obrazów nie działa",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Nie udało się utworzyć piosenki",
   "MP3 audio": "Dźwięk MP3",
   "Music with %1": "Muzyka z %1",
-  "Move it to the trash?": "Przenieść go do kosza?"
+  "Delete it?": "Usunąć?",
+  "Delete": "Usuń"
 }

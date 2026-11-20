@@ -22,7 +22,7 @@
   "Copy it": "העתקתה",
   "Move through the history": "מעבר בהיסטוריה",
   "Show it full screen": "הצג במסך מלא",
-  "Move it to the trash": "העברתה לאשפה",
+  "Delete it": "למחוק",
   "Show or hide the shortcuts": "הצגה או הסתרה של קיצורי הדרך",
   "Quit": "יציאה",
   "No image model is running": "אין מודל תמונות פעיל",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "לא ניתן היה ליצור את השיר",
   "MP3 audio": "שמע MP3",
   "Music with %1": "מוזיקה עם %1",
-  "Move it to the trash?": "העברתה לאשפה?"
+  "Delete it?": "למחוק?",
+  "Delete": "מחיקה"
 }

@@ -22,7 +22,7 @@
   "Copy it": "Kopyala",
   "Move through the history": "Geçmişte gezin",
   "Show it full screen": "Tam ekran göster",
-  "Move it to the trash": "Çöpe taşı",
+  "Delete it": "Sil",
   "Show or hide the shortcuts": "Kısayolları göster veya gizle",
   "Quit": "Çık",
   "No image model is running": "Çalışan bir görsel modeli yok",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Şarkı oluşturulamadı",
   "MP3 audio": "MP3 sesi",
   "Music with %1": "%1 ile müzik",
-  "Move it to the trash?": "Çöpe taşınsın mı?"
+  "Delete it?": "Silinsin mi?",
+  "Delete": "Sil"
 }

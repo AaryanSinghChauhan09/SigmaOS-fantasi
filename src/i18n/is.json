@@ -22,7 +22,7 @@
   "Copy it": "Afrita hana",
   "Move through the history": "Fletta í sögunni",
   "Show it full screen": "Sýna á öllum skjánum",
-  "Move it to the trash": "Flytja hana í ruslið",
+  "Delete it": "Eyða því",
   "Show or hide the shortcuts": "Sýna eða fela flýtilykla",
   "Quit": "Hætta",
   "No image model is running": "Ekkert myndlíkan er í gangi",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Ekki tókst að búa til lagið",
   "MP3 audio": "MP3-hljóð",
   "Music with %1": "Tónlist með %1",
-  "Move it to the trash?": "Flytja hana í ruslið?"
+  "Delete it?": "Eyða því?",
+  "Delete": "Eyða"
 }

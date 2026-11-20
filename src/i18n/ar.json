@@ -22,7 +22,7 @@
   "Copy it": "نسخها",
   "Move through the history": "التنقل في السجل",
   "Show it full screen": "اعرضه بملء الشاشة",
-  "Move it to the trash": "نقلها إلى المهملات",
+  "Delete it": "احذفها",
   "Show or hide the shortcuts": "إظهار الاختصارات أو إخفاؤها",
   "Quit": "إنهاء",
   "No image model is running": "لا يعمل أي نموذج صور",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "تعذّر إنشاء الأغنية",
   "MP3 audio": "صوت MP3",
   "Music with %1": "موسيقى باستخدام %1",
-  "Move it to the trash?": "نقلها إلى المهملات؟"
+  "Delete it?": "أتحذفها؟",
+  "Delete": "حذف"
 }

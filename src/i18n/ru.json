@@ -22,7 +22,7 @@
   "Copy it": "Скопировать его",
   "Move through the history": "Листать историю",
   "Show it full screen": "Показать на весь экран",
-  "Move it to the trash": "Переместить его в корзину",
+  "Delete it": "Удалить",
   "Show or hide the shortcuts": "Показать или скрыть сочетания клавиш",
   "Quit": "Выйти",
   "No image model is running": "Ни одна модель изображений не запущена",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Не удалось создать песню",
   "MP3 audio": "Аудио MP3",
   "Music with %1": "Музыка с %1",
-  "Move it to the trash?": "Переместить его в корзину?"
+  "Delete it?": "Удалить?",
+  "Delete": "Удалить"
 }

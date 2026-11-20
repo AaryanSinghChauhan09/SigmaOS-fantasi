@@ -22,7 +22,7 @@
   "Copy it": "इसे कॉपी करें",
   "Move through the history": "इतिहास में आगे-पीछे जाएँ",
   "Show it full screen": "पूरी स्क्रीन पर दिखाएँ",
-  "Move it to the trash": "इसे रद्दी में डालें",
+  "Delete it": "इसे हटाएँ",
   "Show or hide the shortcuts": "शॉर्टकट दिखाएँ या छिपाएँ",
   "Quit": "बाहर निकलें",
   "No image model is running": "कोई इमेज मॉडल नहीं चल रहा",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "गाना नहीं बन सका",
   "MP3 audio": "MP3 ऑडियो",
   "Music with %1": "%1 से संगीत",
-  "Move it to the trash?": "इसे रद्दी में डालें?"
+  "Delete it?": "इसे हटाएँ?",
+  "Delete": "हटाएँ"
 }

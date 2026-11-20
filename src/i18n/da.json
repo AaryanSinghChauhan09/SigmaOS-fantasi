@@ -22,7 +22,7 @@
   "Copy it": "Kopiér det",
   "Move through the history": "Gå gennem historikken",
   "Show it full screen": "Vis det i fuld skærm",
-  "Move it to the trash": "Læg det i papirkurven",
+  "Delete it": "Slet det",
   "Show or hide the shortcuts": "Vis eller skjul genvejene",
   "Quit": "Afslut",
   "No image model is running": "Ingen billedmodel kører",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Sangen kunne ikke laves",
   "MP3 audio": "MP3-lyd",
   "Music with %1": "Musik med %1",
-  "Move it to the trash?": "Skal det i papirkurven?"
+  "Delete it?": "Slet det?",
+  "Delete": "Slet"
 }

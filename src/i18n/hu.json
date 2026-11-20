@@ -22,7 +22,7 @@
   "Copy it": "Másolás",
   "Move through the history": "Lépkedés az előzmények között",
   "Show it full screen": "Megjelenítés teljes képernyőn",
-  "Move it to the trash": "Áthelyezés a Kukába",
+  "Delete it": "Törlés",
   "Show or hide the shortcuts": "Billentyűparancsok megjelenítése vagy elrejtése",
   "Quit": "Kilépés",
   "No image model is running": "Nem fut képmodell",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "A dalt nem sikerült elkészíteni",
   "MP3 audio": "MP3-hang",
   "Music with %1": "Zene ezzel: %1",
-  "Move it to the trash?": "Áthelyezés a Kukába?"
+  "Delete it?": "Törlöd?",
+  "Delete": "Törlés"
 }

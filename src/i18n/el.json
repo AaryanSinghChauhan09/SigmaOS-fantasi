@@ -22,7 +22,7 @@
   "Copy it": "Αντιγραφή",
   "Move through the history": "Περιήγηση στο ιστορικό",
   "Show it full screen": "Εμφάνιση σε πλήρη οθόνη",
-  "Move it to the trash": "Μετακίνηση στα απορρίμματα",
+  "Delete it": "Διάγραψέ το",
   "Show or hide the shortcuts": "Εμφάνιση ή απόκρυψη των συντομεύσεων",
   "Quit": "Έξοδος",
   "No image model is running": "Δεν εκτελείται κανένα μοντέλο εικόνων",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Δεν ήταν δυνατή η δημιουργία του τραγουδιού",
   "MP3 audio": "Ήχος MP3",
   "Music with %1": "Μουσική με %1",
-  "Move it to the trash?": "Μετακίνηση στα απορρίμματα;"
+  "Delete it?": "Να διαγραφεί;",
+  "Delete": "Διαγραφή"
 }

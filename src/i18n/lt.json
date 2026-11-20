@@ -22,7 +22,7 @@
   "Copy it": "Kopijuoti jį",
   "Move through the history": "Naršyti istoriją",
   "Show it full screen": "Rodyti visame ekrane",
-  "Move it to the trash": "Perkelti jį į šiukšlinę",
+  "Delete it": "Ištrinti",
   "Show or hide the shortcuts": "Rodyti arba slėpti sparčiuosius klavišus",
   "Quit": "Išeiti",
   "No image model is running": "Neveikia joks vaizdų modelis",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Nepavyko sukurti dainos",
   "MP3 audio": "MP3 garso įrašas",
   "Music with %1": "Muzika su %1",
-  "Move it to the trash?": "Perkelti jį į šiukšlinę?"
+  "Delete it?": "Ištrinti?",
+  "Delete": "Ištrinti"
 }

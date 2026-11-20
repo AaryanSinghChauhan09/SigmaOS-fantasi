@@ -22,7 +22,7 @@
   "Copy it": "Cóipeáil í",
   "Move through the history": "Gluais tríd an stair",
   "Show it full screen": "Taispeáin ar an scáileán iomlán é",
-  "Move it to the trash": "Bog chuig an mBruscar í",
+  "Delete it": "Scrios é",
   "Show or hide the shortcuts": "Taispeáin nó folaigh na haicearraí",
   "Quit": "Scoir",
   "No image model is running": "Níl aon samhail íomhánna ag rith",
@@ -96,5 +96,6 @@
   "The song couldn't be made": "Níorbh fhéidir an t-amhrán a dhéanamh",
   "MP3 audio": "Fuaim MP3",
   "Music with %1": "Ceol le %1",
-  "Move it to the trash?": "An mbogfar chuig an mBruscar í?"
+  "Delete it?": "É a scriosadh?",
+  "Delete": "Scrios"
 }
