@@ -1,3 +1,4 @@
+#include <QtEndian>
 #include <QBuffer>
 #include <QDir>
 #include <QFile>
@@ -1220,6 +1221,28 @@ private slots:
         QCOMPARE(entries.at(1).prompt, QString("a lake\nat dusk"));
         QCOMPARE(entries.at(1).seed, 42);
         QCOMPARE(entries.at(1).size, QString("1024x768"));
+        // Qt writes a text that fits Latin-1 as Latin-1, and any other as UTF-8.
+        for (const QString &prompt : {QString("tô no lago"), QString("湖 ô")}) {
+            image.setText("parameters", prompt + "\nSteps: 8");
+            QVERIFY(image.save(dir.filePath("accent.png")));
+            QCOMPARE(History::readEntry(dir.filePath("accent.png")).prompt, prompt);
+        }
+        // stable-diffusion.cpp writes UTF-8 into plain tEXt, and other writers
+        // compress either encoding: each chunk, set before the pixels.
+        const auto carries = [&](const QByteArray &type, QByteArray text) {
+            if (type == "zTXt")
+                text = '\0' + qCompress(text).mid(4);
+            const QByteArray body = "parameters" + QByteArray(1, '\0') + text;
+            QByteArray chunk(4, '\0');
+            qToBigEndian(quint32(body.size()), chunk.data());
+            QByteArray bytes = png();
+            bytes.insert(33, chunk + type + body + QByteArray(4, '\0'));
+            return write(dir.filePath("chunk.png"), bytes) ? History::readEntry(dir.filePath("chunk.png")).prompt : QString();
+        };
+        for (const QByteArray type : {"tEXt", "zTXt"}) {
+            QCOMPARE(carries(type, QString("湖 ô\nSteps: 8").toUtf8()), QString("湖 ô"));
+            QCOMPARE(carries(type, QString("tô\nSteps: 8").toLatin1()), QString("tô"));
+        }
     }
 
     void saveAsCopiesTheImageWhereThePickerSays() {

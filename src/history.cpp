@@ -64,11 +64,13 @@ QString pngText(const QString &path, const QByteArray &keyword) {
         if (end < 0 || body.left(end) != keyword)
             continue;
         // stable-diffusion.cpp writes plain tEXt, in UTF-8 whatever the
-        // standard says; other writers compress a long text.
-        if (type == "tEXt")
-            return QString::fromUtf8(body.mid(end + 1));
-        if (type == "zTXt")
-            return QString::fromUtf8(inflate(body.mid(end + 2)));
+        // standard says; Qt, which writes the posters, keeps to the standard's
+        // Latin-1 wherever the text fits it, so "tô" is one byte that is no
+        // UTF-8. Other writers compress a long text.
+        if (type == "tEXt" || type == "zTXt") {
+            const QByteArray text = type == "tEXt" ? body.mid(end + 1) : inflate(body.mid(end + 2));
+            return text.isValidUtf8() ? QString::fromUtf8(text) : QString::fromLatin1(text);
+        }
         // iTXt: keyword, compression flag and method, language, translated
         // keyword, then the text.
         if (end + 2 >= body.size())
