@@ -80,16 +80,11 @@ bool isCliCommand(int argc, char *argv[]) {
     // `open --help` asks for the usage, not for a window with that as its prompt.
     if (command == "open" && argc > 2)
         return QByteArray(argv[2]) == "--help" || QByteArray(argv[2]) == "-h";
-    return command == "generate" || command == "skill" || command == "--help" || command == "-h" || command == "--version"
-        || command == "-v";
+    return command == "generate" || command == "skill" || command == "--help" || command == "-h";
 }
 
 int runCli(const QStringList &arguments) {
     const QString command = arguments.value(1);
-    if (command == "--version" || command == "-v") {
-        print(stdout, "fantasi " + QCoreApplication::applicationVersion());
-        return 0;
-    }
     if (command == "skill")
         return skill(arguments.value(2));
     if (command != "generate") {
