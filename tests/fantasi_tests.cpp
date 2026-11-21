@@ -373,6 +373,47 @@ private slots:
         QCOMPARE(models.modelId(), QString("z"));
     }
 
+    void theEngineIsOmarchyModelsOnThePath() {
+        QTemporaryDir dir;
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        QDir().mkpath(dir.path() + "/bin");
+        QDir().mkpath(dir.path() + "/empty");
+        write(state + "/list.json", "[]");
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{
+            {"k", QJsonObject{{"kind", "image"}, {"name", "K"}, {"unit", "inactive"}}},
+            {"z", QJsonObject{{"kind", "image"}, {"name", "Z"}, {"unit", "active"}, {"endpoint", "http://127.0.0.1:1/v1"}}}}}}).toJson());
+        // An omarchy-models that notes what it's asked to do.
+        const QString command = dir.path() + "/bin/omarchy-models";
+        write(command, "#!/bin/bash\necho \"$@\" >> '" + dir.path().toUtf8() + "/asked'\n");
+        QFile::setPermissions(command, QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+        const QByteArray path = qgetenv("PATH");
+        const auto restore = qScopeGuard([&] { qputenv("PATH", path); QSettings().remove("model"); });
+
+        // With none on the path, a start says so rather than doing nothing.
+        qputenv("PATH", (dir.path() + "/empty").toUtf8());
+        {
+            Models models(state, state + "/key", {});
+            models.choose("k");
+            QVERIFY(!models.error().isEmpty());
+            QVERIFY(models.switchingTo().isEmpty());
+            QVERIFY(!models.working());
+        }
+        QVERIFY(!QFile::exists(dir.path() + "/asked"));
+
+        // The one on the path is the one that's run.
+        qputenv("PATH", (dir.path() + "/bin:" + path).toUtf8());
+        {
+            Models models(state, state + "/key", {});
+            models.choose("k");
+            QTRY_VERIFY(!models.working());
+            QVERIFY(models.error().isEmpty());
+            QFile asked(dir.path() + "/asked");
+            QVERIFY(asked.open(QIODevice::ReadOnly));
+            QVERIFY(asked.readAll().split('\n').contains("start k"));
+        }
+    }
+
     void discoveryOffersAPairedHostsSharedImageModels() {
         QTemporaryDir dir;
         const QString state = dir.path() + "/state";
