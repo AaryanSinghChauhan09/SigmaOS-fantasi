@@ -28,18 +28,11 @@ bool isMaker(const QJsonObject &row) {
 
 } // namespace
 
-// Omarchy's local models were omarchy-agent-local before they were
-// omarchy-models; their folders kept the old name.
-static QString engineCommand() {
-    const QString command = QStandardPaths::findExecutable("omarchy-models");
-    return !command.isEmpty() ? command : QStandardPaths::findExecutable("omarchy-agent-local");
-}
-
 Models::Models(const QString &stateDirectory, const QString &keyPath, const QString &command, QObject *parent)
     : QObject(parent),
       m_directory(!stateDirectory.isEmpty() ? stateDirectory : QDir::homePath() + "/.local/state/omarchy/agent-local"),
       m_keyPath(!keyPath.isEmpty() ? keyPath : QDir::homePath() + "/.config/omarchy/agent-local/key"),
-      m_command(!command.isEmpty() ? command : engineCommand()) {
+      m_command(!command.isEmpty() ? command : QStandardPaths::findExecutable("omarchy-models")) {
     // The engine replaces its files whole, which drops a file watch, so the
     // watch is armed again after every change.
     m_debounce.setSingleShot(true);
