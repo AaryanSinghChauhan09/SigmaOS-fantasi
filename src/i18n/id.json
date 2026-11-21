@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Tidak dapat membuat folder %1",
   "Couldn't save the image in %1": "Tidak dapat menyimpan gambar di %1",
   "The model couldn't be started": "Model tidak dapat dimulai",
-  "omarchy-agent-local couldn't be run": "omarchy-agent-local tidak dapat dijalankan",
+  "omarchy-models couldn't be run": "omarchy-models tidak dapat dijalankan",
   "Save as…": "Simpan sebagai…",
   "Save a copy somewhere else": "Simpan salinan di tempat lain",
   "Couldn't save the image as %1": "Tidak dapat menyimpan gambar sebagai %1",

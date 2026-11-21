@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "फ़ोल्डर %1 नहीं बन सका",
   "Couldn't save the image in %1": "तस्वीर %1 में सहेजी नहीं जा सकी",
   "The model couldn't be started": "मॉडल शुरू नहीं हो सका",
-  "omarchy-agent-local couldn't be run": "omarchy-agent-local नहीं चल सका",
+  "omarchy-models couldn't be run": "omarchy-models नहीं चल सका",
   "Save as…": "इस रूप में सहेजें…",
   "Save a copy somewhere else": "एक कॉपी कहीं और सहेजें",
   "Couldn't save the image as %1": "तस्वीर %1 के रूप में सहेजी नहीं जा सकी",

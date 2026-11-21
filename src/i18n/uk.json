@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Не вдалося створити теку %1",
   "Couldn't save the image in %1": "Не вдалося зберегти зображення в %1",
   "The model couldn't be started": "Не вдалося запустити модель",
-  "omarchy-agent-local couldn't be run": "Не вдалося запустити omarchy-agent-local",
+  "omarchy-models couldn't be run": "Не вдалося запустити omarchy-models",
   "Save as…": "Зберегти як…",
   "Save a copy somewhere else": "Зберегти копію в іншому місці",
   "Couldn't save the image as %1": "Не вдалося зберегти зображення як %1",

@@ -356,6 +356,23 @@ private slots:
         QSettings().remove("model");
     }
 
+    void choosingAModelSaysWhenTheEngineCantBeRun() {
+        QTemporaryDir dir;
+        const QString state = dir.path() + "/state";
+        QDir().mkpath(state);
+        write(state + "/list.json", "[]");
+        write(state + "/status.json", QJsonDocument(QJsonObject{{"models", QJsonObject{
+            {"k", QJsonObject{{"kind", "image"}, {"name", "K"}, {"unit", "inactive"}}},
+            {"z", QJsonObject{{"kind", "image"}, {"name", "Z"}, {"unit", "active"}, {"endpoint", "http://127.0.0.1:1/v1"}}}}}}).toJson());
+        Models models(state, state + "/key", dir.path() + "/gone");
+        models.choose("k");
+        // Not left waiting on a start that never began.
+        QTRY_VERIFY(!models.error().isEmpty());
+        QVERIFY(models.switchingTo().isEmpty());
+        QVERIFY(!models.working());
+        QCOMPARE(models.modelId(), QString("z"));
+    }
+
     void discoveryOffersAPairedHostsSharedImageModels() {
         QTemporaryDir dir;
         const QString state = dir.path() + "/state";

@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "无法创建文件夹 %1",
   "Couldn't save the image in %1": "无法将图片保存到 %1",
   "The model couldn't be started": "无法启动模型",
-  "omarchy-agent-local couldn't be run": "无法运行 omarchy-agent-local",
+  "omarchy-models couldn't be run": "无法运行 omarchy-models",
   "Save as…": "另存为…",
   "Save a copy somewhere else": "将副本保存到其他位置",
   "Couldn't save the image as %1": "无法将图片另存为 %1",

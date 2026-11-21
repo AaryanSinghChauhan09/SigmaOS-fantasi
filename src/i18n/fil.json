@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Hindi magawa ang folder na %1",
   "Couldn't save the image in %1": "Hindi ma-save ang larawan sa %1",
   "The model couldn't be started": "Hindi masimulan ang model",
-  "omarchy-agent-local couldn't be run": "Hindi mapatakbo ang omarchy-agent-local",
+  "omarchy-models couldn't be run": "Hindi mapatakbo ang omarchy-models",
   "Save as…": "I-save bilang…",
   "Save a copy somewhere else": "Mag-save ng kopya sa ibang lugar",
   "Couldn't save the image as %1": "Hindi ma-save ang larawan bilang %1",

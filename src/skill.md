@@ -20,7 +20,7 @@ fantasi generate "flat app icon of a paper boat on a teal circle" --width 1024 -
 - Options: `--width` and `--height` in pixels (multiples of 64 up to about a megapixel work best: 1024×1024, 1344×768, 768×1344), `--steps` (the model's own default when left out), `--seed` for a repeatable image.
 - Write the prompt as a description of the picture: subject, setting, light, colors, composition. Say "no text" when the image must not contain lettering.
 
-When it says no image model is running, tell the user and show the command it suggests (`omarchy agent local start …` or `omarchy agent local use …`). Don't start or install one yourself: it can stop a text model the user is relying on.
+When it says no image model is running, tell the user and show the command it suggests (`omarchy models start …` or `omarchy models use …`). Don't start or install one yourself: it can stop a text model the user is relying on.
 
 The images belong to the user. Mention the path of every image you make.
 - With a video model running, `fantasi generate --video "<what happens>"` makes a 5-second clip with sound (`--seconds` takes 2, 10, 15 or longer, as long as the model makes on that machine), as a WebM beside a poster PNG; add `--from <picture>` to start the clip from that picture. A 2-second clip takes about three minutes, longer ones more.

@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Nu s-a putut crea dosarul %1",
   "Couldn't save the image in %1": "Nu s-a putut salva imaginea în %1",
   "The model couldn't be started": "Modelul nu a putut fi pornit",
-  "omarchy-agent-local couldn't be run": "omarchy-agent-local nu a putut fi rulat",
+  "omarchy-models couldn't be run": "omarchy-models nu a putut fi rulat",
   "Save as…": "Salvează ca…",
   "Save a copy somewhere else": "Salvează o copie în altă parte",
   "Couldn't save the image as %1": "Nu s-a putut salva imaginea ca %1",
