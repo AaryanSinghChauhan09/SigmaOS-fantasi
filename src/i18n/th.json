@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "สร้างโฟลเดอร์ %1 ไม่ได้",
   "Couldn't save the image in %1": "บันทึกภาพใน %1 ไม่ได้",
   "The model couldn't be started": "เริ่มโมเดลไม่ได้",
-  "omarchy-agent-local couldn't be run": "เรียกใช้ omarchy-agent-local ไม่ได้",
+  "omarchy-models couldn't be run": "เรียกใช้ omarchy-models ไม่ได้",
   "Save as…": "บันทึกเป็น…",
   "Save a copy somewhere else": "บันทึกสำเนาไว้ที่อื่น",
   "Couldn't save the image as %1": "บันทึกภาพเป็น %1 ไม่ได้",

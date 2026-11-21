@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Não foi possível criar a pasta %1",
   "Couldn't save the image in %1": "Não foi possível salvar a imagem em %1",
   "The model couldn't be started": "Não foi possível iniciar o modelo",
-  "omarchy-agent-local couldn't be run": "Não foi possível executar o omarchy-agent-local",
+  "omarchy-models couldn't be run": "Não foi possível executar o omarchy-models",
   "Save as…": "Salvar como…",
   "Save a copy somewhere else": "Salvar uma cópia em outro lugar",
   "Couldn't save the image as %1": "Não foi possível salvar a imagem como %1",

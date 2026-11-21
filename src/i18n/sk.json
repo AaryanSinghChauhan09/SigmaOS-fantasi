@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Priečinok %1 sa nepodarilo vytvoriť",
   "Couldn't save the image in %1": "Obrázok sa nepodarilo uložiť do %1",
   "The model couldn't be started": "Model sa nepodarilo spustiť",
-  "omarchy-agent-local couldn't be run": "omarchy-agent-local sa nepodarilo spustiť",
+  "omarchy-models couldn't be run": "omarchy-models sa nepodarilo spustiť",
   "Save as…": "Uložiť ako…",
   "Save a copy somewhere else": "Uložiť kópiu inam",
   "Couldn't save the image as %1": "Obrázok sa nepodarilo uložiť ako %1",

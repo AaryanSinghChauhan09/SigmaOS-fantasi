@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Kunde inte skapa mappen %1",
   "Couldn't save the image in %1": "Kunde inte spara bilden i %1",
   "The model couldn't be started": "Modellen kunde inte startas",
-  "omarchy-agent-local couldn't be run": "omarchy-agent-local kunde inte köras",
+  "omarchy-models couldn't be run": "omarchy-models kunde inte köras",
   "Save as…": "Spara som…",
   "Save a copy somewhere else": "Spara en kopia någon annanstans",
   "Couldn't save the image as %1": "Kunde inte spara bilden som %1",

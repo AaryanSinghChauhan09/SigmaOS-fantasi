@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "%1 klasörü oluşturulamadı",
   "Couldn't save the image in %1": "Görsel şuraya kaydedilemedi: %1",
   "The model couldn't be started": "Model başlatılamadı",
-  "omarchy-agent-local couldn't be run": "omarchy-agent-local çalıştırılamadı",
+  "omarchy-models couldn't be run": "omarchy-models çalıştırılamadı",
   "Save as…": "Farklı kaydet…",
   "Save a copy somewhere else": "Başka bir yere kopya kaydet",
   "Couldn't save the image as %1": "Görsel şu adla kaydedilemedi: %1",

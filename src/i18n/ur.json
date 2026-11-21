@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "فولڈر %1 نہیں بن سکا",
   "Couldn't save the image in %1": "تصویر %1 میں محفوظ نہیں ہو سکی",
   "The model couldn't be started": "ماڈل شروع نہیں ہو سکا",
-  "omarchy-agent-local couldn't be run": "کمانڈ omarchy-agent-local نہیں چل سکی",
+  "omarchy-models couldn't be run": "کمانڈ omarchy-models نہیں چل سکی",
   "Save as…": "بطور محفوظ کریں…",
   "Save a copy somewhere else": "ایک نقل کہیں اور محفوظ کریں",
   "Couldn't save the image as %1": "تصویر بطور %1 محفوظ نہیں ہو سکی",

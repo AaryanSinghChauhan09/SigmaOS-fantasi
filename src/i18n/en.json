@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Couldn't make the folder %1",
   "Couldn't save the image in %1": "Couldn't save the image in %1",
   "The model couldn't be started": "The model couldn't be started",
-  "omarchy-agent-local couldn't be run": "omarchy-agent-local couldn't be run",
+  "omarchy-models couldn't be run": "omarchy-models couldn't be run",
   "Save as…": "Save as…",
   "Save a copy somewhere else": "Save a copy somewhere else",
   "Couldn't save the image as %1": "Couldn't save the image as %1",

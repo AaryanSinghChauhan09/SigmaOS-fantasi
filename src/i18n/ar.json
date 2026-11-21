@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "تعذّر إنشاء المجلد %1",
   "Couldn't save the image in %1": "تعذّر حفظ الصورة في %1",
   "The model couldn't be started": "تعذّر تشغيل النموذج",
-  "omarchy-agent-local couldn't be run": "تعذّر تشغيل omarchy-agent-local",
+  "omarchy-models couldn't be run": "تعذّر تشغيل omarchy-models",
   "Save as…": "حفظ باسم…",
   "Save a copy somewhere else": "حفظ نسخة في مكان آخر",
   "Couldn't save the image as %1": "تعذّر حفظ الصورة باسم %1",

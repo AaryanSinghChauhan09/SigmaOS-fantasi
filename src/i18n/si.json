@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "%1 ෆෝල්ඩරය සෑදිය නොහැකි විය",
   "Couldn't save the image in %1": "රූපය %1 තුළ සුරැකිය නොහැකි විය",
   "The model couldn't be started": "මාදිලිය ආරම්භ කළ නොහැකි විය",
-  "omarchy-agent-local couldn't be run": "omarchy-agent-local ධාවනය කළ නොහැකි විය",
+  "omarchy-models couldn't be run": "omarchy-models ධාවනය කළ නොහැකි විය",
   "Save as…": "ලෙස සුරකින්න…",
   "Save a copy somewhere else": "පිටපතක් වෙනත් තැනක සුරකින්න",
   "Couldn't save the image as %1": "රූපය %1 ලෙස සුරැකිය නොහැකි විය",

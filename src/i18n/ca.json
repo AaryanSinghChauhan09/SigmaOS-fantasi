@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "No s'ha pogut crear la carpeta %1",
   "Couldn't save the image in %1": "No s'ha pogut desar la imatge a %1",
   "The model couldn't be started": "No s'ha pogut iniciar el model",
-  "omarchy-agent-local couldn't be run": "No s'ha pogut executar omarchy-agent-local",
+  "omarchy-models couldn't be run": "No s'ha pogut executar omarchy-models",
   "Save as…": "Anomena i desa…",
   "Save a copy somewhere else": "Desa una còpia en un altre lloc",
   "Couldn't save the image as %1": "No s'ha pogut desar la imatge com a %1",
