@@ -1,4 +1,6 @@
-# Fantasi
+# SigmaOS fantasi
+
+> Forked from omacom/fantasi (MIT). See `SIGMAOS_FORK.md`.
 
 Make images, video clips and songs on your own machine with Omarchy's local AI models.
 
