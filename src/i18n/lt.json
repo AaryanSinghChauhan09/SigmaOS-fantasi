@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Nepavyko sukurti aplanko %1",
   "Couldn't save the image in %1": "Nepavyko išsaugoti vaizdo aplanke %1",
   "The model couldn't be started": "Nepavyko paleisti modelio",
-  "omarchy-models couldn't be run": "Nepavyko paleisti omarchy-models",
+  "sigmaos-models couldn't be run": "Nepavyko paleisti sigmaos-models",
   "Save as…": "Išsaugoti kaip…",
   "Save a copy somewhere else": "Išsaugoti kopiją kitur",
   "Couldn't save the image as %1": "Nepavyko išsaugoti vaizdo kaip %1",

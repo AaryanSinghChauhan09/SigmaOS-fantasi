@@ -30,9 +30,9 @@ bool isMaker(const QJsonObject &row) {
 
 Models::Models(const QString &stateDirectory, const QString &keyPath, const QString &command, QObject *parent)
     : QObject(parent),
-      m_directory(!stateDirectory.isEmpty() ? stateDirectory : QDir::homePath() + "/.local/state/omarchy/agent-local"),
-      m_keyPath(!keyPath.isEmpty() ? keyPath : QDir::homePath() + "/.config/omarchy/agent-local/key"),
-      m_command(!command.isEmpty() ? command : QStandardPaths::findExecutable("omarchy-models")) {
+      m_directory(!stateDirectory.isEmpty() ? stateDirectory : QDir::homePath() + "/.local/state/sigmaos/agent-local"),
+      m_keyPath(!keyPath.isEmpty() ? keyPath : QDir::homePath() + "/.config/sigmaos/agent-local/key"),
+      m_command(!command.isEmpty() ? command : QStandardPaths::findExecutable("sigmaos-models")) {
     // The engine replaces its files whole, which drops a file watch, so the
     // watch is armed again after every change.
     m_debounce.setSingleShot(true);
@@ -64,7 +64,7 @@ Models::Models(const QString &stateDirectory, const QString &keyPath, const QStr
     connect(&m_process, &QProcess::errorOccurred, this, [this](QProcess::ProcessError error) {
         if (error != QProcess::FailedToStart)
             return;
-        m_error = tr("omarchy-models couldn't be run");
+        m_error = tr("sigmaos-models couldn't be run");
         m_queue.clear();
         m_chosen.clear();
         emit changed();
@@ -292,10 +292,10 @@ QVariantList Models::clipLengths() const {
 QString Models::videoOrigin() const { return m_found.video ? origin() : QString(); }
 
 QString Models::logo(const QString &vendor, bool light) {
-    const QString omarchy = qEnvironmentVariable("OMARCHY_PATH");
-    if (omarchy.isEmpty())
+    const QString sigmaosPath = qEnvironmentVariable("SIGMAOS_PATH");
+    if (sigmaosPath.isEmpty())
         return {};
-    const QString assets = omarchy + "/shell/plugins/agents/assets/";
+    const QString assets = sigmaosPath + "/shell/plugins/agents/assets/";
     static const QRegularExpression slug("^[a-z0-9-]+$");
     const QString id = slug.match(vendor).hasMatch() && QFileInfo::exists(assets + vendor + ".svg") ? vendor : "local";
     const QString path = light && QFileInfo::exists(assets + id + "-light.svg") ? assets + id + "-light.svg" : assets + id + ".svg";
@@ -381,7 +381,7 @@ void Models::run(const QList<QStringList> &commands) {
         return;
     // Said rather than swallowed: a click that starts nothing looks broken.
     if (m_command.isEmpty()) {
-        m_error = tr("omarchy-models couldn't be run");
+        m_error = tr("sigmaos-models couldn't be run");
         m_chosen.clear();
         emit changed();
         return;

@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "%1 폴더를 만들 수 없습니다",
   "Couldn't save the image in %1": "%1에 이미지를 저장할 수 없습니다",
   "The model couldn't be started": "모델을 시작할 수 없습니다",
-  "omarchy-models couldn't be run": "omarchy-models을 실행할 수 없습니다",
+  "sigmaos-models couldn't be run": "sigmaos-models을 실행할 수 없습니다",
   "Save as…": "다른 이름으로 저장…",
   "Save a copy somewhere else": "다른 위치에 사본 저장",
   "Couldn't save the image as %1": "%1 이름으로 이미지를 저장할 수 없습니다",

@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Nem sikerült létrehozni ezt a mappát: %1",
   "Couldn't save the image in %1": "Nem sikerült menteni a képet ide: %1",
   "The model couldn't be started": "A modellt nem sikerült elindítani",
-  "omarchy-models couldn't be run": "Az omarchy-models nem futtatható",
+  "sigmaos-models couldn't be run": "Az sigmaos-models nem futtatható",
   "Save as…": "Mentés másként…",
   "Save a copy somewhere else": "Másolat mentése máshová",
   "Couldn't save the image as %1": "Nem sikerült menteni a képet ezen a néven: %1",

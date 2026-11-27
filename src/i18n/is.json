@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Ekki tókst að búa til möppuna %1",
   "Couldn't save the image in %1": "Ekki tókst að vista myndina í %1",
   "The model couldn't be started": "Ekki tókst að ræsa líkanið",
-  "omarchy-models couldn't be run": "Ekki tókst að keyra omarchy-models",
+  "sigmaos-models couldn't be run": "Ekki tókst að keyra sigmaos-models",
   "Save as…": "Vista sem…",
   "Save a copy somewhere else": "Vista afrit annars staðar",
   "Couldn't save the image as %1": "Ekki tókst að vista myndina sem %1",

@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Δεν ήταν δυνατή η δημιουργία του φακέλου %1",
   "Couldn't save the image in %1": "Δεν ήταν δυνατή η αποθήκευση της εικόνας στο %1",
   "The model couldn't be started": "Δεν ήταν δυνατή η εκκίνηση του μοντέλου",
-  "omarchy-models couldn't be run": "Δεν ήταν δυνατή η εκτέλεση του omarchy-models",
+  "sigmaos-models couldn't be run": "Δεν ήταν δυνατή η εκτέλεση του sigmaos-models",
   "Save as…": "Αποθήκευση ως…",
   "Save a copy somewhere else": "Αποθήκευση αντιγράφου κάπου αλλού",
   "Couldn't save the image as %1": "Δεν ήταν δυνατή η αποθήκευση της εικόνας ως %1",

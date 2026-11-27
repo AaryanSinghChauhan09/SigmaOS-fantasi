@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Kansiota %1 ei voitu luoda",
   "Couldn't save the image in %1": "Kuvaa ei voitu tallentaa kansioon %1",
   "The model couldn't be started": "Mallia ei voitu käynnistää",
-  "omarchy-models couldn't be run": "Komentoa omarchy-models ei voitu suorittaa",
+  "sigmaos-models couldn't be run": "Komentoa sigmaos-models ei voitu suorittaa",
   "Save as…": "Tallenna nimellä…",
   "Save a copy somewhere else": "Tallenna kopio muualle",
   "Couldn't save the image as %1": "Kuvaa ei voitu tallentaa nimellä %1",

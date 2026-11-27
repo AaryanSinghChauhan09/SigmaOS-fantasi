@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "%1 கோப்புறையை உருவாக்க முடியவில்லை",
   "Couldn't save the image in %1": "படத்தை %1 இல் சேமிக்க முடியவில்லை",
   "The model couldn't be started": "மாதிரியைத் தொடங்க முடியவில்லை",
-  "omarchy-models couldn't be run": "omarchy-models ஐ இயக்க முடியவில்லை",
+  "sigmaos-models couldn't be run": "sigmaos-models ஐ இயக்க முடியவில்லை",
   "Save as…": "இவ்வாறு சேமி…",
   "Save a copy somewhere else": "வேறு இடத்தில் ஒரு நகலைச் சேமி",
   "Couldn't save the image as %1": "படத்தை %1 ஆகச் சேமிக்க முடியவில்லை",

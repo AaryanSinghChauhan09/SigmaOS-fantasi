@@ -9,9 +9,9 @@
 #include <QTimer>
 #include <QVariantList>
 
-// The image models omarchy-local-ai knows about, and which one Fantasi uses.
+// The image models sigmaos-local-ai knows about, and which one Fantasi uses.
 // It reads the engine's own status.json and list.json, follows their changes,
-// and starts or sets up a model through omarchy-models.
+// and starts or sets up a model through sigmaos-models.
 class Models : public QObject {
     Q_OBJECT
     // noEngine, none, installable, installing, installed, blocked, starting, ready

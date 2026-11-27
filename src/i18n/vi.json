@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Không tạo được thư mục %1",
   "Couldn't save the image in %1": "Không lưu được ảnh vào %1",
   "The model couldn't be started": "Không khởi động được mô hình",
-  "omarchy-models couldn't be run": "Không chạy được omarchy-models",
+  "sigmaos-models couldn't be run": "Không chạy được sigmaos-models",
   "Save as…": "Lưu thành…",
   "Save a copy somewhere else": "Lưu một bản sao ở nơi khác",
   "Couldn't save the image as %1": "Không lưu được ảnh thành %1",

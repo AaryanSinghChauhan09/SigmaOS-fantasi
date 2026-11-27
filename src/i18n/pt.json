@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Não foi possível criar a pasta %1",
   "Couldn't save the image in %1": "Não foi possível guardar a imagem em %1",
   "The model couldn't be started": "Não foi possível iniciar o modelo",
-  "omarchy-models couldn't be run": "Não foi possível executar o omarchy-models",
+  "sigmaos-models couldn't be run": "Não foi possível executar o sigmaos-models",
   "Save as…": "Guardar como…",
   "Save a copy somewhere else": "Guardar uma cópia noutro local",
   "Couldn't save the image as %1": "Não foi possível guardar a imagem como %1",

@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "無法建立資料夾 %1",
   "Couldn't save the image in %1": "無法將圖片儲存到 %1",
   "The model couldn't be started": "無法啟動模型",
-  "omarchy-models couldn't be run": "無法執行 omarchy-models",
+  "sigmaos-models couldn't be run": "無法執行 sigmaos-models",
   "Save as…": "另存新檔…",
   "Save a copy somewhere else": "將副本儲存到其他位置",
   "Couldn't save the image as %1": "無法將圖片另存為 %1",

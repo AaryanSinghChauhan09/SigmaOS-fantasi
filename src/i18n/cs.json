@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Složku %1 se nepodařilo vytvořit",
   "Couldn't save the image in %1": "Obrázek se nepodařilo uložit do %1",
   "The model couldn't be started": "Model se nepodařilo spustit",
-  "omarchy-models couldn't be run": "omarchy-models se nepodařilo spustit",
+  "sigmaos-models couldn't be run": "sigmaos-models se nepodařilo spustit",
   "Save as…": "Uložit jako…",
   "Save a copy somewhere else": "Uložit kopii jinam",
   "Couldn't save the image as %1": "Obrázek se nepodařilo uložit jako %1",

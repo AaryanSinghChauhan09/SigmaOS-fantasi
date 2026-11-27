@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     const bool offscreen = app.platformName() == "offscreen";
     Instance instance;
     if (!offscreen && instance.handOver({{"model", modelId}, {"prompt", initialPrompt}})) {
-        QProcess::startDetached("omarchy-launch-or-focus", {"^fantasi$", "true"});
+        QProcess::startDetached("sigmaos-launch-or-focus", {"^fantasi$", "true"});
         return 0;
     }
 
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
     if (!modelId.isEmpty())
         backend.open(modelId, {});
 
-    // `omarchy agent look app` runs the app offscreen with these set, to see
+    // `sigmaos agent look app` runs the app offscreen with these set, to see
     // the window without a display: size it to OMARCHY_LOOK_SIZE when given,
     // press the keys in OMARCHY_LOOK_KEYS through the window's Shortcuts,
     // save it once it has settled, and quit.

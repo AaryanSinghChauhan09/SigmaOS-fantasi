@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "%1 ফোল্ডারটি তৈরি করা যায়নি",
   "Couldn't save the image in %1": "ছবিটি %1-এ সংরক্ষণ করা যায়নি",
   "The model couldn't be started": "মডেলটি চালু করা যায়নি",
-  "omarchy-models couldn't be run": "omarchy-models চালানো যায়নি",
+  "sigmaos-models couldn't be run": "sigmaos-models চালানো যায়নি",
   "Save as…": "নতুন নামে সংরক্ষণ…",
   "Save a copy somewhere else": "অন্য কোথাও একটি কপি সংরক্ষণ করুন",
   "Couldn't save the image as %1": "ছবিটি %1 হিসেবে সংরক্ষণ করা যায়নি",

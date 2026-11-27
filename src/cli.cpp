@@ -123,8 +123,8 @@ int runCli(const QStringList &arguments) {
     Generator *generator = backend.generator();
     if (models->state() != "ready") {
         const QString how = models->state() == "installed" || models->state() == "blocked"
-                              ? " Start it with: omarchy models start " + models->modelId()
-                          : models->state() == "installable" ? " Set one up with: omarchy models use " + models->modelId()
+                              ? " Start it with: sigmaos models start " + models->modelId()
+                          : models->state() == "installable" ? " Set one up with: sigmaos models use " + models->modelId()
                                                              : QString();
         print(stderr, "Error: no image model is running." + how);
         return 1;

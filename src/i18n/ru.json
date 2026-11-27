@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Не удалось создать папку %1",
   "Couldn't save the image in %1": "Не удалось сохранить изображение в %1",
   "The model couldn't be started": "Не удалось запустить модель",
-  "omarchy-models couldn't be run": "Не удалось запустить omarchy-models",
+  "sigmaos-models couldn't be run": "Не удалось запустить sigmaos-models",
   "Save as…": "Сохранить как…",
   "Save a copy somewhere else": "Сохранить копию в другом месте",
   "Couldn't save the image as %1": "Не удалось сохранить изображение как %1",

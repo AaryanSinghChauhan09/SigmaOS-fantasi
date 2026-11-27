@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "フォルダー %1 を作成できませんでした",
   "Couldn't save the image in %1": "%1 に画像を保存できませんでした",
   "The model couldn't be started": "モデルを起動できませんでした",
-  "omarchy-models couldn't be run": "omarchy-models を実行できませんでした",
+  "sigmaos-models couldn't be run": "sigmaos-models を実行できませんでした",
   "Save as…": "名前を付けて保存…",
   "Save a copy somewhere else": "コピーを別の場所に保存",
   "Couldn't save the image as %1": "画像を %1 として保存できませんでした",

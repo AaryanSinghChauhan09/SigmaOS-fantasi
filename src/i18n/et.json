@@ -33,7 +33,7 @@
   "Couldn't make the folder %1": "Kausta %1 ei õnnestunud luua",
   "Couldn't save the image in %1": "Pilti ei õnnestunud salvestada kausta %1",
   "The model couldn't be started": "Mudelit ei õnnestunud käivitada",
-  "omarchy-models couldn't be run": "omarchy-models käivitamine ebaõnnestus",
+  "sigmaos-models couldn't be run": "sigmaos-models käivitamine ebaõnnestus",
   "Save as…": "Salvesta kui…",
   "Save a copy somewhere else": "Salvesta koopia mujale",
   "Couldn't save the image as %1": "Pilti ei õnnestunud salvestada nimega %1",
